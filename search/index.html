@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content=''><title>Archives</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content=''><title>Search</title>
 
-<link rel='canonical' href='/archives/'>
+<link rel='canonical' href='/search/'>
 
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Archives'>
+<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Search'>
 <meta property='og:description' content=''>
-<meta property='og:url' content='/archives/'>
+<meta property='og:url' content='/search/'>
 <meta property='og:site_name' content='Hugo Shih'>
-<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:published_time' content='2019-05-28T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2019-05-28T00:00:00&#43;00:00'/>
-<meta name="twitter:title" content="Archives">
-<meta name="twitter:description" content="">
+<meta property='og:type' content='article'><meta property='article:section' content='Page' />
+<meta name="twitter:title" content="Search">
+<meta name="twitter:description" content=""><link rel="alternate" type="application/json" href="/search/index.json"><link rel="preload" href="/search/index.json" as="fetch" crossorigin="anonymous">
     </head>
-    <body class="template-archives">
+    <body class="template-search">
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
@@ -199,7 +199,7 @@
         
         
 
-        <li  class='current' >
+        <li >
             <a href='/archives/' >
                 
                 
@@ -220,7 +220,7 @@
         
         
 
-        <li >
+        <li  class='current' >
             <a href='/search/' >
                 
                 
@@ -266,65 +266,34 @@
     </ol>
 </aside>
 <main class="main full-width">
-    <header>
-        <h2 class="section-title">Categories</h2>
-        <div class="subsection-list">
-            <div class="article-list--tile">
-                
-                    
-<article class="has-image">
-    <a href="/categories/interview/">
-        
-        
-            <div class="article-image">
-                <img src="/categories/interview/000934710035.4154dac231d4aa1d15730e06d7b27b6d_hu7a77c7ab51af179675923e7ffa110107_5356821_250x150_fill_q75_box_smart1.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post Interview"
-                        data-key="Interview" 
-                        data-hash="md5-QVTawjHUqh0Vcw4G17J7bQ==">
-                
-            </div>
-        
+<form action="/search/" class="search-form"data-json="/search/index.json">
+    <p>
+        <label>Search</label>
+        <input name="keyword" placeholder="Type something..." />
+    </p>
 
-        <div class="article-details">
-            <h2 class="article-title">Interview</h2>
-        </div>
-    </a>
-</article>
-                
-            </div>
-        </div>
-        
-    </header>
+    <button title="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
 
-    
-    
-    
 
-    
-    
-    <div class="archives-group" id="2022">
-        <h2 class="archives-date section-title"><a href="/archives/#2022">2022</a></h2>
-        <div class="article-list--compact">
-            
-                <article>
-    <a href="/p/google-interview-challenge/">
-        <div class="article-details">
-            <h2 class="article-title">Google Interview Challenge</h2>
-            <footer class="article-time">
-                <time datetime='2022-03-09T11:41:18&#43;08:00'>Mar 09, 2022</time>
-            </footer>
-        </div>
-    </a>
-</article>
-            
-        </div>
-    </div>
-    
 
-    <footer class="site-footer">
+    </button>
+</form>
+
+<div class="search-result">
+    <h3 class="search-result--title section-title"></h3>
+    <div class="search-result--list article-list--compact"></div>
+</div>
+
+<script>
+    window.searchResultTitleTemplate = "#PAGES_COUNT pages (#TIME_SECONDS seconds)"
+</script><script type="text/javascript" src="/ts/search.js" defer></script>
+
+<footer class="site-footer">
     <section class="copyright">
         &copy; 
         
