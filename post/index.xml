@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Interview on Hugo Shih</title>
-        <link>/categories/interview/</link>
-        <description>Recent content in Interview on Hugo Shih</description>
+        <title>Posts on Hugo Shih</title>
+        <link>/post/</link>
+        <description>Recent content in Posts on Hugo Shih</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Tue, 09 Mar 2021 11:41:18 +0800</lastBuildDate><atom:link href="/categories/interview/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 09 Mar 2021 11:41:18 +0800</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Google Interview Challenge</title>
         <link>/p/google-interview-challenge/</link>
         <pubDate>Tue, 09 Mar 2021 11:41:18 +0800</pubDate>
