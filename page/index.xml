@@ -1,57 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Pages on Hsing-Yu(Hugo) Shih</title>
-        <link>/page/</link>
-        <description>Recent content in Pages on Hsing-Yu(Hugo) Shih</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Mon, 30 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="/page/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>About</title>
-        <link>/about/</link>
-        <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
-        
-        <guid>/about/</guid>
-        <description>&lt;h2 id=&#34;about-me&#34;&gt;About Me&lt;/h2&gt;
-&lt;p&gt;Hi, My name is Hsing-Yu Shih(施星宇). I am currently a graduate student at Nationla Taiwan University and major in communication engineering. I have a bachelor&amp;rsquo;s degree from National Taiwan University, majoring in information management with a double major in forestry.&lt;/p&gt;
-&lt;p&gt;I love magic, and I was the vice president of the magic club in college and participated in many performances. During the period of participating in the magic club, I learned the technique of making props and accumulated many Maker skills.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/DJdZN6N.jpg&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;In the graduated institute, I research topic is suspicious account detection of online services, mainly in the fields of data science, machine learning and communication network. At the same time, I also joined a photography club to learn darkroom techniques and photography skills.&lt;/p&gt;
-&lt;p&gt;In the summer of 2021, I became an intern at Microsoft, which gave me a better understanding of the development technology and working model in the technology giant. In anticipation of graduating in the summer of 2022, I started my interview journey.&lt;/p&gt;
-&lt;h2 id=&#34;about-this-site&#34;&gt;About This Site&lt;/h2&gt;
-&lt;p&gt;In 2022, a friend reminded me that we had accumulated so much knowledge and experience that it was time to document it.&lt;/p&gt;
-&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Framework Power by &lt;a class=&#34;link&#34; href=&#34;https://gohugo.io&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Hugo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Theme designed by &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;hugo-theme-stack&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        <item>
-        <title>Archives</title>
-        <link>/archives/</link>
-        <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
-        
-        <guid>/archives/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Search</title>
-        <link>/search/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>/search/</guid>
-        <description></description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on Hsing-Yu(Hugo) Shih</title><link>/page/</link><description>Recent content in Pages on Hsing-Yu(Hugo) Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 30 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="/page/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>/about/</link><pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate><guid>/about/</guid><description>&lt;h2 id="about-me">About Me&lt;/h2>
+&lt;p>Hi, My name is Hsing-Yu Shih(施星宇). I am currently a graduate student at Nationla Taiwan University and major in communication engineering. I have a bachelor&amp;rsquo;s degree from National Taiwan University, majoring in information management with a double major in forestry.&lt;/p>
+&lt;p>I love magic, and I was the vice president of the magic club in college and participated in many performances. During the period of participating in the magic club, I learned the technique of making props and accumulated many Maker skills.&lt;/p>
+&lt;p>&lt;img src="https://i.imgur.com/DJdZN6N.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p>In the graduated institute, I research topic is suspicious account detection of online services, mainly in the fields of data science, machine learning and communication network. At the same time, I also joined a photography club to learn darkroom techniques and photography skills.&lt;/p>
+&lt;p>In the summer of 2021, I became an intern at Microsoft, which gave me a better understanding of the development technology and working model in the technology giant. In anticipation of graduating in the summer of 2022, I started my interview journey.&lt;/p>
+&lt;h2 id="about-this-site">About This Site&lt;/h2>
+&lt;p>In 2022, a friend reminded me that we had accumulated so much knowledge and experience that it was time to document it.&lt;/p>
+&lt;h2 id="references">References&lt;/h2>
+&lt;ul>
+&lt;li>Framework Power by &lt;a class="link" href="https://gohugo.io" target="_blank" rel="noopener"
+>Hugo&lt;/a>&lt;/li>
+&lt;li>Theme designed by &lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"
+>hugo-theme-stack&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Archives</title><link>/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>/archives/</guid><description/></item><item><title>Search</title><link>/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/search/</guid><description/></item></channel></rss>
