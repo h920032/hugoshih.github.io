@@ -1,863 +1,142 @@
-<!DOCTYPE html>
-<html lang="en-us" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Linux終端機視窗管理工具tmux筆記'><title>Linux終端機視窗管理工具tmux筆記</title>
-
-<link rel='canonical' href='/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/'>
-
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Linux終端機視窗管理工具tmux筆記'>
-<meta property='og:description' content='Linux終端機視窗管理工具tmux筆記'>
-<meta property='og:url' content='/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/'>
-<meta property='og:site_name' content='Hsing-Yu(Hugo) Shih'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='tmux' /><meta property='article:published_time' content='2022-05-30T13:32:31&#43;08:00'/><meta property='article:modified_time' content='2022-05-30T13:32:31&#43;08:00'/><meta property='og:image' content='/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data.jpg' />
-<meta name="twitter:title" content="Linux終端機視窗管理工具tmux筆記">
-<meta name="twitter:description" content="Linux終端機視窗管理工具tmux筆記"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data.jpg' />
-    <link rel="shortcut icon" href="img/favicon.png" />
-
-    </head>
-    <body class="
-    article-page
-    ">
-    <script>
-        (function() {
-            const colorSchemeKey = 'StackColorScheme';
-            localStorage.setItem(colorSchemeKey, "dark");
-        })();
-    </script><script>
-    (function() {
-        const colorSchemeKey = 'StackColorScheme';
-        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
-        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-
-        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
-            
-
-            document.documentElement.dataset.scheme = 'dark';
-        } else {
-            document.documentElement.dataset.scheme = 'light';
-        }
-    })();
-</script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
-    </button>
-
-    <header>
-        
-            
-            <figure class="site-avatar">
-                <a href="/">
-                
-                    
-                    
-                    
-                        
-                        <img src="/img/avatar_hu768cf8e33172ee8b93bfda7ca791a0ec_1625788_300x0_resize_q75_box.jpg" width="300"
-                            height="300" class="site-logo" loading="lazy" alt="Avatar">
-                    
-                
-                </a>
-                
-            </figure>
-            
-        
-        
-        <div class="site-meta">
-            <h1 class="site-name"><a href="/">Hsing-Yu(Hugo) Shih</a></h1>
-            <h2 class="site-description">R&amp;D Intern @ Microsoft 
- Graduate Student @ National Taiwan University Communication Engineering (GICE)</h2>
-        </div>
-    </header><ol class="social-menu">
-            
-                <li>
-                    <a 
-                        href='mailto:h920032@gmail.com'
-                        target="_blank"
-                        title="Mail"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <desc>Download more icon variants from https://tabler-icons.io/i/mail</desc>
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <rect x="3" y="5" width="18" height="14" rx="2" />
-  <polyline points="3 7 12 13 21 7" />
-</svg>
-
-
-
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://github.com/h920032'
-                        target="_blank"
-                        title="GitHub"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-</svg>
-
-
-
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://www.linkedin.com/in/hugoshih/'
-                        target="_blank"
-                        title="Linkedin"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <desc>Download more icon variants from https://tabler-icons.io/i/brand-linkedin</desc>
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <rect x="4" y="4" width="16" height="16" rx="2" />
-  <line x1="8" y1="11" x2="8" y2="16" />
-  <line x1="8" y1="8" x2="8" y2="8.01" />
-  <line x1="12" y1="16" x2="12" y2="11" />
-  <path d="M16 16v-3a2 2 0 0 0 -4 0" />
-</svg>
-
-
-
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='/files/cv_latex.pdf'
-                        target="_blank"
-                        title="Resume"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>
-
-
-
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://orcid.org/0000-0003-4111-3768'
-                        target="_blank"
-                        title="Research"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <desc>Download more icon variants from https://tabler-icons.io/i/school</desc>
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
-  <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
-</svg>
-
-
-
-                        
-                    </a>
-                </li>
-            
-        </ol><ol class="menu" id="main-menu">
-        
-        
-        
-
-        <li >
-            <a href='/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <polyline points="5 12 3 12 12 3 21 12 19 12" />
-  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-</svg>
-
-
-
-                
-                <span>Home</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/about/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>
-
-
-
-                
-                <span>About</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/archives/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="4" width="18" height="4" rx="2" />
-  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-  <line x1="10" y1="12" x2="14" y2="12" />
-</svg>
-
-
-
-                
-                <span>Archives</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/search/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
-
-
-
-                
-                <span>Search</span>
-            </a>
-        </li>
-        
-
-        <div class="menu-bottom-section">
-            
-            
-        </div>
-    </ol>
-</aside>
-<main class="main full-width">
-    <article class="has-image main-article">
-    <header class="article-header">
-        <div class="article-image">
-            <a href="/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/">
-                <img src="/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data_hu7fba9da1679ce4a56c592454604cb9c1_493914_800x0_resize_q75_box.jpg"
-                        srcset="/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data_hu7fba9da1679ce4a56c592454604cb9c1_493914_800x0_resize_q75_box.jpg 800w, /p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data_hu7fba9da1679ce4a56c592454604cb9c1_493914_1600x0_resize_q75_box.jpg 1600w"
-                        width="800" 
-                        height="303" 
-                        loading="lazy"
-                        alt="Featured image of post Linux終端機視窗管理工具tmux筆記" />
-                
-            </a>
-        </div>
-    
-
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/linux/" >
-                Linux
-            </a>
-        
-    </header>
-    
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/">Linux終端機視窗管理工具tmux筆記</a>
-        </h2>
-    
-        
-        <h3 class="article-subtitle">
-            Linux終端機視窗管理工具tmux筆記
-        </h3>
-        
-    </div>
-
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">May 30, 2022</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-time--reading">
-                    2 minute read
-                </time>
-            </div>
-        
-    </footer>
-    
-
-    
-</div>
-</header>
-
-    <section class="article-content">
-    
-    
-    <h1 id="linux終端機視窗管理工具tmux筆記">Linux終端機視窗管理工具tmux筆記</h1>
-<h2 id="前言">前言</h2>
-<p>一般在操作遠端的Linux主機時通常會使用SSH連線進去操作，然而若遇到需要執行一個不可中斷的指令但又不得不中斷SSH連線時，一般情況下會將該Process拉到背景執行或是使用視窗管理工具<code>screen</code>，而<code>tmux</code>則是另一個非常強大的視窗管理工具，可以在終端機中模擬視窗操作，包括視窗的切換、視窗的切割等等，以下就列出一些<code>tmux</code>常用到的一些指令。</p>
-<h2 id="基本">基本</h2>
-<p>進入tmux</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tmux
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>列出tmux視窗列表</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tmux ls
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>連接tmux使窗</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tmux attach -t 0
-</span></span></code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tmux attach -t database
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>建立一個名為database的視窗</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">tmux new -s database
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>更改名稱</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tmux rename-session -t 0 database
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>水平切割</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ctrl+b
-</span></span><span class="line"><span class="cl">%
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>垂直切割</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ctrl+b
-</span></span><span class="line"><span class="cl">&#34;
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>建立新視窗</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ctrl+b
-</span></span><span class="line"><span class="cl">c
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>上一個視窗</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ctrl+b
-</span></span><span class="line"><span class="cl">p
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>下一個視窗</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ctrl+b
-</span></span><span class="line"><span class="cl">n
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>依照編號直接切換（編號顯示於狀態列）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ctrl+b
-</span></span><span class="line"><span class="cl">&lt;number&gt;
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>視窗選單</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ctrl+b
-</span></span><span class="line"><span class="cl">s
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>滑動視窗</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">crtl+b [
-</span></span><span class="line"><span class="cl">q (離開)
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="進階">進階</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 新增
-</span></span><span class="line"><span class="cl">$ tmux
-</span></span><span class="line"><span class="cl"># OR
-</span></span><span class="line"><span class="cl">$ tmux new -s &lt;your_session_name&gt;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># session 列表
-</span></span><span class="line"><span class="cl">$ tmux ls
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 重新連線 session
-</span></span><span class="line"><span class="cl">$ tmux a -t 0
-</span></span><span class="line"><span class="cl"># OR
-</span></span><span class="line"><span class="cl">$ tmux a -t &lt;session_name&gt;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 刪除 session
-</span></span><span class="line"><span class="cl">$ tmux kill-session -t 0
-</span></span><span class="line"><span class="cl"># OR
-</span></span><span class="line"><span class="cl">$ tmux kill-session -t &lt;session_name&gt;
-</span></span><span class="line"><span class="cl"># OR
-</span></span><span class="line"><span class="cl">$ tmux kill-session -a # 全部
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 刪除 tmux server
-</span></span><span class="line"><span class="cl">$ tmux kill-server
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 重新命名 session
-</span></span><span class="line"><span class="cl">$ tmux rename-session -t 0 &lt;new_session_name&gt;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 快捷鍵/視窗管理
-</span></span><span class="line"><span class="cl"># C-b ? Help
-</span></span><span class="line"><span class="cl"># C-b c 新增視窗
-</span></span><span class="line"><span class="cl"># C-b， 視窗命名
-</span></span><span class="line"><span class="cl"># C-b w 視窗列表
-</span></span><span class="line"><span class="cl"># C-b f 尋找視窗
-</span></span><span class="line"><span class="cl"># C-b &amp; 刪除視窗
-</span></span><span class="line"><span class="cl"># C-b % 垂直分割區塊
-</span></span><span class="line"><span class="cl"># C-b “ 水平分割區塊
-</span></span><span class="line"><span class="cl"># C-b &lt;方向鍵&gt;
-</span></span><span class="line"><span class="cl"># C-b p 上一個視窗
-</span></span><span class="line"><span class="cl"># C-b n 下一個視窗
-</span></span><span class="line"><span class="cl"># C-b &lt;number&gt; 依照編號直接切換（編號顯示於狀態列）
-</span></span><span class="line"><span class="cl"># C-b d 離開 session
-</span></span><span class="line"><span class="cl"># C-b x 關閉 Pane
-</span></span><span class="line"><span class="cl"># C-d   關閉 Pane
-</span></span><span class="line"><span class="cl"># C-b z 讓一個 Pane 變成全螢幕，在輸入一次則回到剛剛的尺寸
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="reference">Reference</h2>
-<ul>
-<li>ssh自動連進tmux
-<a class="link" href="https://stackoverflow.com/questions/27613209/how-to-automatically-start-tmux-on-ssh-session"  target="_blank" rel="noopener"
-    >https://stackoverflow.com/questions/27613209/how-to-automatically-start-tmux-on-ssh-session</a></li>
-<li>與iterm結合
-<a class="link" href="https://medium.com/@wancw/iterm2-ssh-tmux-73d3fcf9dac6"  target="_blank" rel="noopener"
-    >https://medium.com/@wancw/iterm2-ssh-tmux-73d3fcf9dac6</a></li>
-</ul>
-
-</section>
-
-
-    <footer class="article-footer">
-    
-    <section class="article-tags">
-        
-            <a href="/tags/linux/">Linux</a>
-        
-            <a href="/tags/tmux/">tmux</a>
-        
-    </section>
-
-
-    
-    <section class="article-copyright">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
-</svg>
-
-
-
-        <span>Licensed under CC BY-NC-SA 4.0</span>
-    </section>
-    </footer>
-
-
-    
-</article>
-
-    
-
-    
-
-<aside class="related-contents--wrapper">
-    <h2 class="section-title">Related contents</h2>
-    <div class="related-contents">
-        <div class="flex article-list--tile">
-            
-                
-<article class="has-image">
-    <a href="/p/docker%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%AD%86%E8%A8%98/">
-        
-        
-            <div class="article-image">
-                <img src="/p/docker%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%AD%86%E8%A8%98/000648630023.eff25db707f56f87c03d2f3eaca1e0c2_hu02fe1734605d73890f92a3bf4d63dd0a_6802511_250x150_fill_q75_box_smart1.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post Docker使用小筆記"
-                        
-                        data-hash="md5-7/Jdtwf1b4fAPS8&#43;rKHgwg==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Docker使用小筆記</h2>
-        </div>
-    </a>
-</article>
-            
-        </div>
-    </div>
-</aside>
-
-     
-    
-        
-    <div class="disqus-container">
-    <div id="disqus_thread"></div>
-<script type="application/javascript">
-    window.disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "hugoshih" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
-
-<style>
-    .disqus-container {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-    }
-</style>
-
-<script>
-    window.addEventListener('onColorSchemeChange', (e) => {
-        if (DISQUS) {
-            DISQUS.reset({
-                reload: true
-            });
-        }
-    })
-</script>
-
-    
-
-    <footer class="site-footer">
-    <section class="copyright">
-        &copy; 
-        
-        2022 Hsing-Yu(Hugo) Shih
-    </section>
-
-    <section class="powerby">
-    </section>
-</footer>
-
-
-    
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
-            >
-
-            </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">Table of contents</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#基本">基本</a></li>
-    <li><a href="#進階">進階</a></li>
-    <li><a href="#reference">Reference</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
-        </div>
-        <script 
-                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
-                
-                >
-            </script><script type="text/javascript" src="/ts/main.js" defer></script>
-<script>
-    (function () {
-        const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
-
-        customFont.type = "text/css";
-        customFont.rel = "stylesheet";
-
-        document.head.appendChild(customFont);
-    }());
-</script>
-
-    </body>
-</html>
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Linux終端機視窗管理工具tmux筆記"><title>Linux終端機視窗管理工具tmux筆記</title><link rel=canonical href=/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/><link rel=stylesheet href=/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css><meta property="og:title" content="Linux終端機視窗管理工具tmux筆記"><meta property="og:description" content="Linux終端機視窗管理工具tmux筆記"><meta property="og:url" content="/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/"><meta property="og:site_name" content="Hsing-Yu(Hugo) Shih"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Linux"><meta property="article:tag" content="tmux"><meta property="article:published_time" content="2022-05-30T13:32:31+08:00"><meta property="article:modified_time" content="2022-05-30T13:32:31+08:00"><meta property="og:image" content="/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data.jpg"><meta name=twitter:title content="Linux終端機視窗管理工具tmux筆記"><meta name=twitter:description content="Linux終端機視窗管理工具tmux筆記"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data.jpg"><link rel="shortcut icon" href=img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.setItem(e,"dark")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu768cf8e33172ee8b93bfda7ca791a0ec_1625788_300x0_resize_q75_box.jpg width=300 height=300 class=site-logo loading=lazy alt=Avatar></a></figure><div class=site-meta><h1 class=site-name><a href=/>Hsing-Yu(Hugo) Shih</a></h1><h2 class=site-description>R&D Intern @ Microsoft
+Graduate Student @ National Taiwan University Communication Engineering (GICE)</h2></div></header><ol class=social-menu><li><a href=mailto:h920032@gmail.com target=_blank title=Mail><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/mail</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></a></li><li><a href=https://github.com/h920032 target=_blank title=GitHub><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://www.linkedin.com/in/hugoshih/ target=_blank title=Linkedin><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/brand-linkedin</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="8" y1="11" x2="8" y2="16"/><line x1="8" y1="8" x2="8" y2="8.01"/><line x1="12" y1="16" x2="12" y2="11"/><path d="M16 16v-3a2 2 0 00-4 0"/></svg></a></li><li><a href=/files/cv_latex.pdf target=_blank title=Resume><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg></a></li><li><a href=https://orcid.org/0000-0003-4111-3768 target=_blank title=Research><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/school</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 9 12 5 2 9l10 4 10-4v6"/><path d="M6 10.6V16a6 3 0 0012 0v-5.4"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg><span>Home</span></a></li><li><a href=/about/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg><span>About</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg><span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg><span>Search</span></a></li><div class=menu-bottom-section></div></ol></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/><img src=/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data_hu7fba9da1679ce4a56c592454604cb9c1_493914_800x0_resize_q75_box.jpg srcset="/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data_hu7fba9da1679ce4a56c592454604cb9c1_493914_800x0_resize_q75_box.jpg 800w, /p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/data_hu7fba9da1679ce4a56c592454604cb9c1_493914_1600x0_resize_q75_box.jpg 1600w" width=800 height=303 loading=lazy alt="Featured image of post Linux終端機視窗管理工具tmux筆記"></a></div><div class=article-details><header class=article-category><a href=/categories/linux/>Linux</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/>Linux終端機視窗管理工具tmux筆記</a></h2><h3 class=article-subtitle>Linux終端機視窗管理工具tmux筆記</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg><time class=article-time--published>May 30, 2022</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><time class=article-time--reading>2 minute read</time></div></footer></div></header><section class=article-content><h1 id=linux終端機視窗管理工具tmux筆記>Linux終端機視窗管理工具tmux筆記</h1><h2 id=前言>前言</h2><p>一般在操作遠端的Linux主機時通常會使用SSH連線進去操作，然而若遇到需要執行一個不可中斷的指令但又不得不中斷SSH連線時，一般情況下會將該Process拉到背景執行或是使用視窗管理工具<code>screen</code>，而<code>tmux</code>則是另一個非常強大的視窗管理工具，可以在終端機中模擬視窗操作，包括視窗的切換、視窗的切割等等，以下就列出一些<code>tmux</code>常用到的一些指令。</p><h2 id=基本>基本</h2><p>進入tmux</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>tmux
+</span></span></code></pre></td></tr></table></div></div><p>列出tmux視窗列表</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>tmux ls
+</span></span></code></pre></td></tr></table></div></div><p>連接tmux使窗</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>tmux attach -t 0
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>tmux attach -t database
+</span></span></code></pre></td></tr></table></div></div><p>建立一個名為database的視窗</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Bash data-lang=Bash><span class=line><span class=cl>tmux new -s database
+</span></span></code></pre></td></tr></table></div></div><p>更改名稱</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>tmux rename-session -t 0 database
+</span></span></code></pre></td></tr></table></div></div><p>水平切割</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ctrl+b
+</span></span><span class=line><span class=cl>%
+</span></span></code></pre></td></tr></table></div></div><p>垂直切割</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ctrl+b
+</span></span><span class=line><span class=cl>&#34;
+</span></span></code></pre></td></tr></table></div></div><p>建立新視窗</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ctrl+b
+</span></span><span class=line><span class=cl>c
+</span></span></code></pre></td></tr></table></div></div><p>上一個視窗</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ctrl+b
+</span></span><span class=line><span class=cl>p
+</span></span></code></pre></td></tr></table></div></div><p>下一個視窗</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ctrl+b
+</span></span><span class=line><span class=cl>n
+</span></span></code></pre></td></tr></table></div></div><p>依照編號直接切換（編號顯示於狀態列）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ctrl+b
+</span></span><span class=line><span class=cl>&lt;number&gt;
+</span></span></code></pre></td></tr></table></div></div><p>視窗選單</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ctrl+b
+</span></span><span class=line><span class=cl>s
+</span></span></code></pre></td></tr></table></div></div><p>滑動視窗</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>crtl+b [
+</span></span><span class=line><span class=cl>q (離開)
+</span></span></code></pre></td></tr></table></div></div><h2 id=進階>進階</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 新增
+</span></span><span class=line><span class=cl>$ tmux
+</span></span><span class=line><span class=cl># OR
+</span></span><span class=line><span class=cl>$ tmux new -s &lt;your_session_name&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># session 列表
+</span></span><span class=line><span class=cl>$ tmux ls
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 重新連線 session
+</span></span><span class=line><span class=cl>$ tmux a -t 0
+</span></span><span class=line><span class=cl># OR
+</span></span><span class=line><span class=cl>$ tmux a -t &lt;session_name&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 刪除 session
+</span></span><span class=line><span class=cl>$ tmux kill-session -t 0
+</span></span><span class=line><span class=cl># OR
+</span></span><span class=line><span class=cl>$ tmux kill-session -t &lt;session_name&gt;
+</span></span><span class=line><span class=cl># OR
+</span></span><span class=line><span class=cl>$ tmux kill-session -a # 全部
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 刪除 tmux server
+</span></span><span class=line><span class=cl>$ tmux kill-server
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 重新命名 session
+</span></span><span class=line><span class=cl>$ tmux rename-session -t 0 &lt;new_session_name&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 快捷鍵/視窗管理
+</span></span><span class=line><span class=cl># C-b ? Help
+</span></span><span class=line><span class=cl># C-b c 新增視窗
+</span></span><span class=line><span class=cl># C-b， 視窗命名
+</span></span><span class=line><span class=cl># C-b w 視窗列表
+</span></span><span class=line><span class=cl># C-b f 尋找視窗
+</span></span><span class=line><span class=cl># C-b &amp; 刪除視窗
+</span></span><span class=line><span class=cl># C-b % 垂直分割區塊
+</span></span><span class=line><span class=cl># C-b “ 水平分割區塊
+</span></span><span class=line><span class=cl># C-b &lt;方向鍵&gt;
+</span></span><span class=line><span class=cl># C-b p 上一個視窗
+</span></span><span class=line><span class=cl># C-b n 下一個視窗
+</span></span><span class=line><span class=cl># C-b &lt;number&gt; 依照編號直接切換（編號顯示於狀態列）
+</span></span><span class=line><span class=cl># C-b d 離開 session
+</span></span><span class=line><span class=cl># C-b x 關閉 Pane
+</span></span><span class=line><span class=cl># C-d   關閉 Pane
+</span></span><span class=line><span class=cl># C-b z 讓一個 Pane 變成全螢幕，在輸入一次則回到剛剛的尺寸
+</span></span></code></pre></td></tr></table></div></div><h2 id=reference>Reference</h2><ul><li>ssh自動連進tmux
+<a class=link href=https://stackoverflow.com/questions/27613209/how-to-automatically-start-tmux-on-ssh-session target=_blank rel=noopener>https://stackoverflow.com/questions/27613209/how-to-automatically-start-tmux-on-ssh-session</a></li><li>與iterm結合
+<a class=link href=https://medium.com/@wancw/iterm2-ssh-tmux-73d3fcf9dac6 target=_blank rel=noopener>https://medium.com/@wancw/iterm2-ssh-tmux-73d3fcf9dac6</a></li></ul></section><footer class=article-footer><section class=article-tags><a href=/tags/linux/>Linux</a>
+<a href=/tags/tmux/>tmux</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-contents--wrapper><h2 class=section-title>Related contents</h2><div class=related-contents><div class="flex article-list--tile"><article class=has-image><a href=/p/docker%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%AD%86%E8%A8%98/><div class=article-image><img src=/p/docker%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%AD%86%E8%A8%98/000648630023.eff25db707f56f87c03d2f3eaca1e0c2_hu02fe1734605d73890f92a3bf4d63dd0a_6802511_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post Docker使用小筆記" data-hash="md5-7/Jdtwf1b4fAPS8+rKHgwg=="></div><div class=article-details><h2 class=article-title>Docker使用小筆記</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugoshih.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{DISQUS&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2022 Hsing-Yu(Hugo) Shih</section><section class=powerby></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin=anonymous></main><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#前言>前言</a></li><li><a href=#基本>基本</a></li><li><a href=#進階>進階</a></li><li><a href=#reference>Reference</a></li></ol></nav></div></section></aside></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script>
+<script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
