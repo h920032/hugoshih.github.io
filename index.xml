@@ -876,7 +876,8 @@ xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">env&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">None&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">validate_connection&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>範例：&lt;/p>
+&lt;/div>&lt;p>``&lt;/p>
+&lt;p>範例：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -891,7 +892,8 @@ xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#基本上就看你用的Datacube裡面的資料位置在哪，建議直接用&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;/li>
+&lt;/div>&lt;p>``&lt;/p>
+&lt;/li>
 &lt;li>
 &lt;p>：Datacube.list_products() &amp;amp; Datacube.list_measurements()&lt;/p>
 &lt;ul>
