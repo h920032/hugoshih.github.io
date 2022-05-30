@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Pages on Hugo Shih</title>
+        <title>Pages on Hsing-Yu(Hugo) Shih</title>
         <link>/page/</link>
-        <description>Recent content in Pages on Hugo Shih</description>
+        <description>Recent content in Pages on Hsing-Yu(Hugo) Shih</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 30 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>About</title>
+        <link>/about/</link>
+        <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
+        
+        <guid>/about/</guid>
+        <description>&lt;h2 id=&#34;about-me&#34;&gt;About Me&lt;/h2&gt;
+&lt;p&gt;Hi, My name is Hsing-Yu Shih(施星宇). I am currently a graduate student at Nationla Taiwan University and major in communication engineering. I have a bachelor&amp;rsquo;s degree from National Taiwan University, majoring in information management with a double major in forestry.&lt;/p&gt;
+&lt;p&gt;I love magic, and I was the vice president of the magic club in college and participated in many performances. During the period of participating in the magic club, I learned the technique of making props and accumulated many Maker skills.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/DJdZN6N.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;In the graduated institute, I research topic is suspicious account detection of online services, mainly in the fields of data science, machine learning and communication network. At the same time, I also joined a photography club to learn darkroom techniques and photography skills.&lt;/p&gt;
+&lt;p&gt;In the summer of 2021, I became an intern at Microsoft, which gave me a better understanding of the development technology and working model in the technology giant. In anticipation of graduating in the summer of 2022, I started my interview journey.&lt;/p&gt;
+&lt;h2 id=&#34;about-this-site&#34;&gt;About This Site&lt;/h2&gt;
+&lt;p&gt;In 2022, a friend reminded me that we had accumulated so much knowledge and experience that it was time to document it.&lt;/p&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Framework Power by &lt;a class=&#34;link&#34; href=&#34;https://gohugo.io&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Hugo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Theme designed by &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;hugo-theme-stack&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>Archives</title>
         <link>/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
         
         <guid>/archives/</guid>
         <description></description>
-        </item>
-        <item>
-        <title>About</title>
-        <link>/about/</link>
-        <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
-        
-        <guid>/about/</guid>
-        <description>&lt;p&gt;Written in Go, Hugo is an open source static site generator available under the &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio/hugo/blob/master/LICENSE&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Apache Licence 2.0.&lt;/a&gt; Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.&lt;/p&gt;
-&lt;p&gt;Hugo makes use of a variety of open source projects including:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/yuin/goldmark&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/yuin/goldmark&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/alecthomas/chroma&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/alecthomas/chroma&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/muesli/smartcrop&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/muesli/smartcrop&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/spf13/cobra&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/spf13/cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/spf13/viper&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/spf13/viper&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.&lt;/p&gt;
-&lt;p&gt;Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.&lt;/p&gt;
-&lt;p&gt;Websites built with Hugo are extremelly fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.&lt;/p&gt;
-&lt;p&gt;Learn more and contribute on &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-</description>
         </item>
         <item>
         <title>Search</title>
