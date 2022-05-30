@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Uncategorized on Hsing-Yu Shih</title><link>https://page.dipsyshih.com/categories/uncategorized/</link><description>Recent content in Uncategorized on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 22 Mar 2019 00:58:25 +0800</lastBuildDate><atom:link href="https://page.dipsyshih.com/categories/uncategorized/index.xml" rel="self" type="application/rss+xml"/><item><title>Datacube 函式筆記</title><link>https://page.dipsyshih.com/p/datacube-%E5%87%BD%E5%BC%8F%E7%AD%86%E8%A8%98/</link><pubDate>Fri, 22 Mar 2019 00:58:25 +0800</pubDate><guid>https://page.dipsyshih.com/p/datacube-%E5%87%BD%E5%BC%8F%E7%AD%86%E8%A8%98/</guid><description>&lt;img src="https://miro.medium.com/max/1400/0*dq7FvX_09B4zw8ZO" alt="Featured image of post Datacube 函式筆記" />&lt;h1 id="datacube-函式筆記-基礎">Datacube 函式筆記-基礎&lt;/h1>
-&lt;ul>
-&lt;li>&lt;strong>API函式&lt;/strong>：
-可以參考這個網站：https://nbviewer.jupyter.org/github/opendatacube/datacube-core/blob/develop/examples/notebooks/Datacube_Summary.ipynb
+&lt;h2 id="api函式">API函式&lt;/h2>
+&lt;p>可以參考這個網站：https://nbviewer.jupyter.org/github/opendatacube/datacube-core/blob/develop/examples/notebooks/Datacube_Summary.ipynb
 官方函式說明：https://datacube-core.readthedocs.io/en/latest/_modules/index.html
 調整圖片顏色：http://xarray.pydata.org/en/stable/plotting.html
 範例包：https://nbviewer.jupyter.org/github/opendatacube/datacube-core/tree/develop/examples/notebooks/
 xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset
 &lt;a class="link" href="https://xarray.pydata.org/en/stable/api.html#dataarray" target="_blank" rel="noopener"
->https://xarray.pydata.org/en/stable/api.html#dataarray&lt;/a>
+>https://xarray.pydata.org/en/stable/api.html#dataarray&lt;/a>&lt;/p>
 &lt;ol>
-&lt;li>
-&lt;p>：Datacube class，建立一個Datacube項目，用來導入Datacube資料庫時會用到&lt;/p>
+&lt;li>：Datacube class，建立一個Datacube項目，用來導入Datacube資料庫時會用到&lt;/li>
+&lt;/ol>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -21,8 +20,7 @@ xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">env&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">None&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">validate_connection&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>``&lt;/p>
-&lt;p>範例：&lt;/p>
+&lt;/div>&lt;p>範例：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -37,15 +35,14 @@ xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#基本上就看你用的Datacube裡面的資料位置在哪，建議直接用&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>``&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>：Datacube.list_products() &amp;amp; Datacube.list_measurements()&lt;/p>
+&lt;/div>&lt;ol>
+&lt;li>：Datacube.list_products() &amp;amp; Datacube.list_measurements()&lt;/li>
+&lt;/ol>
 &lt;ul>
 &lt;li>&lt;strong>Datacube.list_products()&lt;/strong>：列出所有的衛星資料&lt;/li>
-&lt;li>&lt;strong>Datacube.list_measurements()&lt;/strong>：列出衛星資料所含有的波段種類
-範例：&lt;/li>
+&lt;li>&lt;strong>Datacube.list_measurements()&lt;/strong>：列出衛星資料所含有的波段種類&lt;/li>
 &lt;/ul>
+&lt;p>範例：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -74,9 +71,9 @@ xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#可以直接印出來，印出來也是一個表格&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>：Datacube.load()，建立一個xarray.Dataset用來儲存要撈的資料的各種參數&lt;/p>
+&lt;/div>&lt;ol start="2">
+&lt;li>：Datacube.load()，建立一個xarray.Dataset用來儲存要撈的資料的各種參數&lt;/li>
+&lt;/ol>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -185,9 +182,9 @@ xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">output_crs&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;EPSG:3577`, resolution=(-25, 25), resampling=&amp;#39;&lt;/span>&lt;span class="n">cubic&lt;/span>&lt;span class="s1">&amp;#39;)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>：Datacube.find_datasets()、Datacube.group_datasets()、Datacube.load_data()&lt;/p>
+&lt;/div>&lt;ol start="3">
+&lt;li>：Datacube.find_datasets()、Datacube.group_datasets()、Datacube.load_data()&lt;/li>
+&lt;/ol>
 &lt;ul>
 &lt;li>&lt;strong>Datacube.find_datasets()&lt;/strong>：列出符合條件的影像資料位置，以list方式回傳&lt;/li>
 &lt;li>&lt;strong>Datacube.group_datasets()&lt;/strong>：將上面find_datasets()回傳的list裡的資料group起來，也可以自己弄一個符合格式的檔案路徑list，然後一樣嘢可幫你group起來&lt;/li>
@@ -228,10 +225,10 @@ xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 然後就會回傳一個list，裡面有所有符合條件資料的位置&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>：加入crs資料
-其實這步可以不用做，基本上就是把讀取的參數整合&lt;/p>
+&lt;/div>&lt;ol start="4">
+&lt;li>：加入crs資料
+其實這步可以不用做，基本上就是把讀取的參數整合&lt;/li>
+&lt;/ol>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -252,9 +249,9 @@ xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">combined_dataset&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>：實際撈資料&lt;/p>
+&lt;/div>&lt;ol start="5">
+&lt;li>：實際撈資料&lt;/li>
+&lt;/ol>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -321,10 +318,10 @@ xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># &amp;#34;{}/{}&amp;#34;.format(output_dir,product)的用法還沒有研究&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>：資料繪圖plot()
-在xarray.Dataset的格式下可以直接呼叫plot()函數匯出影像&lt;/p>
+&lt;/div>&lt;ol start="6">
+&lt;li>：資料繪圖plot()
+在xarray.Dataset的格式下可以直接呼叫plot()函數匯出影像&lt;/li>
+&lt;/ol>
 &lt;ul>
 &lt;li>&lt;strong>範例1：&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -464,10 +461,10 @@ loading="lazy"
 &lt;/div>&lt;p>&lt;img src="https://i.imgur.com/jKdyrYy.png"
 loading="lazy"
 >&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>：將圖群組化(超重要！！)
-有時候因為衛星軌道的關係，一個地區的影像會被切成兩三張圖放，用Group可將時間相近的圖整合成一張&lt;/p>
+&lt;ol start="7">
+&lt;li>：將圖群組化(超重要！！)
+有時候因為衛星軌道的關係，一個地區的影像會被切成兩三張圖放，用Group可將時間相近的圖整合成一張&lt;/li>
+&lt;/ol>
 &lt;ul>
 &lt;li>&lt;strong>範例：&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -504,10 +501,8 @@ loading="lazy"
 &lt;/div>&lt;p>&lt;img src="https://i.imgur.com/XJzQQ6L.png"
 loading="lazy"
 >
-可以發現原來切掉的部分不見了！！！&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>：算ndvi
+可以發現原來切掉的部分不見了！！！
+8. ：算ndvi
 就用red和nir這兩個波段算出ndvi，大概就是可以反映出地面物是不是植物這樣
 red就是紅光，nir就是近紅外光&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -706,11 +701,11 @@ loading="lazy"
 &lt;/div>&lt;p>&lt;img src="https://i.imgur.com/oEY66gD.png"
 loading="lazy"
 >&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>：多頻譜製圖(不是做成tif)
+&lt;ol start="9">
+&lt;li>：多頻譜製圖(不是做成tif)
 玩久了之後還是會想要做一張彩色的圖自爽一下
-以下的方法就可以惹&lt;/p>
+以下的方法就可以惹&lt;/li>
+&lt;/ol>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -765,32 +760,22 @@ loading="lazy"
 loading="lazy"
 >
 選了一張被雲遮比較少ㄉ&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>：將xarray.Dataarray製成Dataset
+&lt;ol start="10">
+&lt;li>：將xarray.Dataarray製成Dataset
 &lt;a class="link" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.to_dataset.html" target="_blank" rel="noopener"
 >http://xarray.pydata.org/en/stable/generated/xarray.DataArray.to_dataset.html&lt;/a>
 &lt;a class="link" href="https://stackoverflow.com/questions/38826505/python-xarray-add-dataarray-to-dataset" target="_blank" rel="noopener"
->https://stackoverflow.com/questions/38826505/python-xarray-add-dataarray-to-dataset&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>：Dataarray or Dataset中的資料型別轉換
+>https://stackoverflow.com/questions/38826505/python-xarray-add-dataarray-to-dataset&lt;/a>&lt;/li>
+&lt;li>：Dataarray or Dataset中的資料型別轉換
 &lt;a class="link" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.astype.html" target="_blank" rel="noopener"
->http://xarray.pydata.org/en/stable/generated/xarray.DataArray.astype.html&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>：不想要用.varibales的替代方案.get()
+>http://xarray.pydata.org/en/stable/generated/xarray.DataArray.astype.html&lt;/a>&lt;/li>
+&lt;li>：不想要用.varibales的替代方案.get()
 &lt;a class="link" href="https://github.com/pydata/xarray/issues/1801" target="_blank" rel="noopener"
->https://github.com/pydata/xarray/issues/1801&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>：將matplotlib畫出的東西輸出成png
+>https://github.com/pydata/xarray/issues/1801&lt;/a>&lt;/li>
+&lt;li>：將matplotlib畫出的東西輸出成png
 &lt;a class="link" href="https://stackoverflow.com/questions/9622163/save-plot-to-image-file-instead-of-displaying-it-using-matplotlib" target="_blank" rel="noopener"
->https://stackoverflow.com/questions/9622163/save-plot-to-image-file-instead-of-displaying-it-using-matplotlib&lt;/a>&lt;/p>
-&lt;/li>
+>https://stackoverflow.com/questions/9622163/save-plot-to-image-file-instead-of-displaying-it-using-matplotlib&lt;/a>&lt;/li>
 &lt;/ol>
-&lt;/li>
-&lt;/ul>
 &lt;h1 id="datacube-函式筆記-進階">Datacube 函式筆記-進階&lt;/h1>
 &lt;ul>
 &lt;li>WOFs&lt;/li>
