@@ -68,7 +68,14 @@ title="YouTube Video"
 &lt;ul>
 &lt;li>Recording:&lt;/li>
 &lt;/ul>
-&lt;p>{{w&amp;ndash;KJFHJMq8}}&lt;/p>
+&lt;div class="video-wrapper">
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/w--KJFHJMq8"
+allowfullscreen
+title="YouTube Video"
+>
+&lt;/iframe>
+&lt;/div>
 &lt;h2 id="google-台灣-platforms-團隊介紹徵才說明會">Google 台灣 Platforms 團隊介紹＆徵才說明會&lt;/h2>
 &lt;ul>
 &lt;li>Date: 2022/07/08&lt;/li>
@@ -104,7 +111,14 @@ title="YouTube Video"
 &lt;ul>
 &lt;li>Recording:&lt;/li>
 &lt;/ul>
-&lt;p>{{OvL1daxDcE0}}&lt;/p>
+&lt;div class="video-wrapper">
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/OvL1daxDcE0"
+allowfullscreen
+title="YouTube Video"
+>
+&lt;/iframe>
+&lt;/div>
 &lt;h2 id="google-台灣軟體開發及測試團隊分享招募說明會">Google 台灣軟體開發及測試團隊分享＆招募說明會&lt;/h2>
 &lt;ul>
 &lt;li>Date: 2022/05/18&lt;/li>
@@ -137,25 +151,53 @@ title="YouTube Video"
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;p>{{vE_ynVP1hUw}}&lt;/p>
+&lt;div class="video-wrapper">
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/vE_ynVP1hUw"
+allowfullscreen
+title="YouTube Video"
+>
+&lt;/iframe>
+&lt;/div>
 &lt;h2 id="google-台灣-silicon--cpu-團隊面對面">Google 台灣 Silicon &amp;amp; CPU 團隊面對面&lt;/h2>
 &lt;ul>
 &lt;li>Date: 2022/04/29&lt;/li>
 &lt;li>Title: 2022 Google Taiwan Silicon &amp;amp; CPU Face to Face&lt;/li>
 &lt;li>Recording:&lt;/li>
 &lt;/ul>
-&lt;p>{{tWEQ9NLJDI4}}&lt;/p>
+&lt;div class="video-wrapper">
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/tWEQ9NLJDI4"
+allowfullscreen
+title="YouTube Video"
+>
+&lt;/iframe>
+&lt;/div>
 &lt;h2 id="campus-talk-校園徵才線上說明會">Campus Talk 校園徵才線上說明會&lt;/h2>
 &lt;ul>
 &lt;li>Date: 2021/11/18&lt;/li>
 &lt;li>Title: 2022 Google Taiwan Tech Campus Talk YouTube Livestream&lt;/li>
 &lt;li>Recording:&lt;/li>
 &lt;/ul>
-&lt;p>{{_hD89kSALA0}}&lt;/p>
+&lt;div class="video-wrapper">
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/_hD89kSALA0"
+allowfullscreen
+title="YouTube Video"
+>
+&lt;/iframe>
+&lt;/div>
 &lt;h2 id="lifegoogle台灣硬體工程師篇">Life@Google台灣硬體工程師篇&lt;/h2>
 &lt;ul>
 &lt;li>Date: 2019/07/19&lt;/li>
 &lt;li>Title: Life@Google台灣硬體工程師篇&lt;/li>
 &lt;li>Recording:&lt;/li>
 &lt;/ul>
-&lt;p>{{JGx0XlEvuwk}}&lt;/p></description></item></channel></rss>
+&lt;div class="video-wrapper">
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/JGx0XlEvuwk"
+allowfullscreen
+title="YouTube Video"
+>
+&lt;/iframe>
+&lt;/div></description></item></channel></rss>
