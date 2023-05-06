@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/interview/</link><description>Recent content in Interview on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 06 May 2023 14:52:00 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/interview/index.xml" rel="self" type="application/rss+xml"/><item><title>科技業台商與外商公司暱稱</title><link>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</link><pubDate>Sat, 06 May 2023 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</guid><description>&lt;img src="https://imgur.com/1gEXPk2.jpg" alt="Featured image of post 科技業台商與外商公司暱稱" />&lt;h1 id="科技業台商與外商公司暱稱">科技業台商與外商公司暱稱&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/interview/</link><description>Recent content in Interview on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 06 May 2023 14:52:00 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/interview/index.xml" rel="self" type="application/rss+xml"/><item><title>科技業台商與外商公司暱稱</title><link>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</link><pubDate>Sat, 06 May 2023 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</guid><description>&lt;img src="https://i.imgur.com/1gEXPk2.jpg" alt="Featured image of post 科技業台商與外商公司暱稱" />&lt;h1 id="科技業台商與外商公司暱稱">科技業台商與外商公司暱稱&lt;/h1>
 &lt;h2 id="台商">台商&lt;/h2>
 &lt;h3 id="ic設計-豬屎屋">IC設計 (豬屎屋)&lt;/h3>
 &lt;table>
@@ -356,8 +356,8 @@
 &lt;th>項次&lt;/th>
 &lt;th>公司名稱&lt;/th>
 &lt;th>台灣暱稱&lt;/th>
-&lt;th>對岸暱稱&lt;/th>
-&lt;th>說明&lt;/th>
+&lt;th style="text-align:right">對岸暱稱&lt;/th>
+&lt;th style="text-align:center">說明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
@@ -372,8 +372,8 @@
 &lt;td>2&lt;/td>
 &lt;td>Marvell(邁威爾)&lt;/td>
 &lt;td>漫威&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>Marvell發音跟漫威一樣&lt;/td>
+&lt;td style="text-align:right">&lt;/td>
+&lt;td style="text-align:center">Marvell發音跟漫威一樣&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>3&lt;/td>
@@ -386,15 +386,15 @@
 &lt;td>4&lt;/td>
 &lt;td>Intel(英特爾)&lt;/td>
 &lt;td>牙膏廠&lt;/td>
-&lt;td>牙膏廠&lt;/td>
-&lt;td>core i系列每一代效能都高一點點 就像擠牙膏&lt;/td>
+&lt;td style="text-align:right">牙膏廠&lt;/td>
+&lt;td style="text-align:center">core i系列每一代效能都高一點點 就像擠牙膏&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>5&lt;/td>
 &lt;td>AMD(超微)&lt;/td>
 &lt;td>推土機廠&lt;/td>
-&lt;td>推土機廠&lt;/td>
-&lt;td>AM3時代處理器名稱&lt;/td>
+&lt;td style="text-align:right">推土機廠&lt;/td>
+&lt;td style="text-align:center">AM3時代處理器名稱&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>6&lt;/td>
@@ -426,8 +426,8 @@
 &lt;th>項次&lt;/th>
 &lt;th>公司名稱&lt;/th>
 &lt;th>台灣暱稱&lt;/th>
-&lt;th>對岸暱稱&lt;/th>
-&lt;th>說明&lt;/th>
+&lt;th style="text-align:right">對岸暱稱&lt;/th>
+&lt;th style="text-align:center">說明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
@@ -435,85 +435,85 @@
 &lt;td>1&lt;/td>
 &lt;td>Google(科高)&lt;/td>
 &lt;td>G&lt;/td>
-&lt;td>G社、狗家&lt;/td>
-&lt;td>狗家取字Google的諧音&lt;/td>
+&lt;td style="text-align:right">G社、狗家&lt;/td>
+&lt;td style="text-align:center">狗家取字Google的諧音&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>2&lt;/td>
 &lt;td>Microsoft(微軟)&lt;/td>
 &lt;td>M$&lt;/td>
-&lt;td>巨硬、巨嬰&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>&lt;/td>
-&lt;td>M$是指微軟什麼東西都要錢，巨硬來自於微軟字面上的相反&lt;/td>
+&lt;td style="text-align:right">巨硬、巨嬰&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>&lt;/td>
+&lt;td style="text-align:center">M$是指微軟什麼東西都要錢，巨硬來自於微軟字面上的相反&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>3&lt;/td>
 &lt;td>Meta(臉書)&lt;/td>
 &lt;td>&lt;/td>
-&lt;td>臉家、M社&lt;/td>
-&lt;td>Facebook翻譯為臉書&lt;/td>
+&lt;td style="text-align:right">臉家、M社&lt;/td>
+&lt;td style="text-align:center">Facebook翻譯為臉書&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>4&lt;/td>
 &lt;td>Amazon(亞馬遜)&lt;/td>
 &lt;td>&lt;/td>
-&lt;td>亞麻、雨林、香蕉廠&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>&lt;/td>
-&lt;td>亞馬遜以對員工小氣聞名，公司福利只願意提供香蕉給員工&lt;/td>
+&lt;td style="text-align:right">亞麻、雨林、香蕉廠&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>&lt;/td>
+&lt;td style="text-align:center">亞馬遜以對員工小氣聞名，公司福利只願意提供香蕉給員工&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>5&lt;/td>
 &lt;td>Apple(蘋果)&lt;/td>
 &lt;td>阿婆&lt;/td>
-&lt;td>A社、水果家&lt;/td>
+&lt;td style="text-align:right">A社、水果家&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>6&lt;/td>
 &lt;td>IBM(國際商業機器)&lt;/td>
 &lt;td>外星科技&lt;/td>
-&lt;td>大藍&lt;/td>
-&lt;td>據說真的有從事外星科技&lt;/td>
+&lt;td style="text-align:right">大藍&lt;/td>
+&lt;td style="text-align:center">據說真的有從事外星科技&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>7&lt;/td>
 &lt;td>Netflix(網飛)&lt;/td>
 &lt;td>&lt;/td>
-&lt;td>N社、網飛&lt;/td>
+&lt;td style="text-align:right">N社、網飛&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>8&lt;/td>
 &lt;td>Tiktok(抖音)&lt;/td>
 &lt;td>父母白養&lt;/td>
-&lt;td>字節&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align:right">字節&lt;/td>
+&lt;td style="text-align:center">取自「抖音一響，父母白養」&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>9&lt;/td>
 &lt;td>Dropbox&lt;/td>
 &lt;td>&lt;/td>
-&lt;td>D社、丟盒子&lt;/td>
+&lt;td style="text-align:right">D社、丟盒子&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>10&lt;/td>
 &lt;td>Salesforce&lt;/td>
 &lt;td>&lt;/td>
-&lt;td>賣力&lt;/td>
+&lt;td style="text-align:right">賣力&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>11&lt;/td>
 &lt;td>Orcale(甲骨文)&lt;/td>
 &lt;td>&lt;/td>
-&lt;td>烏龜殼&lt;/td>
+&lt;td style="text-align:right">烏龜殼&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>12&lt;/td>
 &lt;td>Sony(索尼)&lt;/td>
 &lt;td>$ony、大法&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>相機技術很厲害，就跟魔法一樣&lt;/td>
+&lt;td style="text-align:right">&lt;/td>
+&lt;td style="text-align:center">相機技術很厲害，就跟魔法一樣&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>13&lt;/td>
@@ -526,21 +526,21 @@
 &lt;td>14&lt;/td>
 &lt;td>騰訊&lt;/td>
 &lt;td>企鵝&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>騰訊的Logo是一隻企鵝&lt;/td>
+&lt;td style="text-align:right">&lt;/td>
+&lt;td style="text-align:center">騰訊的Logo是一隻企鵝&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>15&lt;/td>
 &lt;td>百度&lt;/td>
 &lt;td>&lt;/td>
-&lt;td>百毒&lt;/td>
-&lt;td>中國網友慣稱呼，諧音&lt;/td>
+&lt;td style="text-align:right">百毒&lt;/td>
+&lt;td style="text-align:center">中國網友慣稱呼，諧音&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>16&lt;/td>
 &lt;td>Uber&lt;/td>
 &lt;td>&lt;/td>
-&lt;td>黑車&lt;/td>
+&lt;td style="text-align:right">黑車&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
@@ -568,7 +568,7 @@
 &lt;td>20&lt;/td>
 &lt;td>Samsung(三星)&lt;/td>
 &lt;td>三爽&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align:right">&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;/tbody>
@@ -580,8 +580,8 @@
 &lt;th>項次&lt;/th>
 &lt;th>公司名稱&lt;/th>
 &lt;th>台灣暱稱&lt;/th>
-&lt;th>對岸暱稱&lt;/th>
-&lt;th>說明&lt;/th>
+&lt;th style="text-align:right">對岸暱稱&lt;/th>
+&lt;th style="text-align:center">說明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
@@ -589,8 +589,8 @@
 &lt;td>1&lt;/td>
 &lt;td>ASML(艾斯摩爾)&lt;/td>
 &lt;td>A4ML&lt;/td>
-&lt;td>阿斯麥&lt;/td>
-&lt;td>A4ML是只這家公司給的分紅很少，阿斯麥是中國ASML的翻譯&lt;/td>
+&lt;td style="text-align:right">阿斯麥&lt;/td>
+&lt;td style="text-align:center">A4ML是只這家公司給的分紅很少，阿斯麥是中國ASML的翻譯&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>2&lt;/td>
@@ -636,8 +636,8 @@
 &lt;th>項次&lt;/th>
 &lt;th>公司名稱&lt;/th>
 &lt;th>台灣暱稱&lt;/th>
-&lt;th>對岸暱稱&lt;/th>
-&lt;th>說明&lt;/th>
+&lt;th style="text-align:right">對岸暱稱&lt;/th>
+&lt;th style="text-align:center">說明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
@@ -663,39 +663,39 @@
 &lt;tr>
 &lt;th>項次&lt;/th>
 &lt;th>名稱&lt;/th>
-&lt;th>暱稱&lt;/th>
-&lt;th>說明&lt;/th>
+&lt;th style="text-align:right">暱稱&lt;/th>
+&lt;th style="text-align:center">說明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
 &lt;td>1&lt;/td>
 &lt;td>郭台銘&lt;/td>
-&lt;td>果凍&lt;/td>
+&lt;td style="text-align:right">果凍&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>2&lt;/td>
 &lt;td>Lisa Su(蘇丰姿)&lt;/td>
-&lt;td>蘇媽&lt;/td>
+&lt;td style="text-align:right">蘇媽&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>3&lt;/td>
 &lt;td>Jason Huang(黃仁勳)&lt;/td>
-&lt;td>老黃&lt;/td>
+&lt;td style="text-align:right">老黃&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>4&lt;/td>
 &lt;td>Sundar Pichai&lt;/td>
-&lt;td>皮柴&lt;/td>
+&lt;td style="text-align:right">皮柴&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>5&lt;/td>
 &lt;td>Elon Musk&lt;/td>
-&lt;td>鋼鐵人&lt;/td>
+&lt;td style="text-align:right">鋼鐵人&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;/tbody>
