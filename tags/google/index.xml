@@ -1,4 +1,55 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Google on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/google/</link><description>Recent content in Google on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 07 Jul 2023 12:00:18 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/google/index.xml" rel="self" type="application/rss+xml"/><item><title>2023 Google Technical Program Manager 面試經驗</title><link>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</guid><description>&lt;img src="https://i.imgur.com/N6UT0BQ.jpg" alt="Featured image of post 2023 Google Technical Program Manager 面試經驗" />&lt;h1 id="google-tpm-面試經驗">Google TPM 面試經驗&lt;/h1></description></item><item><title>Google Taiwan Hiring Event Recording</title><link>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</link><pubDate>Wed, 26 Apr 2023 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</guid><description>&lt;img src="https://i.imgur.com/1QtpCke.jpg" alt="Featured image of post Google Taiwan Hiring Event Recording" />&lt;h2 id="google-taiwan-campus-talk-2023-線上直播校園徵才說明會">Google Taiwan Campus Talk, 2023 線上直播校園徵才說明會&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Google on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/google/</link><description>Recent content in Google on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 07 Jul 2023 12:00:18 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/google/index.xml" rel="self" type="application/rss+xml"/><item><title>2023 Google Technical Program Manager 面試經驗</title><link>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager 面試經驗" />&lt;h1 id="google-tpm-面試經驗">Google TPM 面試經驗&lt;/h1>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>一直有許多Google SWE的面試經驗分享，然而Technical Program Manager(TPM)的面試經驗則幾乎沒有，其實不光是Dcard國外各大網站TPM的面試經驗分享也很少，因此來分享一下，雖然沒有拿到Offer，但有面到最後，經驗應該可以參考一下。&lt;/p>
+&lt;p>過去學經歷是112電資相關學碩，今年當完兵之後在比Google略大一點的公司當TPM。以前就有想進去Google，去年也投了Google SWE的面試，面完過HC等Team match時就遇到Hiring Freeze，詳細經歷可以參考：&lt;a class="link" href="https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/" target="_blank" rel="noopener"
+>Google SWE 面試心路歷程&lt;/a>，直到今年景氣變好才又開始Fit talk，結果連match了三個team都沒中，心灰意冷之際就收到另一個HR寄來TPM的面試邀請，抱著打聽情報的心態就跟HR排了個1:1，其實本來是對Google TPM缺沒什麼興趣，但在會議中被HR一波洗腦後，抱著那就試試的心態就接下面試邀請了。&lt;/p>
+&lt;h2 id="時間">時間&lt;/h2>
+&lt;p>5/12 - 收到HR的TPM面試邀請
+5/23 - 跟HR約1:1了解職缺
+6/13 - VO:Technical Judgement*2
+6/20 - VO:PgM + GCA
+6/30 - 跟HR1:1通知面試結果: not move forward&lt;/p>
+&lt;h2 id="面試">面試&lt;/h2>
+&lt;p>Google TPM的VO面試總共有五關，每關45分鐘:&lt;/p>
+&lt;ul>
+&lt;li>兩關的Technical Judgement面試&lt;/li>
+&lt;li>一關Program Management related(PgM)面試&lt;/li>
+&lt;li>一關General Cognitive Ability(GCA)面試&lt;/li>
+&lt;li>一關Googleyness面試&lt;/li>
+&lt;/ul>
+&lt;p>可能因為之前已經面過Googleyness，所以這關就直接跳過了，實際上只面了四關，考慮到我技術能力可能比PM能力好一點，HR先幫我排了兩場Technical Judgement面試，結果不錯的話再排PgM和GCA，後來也證明這是正確的策略。&lt;/p>
+&lt;p>根據網路上的情報跟HR提供的文件，我認為Technical Judgement面試可能像是技術面試，可能會問Codeing，也可能會問System design，為此還翻出leetcode刷了幾題暖身；PgM可能會問跟經驗相關的問題；GCA則可能問解決問題的邏輯，但這部分當下也想不到有什麼準備方向，所以我只把HR給的參考資料看完，再多回想幾個小故事，由於實在想不到要怎麼準備，我也想辦法跟HR要些Hint，不過HR看起來已經給我全部能給的東西了，那就硬著頭皮上吧，學習嘛&amp;hellip;。&lt;/p>
+&lt;p>順帶一提，TPM的面試是全英文的，四關差不多兩小時都在不停的說英文，這樣的要求也是可以理解，在Google這種公司Cross-function的溝通是極度仰賴英文的，這點也跟SWE面試很不一樣，SWE只有兩關英文，而且不會一直講話。&lt;/p>
+&lt;ul>
+&lt;li>Technical Judgement
+老實說聽到第一個問題時就開始懷疑人生了，我原本已經擺好寫Code的姿勢了，結果第一個問題是：「你最成功的專案什麼？」(詳細題目記不得了，反正是類似這的問題)，是那種我以為應該在PgM或GCA面試會問的問題，還好之前已經準備了不少小故事，姿勢一換搬出從大學、研究所到工作時做的還算有技術深度的案子，講解要解決的問題、我在團隊扮演的腳色、技術的選擇、克服的問題等，過程有來有回，面試官聽也還算滿意，不過一連的幾個問題也都是差不多這種類型，讓我有種我是不是走錯棚的錯覺，結束時還問了一下：「請問這個是Technical Judgement Interview嘛？」面試官愣了一下回：「是阿」，「Ok&amp;hellip;」瞬間好像懂了甚麼又覺得甚麼都不懂，第二場Technical Judgement也是差不多的情況，總之自認表現還行，後來HR的feedback也是說Positive。&lt;/li>
+&lt;li>Program Management Related Knowledge(PgM)
+有鑒於Technical Judgement面試問題實在出乎意料，因此再次問HR有關PgM面試的細節，HR還是回說他給的文件已經有資訊了，那就只能自行腦補了，既然名字叫Program Management那應該就是問PM相關能力吧，那應該多往PM的腳色去回答就行，果然不其然，面試的題目跟Technical Judgement幾乎一樣，而我就搬出之前做專案時怎麼定Scope、怎麼寫Spec、怎麼drive project、怎麼溝通協調，面試官看起來還算滿意我的回答，結束面試前小聊了一下這個position的情報，面試官覺得跟我目前的經驗差距頗大，不過還是祝我Good luck。&lt;/li>
+&lt;li>General Cognitive Ability(GCA)
+到了GCA，我是真的想不到要怎麼準備了，如果是問解決問題的邏輯好像也很難準備。果然這關又問了跟前三關差不多的問題，然後我先從執行面去回答，但感覺面試官不太滿意，因此我又換一條路從技術面切入回答，面試官還是不太滿意，並建議我應該先從更High level的架構回答，因此我再給出了一個這方向的答案，不過沒有想得很透徹，應該是Bug滿滿，自己覺得答的超級爛，有感自己答的很爛，結束前後臉皮的跟面試官請教了一回，他也人很好跟我解釋了每一個問題的回答重點，大方向的概念是要先想出一個解決問題的框架，再將這個框架套入回答問題的框架去依序回答才有辦法打到得分點。&lt;/li>
+&lt;/ul>
+&lt;h2 id="結果">結果&lt;/h2>
+&lt;p>後來再跟HR約了一次1:1，結果跟想像的差不多，前面表現都還不錯，主要掛在GCA，沒辦法再move forward，只能回去等還有沒有team match的機會了。&lt;/p>
+&lt;p>後來想了一下這次的面試確實有很多可以改進的點，除了現在真的菜，能講的經驗還太少外，就是對TPM面試回答的框架還不夠熟，這邊指的框架像是:
+面對PgM的問題可以依序從以下幾點下手:&lt;/p>
+&lt;ul>
+&lt;li>專案範疇與組織&lt;/li>
+&lt;li>專案執行&lt;/li>
+&lt;li>溝通與影響力&lt;/li>
+&lt;li>釐清模糊不清的情況&lt;/li>
+&lt;/ul>
+&lt;p>面對GCA的問題可以依序從以下幾點下手:&lt;/p>
+&lt;ul>
+&lt;li>理解問題&lt;/li>
+&lt;li>蒐集資訊&lt;/li>
+&lt;li>找出解決方案&lt;/li>
+&lt;li>支持解決方案的證據&lt;/li>
+&lt;li>良好的溝通&lt;/li>
+&lt;/ul>
+&lt;p>下次要再嘗試Google TPM的面試時，應該要多花點時間打磨手上的案例，想辦法塞進這些框架組織，然後熟練使用這些框架回答問題，某種程度上也算是刷題吧。&lt;/p>
+&lt;h2 id="結語">結語&lt;/h2>
+&lt;p>個人覺得TPM的面試比SWE面試還要難而且複雜，即便如此Google似乎很想找有EECS背景且有PM能力的人進去當TPM，只是這類人不多又或者沒興趣所以一直找不到人，如果有相關背景的人有興趣可以去嘗試看看。&lt;/p>
+&lt;p>如果有看完這篇對你有幫助，就順便祝福我早日拿到Google Offer啦。&lt;/p></description></item><item><title>Google Taiwan Hiring Event Recording</title><link>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</link><pubDate>Wed, 26 Apr 2023 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</guid><description>&lt;img src="https://i.imgur.com/1QtpCke.jpg" alt="Featured image of post Google Taiwan Hiring Event Recording" />&lt;h2 id="google-taiwan-campus-talk-2023-線上直播校園徵才說明會">Google Taiwan Campus Talk, 2023 線上直播校園徵才說明會&lt;/h2>
 &lt;ul>
 &lt;li>Date: 2022/11/11&lt;/li>
 &lt;li>Title: Google Taiwan Campus Talk, 2023 校園徵才說明會&lt;/li>
