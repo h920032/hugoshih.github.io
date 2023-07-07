@@ -1,14 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/interview/</link><description>Recent content in Interview on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 07 Jul 2023 12:00:18 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/interview/index.xml" rel="self" type="application/rss+xml"/><item><title>2023 Google Technical Program Manager 面試經驗</title><link>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager 面試經驗" />&lt;h1 id="google-tpm-面試經驗">Google TPM 面試經驗&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/interview/</link><description>Recent content in Interview on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 07 Jul 2023 12:00:18 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/interview/index.xml" rel="self" type="application/rss+xml"/><item><title>2023 Google Technical Program Manager 面試經驗</title><link>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager 面試經驗" />&lt;h1 id="google-technical-program-manager-面試經驗">Google Technical Program Manager 面試經驗&lt;/h1>
 &lt;h2 id="前言">前言&lt;/h2>
 &lt;p>一直有許多Google SWE的面試經驗分享，然而Technical Program Manager(TPM)的面試經驗則幾乎沒有，其實不光是Dcard國外各大網站TPM的面試經驗分享也很少，因此來分享一下，雖然沒有拿到Offer，但有面到最後，經驗應該可以參考一下。&lt;/p>
 &lt;p>過去學經歷是112電資相關學碩，今年當完兵之後在比Google略大一點的公司當TPM。以前就有想進去Google，去年也投了Google SWE的面試，面完過HC等Team match時就遇到Hiring Freeze，詳細經歷可以參考：&lt;a class="link" href="https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/" target="_blank" rel="noopener"
 >Google SWE 面試心路歷程&lt;/a>，直到今年景氣變好才又開始Fit talk，結果連match了三個team都沒中，心灰意冷之際就收到另一個HR寄來TPM的面試邀請，抱著打聽情報的心態就跟HR排了個1:1，其實本來是對Google TPM缺沒什麼興趣，但在會議中被HR一波洗腦後，抱著那就試試的心態就接下面試邀請了。&lt;/p>
 &lt;h2 id="時間">時間&lt;/h2>
-&lt;p>5/12 - 收到HR的TPM面試邀請
-5/23 - 跟HR約1:1了解職缺
-6/13 - VO:Technical Judgement*2
-6/20 - VO:PgM + GCA
-6/30 - 跟HR1:1通知面試結果: not move forward&lt;/p>
+&lt;ul>
+&lt;li>5/12 - 收到HR的TPM面試邀請&lt;/li>
+&lt;li>5/23 - 跟HR約1:1了解職缺&lt;/li>
+&lt;li>6/13 - VO:Technical Judgement*2&lt;/li>
+&lt;li>6/20 - VO:PgM + GCA&lt;/li>
+&lt;li>6/30 - 跟HR1:1通知面試結果: not move forward&lt;/li>
+&lt;/ul>
 &lt;h2 id="面試">面試&lt;/h2>
 &lt;p>Google TPM的VO面試總共有五關，每關45分鐘:&lt;/p>
 &lt;ul>
@@ -49,7 +51,12 @@
 &lt;p>下次要再嘗試Google TPM的面試時，應該要多花點時間打磨手上的案例，想辦法塞進這些框架組織，然後熟練使用這些框架回答問題，某種程度上也算是刷題吧。&lt;/p>
 &lt;h2 id="結語">結語&lt;/h2>
 &lt;p>個人覺得TPM的面試比SWE面試還要難而且複雜，即便如此Google似乎很想找有EECS背景且有PM能力的人進去當TPM，只是這類人不多又或者沒興趣所以一直找不到人，如果有相關背景的人有興趣可以去嘗試看看。&lt;/p>
-&lt;p>如果有看完這篇對你有幫助，就順便祝福我早日拿到Google Offer啦。&lt;/p></description></item><item><title>科技業台商與外商公司暱稱</title><link>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</link><pubDate>Sat, 06 May 2023 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</guid><description>&lt;img src="https://i.imgur.com/1gEXPk2.jpg" alt="Featured image of post 科技業台商與外商公司暱稱" />&lt;h1 id="科技業台商與外商公司暱稱">科技業台商與外商公司暱稱&lt;/h1>
+&lt;p>如果有看完這篇對你有幫助，就順便祝福我早日拿到Google Offer啦。&lt;/p>
+&lt;p>&lt;img src="https://i.imgur.com/C8prC95.jpg"
+loading="lazy"
+alt="image alt"
+>
+附一張今年去101蹭飯的照片，好想進Google呀。&lt;/p></description></item><item><title>科技業台商與外商公司暱稱</title><link>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</link><pubDate>Sat, 06 May 2023 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</guid><description>&lt;img src="https://i.imgur.com/1gEXPk2.jpg" alt="Featured image of post 科技業台商與外商公司暱稱" />&lt;h1 id="科技業台商與外商公司暱稱">科技業台商與外商公司暱稱&lt;/h1>
 &lt;h2 id="台商">台商&lt;/h2>
 &lt;h3 id="ic設計-豬屎屋">IC設計 (豬屎屋)&lt;/h3>
 &lt;table>
