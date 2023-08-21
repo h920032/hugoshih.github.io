@@ -1,16 +1,16 @@
 <!doctype html><html lang=en-us dir=ltr>
 <head><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Linux終端機視窗管理工具tmux筆記">
-<title>Linux終端機視窗管理工具tmux筆記</title>
-<link rel=canonical href=https://www.hugoshih.com/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/>
-<link rel=stylesheet href=/scss/style.min.8191399262444ab68b72a18c97392f5349be20a1615d77445be51e974c144cff.css><meta property="og:title" content="Linux終端機視窗管理工具tmux筆記">
-<meta property="og:description" content="Linux終端機視窗管理工具tmux筆記">
-<meta property="og:url" content="https://www.hugoshih.com/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/">
+<meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="介紹嵌入式系統常用的幾種MCU">
+<title>嵌入式系統常用的幾種MCU</title>
+<link rel=canonical href=https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/>
+<link rel=stylesheet href=/scss/style.min.8191399262444ab68b72a18c97392f5349be20a1615d77445be51e974c144cff.css><meta property="og:title" content="嵌入式系統常用的幾種MCU">
+<meta property="og:description" content="介紹嵌入式系統常用的幾種MCU">
+<meta property="og:url" content="https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/">
 <meta property="og:site_name" content="Hsing-Yu Shih">
-<meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Linux"><meta property="article:tag" content="tmux"><meta property="article:published_time" content="2022-05-30T13:32:31+08:00"><meta property="article:modified_time" content="2022-05-30T13:32:31+08:00"><meta property="og:image" content="https://i.imgur.com/s6DO9W0.jpg">
-<meta name=twitter:title content="Linux終端機視窗管理工具tmux筆記">
-<meta name=twitter:description content="Linux終端機視窗管理工具tmux筆記"><meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://i.imgur.com/s6DO9W0.jpg">
+<meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Linux"><meta property="article:tag" content="tmux"><meta property="article:published_time" content="2022-05-30T13:32:31+08:00"><meta property="article:modified_time" content="2022-05-30T13:32:31+08:00"><meta property="og:image" content="https://i.imgur.com/HpO9chd.jpg">
+<meta name=twitter:title content="嵌入式系統常用的幾種MCU">
+<meta name=twitter:description content="介紹嵌入式系統常用的幾種MCU"><meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://i.imgur.com/HpO9chd.jpg">
 <link rel="shortcut icon" href=img/favicon.png>
 </head>
 <body class=article-page>
@@ -86,10 +86,11 @@
 <div class=widget--toc>
 <nav id=TableOfContents>
 <ol>
-<li><a href=#前言>前言</a></li>
-<li><a href=#基本>基本</a></li>
-<li><a href=#進階>進階</a></li>
-<li><a href=#reference>Reference</a></li>
+<li><a href=#atmel系列-如atmega328p>ATMEL系列 (如ATMEGA328P)</a></li>
+<li><a href=#esp系列-如esp32-c3>ESP系列 (如ESP32-C3)</a></li>
+<li><a href=#stm系列-如stmf103c8t6>STM系列 (如STMF103C8T6)</a></li>
+<li><a href=#stc系列-如stc89c52>STC系列 (如STC89C52)</a></li>
+<li><a href=#raspberry系列-如rp2040>RASPBERRY系列 (如RP2040)</a></li>
 </ol>
 </nav>
 </div>
@@ -99,8 +100,8 @@
 <article class="has-image main-article">
 <header class=article-header>
 <div class=article-image>
-<a href=/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/>
-<img src=https://i.imgur.com/s6DO9W0.jpg loading=lazy alt="Featured image of post Linux終端機視窗管理工具tmux筆記">
+<a href=/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/>
+<img src=https://i.imgur.com/HpO9chd.jpg loading=lazy alt="Featured image of post 嵌入式系統常用的幾種MCU">
 </a>
 </div>
 <div class=article-details>
@@ -111,10 +112,10 @@ Linux
 </header>
 <div class=article-title-wrapper>
 <h2 class=article-title>
-<a href=/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/>Linux終端機視窗管理工具tmux筆記</a>
+<a href=/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/>嵌入式系統常用的幾種MCU</a>
 </h2>
 <h3 class=article-subtitle>
-Linux終端機視窗管理工具tmux筆記
+介紹嵌入式系統常用的幾種MCU
 </h3>
 </div>
 <footer class=article-time>
@@ -123,259 +124,49 @@ Linux終端機視窗管理工具tmux筆記
 </div>
 <div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
 <time class=article-time--reading>
-2 minute read
+1 minute read
 </time>
 </div>
 </footer>
 </div>
 </header>
 <section class=article-content>
-<h1 id=linux終端機視窗管理工具tmux筆記>Linux終端機視窗管理工具tmux筆記</h1>
-<h2 id=前言>前言</h2>
-<p>一般在操作遠端的Linux主機時通常會使用SSH連線進去操作，然而若遇到需要執行一個不可中斷的指令但又不得不中斷SSH連線時，一般情況下會將該Process拉到背景執行或是使用視窗管理工具<code>screen</code>，而<code>tmux</code>則是另一個非常強大的視窗管理工具，可以在終端機中模擬視窗操作，包括視窗的切換、視窗的切割等等，以下就列出一些<code>tmux</code>常用到的一些指令。</p>
-<h2 id=基本>基本</h2>
-<p>進入tmux</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>tmux
-</code></pre></td></tr></table>
-</div>
-</div><p>列出tmux視窗列表</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>tmux ls
-</code></pre></td></tr></table>
-</div>
-</div><p>連接tmux使窗</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>tmux attach -t 0
-</code></pre></td></tr></table>
-</div>
-</div><div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>tmux attach -t database
-</code></pre></td></tr></table>
-</div>
-</div><p>建立一個名為database的視窗</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-Bash data-lang=Bash>tmux new -s database
-</code></pre></td></tr></table>
-</div>
-</div><p>更改名稱</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>tmux rename-session -t 0 database
-</code></pre></td></tr></table>
-</div>
-</div><p>水平切割</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>ctrl+b
-%
-</code></pre></td></tr></table>
-</div>
-</div><p>垂直切割</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>ctrl+b
-&#34;
-</code></pre></td></tr></table>
-</div>
-</div><p>建立新視窗</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>ctrl+b
-c
-</code></pre></td></tr></table>
-</div>
-</div><p>上一個視窗</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>ctrl+b
-p
-</code></pre></td></tr></table>
-</div>
-</div><p>下一個視窗</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>ctrl+b
-n
-</code></pre></td></tr></table>
-</div>
-</div><p>依照編號直接切換（編號顯示於狀態列）</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>ctrl+b
-&lt;number&gt;
-</code></pre></td></tr></table>
-</div>
-</div><p>視窗選單</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>ctrl+b
-s
-</code></pre></td></tr></table>
-</div>
-</div><p>滑動視窗</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>crtl+b [
-q (離開)
-</code></pre></td></tr></table>
-</div>
-</div><h2 id=進階>進階</h2>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback># 新增
-$ tmux
-# OR
-$ tmux new -s &lt;your_session_name&gt;
-
-# session 列表
-$ tmux ls
-
-# 重新連線 session
-$ tmux a -t 0
-# OR
-$ tmux a -t &lt;session_name&gt;
-
-# 刪除 session
-$ tmux kill-session -t 0
-# OR
-$ tmux kill-session -t &lt;session_name&gt;
-# OR
-$ tmux kill-session -a # 全部
-
-# 刪除 tmux server
-$ tmux kill-server
-
-# 重新命名 session
-$ tmux rename-session -t 0 &lt;new_session_name&gt;
-
-# 快捷鍵/視窗管理
-# C-b ? Help
-# C-b c 新增視窗
-# C-b， 視窗命名
-# C-b w 視窗列表
-# C-b f 尋找視窗
-# C-b &amp; 刪除視窗
-# C-b % 垂直分割區塊
-# C-b “ 水平分割區塊
-# C-b &lt;方向鍵&gt;
-# C-b p 上一個視窗
-# C-b n 下一個視窗
-# C-b &lt;number&gt; 依照編號直接切換（編號顯示於狀態列）
-# C-b d 離開 session
-# C-b x 關閉 Pane
-# C-d   關閉 Pane
-# C-b z 讓一個 Pane 變成全螢幕，在輸入一次則回到剛剛的尺寸
-
-</code></pre></td></tr></table>
-</div>
-</div><h2 id=reference>Reference</h2>
+<h1 id=嵌入式系統常用的幾種mcu>嵌入式系統常用的幾種MCU</h1>
+<p>最近在實作嵌入式系統時因為系統需要更強的運算功能，決定捨棄原本常用的Atmega328p，尋找其他32位元MCU開發平台，選擇平台是件大事，每個平台的適用場景跟開發環境都不同，藉此機會來分析一下。</p>
+<h2 id=atmel系列-如atmega328p>ATMEL系列 (如ATMEGA328P)</h2>
 <ul>
-<li>ssh自動連進tmux
-<a class=link href=https://stackoverflow.com/questions/27613209/how-to-automatically-start-tmux-on-ssh-session target=_blank rel=noopener>https://stackoverflow.com/questions/27613209/how-to-automatically-start-tmux-on-ssh-session</a></li>
-<li>與iterm結合
-<a class=link href=https://medium.com/@wancw/iterm2-ssh-tmux-73d3fcf9dac6 target=_blank rel=noopener>https://medium.com/@wancw/iterm2-ssh-tmux-73d3fcf9dac6</a></li>
+<li>Atmega328p是ATMEL公司(美國)生產的8位元AVR架構MCU，常用於Arduino UNO板上</li>
+<li>優點:容易入門且文檔完整、社群支援完整(Arduino生態系建立的很好)、良好的功耗效率(這點沒實測過但聽說很不錯)</li>
+<li>缺點:與其他32位元MCU相比，處理能力有限、較少的內置記憶體和RAM、以他的性能來說小貴(35元上下)</li>
+<li>適用場景: 初學者入門的專案(例如Arduino教學、簡單的嵌入式專案)、低功耗低成本的家用電子裝置</li>
+</ul>
+<h2 id=esp系列-如esp32-c3>ESP系列 (如ESP32-C3)</h2>
+<ul>
+<li>ESP32-C3是Espressif Systems公司(中國)的產品，基於32位元RICS-V或Xtensa架構，自帶WiFi和藍牙功能</li>
+<li>優點:直接包含WiFi和藍牙不用外接模組所以CP很高(一顆35-50元)、也是很多人在使用社群支援算完整、有內涵SPI flash的版本很方便</li>
+<li>缺點:較高的功耗(雖然有深度睡眠功能)、系統穩定性聽說不佳</li>
+<li>適用場景: IoT (物聯網) 需要WiFi或藍牙連接的設備、智慧家電、智慧穿戴裝置、不是很關鍵的東西。</li>
+</ul>
+<h2 id=stm系列-如stmf103c8t6>STM系列 (如STMF103C8T6)</h2>
+<ul>
+<li>STMF103C8T6是STMicroelectronics公司(瑞士)的32位元ARM Cortex-M3微控制器</li>
+<li>優點:運算功能強、具有多種接口、有低功耗模式的版本，具有較高的性價比(範圍大20-60元都有)、有很完整的開發除錯工具、在工業產品中比較常用</li>
+<li>缺點:開發環境較為複雜、較少的RAM和Flash</li>
+<li>適用場景: 複雜的嵌入式專案、需要強大的處理能力、工業自動化、無人機、高階的感測器系統</li>
+</ul>
+<h2 id=stc系列-如stc89c52>STC系列 (如STC89C52)</h2>
+<ul>
+<li>STC89C52是STC Micro公司(中國)生產的8位元8051微控制器。</li>
+<li>優點: 8051架構非常的古老、具有廣泛的應用和大量的資料支援、價格超便宜(10-50元)、開發環境算簡單。</li>
+<li>缺點:超舊的架構，處理能力有限、較少的內存和RAM、可以看作是人弱化版的Atmel系列、但因為功能單純，家電之類的很常用到</li>
+<li>適用場景: 傳統的嵌入式系統，如家用電器控制、教育用途，學習8051微控制器的原理和程式設計、簡單的LED顯示、鍵盤輸入等基本IO操作</li>
+</ul>
+<h2 id=raspberry系列-如rp2040>RASPBERRY系列 (如RP2040)</h2>
+<ul>
+<li>RP2040是Raspberry Pi基金會(英國)開發的32位元ARM Cortex-M0+微控制器</li>
+<li>優點:高效的處理性能、RAM算大、開源資源和社群支援、簡單的開發環境(Micropython)、CP值也很高(35元)</li>
+<li>缺點: 較新的產品，可能存在與硬體不穩定的問題有些Bug可能還沒有解法</li>
+<li>適用場景: 要求高性能處理的嵌入式專案、影音運算、影像處理、複雜的演算法運算、大數據處理、跑TinyML模型等等</li>
 </ul>
 </section>
 <footer class=article-footer>
@@ -393,12 +184,12 @@ $ tmux rename-session -t 0 &lt;new_session_name&gt;
 <div class=related-content>
 <div class="flex article-list--tile">
 <article class=has-image>
-<a href=/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/>
+<a href=/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/>
 <div class=article-image>
-<img src=https://i.imgur.com/HpO9chd.jpg loading=lazy data-key data-hash=https://i.imgur.com/HpO9chd.jpg>
+<img src=https://i.imgur.com/s6DO9W0.jpg loading=lazy data-key data-hash=https://i.imgur.com/s6DO9W0.jpg>
 </div>
 <div class=article-details>
-<h2 class=article-title>嵌入式系統常用的幾種MCU</h2>
+<h2 class=article-title>Linux終端機視窗管理工具tmux筆記</h2>
 </div>
 </a>
 </article>
