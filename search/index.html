@@ -11,7 +11,7 @@
 <meta name=twitter:title content="Search">
 <meta name=twitter:description content><link rel=alternate type=application/json href=https://www.hugoshih.com/search/index.json>
 <link rel="shortcut icon" href=img/favicon.png>
-<link rel=preload href=https://www.hugoshih.com/search/index.json as=fetch crossorigin=anonymous>
+<link rel=preload href=/search/index.json as=fetch crossorigin=anonymous>
 </head>
 <body class=template-search>
 <script>(function(){const a='StackColorScheme';localStorage.setItem(a,"dark")})()</script><script>(function(){const b='StackColorScheme',a=localStorage.getItem(b),c=window.matchMedia('(prefers-color-scheme: dark)').matches===!0;a=='dark'||a==='auto'&&c?document.documentElement.dataset.scheme='dark':document.documentElement.dataset.scheme='light'})()</script>
@@ -79,7 +79,7 @@
 </ol>
 </aside>
 <main class="main full-width">
-<form action=https://www.hugoshih.com/search/ class=search-form data-json=https://www.hugoshih.com/search/index.json>
+<form action=/search/ class=search-form data-json=/search/index.json>
 <p>
 <label>Search</label>
 <input name=keyword placeholder="Type something...">
