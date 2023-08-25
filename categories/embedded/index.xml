@@ -1,1 +1,37 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on Hsing-Yu Shih</title><link>https://www.hugoshih.com/categories/embedded/</link><description>Recent content in Embedded on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://www.hugoshih.com/categories/embedded/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on Hsing-Yu Shih</title><link>https://www.hugoshih.com/categories/embedded/</link><description>Recent content in Embedded on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 21 Aug 2023 19:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/categories/embedded/index.xml" rel="self" type="application/rss+xml"/><item><title>嵌入式系統常用的幾種MCU</title><link>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</link><pubDate>Mon, 21 Aug 2023 19:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</guid><description>&lt;img src="https://i.imgur.com/xEqWwbo.jpg" alt="Featured image of post 嵌入式系統常用的幾種MCU" />&lt;h1 id="嵌入式系統常用的幾種mcu">嵌入式系統常用的幾種MCU&lt;/h1>
+&lt;p>最近在實作嵌入式系統時因為系統需要更強的運算功能，決定捨棄原本常用的Atmega328p，尋找其他32位元MCU開發平台，選擇平台是件大事，每個平台的適用場景跟開發環境都不同，藉此機會來分析一下。&lt;/p>
+&lt;h2 id="atmel系列-如atmega328p">ATMEL系列 (如ATMEGA328P)&lt;/h2>
+&lt;ul>
+&lt;li>Atmega328p是ATMEL公司(美國)生產的8位元AVR架構MCU，常用於Arduino UNO板上&lt;/li>
+&lt;li>優點:容易入門且文檔完整、社群支援完整(Arduino生態系建立的很好)、良好的功耗效率(這點沒實測過但聽說很不錯)&lt;/li>
+&lt;li>缺點:與其他32位元MCU相比，處理能力有限、較少的內置記憶體和RAM、以他的性能來說小貴(35元上下)&lt;/li>
+&lt;li>適用場景: 初學者入門的專案(例如Arduino教學、簡單的嵌入式專案)、低功耗低成本的家用電子裝置&lt;/li>
+&lt;/ul>
+&lt;h2 id="esp系列-如esp32-c3">ESP系列 (如ESP32-C3)&lt;/h2>
+&lt;ul>
+&lt;li>ESP32-C3是Espressif Systems公司(中國)的產品，基於32位元RICS-V或Xtensa架構，自帶WiFi和藍牙功能&lt;/li>
+&lt;li>優點:直接包含WiFi和藍牙不用外接模組所以CP很高(一顆35-50元)、也是很多人在使用社群支援算完整、有內涵SPI flash的版本很方便&lt;/li>
+&lt;li>缺點:較高的功耗(雖然有深度睡眠功能)、系統穩定性聽說不佳&lt;/li>
+&lt;li>適用場景: IoT (物聯網) 需要WiFi或藍牙連接的設備、智慧家電、智慧穿戴裝置、不是很關鍵的東西。&lt;/li>
+&lt;/ul>
+&lt;h2 id="stm系列-如stmf103c8t6">STM系列 (如STMF103C8T6)&lt;/h2>
+&lt;ul>
+&lt;li>STMF103C8T6是STMicroelectronics公司(瑞士)的32位元ARM Cortex-M3微控制器&lt;/li>
+&lt;li>優點:運算功能強、具有多種接口、有低功耗模式的版本，具有較高的性價比(範圍大20-60元都有)、有很完整的開發除錯工具、在工業產品中比較常用&lt;/li>
+&lt;li>缺點:開發環境較為複雜、較少的RAM和Flash&lt;/li>
+&lt;li>適用場景: 複雜的嵌入式專案、需要強大的處理能力、工業自動化、無人機、高階的感測器系統&lt;/li>
+&lt;/ul>
+&lt;h2 id="stc系列-如stc89c52">STC系列 (如STC89C52)&lt;/h2>
+&lt;ul>
+&lt;li>STC89C52是STC Micro公司(中國)生產的8位元8051微控制器。&lt;/li>
+&lt;li>優點: 8051架構非常的古老、具有廣泛的應用和大量的資料支援、價格超便宜(10-50元)、開發環境算簡單。&lt;/li>
+&lt;li>缺點:超舊的架構，處理能力有限、較少的內存和RAM、可以看作是人弱化版的Atmel系列、但因為功能單純，家電之類的很常用到&lt;/li>
+&lt;li>適用場景: 傳統的嵌入式系統，如家用電器控制、教育用途，學習8051微控制器的原理和程式設計、簡單的LED顯示、鍵盤輸入等基本IO操作&lt;/li>
+&lt;/ul>
+&lt;h2 id="raspberry系列-如rp2040">RASPBERRY系列 (如RP2040)&lt;/h2>
+&lt;ul>
+&lt;li>RP2040是Raspberry Pi基金會(英國)開發的32位元ARM Cortex-M0+微控制器&lt;/li>
+&lt;li>優點:高效的處理性能、RAM算大、開源資源和社群支援、簡單的開發環境(Micropython)、CP值也很高(35元)&lt;/li>
+&lt;li>缺點: 較新的產品，可能存在與硬體不穩定的問題有些Bug可能還沒有解法&lt;/li>
+&lt;li>適用場景: 要求高性能處理的嵌入式專案、影音運算、影像處理、複雜的演算法運算、大數據處理、跑TinyML模型等等&lt;/li>
+&lt;/ul></description></item></channel></rss>
