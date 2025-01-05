@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Zephyr on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/zephyr/</link><description>Recent content in Zephyr on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 05 Jan 2025 22:20:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/zephyr/index.xml" rel="self" type="application/rss+xml"/><item><title>嵌入式系統常用的幾種MCU</title><link>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</link><pubDate>Sun, 05 Jan 2025 22:20:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</guid><description>&lt;img src="https://i.imgur.com/V5OSNcL.jpg" alt="Featured image of post 嵌入式系統常用的幾種MCU" />&lt;h1 id="zephyr-rtos-兩種建立thread的方式">Zephyr RTOS 兩種建立Thread的方式
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Zephyr on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/zephyr/</link><description>Recent content in Zephyr on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 05 Jan 2025 22:20:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/zephyr/index.xml" rel="self" type="application/rss+xml"/><item><title>Zephyr RTOS 兩種建立Thread的方式</title><link>https://www.hugoshih.com/p/zephyr-rtos-%E5%85%A9%E7%A8%AE%E5%BB%BA%E7%AB%8Bthread%E7%9A%84%E6%96%B9%E5%BC%8F/</link><pubDate>Sun, 05 Jan 2025 22:20:31 +0800</pubDate><guid>https://www.hugoshih.com/p/zephyr-rtos-%E5%85%A9%E7%A8%AE%E5%BB%BA%E7%AB%8Bthread%E7%9A%84%E6%96%B9%E5%BC%8F/</guid><description>&lt;img src="https://i.imgur.com/V5OSNcL.jpg" alt="Featured image of post Zephyr RTOS 兩種建立Thread的方式" />&lt;h1 id="zephyr-rtos-兩種建立thread的方式">Zephyr RTOS 兩種建立Thread的方式
 &lt;/h1>&lt;h2 id="thread-執行緒">Thread (執行緒)
 &lt;/h2>&lt;p>在 Zephyr OS中，每個獨立的功能或任務可以放在不同的執行緒中執行，內部使用了輕量級的排程器，可以根據不同執行緒的優先級，以及執行緒本身的狀態（ready, running, pending 等），來決定哪一個執行緒能夠先被 CPU 執行，執行緒可以有以下幾個性質：&lt;/p>
 &lt;ol>
@@ -75,8 +75,9 @@
 &lt;h2 id="範例">範例
 &lt;/h2>&lt;p>以下兩段程式碼，分別示範用 &lt;code>K_THREAD_DEFINE()&lt;/code>（在編譯期間）或 &lt;code>k_thread_create()&lt;/code>（在執行期間）建立兩個執行緒，分別執行 LED 漸亮漸暗（fade_led） 與 LED 閃爍（toggle_led） 的功能&lt;/p>
 &lt;p>以下是在Nucleo-F303K8的執行結果，左邊LED執行toggle，右邊執行fading
-![](&lt;a class="link" href="https://imgur.com/V0jJ9bs.gif" target="_blank" rel="noopener"
->https://imgur.com/V0jJ9bs.gif&lt;/a> =200x)&lt;/p>
+&lt;img src="https://imgur.com/V0jJ9bs.gif"
+loading="lazy"
+>&lt;/p>
 &lt;h3 id="在編譯期間compile-time動態建立執行緒範例">在編譯期間（Compile Time）動態建立執行緒範例
 &lt;/h3>&lt;ol>
 &lt;li>&lt;code>K_THREAD_DEFINE(fade_tid, 512, fade_led, NULL, NULL, NULL, 5, 0, 0);&lt;/code>
