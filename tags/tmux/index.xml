@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tmux on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/tmux/</link><description>Recent content in tmux on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 30 May 2022 13:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/tmux/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux終端機視窗管理工具tmux筆記</title><link>https://www.hugoshih.com/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/</link><pubDate>Mon, 30 May 2022 13:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/</guid><description>&lt;img src="https://i.imgur.com/s6DO9W0.jpg" alt="Featured image of post Linux終端機視窗管理工具tmux筆記" />&lt;h1 id="linux終端機視窗管理工具tmux筆記">Linux終端機視窗管理工具tmux筆記&lt;/h1>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>一般在操作遠端的Linux主機時通常會使用SSH連線進去操作，然而若遇到需要執行一個不可中斷的指令但又不得不中斷SSH連線時，一般情況下會將該Process拉到背景執行或是使用視窗管理工具&lt;code>screen&lt;/code>，而&lt;code>tmux&lt;/code>則是另一個非常強大的視窗管理工具，可以在終端機中模擬視窗操作，包括視窗的切換、視窗的切割等等，以下就列出一些&lt;code>tmux&lt;/code>常用到的一些指令。&lt;/p>
-&lt;h2 id="基本">基本&lt;/h2>
-&lt;p>進入tmux&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tmux on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/tmux/</link><description>Recent content in Tmux on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 30 May 2022 13:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/tmux/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux終端機視窗管理工具tmux筆記</title><link>https://www.hugoshih.com/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/</link><pubDate>Mon, 30 May 2022 13:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/linux%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%A6%96%E7%AA%97%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7tmux%E7%AD%86%E8%A8%98/</guid><description>&lt;img src="https://i.imgur.com/s6DO9W0.jpg" alt="Featured image of post Linux終端機視窗管理工具tmux筆記" />&lt;h1 id="linux終端機視窗管理工具tmux筆記">Linux終端機視窗管理工具tmux筆記
+&lt;/h1>&lt;h2 id="前言">前言
+&lt;/h2>&lt;p>一般在操作遠端的Linux主機時通常會使用SSH連線進去操作，然而若遇到需要執行一個不可中斷的指令但又不得不中斷SSH連線時，一般情況下會將該Process拉到背景執行或是使用視窗管理工具&lt;code>screen&lt;/code>，而&lt;code>tmux&lt;/code>則是另一個非常強大的視窗管理工具，可以在終端機中模擬視窗操作，包括視窗的切換、視窗的切割等等，以下就列出一些&lt;code>tmux&lt;/code>常用到的一些指令。&lt;/p>
+&lt;h2 id="基本">基本
+&lt;/h2>&lt;p>進入tmux&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">tmux
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">tmux
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>列出tmux視窗列表&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -17,8 +17,8 @@
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">tmux ls
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">tmux ls
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>連接tmux使窗&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -26,16 +26,16 @@
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">tmux attach -t 0
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">tmux attach -t 0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">tmux attach -t database
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">tmux attach -t database
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>建立一個名為database的視窗&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -43,8 +43,8 @@
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-Bash" data-lang="Bash">tmux new -s database
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-Bash" data-lang="Bash">&lt;span class="line">&lt;span class="cl">tmux new -s database
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>更改名稱&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -52,8 +52,8 @@
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">tmux rename-session -t 0 database
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">tmux rename-session -t 0 database
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>水平切割&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -62,9 +62,9 @@
 &lt;/span>&lt;span class="lnt">2
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">ctrl+b
-%
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ctrl+b
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">%
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>垂直切割&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -73,9 +73,9 @@
 &lt;/span>&lt;span class="lnt">2
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">ctrl+b
-&amp;#34;
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ctrl+b
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>建立新視窗&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -84,9 +84,9 @@
 &lt;/span>&lt;span class="lnt">2
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">ctrl+b
-c
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ctrl+b
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">c
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上一個視窗&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -95,9 +95,9 @@ c
 &lt;/span>&lt;span class="lnt">2
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">ctrl+b
-p
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ctrl+b
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">p
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>下一個視窗&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -106,9 +106,9 @@ p
 &lt;/span>&lt;span class="lnt">2
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">ctrl+b
-n
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ctrl+b
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">n
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>依照編號直接切換（編號顯示於狀態列）&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -117,9 +117,9 @@ n
 &lt;/span>&lt;span class="lnt">2
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">ctrl+b
-&amp;lt;number&amp;gt;
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ctrl+b
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;number&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>視窗選單&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -128,9 +128,9 @@ n
 &lt;/span>&lt;span class="lnt">2
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">ctrl+b
-s
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ctrl+b
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>滑動視窗&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -139,12 +139,12 @@ s
 &lt;/span>&lt;span class="lnt">2
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">crtl+b [
-q (離開)
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">crtl+b [
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">q (離開)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="進階">進階&lt;/h2>
-&lt;div class="highlight">&lt;div class="chroma">
+&lt;/div>&lt;h2 id="進階">進階
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
 &lt;/span>&lt;span class="lnt"> 2
@@ -189,50 +189,55 @@ q (離開)
 &lt;/span>&lt;span class="lnt">41
 &lt;/span>&lt;span class="lnt">42
 &lt;/span>&lt;span class="lnt">43
-&lt;/span>&lt;span class="lnt">44
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback"># 新增
-$ tmux
-# OR
-$ tmux new -s &amp;lt;your_session_name&amp;gt;
-# session 列表
-$ tmux ls
-# 重新連線 session
-$ tmux a -t 0
-# OR
-$ tmux a -t &amp;lt;session_name&amp;gt;
-# 刪除 session
-$ tmux kill-session -t 0
-# OR
-$ tmux kill-session -t &amp;lt;session_name&amp;gt;
-# OR
-$ tmux kill-session -a # 全部
-# 刪除 tmux server
-$ tmux kill-server
-# 重新命名 session
-$ tmux rename-session -t 0 &amp;lt;new_session_name&amp;gt;
-# 快捷鍵/視窗管理
-# C-b ? Help
-# C-b c 新增視窗
-# C-b， 視窗命名
-# C-b w 視窗列表
-# C-b f 尋找視窗
-# C-b &amp;amp; 刪除視窗
-# C-b % 垂直分割區塊
-# C-b “ 水平分割區塊
-# C-b &amp;lt;方向鍵&amp;gt;
-# C-b p 上一個視窗
-# C-b n 下一個視窗
-# C-b &amp;lt;number&amp;gt; 依照編號直接切換（編號顯示於狀態列）
-# C-b d 離開 session
-# C-b x 關閉 Pane
-# C-d 關閉 Pane
-# C-b z 讓一個 Pane 變成全螢幕，在輸入一次則回到剛剛的尺寸
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"># 新增
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># OR
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux new -s &amp;lt;your_session_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># session 列表
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux ls
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># 重新連線 session
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux a -t 0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># OR
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux a -t &amp;lt;session_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># 刪除 session
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux kill-session -t 0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># OR
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux kill-session -t &amp;lt;session_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># OR
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux kill-session -a # 全部
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># 刪除 tmux server
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux kill-server
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># 重新命名 session
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tmux rename-session -t 0 &amp;lt;new_session_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># 快捷鍵/視窗管理
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b ? Help
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b c 新增視窗
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b， 視窗命名
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b w 視窗列表
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b f 尋找視窗
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b &amp;amp; 刪除視窗
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b % 垂直分割區塊
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b “ 水平分割區塊
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b &amp;lt;方向鍵&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b p 上一個視窗
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b n 下一個視窗
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b &amp;lt;number&amp;gt; 依照編號直接切換（編號顯示於狀態列）
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b d 離開 session
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b x 關閉 Pane
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-d 關閉 Pane
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># C-b z 讓一個 Pane 變成全螢幕，在輸入一次則回到剛剛的尺寸
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="reference">Reference&lt;/h2>
-&lt;ul>
+&lt;/div>&lt;h2 id="reference">Reference
+&lt;/h2>&lt;ul>
 &lt;li>ssh自動連進tmux
 &lt;a class="link" href="https://stackoverflow.com/questions/27613209/how-to-automatically-start-tmux-on-ssh-session" target="_blank" rel="noopener"
 >https://stackoverflow.com/questions/27613209/how-to-automatically-start-tmux-on-ssh-session&lt;/a>&lt;/li>

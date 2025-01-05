@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on Hsing-Yu Shih</title><link>https://www.hugoshih.com/page/</link><description>Recent content in Pages on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 30 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.hugoshih.com/page/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://www.hugoshih.com/about/</link><pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate><guid>https://www.hugoshih.com/about/</guid><description>&lt;h2 id="about-me">About Me&lt;/h2>
-&lt;p>Hello, my name is Hsing-Yu Shih (施星宇). I am currently working as a Software Program Manager at Microsoft. I earned my master&amp;rsquo;s degree in EECS from National Taiwan University, where my area of specialization was Communication Engineering. My undergraduate studies were also completed at National Taiwan University, where I received a bachelor&amp;rsquo;s degree in information management with a double major in forestry.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on Hsing-Yu Shih</title><link>https://www.hugoshih.com/page/</link><description>Recent content in Pages on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 30 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.hugoshih.com/page/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://www.hugoshih.com/about/</link><pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate><guid>https://www.hugoshih.com/about/</guid><description>&lt;h2 id="about-me">About Me
+&lt;/h2>&lt;p>Hello, my name is Hsing-Yu Shih (施星宇). I am currently working as a Software Program Manager at Microsoft. I earned my master&amp;rsquo;s degree in EECS from National Taiwan University, where my area of specialization was Communication Engineering. My undergraduate studies were also completed at National Taiwan University, where I received a bachelor&amp;rsquo;s degree in information management with a double major in forestry.&lt;/p>
 &lt;p>My passion is magic, and during my college years, I held the position of vice president in the magic club and was an active performer. My involvement in the club provided me the opportunity to learn prop-making techniques, and I have gained a wealth of experience as a Maker through my participation in the club.&lt;/p>
 &lt;p>&lt;img src="https://i.imgur.com/DJdZN6N.jpg"
 loading="lazy"
 >&lt;/p>
 &lt;p>During my graduate studies, my research topic was the detection of suspicious accounts in online services, with a primary focus on data science, machine learning, and communication networks. Alongside my academic pursuits, I also participated in a photography club where I acquired knowledge of darkroom techniques and honed my photography skills.&lt;/p>
 &lt;p>In the summer of 2021, I had the opportunity to intern at Microsoft, which allowed me to gain a better understanding of the development technology and work model of a technology giant. As I anticipate graduating in the summer of 2022, I began my job search journey. After a thorough process, I am excited to have returned to Microsoft and to begin my career as a Software Program Manager.&lt;/p>
-&lt;h2 id="about-this-site">About This Site&lt;/h2>
-&lt;p>In 2022, a friend reminded me that we had accumulated so much knowledge and experience that it was time to document it.&lt;/p>
-&lt;h2 id="references">References&lt;/h2>
-&lt;ul>
+&lt;h2 id="about-this-site">About This Site
+&lt;/h2>&lt;p>In 2022, a friend reminded me that we had accumulated so much knowledge and experience that it was time to document it.&lt;/p>
+&lt;h2 id="references">References
+&lt;/h2>&lt;ul>
 &lt;li>Framework Power by &lt;a class="link" href="https://gohugo.io" target="_blank" rel="noopener"
 >Hugo&lt;/a>&lt;/li>
 &lt;li>Theme designed by &lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"

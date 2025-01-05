@@ -1,35 +1,445 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/embedded/</link><description>Recent content in Embedded on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 21 Aug 2023 19:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/embedded/index.xml" rel="self" type="application/rss+xml"/><item><title>嵌入式系統常用的幾種MCU</title><link>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</link><pubDate>Mon, 21 Aug 2023 19:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</guid><description>&lt;img src="https://i.imgur.com/xEqWwbo.jpg" alt="Featured image of post 嵌入式系統常用的幾種MCU" />&lt;h1 id="嵌入式系統常用的幾種mcu">嵌入式系統常用的幾種MCU&lt;/h1>
-&lt;p>最近在實作嵌入式系統時因為系統需要更強的運算功能，決定捨棄原本常用的Atmega328p，尋找其他32位元MCU開發平台，選擇平台是件大事，每個平台的適用場景跟開發環境都不同，藉此機會來分析一下。&lt;/p>
-&lt;h2 id="atmel系列-如atmega328p">ATMEL系列 (如ATMEGA328P)&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/embedded/</link><description>Recent content in Embedded on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 05 Jan 2025 22:20:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/embedded/index.xml" rel="self" type="application/rss+xml"/><item><title>嵌入式系統常用的幾種MCU</title><link>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</link><pubDate>Sun, 05 Jan 2025 22:20:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</guid><description>&lt;img src="https://i.imgur.com/V5OSNcL.jpg" alt="Featured image of post 嵌入式系統常用的幾種MCU" />&lt;h1 id="zephyr-rtos-兩種建立thread的方式">Zephyr RTOS 兩種建立Thread的方式
+&lt;/h1>&lt;h2 id="thread-執行緒">Thread (執行緒)
+&lt;/h2>&lt;p>在 Zephyr OS中，每個獨立的功能或任務可以放在不同的執行緒中執行，內部使用了輕量級的排程器，可以根據不同執行緒的優先級，以及執行緒本身的狀態（ready, running, pending 等），來決定哪一個執行緒能夠先被 CPU 執行，執行緒可以有以下幾個性質：&lt;/p>
+&lt;ol>
+&lt;li>執行緒優先級（Priority）：數值越小表示優先級越高（Preemptive scheduling 的情況下）。&lt;/li>
+&lt;li>堆疊大小（Stack Size）：每個執行緒必須設定自己的堆疊空間，Zephyr 會在執行緒切換時儲存或恢復執行緒的上下文。&lt;/li>
+&lt;li>執行緒生命週期（Lifecycle）：可以在編譯期就被預先配置好，或在執行期動態配置與建立。&lt;/li>
+&lt;/ol>
+&lt;h2 id="zephyr-建立執行緒的兩種常見方法">Zephyr 建立執行緒的兩種常見方法
+&lt;/h2>&lt;h3 id="在編譯期間compile-time建立執行緒">在編譯期間（Compile Time）建立執行緒
+&lt;/h3>&lt;p>Zephyr 提供了一個巨集 &lt;code>K_THREAD_DEFINE()&lt;/code> 用於在編譯期就宣告並建立執行緒。只要程式一開啟並初始化 RTOS 後，這些執行緒就會自動被建立並進入排程器的管理。&lt;/p>
+&lt;h4 id="k_thread_define">K_THREAD_DEFINE()
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#define K_THREAD_DEFINE(name, stack_size, entry_fn, p1, p2, p3, \
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp"> prio, options, delay)
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>name：此執行緒的識別名稱，同時會生成一個 k_tid_t 型態的變數。&lt;/li>
+&lt;li>stack_size：此執行緒的堆疊大小（以 byte 為單位）。&lt;/li>
+&lt;li>entry_fn：此執行緒進入點函式（thread function），開始執行時要跑哪個函式。&lt;/li>
+&lt;li>p1, p2, p3：最多可傳入三個參數給進入點函式使用（都為 void* 型態）。&lt;/li>
+&lt;li>prio：優先級（數值越小，優先級越高）。&lt;/li>
+&lt;li>options：執行緒選項，通常先給 0 表示沒有特別的額外設定。&lt;/li>
+&lt;li>delay：執行緒開始之前的延遲時間（ticks 或毫秒），若填 0 表示不延遲，立即就緒。&lt;/li>
+&lt;/ul>
+&lt;h3 id="在執行期間run-time建立執行緒">在執行期間（Run Time）建立執行緒
+&lt;/h3>&lt;p>另一種是在程式運行期間建立執行緒，使用 API 函數&lt;code>k_thread_create()&lt;/code> 建立執行緒。這種方法在有些情況下會更具彈性，例如依據狀態或條件，動態啟動或終止執行緒，以免靜態建立過多浪費資源。&lt;/p>
+&lt;h4 id="k_thread_create">k_thread_create()
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">k_tid_t&lt;/span> &lt;span class="nf">k_thread_create&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">struct&lt;/span> &lt;span class="n">k_thread&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">new_thread&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">k_thread_stack_t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">stack&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">size_t&lt;/span> &lt;span class="n">stack_size&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">k_thread_entry_t&lt;/span> &lt;span class="n">entry&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p1&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p2&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p3&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">prio&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">uint32_t&lt;/span> &lt;span class="n">options&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">k_timeout_t&lt;/span> &lt;span class="n">delay&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>new_thread：指向使用者自行宣告的 struct k_thread 物件，用來儲存此執行緒的控制區塊。&lt;/li>
+&lt;li>stack：指向此執行緒對應的堆疊空間（需先以 &lt;code>K_THREAD_STACK_DEFINE()&lt;/code> 靜態或動態配置）。&lt;/li>
+&lt;li>stack_size：此堆疊的大小。&lt;/li>
+&lt;li>entry：執行緒執行的進入點函式。&lt;/li>
+&lt;li>p1, p2, p3：最多可傳入三個參數到執行緒函式。&lt;/li>
+&lt;li>prio：優先級。&lt;/li>
+&lt;li>options：執行緒選項，常用為 0。&lt;/li>
+&lt;li>delay：執行緒開始前是否要延遲。&lt;/li>
+&lt;/ul>
+&lt;h2 id="範例">範例
+&lt;/h2>&lt;p>以下兩段程式碼，分別示範用 &lt;code>K_THREAD_DEFINE()&lt;/code>（在編譯期間）或 &lt;code>k_thread_create()&lt;/code>（在執行期間）建立兩個執行緒，分別執行 LED 漸亮漸暗（fade_led） 與 LED 閃爍（toggle_led） 的功能&lt;/p>
+&lt;p>以下是在Nucleo-F303K8的執行結果，左邊LED執行toggle，右邊執行fading
+![](&lt;a class="link" href="https://imgur.com/V0jJ9bs.gif" target="_blank" rel="noopener"
+>https://imgur.com/V0jJ9bs.gif&lt;/a> =200x)&lt;/p>
+&lt;h3 id="在編譯期間compile-time動態建立執行緒範例">在編譯期間（Compile Time）動態建立執行緒範例
+&lt;/h3>&lt;ol>
+&lt;li>&lt;code>K_THREAD_DEFINE(fade_tid, 512, fade_led, NULL, NULL, NULL, 5, 0, 0);&lt;/code>
 &lt;ul>
+&lt;li>建立一個名為 fade_tid 的執行緒，堆疊大小 512 bytes，執行函式為 fade_led，優先級 5。&lt;/li>
+&lt;li>p1, p2, p3 都填 NULL，表示不需要傳遞參數。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>K_THREAD_DEFINE(toggle_tid, 512, toggle_led, NULL, NULL, NULL, 5, 0, 0);&lt;/code>
+&lt;ul>
+&lt;li>同樣建立名為 toggle_tid 的執行緒，stack大小、優先級參數與上面一致，執行函式為 toggle_led。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>這些執行緒在編譯的時候就已經被「靜態配置」了，所以當系統啟動並執行到 main() 時，它們也就由排程器自動啟動並不斷執行。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;span class="lnt">53
+&lt;/span>&lt;span class="lnt">54
+&lt;/span>&lt;span class="lnt">55
+&lt;/span>&lt;span class="lnt">56
+&lt;/span>&lt;span class="lnt">57
+&lt;/span>&lt;span class="lnt">58
+&lt;/span>&lt;span class="lnt">59
+&lt;/span>&lt;span class="lnt">60
+&lt;/span>&lt;span class="lnt">61
+&lt;/span>&lt;span class="lnt">62
+&lt;/span>&lt;span class="lnt">63
+&lt;/span>&lt;span class="lnt">64
+&lt;/span>&lt;span class="lnt">65
+&lt;/span>&lt;span class="lnt">66
+&lt;/span>&lt;span class="lnt">67
+&lt;/span>&lt;span class="lnt">68
+&lt;/span>&lt;span class="lnt">69
+&lt;/span>&lt;span class="lnt">70
+&lt;/span>&lt;span class="lnt">71
+&lt;/span>&lt;span class="lnt">72
+&lt;/span>&lt;span class="lnt">73
+&lt;/span>&lt;span class="lnt">74
+&lt;/span>&lt;span class="lnt">75
+&lt;/span>&lt;span class="lnt">76
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;stdio.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;zephyr/kernel.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;zephyr/sys/printk.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;zephyr/device.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;zephyr/drivers/pwm.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;zephyr/drivers/gpio.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">fade_led&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p3&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">toggle_led&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p3&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 利用 DT_ALIAS(pwm_led0) 與 DT_ALIAS(led1) 取得裝置樹中的設備訊息
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">static&lt;/span> &lt;span class="k">const&lt;/span> &lt;span class="k">struct&lt;/span> &lt;span class="n">pwm_dt_spec&lt;/span> &lt;span class="n">pwm_led0&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">PWM_DT_SPEC_GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">DT_ALIAS&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pwm_led0&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">static&lt;/span> &lt;span class="k">const&lt;/span> &lt;span class="k">struct&lt;/span> &lt;span class="n">gpio_dt_spec&lt;/span> &lt;span class="n">led1&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">GPIO_DT_SPEC_GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">DT_ALIAS&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">led1&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">gpios&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 這裡定義一些常數用於控制漸亮漸暗的速度或節拍
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="cp">#define NUM_STEPS 256U
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#define SLEEP_MSEC 5U
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#define SLEEP_TIME_MS 500
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 在編譯期間靜態建立兩個執行緒
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nf">K_THREAD_DEFINE&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">fade_tid&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">512&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">fade_led&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">K_THREAD_DEFINE&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">toggle_tid&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">512&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">toggle_led&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// fade_led 會透過 PWM 設定脈寬來控制 LED 的亮度，製造 &amp;#34;呼吸燈&amp;#34; 效果
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="nf">fade_led&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p3&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">uint32_t&lt;/span> &lt;span class="n">pulse_width&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0U&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">uint32_t&lt;/span> &lt;span class="n">step&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pwm_led0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">period&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">NUM_STEPS&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">uint8_t&lt;/span> &lt;span class="n">dir&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1U&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 設定當前的脈寬
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nf">pwm_set_pulse_dt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">pwm_led0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">pulse_width&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 調整脈寬，控制 LED 往漸亮或漸暗方向
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">dir&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">pulse_width&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="n">step&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">pulse_width&lt;/span> &lt;span class="o">&amp;gt;=&lt;/span> &lt;span class="n">pwm_led0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">period&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">pulse_width&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pwm_led0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">period&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">step&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dir&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0U&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span> &lt;span class="k">else&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">pulse_width&lt;/span> &lt;span class="o">&amp;gt;=&lt;/span> &lt;span class="n">step&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">pulse_width&lt;/span> &lt;span class="o">-=&lt;/span> &lt;span class="n">step&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span> &lt;span class="k">else&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">pulse_width&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">step&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dir&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1U&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">k_sleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">K_MSEC&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">SLEEP_MSEC&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// toggle_led 會透過 GPIO pin toggle 的方式，使 LED 閃爍
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="nf">toggle_led&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p3&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">gpio_pin_toggle_dt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">led1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">k_sleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">K_MSEC&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">SLEEP_TIME_MS&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 檢查 PWM 裝置是否 ready
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nf">pwm_is_ready_dt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">pwm_led0&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">printk&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Error: PWM device %s is not ready&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">pwm_led0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">dev&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 設定 GPIO pin 為輸出
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nf">gpio_pin_configure_dt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">led1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">GPIO_OUTPUT_ACTIVE&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// main 函式結束後，兩個 K_THREAD_DEFINE 建立的執行緒依然會持續執行
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="在執行期run-time動態建立執行緒範例">在執行期（Run Time）動態建立執行緒範例
+&lt;/h3>&lt;p>若想要在程式執行的過程中（例如：由某個事件觸發）再建立執行緒，可以使用以下的做法：
+1. 用 &lt;code>K_THREAD_STACK_DEFINE(my_stack_area, STACK_SIZE)&lt;/code>; 定義stack。
+2. 定義一個 struct k_thread my_thread_data; 作為執行緒控制區塊（Thread Control Block, TCB）。
+3. 呼叫 k_thread_create()，傳入上述的stack、控制區塊、進入點函式及其他參數來完成建立。&lt;/p>
+&lt;p>以下是一個範例，展示如何在 main() 函式中動態建立執行緒（此示例僅顯示與執行緒有關的部分，省略週邊初始化等重複程式碼）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="err">\&lt;/span>&lt;span class="o">*&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">前面的程式碼相同&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">*&lt;/span>\
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 宣告執行緒stack size
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">static&lt;/span> &lt;span class="nf">K_THREAD_STACK_DEFINE&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">fade_stack&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">512&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">static&lt;/span> &lt;span class="nf">K_THREAD_STACK_DEFINE&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">toggle_stack&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">512&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 宣告執行緒控制區塊
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">static&lt;/span> &lt;span class="k">struct&lt;/span> &lt;span class="n">k_thread&lt;/span> &lt;span class="n">fade_thread_data&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">static&lt;/span> &lt;span class="k">struct&lt;/span> &lt;span class="n">k_thread&lt;/span> &lt;span class="n">toggle_thread_data&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 這兩個函式和之前範例雷同
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="nf">fade_led&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p3&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">toggle_led&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">p3&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 在執行期動態建立 fade_led thread
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">k_tid_t&lt;/span> &lt;span class="n">fade_tid&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">k_thread_create&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">fade_thread_data&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">my_fade_stack&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">K_THREAD_STACK_SIZEOF&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">my_fade_stack&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">fade_led&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="mi">5&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">K_NO_WAIT&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 在執行期動態建立 toggle_led thread
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">k_tid_t&lt;/span> &lt;span class="n">toggle_tid&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">k_thread_create&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">toggle_thread_data&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">my_toggle_stack&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">K_THREAD_STACK_SIZEOF&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">my_toggle_stack&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">toggle_led&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="mi">5&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">K_NO_WAIT&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// k_thread_create 回傳 k_tid_t，可用於後續管理 thread
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 例如 k_thread_suspend(fade_tid), k_thread_resume(fade_tid), k_thread_abort(fade_tid)...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="比較">比較
+&lt;/h2>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>建立方式&lt;/th>
+&lt;th>特點&lt;/th>
+&lt;th>典型使用時機&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Compile Time 建立&lt;/td>
+&lt;td>&lt;code>K_THREAD_DEFINE()&lt;/code>&lt;/td>
+&lt;td>一開始已知需要的執行緒，以及系統資源充足時&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Run Time 動態建立&lt;/td>
+&lt;td>&lt;code>k_thread_create()&lt;/code>，在程式執行時期再分配資源&lt;/td>
+&lt;td>不確定需要多少執行緒，或需要彈性創建／釋放&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;ol>
+&lt;li>如果確定在整個系統的生命週期中，執行緒數量固定，或是系統比較單純（例如一個簡單的多任務控制），用編譯期方式能減少程式碼的複雜度，也能讓程式一啟動就快速就緒。&lt;/li>
+&lt;li>如果系統中會動態產生／取消某些任務（如：偵測到新裝置才開新任務等），就可以使用動態建立的方式，提高系統彈性。&lt;/li>
+&lt;/ol>
+&lt;h2 id="總結">總結
+&lt;/h2>&lt;ul>
+&lt;li>靜態（編譯期）建立執行緒：
+&lt;ul>
+&lt;li>使用 &lt;code>K_THREAD_DEFINE()&lt;/code>&lt;/li>
+&lt;li>簡單、快速、程式架構清晰&lt;/li>
+&lt;li>適用於固定且少數的長期執行緒&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>動態（執行期）建立執行緒：
+&lt;ul>
+&lt;li>使用 &lt;code>k_thread_create()&lt;/code>&lt;/li>
+&lt;li>需要自行管理堆疊、控制區塊等&lt;/li>
+&lt;li>適用於需要彈性創建和銷毀大量或不定數量執行緒的應用場景&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item><item><title>嵌入式系統常用的幾種MCU</title><link>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</link><pubDate>Mon, 21 Aug 2023 19:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</guid><description>&lt;img src="https://i.imgur.com/xEqWwbo.jpg" alt="Featured image of post 嵌入式系統常用的幾種MCU" />&lt;h1 id="嵌入式系統常用的幾種mcu">嵌入式系統常用的幾種MCU
+&lt;/h1>&lt;p>最近在實作嵌入式系統時因為系統需要更強的運算功能，決定捨棄原本常用的Atmega328p，尋找其他32位元MCU開發平台，選擇平台是件大事，每個平台的適用場景跟開發環境都不同，藉此機會來分析一下。&lt;/p>
+&lt;h2 id="atmel系列-如atmega328p">ATMEL系列 (如ATMEGA328P)
+&lt;/h2>&lt;ul>
 &lt;li>Atmega328p是ATMEL公司(美國)生產的8位元AVR架構MCU，常用於Arduino UNO板上&lt;/li>
 &lt;li>優點:容易入門且文檔完整、社群支援完整(Arduino生態系建立的很好)、良好的功耗效率(這點沒實測過但聽說很不錯)&lt;/li>
 &lt;li>缺點:與其他32位元MCU相比，處理能力有限、較少的內置記憶體和RAM、以他的性能來說小貴(35元上下)&lt;/li>
 &lt;li>適用場景: 初學者入門的專案(例如Arduino教學、簡單的嵌入式專案)、低功耗低成本的家用電子裝置&lt;/li>
 &lt;/ul>
-&lt;h2 id="esp系列-如esp32-c3">ESP系列 (如ESP32-C3)&lt;/h2>
-&lt;ul>
+&lt;h2 id="esp系列-如esp32-c3">ESP系列 (如ESP32-C3)
+&lt;/h2>&lt;ul>
 &lt;li>ESP32-C3是Espressif Systems公司(中國)的產品，基於32位元RICS-V或Xtensa架構，自帶WiFi和藍牙功能&lt;/li>
 &lt;li>優點:直接包含WiFi和藍牙不用外接模組所以CP很高(一顆35-50元)、也是很多人在使用社群支援算完整、有內涵SPI flash的版本很方便&lt;/li>
 &lt;li>缺點:較高的功耗(雖然有深度睡眠功能)、系統穩定性聽說不佳&lt;/li>
 &lt;li>適用場景: IoT (物聯網) 需要WiFi或藍牙連接的設備、智慧家電、智慧穿戴裝置、不是很關鍵的東西。&lt;/li>
 &lt;/ul>
-&lt;h2 id="stm系列-如stmf103c8t6">STM系列 (如STMF103C8T6)&lt;/h2>
-&lt;ul>
+&lt;h2 id="stm系列-如stmf103c8t6">STM系列 (如STMF103C8T6)
+&lt;/h2>&lt;ul>
 &lt;li>STMF103C8T6是STMicroelectronics公司(瑞士)的32位元ARM Cortex-M3微控制器&lt;/li>
 &lt;li>優點:運算功能強、具有多種接口、有低功耗模式的版本，具有較高的性價比(範圍大20-60元都有)、有很完整的開發除錯工具、在工業產品中比較常用&lt;/li>
 &lt;li>缺點:開發環境較為複雜、較少的RAM和Flash&lt;/li>
 &lt;li>適用場景: 複雜的嵌入式專案、需要強大的處理能力、工業自動化、無人機、高階的感測器系統&lt;/li>
 &lt;/ul>
-&lt;h2 id="stc系列-如stc89c52">STC系列 (如STC89C52)&lt;/h2>
-&lt;ul>
+&lt;h2 id="stc系列-如stc89c52">STC系列 (如STC89C52)
+&lt;/h2>&lt;ul>
 &lt;li>STC89C52是STC Micro公司(中國)生產的8位元8051微控制器。&lt;/li>
 &lt;li>優點: 8051架構非常的古老、具有廣泛的應用和大量的資料支援、價格超便宜(10-50元)、開發環境算簡單。&lt;/li>
 &lt;li>缺點:超舊的架構，處理能力有限、較少的內存和RAM、可以看作是人弱化版的Atmel系列、但因為功能單純，家電之類的很常用到&lt;/li>
 &lt;li>適用場景: 傳統的嵌入式系統，如家用電器控制、教育用途，學習8051微控制器的原理和程式設計、簡單的LED顯示、鍵盤輸入等基本IO操作&lt;/li>
 &lt;/ul>
-&lt;h2 id="raspberry系列-如rp2040">RASPBERRY系列 (如RP2040)&lt;/h2>
-&lt;ul>
+&lt;h2 id="raspberry系列-如rp2040">RASPBERRY系列 (如RP2040)
+&lt;/h2>&lt;ul>
 &lt;li>RP2040是Raspberry Pi基金會(英國)開發的32位元ARM Cortex-M0+微控制器&lt;/li>
 &lt;li>優點:高效的處理性能、RAM算大、開源資源和社群支援、簡單的開發環境(Micropython)、CP值也很高(35元)&lt;/li>
 &lt;li>缺點: 較新的產品，可能存在與硬體不穩定的問題有些Bug可能還沒有解法&lt;/li>
