@@ -803,7 +803,7 @@ loading="lazy"
 &lt;td>1&lt;/td>
 &lt;td>聯發科&lt;/td>
 &lt;td style="text-align: right">發哥、發弟、M、大M、麥當勞、篤行路麥當勞&lt;/td>
-&lt;td style="text-align: center">分紅多的時候就是發哥，少的時候就變發弟，因為被稱為M，員工自嘲為篤行路麥當勞打工仔。叫大M是因為曾經有小M(晨星)&lt;/td>
+&lt;td style="text-align: center">分紅多的時候就是發哥，少的時候就變發弟，因為被稱為M，員工自嘲為篤行路麥當勞打工仔，去上班謙稱為鏟薯條。叫大M是因為曾經有小M(晨星)&lt;/td>
 &lt;/tr>
 &lt;tr>
 &lt;td>2&lt;/td>
@@ -869,6 +869,12 @@ loading="lazy"
 &lt;td>13&lt;/td>
 &lt;td>華邦電&lt;/td>
 &lt;td style="text-align: right">邦邦&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>14&lt;/td>
+&lt;td>新唐&lt;/td>
+&lt;td>&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;/tbody>
@@ -1205,6 +1211,13 @@ loading="lazy"
 &lt;td>&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
+&lt;tr>
+&lt;td>9&lt;/td>
+&lt;td>NXP(恩智浦)&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
 &lt;/tbody>
 &lt;/table>
 &lt;h3 id="品牌與軟體設計">品牌與軟體設計
@@ -1284,76 +1297,83 @@ loading="lazy"
 &lt;/tr>
 &lt;tr>
 &lt;td>10&lt;/td>
+&lt;td>Airbnb&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>11&lt;/td>
 &lt;td>Salesforce&lt;/td>
 &lt;td>&lt;/td>
 &lt;td style="text-align: right">賣力&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>11&lt;/td>
+&lt;td>12&lt;/td>
 &lt;td>Orcale(甲骨文)&lt;/td>
 &lt;td>&lt;/td>
 &lt;td style="text-align: right">烏龜殼&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>12&lt;/td>
+&lt;td>13&lt;/td>
 &lt;td>Sony(索尼)&lt;/td>
 &lt;td>$ony、大法&lt;/td>
 &lt;td style="text-align: right">&lt;/td>
 &lt;td style="text-align: center">相機技術很厲害，就跟魔法一樣&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>13&lt;/td>
+&lt;td>14&lt;/td>
 &lt;td>Dell(戴爾)&lt;/td>
 &lt;td>呆鵝&lt;/td>
 &lt;td>&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>14&lt;/td>
+&lt;td>15&lt;/td>
 &lt;td>騰訊&lt;/td>
 &lt;td>企鵝&lt;/td>
 &lt;td style="text-align: right">&lt;/td>
 &lt;td style="text-align: center">騰訊的Logo是一隻企鵝&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>15&lt;/td>
+&lt;td>16&lt;/td>
 &lt;td>百度&lt;/td>
 &lt;td>&lt;/td>
 &lt;td style="text-align: right">百毒&lt;/td>
 &lt;td style="text-align: center">中國網友慣稱呼，諧音&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>16&lt;/td>
+&lt;td>17&lt;/td>
 &lt;td>Uber&lt;/td>
 &lt;td>&lt;/td>
 &lt;td style="text-align: right">黑車&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>17&lt;/td>
+&lt;td>18&lt;/td>
 &lt;td>Uber Eats&lt;/td>
 &lt;td>吳柏毅&lt;/td>
 &lt;td>&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>18&lt;/td>
+&lt;td>19&lt;/td>
 &lt;td>Foodpanda&lt;/td>
 &lt;td>熊貓&lt;/td>
 &lt;td>&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>19&lt;/td>
+&lt;td>20&lt;/td>
 &lt;td>Garmin&lt;/td>
 &lt;td>&lt;/td>
 &lt;td>&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>20&lt;/td>
+&lt;td>21&lt;/td>
 &lt;td>Samsung(三星)&lt;/td>
 &lt;td>三爽&lt;/td>
 &lt;td style="text-align: right">&lt;/td>
@@ -1471,7 +1491,7 @@ loading="lazy"
 &lt;tr>
 &lt;td>3&lt;/td>
 &lt;td>Jason Huang(黃仁勳)&lt;/td>
-&lt;td style="text-align: right">老黃、皮衣刀客&lt;/td>
+&lt;td style="text-align: right">老黃、皮衣刀客、AI教父&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;tr>
@@ -1483,7 +1503,13 @@ loading="lazy"
 &lt;tr>
 &lt;td>5&lt;/td>
 &lt;td>Elon Musk&lt;/td>
-&lt;td style="text-align: right">鋼鐵人&lt;/td>
+&lt;td style="text-align: right">鋼鐵人、馬投顧&lt;/td>
+&lt;td style="text-align: center">其言行對加密貨幣很有影響力&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>6&lt;/td>
+&lt;td>Sam Altman&lt;/td>
+&lt;td style="text-align: right">奧特曼&lt;/td>
 &lt;td>&lt;/td>
 &lt;/tr>
 &lt;/tbody>
