@@ -63,7 +63,7 @@ Defines the virtual CPU core type. Cortex-A57 is a common 64-bit ARM core.&lt;/l
 &lt;li>&lt;code>-m 1024:&lt;/code>
 Allocates 1024 MB of memory (i.e., 1 GB) to the virtual machine.&lt;/li>
 &lt;li>&lt;code>-nographic:&lt;/code>
-Disables graphical output and directs all console I/O to the terminal. You’ll see U-Boot’s output in your current console window.&lt;/li>
+Disables graphical output and directs all console I/O to the terminal.&lt;/li>
 &lt;li>&lt;code>-bios u-boot.bin:&lt;/code>
 Instructs QEMU to use the u-boot.bin file as the “BIOS” or firmware image. Essentially, QEMU treats this binary as the initial code that runs at system reset, simulating the environment where U-Boot is the first piece of software to execute.&lt;/li>
 &lt;/ul>
@@ -114,48 +114,48 @@ Instructs QEMU to use the u-boot.bin file as the “BIOS” or firmware image. E
 &lt;/span>&lt;span class="lnt">42
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">U&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">Boot&lt;/span> &lt;span class="mf">2025.04&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">rc1&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">00020&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">g021baf7b08cc&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">Jan&lt;/span> &lt;span class="mi">30&lt;/span> &lt;span class="mi">2025&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">14&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">41&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">56&lt;/span> &lt;span class="o">+&lt;/span>&lt;span class="mi">0000&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">U-Boot 2025.04-rc1-00020-g021baf7b08cc (Jan 30 2025 - 14:41:56 +0000)
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DRAM&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="n">GiB&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Core&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">51&lt;/span> &lt;span class="n">devices&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">14&lt;/span> &lt;span class="n">uclasses&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">devicetree&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">board&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Flash&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">64&lt;/span> &lt;span class="n">MiB&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Loading&lt;/span> &lt;span class="ne">Environment&lt;/span> &lt;span class="n">from&lt;/span> &lt;span class="n">Flash&lt;/span>&lt;span class="o">...&lt;/span> &lt;span class="o">***&lt;/span> &lt;span class="n">Warning&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">bad&lt;/span> &lt;span class="n">CRC&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">using&lt;/span> &lt;span class="n">default&lt;/span> &lt;span class="n">environment&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DRAM: 1 GiB
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Core: 51 devices, 14 uclasses, devicetree: board
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Flash: 64 MiB
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Loading Environment from Flash... *** Warning - bad CRC, using default environment
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">In&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">serial&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">usbkbd&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Out&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">serial&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">vidconsole&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Err&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">serial&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">vidconsole&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">No&lt;/span> &lt;span class="n">USB&lt;/span> &lt;span class="n">controllers&lt;/span> &lt;span class="n">found&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Net&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">eth0&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">virtio&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">net&lt;/span>&lt;span class="c1">#32&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">In: serial,usbkbd
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Out: serial,vidconsole
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Err: serial,vidconsole
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">No USB controllers found
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Net: eth0: virtio-net#32
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">starting&lt;/span> &lt;span class="n">USB&lt;/span>&lt;span class="o">...&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">No&lt;/span> &lt;span class="n">USB&lt;/span> &lt;span class="n">controllers&lt;/span> &lt;span class="n">found&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Hit&lt;/span> &lt;span class="n">any&lt;/span> &lt;span class="n">key&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">stop&lt;/span> &lt;span class="n">autoboot&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Scanning&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">bootflows&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">all&lt;/span> &lt;span class="n">bootdevs&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Seq&lt;/span> &lt;span class="n">Method&lt;/span> &lt;span class="n">State&lt;/span> &lt;span class="n">Uclass&lt;/span> &lt;span class="n">Part&lt;/span> &lt;span class="n">Name&lt;/span> &lt;span class="n">Filename&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">---&lt;/span> &lt;span class="o">-----------&lt;/span> &lt;span class="o">------&lt;/span> &lt;span class="o">--------&lt;/span> &lt;span class="o">----&lt;/span> &lt;span class="o">------------------------&lt;/span> &lt;span class="o">----------------&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Scanning&lt;/span> &lt;span class="n">global&lt;/span> &lt;span class="n">bootmeth&lt;/span> &lt;span class="s1">&amp;#39;efi_mgr&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Cannot&lt;/span> &lt;span class="n">persist&lt;/span> &lt;span class="n">EFI&lt;/span> &lt;span class="n">variables&lt;/span> &lt;span class="n">without&lt;/span> &lt;span class="n">system&lt;/span> &lt;span class="n">partition&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Missing&lt;/span> &lt;span class="n">TPMv2&lt;/span> &lt;span class="n">device&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">EFI_TCG_PROTOCOL&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Missing&lt;/span> &lt;span class="n">RNG&lt;/span> &lt;span class="n">device&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">EFI_RNG_PROTOCOL&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Scanning&lt;/span> &lt;span class="n">bootdev&lt;/span> &lt;span class="s1">&amp;#39;fw-cfg@9020000.bootdev&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">fatal&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">no&lt;/span> &lt;span class="n">kernel&lt;/span> &lt;span class="n">available&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">No&lt;/span> &lt;span class="n">USB&lt;/span> &lt;span class="n">controllers&lt;/span> &lt;span class="n">found&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">scanning&lt;/span> &lt;span class="n">bus&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">devices&lt;/span>&lt;span class="o">...&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Scanning&lt;/span> &lt;span class="n">bootdev&lt;/span> &lt;span class="s1">&amp;#39;virtio-net#32.bootdev&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">BOOTP&lt;/span> &lt;span class="n">broadcast&lt;/span> &lt;span class="mi">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DHCP&lt;/span> &lt;span class="n">client&lt;/span> &lt;span class="n">bound&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">address&lt;/span> &lt;span class="mf">10.0&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mf">2.15&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">13&lt;/span> &lt;span class="n">ms&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">***&lt;/span> &lt;span class="n">Warning&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">no&lt;/span> &lt;span class="n">boot&lt;/span> &lt;span class="n">file&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">using&lt;/span> &lt;span class="s1">&amp;#39;0A00020F.img&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Using&lt;/span> &lt;span class="n">virtio&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">net&lt;/span>&lt;span class="c1">#32 device&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TFTP&lt;/span> &lt;span class="n">from&lt;/span> &lt;span class="n">server&lt;/span> &lt;span class="mf">10.0&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mf">2.2&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">our&lt;/span> &lt;span class="ne">IP&lt;/span> &lt;span class="n">address&lt;/span> &lt;span class="n">is&lt;/span> &lt;span class="mf">10.0&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mf">2.15&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Filename&lt;/span> &lt;span class="s1">&amp;#39;0A00020F.img&amp;#39;&lt;/span>&lt;span class="o">.&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Load&lt;/span> &lt;span class="n">address&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mh">0x40400000&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Loading&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">*&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TFTP&lt;/span> &lt;span class="n">error&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;Access violation&amp;#39;&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Not&lt;/span> &lt;span class="n">retrying&lt;/span>&lt;span class="o">...&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">No&lt;/span> &lt;span class="n">more&lt;/span> &lt;span class="n">bootdevs&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">---&lt;/span> &lt;span class="o">-----------&lt;/span> &lt;span class="o">------&lt;/span> &lt;span class="o">--------&lt;/span> &lt;span class="o">----&lt;/span> &lt;span class="o">------------------------&lt;/span> &lt;span class="o">----------------&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span> &lt;span class="n">bootflows&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="n">valid&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">starting USB...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">No USB controllers found
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Hit any key to stop autoboot: 0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Scanning for bootflows in all bootdevs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Seq Method State Uclass Part Name Filename
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--- ----------- ------ -------- ---- ------------------------ ----------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Scanning global bootmeth &amp;#39;efi_mgr&amp;#39;:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Cannot persist EFI variables without system partition
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Missing TPMv2 device for EFI_TCG_PROTOCOL
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Missing RNG device for EFI_RNG_PROTOCOL
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Scanning bootdev &amp;#39;fw-cfg@9020000.bootdev&amp;#39;:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">fatal: no kernel available
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">No USB controllers found
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">scanning bus for devices...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Scanning bootdev &amp;#39;virtio-net#32.bootdev&amp;#39;:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">BOOTP broadcast 1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DHCP client bound to address 10.0.2.15 (13 ms)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">*** Warning: no boot file name; using &amp;#39;0A00020F.img&amp;#39;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Using virtio-net#32 device
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">TFTP from server 10.0.2.2; our IP address is 10.0.2.15
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Filename &amp;#39;0A00020F.img&amp;#39;.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Load address: 0x40400000
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Loading: *
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">TFTP error: &amp;#39;Access violation&amp;#39; (2)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Not retrying...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">No more bootdevs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--- ----------- ------ -------- ---- ------------------------ ----------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(0 bootflows, 0 valid)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">=&amp;gt;
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div></description></item></channel></rss>
