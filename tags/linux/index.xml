@@ -1,4 +1,164 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/linux/</link><description>Recent content in Linux on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 30 May 2022 14:56:58 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker使用小筆記</title><link>https://www.hugoshih.com/p/docker%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%AD%86%E8%A8%98/</link><pubDate>Mon, 30 May 2022 14:56:58 +0800</pubDate><guid>https://www.hugoshih.com/p/docker%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%AD%86%E8%A8%98/</guid><description>&lt;img src="https://i.imgur.com/5vmDYCZ.jpg" alt="Featured image of post Docker使用小筆記" />&lt;h1 id="docker使用小筆記">Docker使用小筆記
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/linux/</link><description>Recent content in Linux on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 30 Jan 2025 20:56:58 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Build U-boot for QEMU</title><link>https://www.hugoshih.com/p/build-u-boot-for-qemu/</link><pubDate>Thu, 30 Jan 2025 20:56:58 +0800</pubDate><guid>https://www.hugoshih.com/p/build-u-boot-for-qemu/</guid><description>&lt;img src="https://i.imgur.com/mzEAvua.jpg" alt="Featured image of post Build U-boot for QEMU" />&lt;h4 id="install-dependencies">Install Dependencies
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo apt install &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>bc build-essential git libncurses5-dev &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>lzop perl libssl-dev bison flex &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>swig libyaml-dev pkg-config python3-dev
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="clone-u-boot-source">Clone U-boot Source
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git clone https://github.com/u-boot/u-boot.git
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> u-boot
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">make distclean
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">make qemu_arm64_defconfig &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> make -j8
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;code>make distclean&lt;/code>
+This cleans the repository by removing any previous build artifacts, generated configuration files, or object files. It ensures you have a completely fresh start, especially useful if you built U-Boot for a different target earlier.&lt;/li>
+&lt;li>&lt;code>make qemu_arm64_defconfig&lt;/code>
+This sets the default configuration for building U-Boot specifically for a QEMU ARM64 (AArch64) virtual environment. Defconfigs are baseline config files that initialize a bunch of standard options for a given architecture or board in U-Boot.&lt;/li>
+&lt;li>&lt;code>make -j8&lt;/code>
+Builds U-Boot with 8 parallel jobs, leveraging multiple cores to speed up compilation. The output of this step will typically produce u-boot.bin and other binaries needed to run U-Boot (like u-boot.elf or u-boot.map).&lt;/li>
+&lt;/ul>
+&lt;h4 id="run-u-boot-with-qemu">Run U-boot with QEMU
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">qemu-system-aarch64 &lt;span class="se">\ &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-M virt &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>-cpu cortex-a57 &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>-m &lt;span class="m">1024&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>-nographic &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>-bios u-boot.bin
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;code>-M virt:&lt;/code>
+Specifies the QEMU “virt” machine model, a generic machine typically used for virtualizing ARM systems.&lt;/li>
+&lt;li>&lt;code>-cpu cortex-a57:&lt;/code>
+Defines the virtual CPU core type. Cortex-A57 is a common 64-bit ARM core.&lt;/li>
+&lt;li>&lt;code>-m 1024:&lt;/code>
+Allocates 1024 MB of memory (i.e., 1 GB) to the virtual machine.&lt;/li>
+&lt;li>&lt;code>-nographic:&lt;/code>
+Disables graphical output and directs all console I/O to the terminal. You’ll see U-Boot’s output in your current console window.&lt;/li>
+&lt;li>&lt;code>-bios u-boot.bin:&lt;/code>
+Instructs QEMU to use the u-boot.bin file as the “BIOS” or firmware image. Essentially, QEMU treats this binary as the initial code that runs at system reset, simulating the environment where U-Boot is the first piece of software to execute.&lt;/li>
+&lt;/ul>
+&lt;h4 id="output">Output
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">U&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">Boot&lt;/span> &lt;span class="mf">2025.04&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">rc1&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">00020&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">g021baf7b08cc&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">Jan&lt;/span> &lt;span class="mi">30&lt;/span> &lt;span class="mi">2025&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">14&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">41&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">56&lt;/span> &lt;span class="o">+&lt;/span>&lt;span class="mi">0000&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DRAM&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="n">GiB&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Core&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">51&lt;/span> &lt;span class="n">devices&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">14&lt;/span> &lt;span class="n">uclasses&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">devicetree&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">board&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Flash&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">64&lt;/span> &lt;span class="n">MiB&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Loading&lt;/span> &lt;span class="ne">Environment&lt;/span> &lt;span class="n">from&lt;/span> &lt;span class="n">Flash&lt;/span>&lt;span class="o">...&lt;/span> &lt;span class="o">***&lt;/span> &lt;span class="n">Warning&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">bad&lt;/span> &lt;span class="n">CRC&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">using&lt;/span> &lt;span class="n">default&lt;/span> &lt;span class="n">environment&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">In&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">serial&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">usbkbd&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Out&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">serial&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">vidconsole&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Err&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">serial&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">vidconsole&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">No&lt;/span> &lt;span class="n">USB&lt;/span> &lt;span class="n">controllers&lt;/span> &lt;span class="n">found&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Net&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">eth0&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">virtio&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">net&lt;/span>&lt;span class="c1">#32&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">starting&lt;/span> &lt;span class="n">USB&lt;/span>&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">No&lt;/span> &lt;span class="n">USB&lt;/span> &lt;span class="n">controllers&lt;/span> &lt;span class="n">found&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Hit&lt;/span> &lt;span class="n">any&lt;/span> &lt;span class="n">key&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">stop&lt;/span> &lt;span class="n">autoboot&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Scanning&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">bootflows&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">all&lt;/span> &lt;span class="n">bootdevs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Seq&lt;/span> &lt;span class="n">Method&lt;/span> &lt;span class="n">State&lt;/span> &lt;span class="n">Uclass&lt;/span> &lt;span class="n">Part&lt;/span> &lt;span class="n">Name&lt;/span> &lt;span class="n">Filename&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">---&lt;/span> &lt;span class="o">-----------&lt;/span> &lt;span class="o">------&lt;/span> &lt;span class="o">--------&lt;/span> &lt;span class="o">----&lt;/span> &lt;span class="o">------------------------&lt;/span> &lt;span class="o">----------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Scanning&lt;/span> &lt;span class="n">global&lt;/span> &lt;span class="n">bootmeth&lt;/span> &lt;span class="s1">&amp;#39;efi_mgr&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Cannot&lt;/span> &lt;span class="n">persist&lt;/span> &lt;span class="n">EFI&lt;/span> &lt;span class="n">variables&lt;/span> &lt;span class="n">without&lt;/span> &lt;span class="n">system&lt;/span> &lt;span class="n">partition&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Missing&lt;/span> &lt;span class="n">TPMv2&lt;/span> &lt;span class="n">device&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">EFI_TCG_PROTOCOL&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Missing&lt;/span> &lt;span class="n">RNG&lt;/span> &lt;span class="n">device&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">EFI_RNG_PROTOCOL&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Scanning&lt;/span> &lt;span class="n">bootdev&lt;/span> &lt;span class="s1">&amp;#39;fw-cfg@9020000.bootdev&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">fatal&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">no&lt;/span> &lt;span class="n">kernel&lt;/span> &lt;span class="n">available&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">No&lt;/span> &lt;span class="n">USB&lt;/span> &lt;span class="n">controllers&lt;/span> &lt;span class="n">found&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">scanning&lt;/span> &lt;span class="n">bus&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">devices&lt;/span>&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Scanning&lt;/span> &lt;span class="n">bootdev&lt;/span> &lt;span class="s1">&amp;#39;virtio-net#32.bootdev&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">BOOTP&lt;/span> &lt;span class="n">broadcast&lt;/span> &lt;span class="mi">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DHCP&lt;/span> &lt;span class="n">client&lt;/span> &lt;span class="n">bound&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">address&lt;/span> &lt;span class="mf">10.0&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mf">2.15&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">13&lt;/span> &lt;span class="n">ms&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">***&lt;/span> &lt;span class="n">Warning&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">no&lt;/span> &lt;span class="n">boot&lt;/span> &lt;span class="n">file&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">using&lt;/span> &lt;span class="s1">&amp;#39;0A00020F.img&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Using&lt;/span> &lt;span class="n">virtio&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">net&lt;/span>&lt;span class="c1">#32 device&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TFTP&lt;/span> &lt;span class="n">from&lt;/span> &lt;span class="n">server&lt;/span> &lt;span class="mf">10.0&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mf">2.2&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">our&lt;/span> &lt;span class="ne">IP&lt;/span> &lt;span class="n">address&lt;/span> &lt;span class="n">is&lt;/span> &lt;span class="mf">10.0&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mf">2.15&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Filename&lt;/span> &lt;span class="s1">&amp;#39;0A00020F.img&amp;#39;&lt;/span>&lt;span class="o">.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Load&lt;/span> &lt;span class="n">address&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mh">0x40400000&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Loading&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">*&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TFTP&lt;/span> &lt;span class="n">error&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;Access violation&amp;#39;&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Not&lt;/span> &lt;span class="n">retrying&lt;/span>&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">No&lt;/span> &lt;span class="n">more&lt;/span> &lt;span class="n">bootdevs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">---&lt;/span> &lt;span class="o">-----------&lt;/span> &lt;span class="o">------&lt;/span> &lt;span class="o">--------&lt;/span> &lt;span class="o">----&lt;/span> &lt;span class="o">------------------------&lt;/span> &lt;span class="o">----------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span> &lt;span class="n">bootflows&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="n">valid&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>Docker使用小筆記</title><link>https://www.hugoshih.com/p/docker%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%AD%86%E8%A8%98/</link><pubDate>Mon, 30 May 2022 14:56:58 +0800</pubDate><guid>https://www.hugoshih.com/p/docker%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%AD%86%E8%A8%98/</guid><description>&lt;img src="https://i.imgur.com/5vmDYCZ.jpg" alt="Featured image of post Docker使用小筆記" />&lt;h1 id="docker使用小筆記">Docker使用小筆記
 &lt;/h1>&lt;h2 id="前言">前言
 &lt;/h2>&lt;p>Docker可以說是雲端技術中非常重要的一項專案，這個專案實現了Container技術，使得軟體的執行可以不在受系統環境限制，更加速了雲端技術中Microservice概念的發展，以下就簡單介紹常用的Docker指令。&lt;/p>
 &lt;h2 id="基本操作">基本操作
