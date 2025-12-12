@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Google on 施星宇</title><link>https://www.hugoshih.com/zh-cn/tags/google/</link><description>Recent content in Google on 施星宇</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 07 Jul 2023 12:00:18 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/zh-cn/tags/google/index.xml" rel="self" type="application/rss+xml"/><item><title>2023 Google Technical Program Manager 面試經驗</title><link>https://www.hugoshih.com/zh-cn/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager 面試經驗" /&gt;&lt;h1 id="google-technical-program-manager-面試經驗"&gt;Google Technical Program Manager 面試經驗
+&lt;/h1&gt;&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;一直有許多Google SWE的面試經驗分享，然而Technical Program Manager(TPM)的面試經驗則幾乎沒有，其實不光是Dcard國外各大網站TPM的面試經驗分享也很少，因此來分享一下，雖然沒有拿到Offer，但有面到最後，經驗應該可以參考一下。&lt;/p&gt;
+&lt;p&gt;過去學經歷是112電資相關學碩，今年當完兵之後在比Google略大一點的公司當TPM。以前就有想進去Google，去年也投了Google SWE的面試，面完過HC等Team match時就遇到Hiring Freeze，詳細經歷可以參考：&lt;a class="link" href="https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/" target="_blank" rel="noopener"
+&gt;Google SWE 面試心路歷程&lt;/a&gt;，直到今年景氣變好才又開始Fit talk，結果連match了三個team都沒中，心灰意冷之際就收到另一個HR寄來TPM的面試邀請，抱著打聽情報的心態就跟HR排了個1:1，其實本來是對Google TPM缺沒什麼興趣，但在會議中被HR一波洗腦後，抱著那就試試的心態就接下面試邀請了。&lt;/p&gt;
+&lt;h2 id="時間"&gt;時間
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;5/12 - 收到HR的TPM面試邀請&lt;/li&gt;
+&lt;li&gt;5/23 - 跟HR約1:1了解職缺&lt;/li&gt;
+&lt;li&gt;6/13 - VO:Technical Judgement*2&lt;/li&gt;
+&lt;li&gt;6/20 - VO:PgM + GCA&lt;/li&gt;
+&lt;li&gt;6/30 - 跟HR1:1通知面試結果: not move forward&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="面試"&gt;面試
+&lt;/h2&gt;&lt;p&gt;Google TPM的VO面試總共有五關，每關45分鐘:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;兩關的Technical Judgement面試&lt;/li&gt;
+&lt;li&gt;一關Program Management related(PgM)面試&lt;/li&gt;
+&lt;li&gt;一關General Cognitive Ability(GCA)面試&lt;/li&gt;
+&lt;li&gt;一關Googleyness面試&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可能因為之前已經面過Googleyness，所以這關就直接跳過了，實際上只面了四關，考慮到我技術能力可能比PM能力好一點，HR先幫我排了兩場Technical Judgement面試，結果不錯的話再排PgM和GCA，後來也證明這是正確的策略。&lt;/p&gt;
+&lt;p&gt;根據網路上的情報跟HR提供的文件，我認為Technical Judgement面試可能像是技術面試，可能會問Codeing，也可能會問System design，為此還翻出leetcode刷了幾題暖身；PgM可能會問跟經驗相關的問題；GCA則可能問解決問題的邏輯，但這部分當下也想不到有什麼準備方向，所以我只把HR給的參考資料看完，再多回想幾個小故事，由於實在想不到要怎麼準備，我也想辦法跟HR要些Hint，不過HR看起來已經給我全部能給的東西了，那就硬著頭皮上吧，學習嘛&amp;hellip;。&lt;/p&gt;
+&lt;p&gt;順帶一提，TPM的面試是全英文的，四關差不多兩小時都在不停的說英文，這樣的要求也是可以理解，在Google這種公司Cross-function的溝通是極度仰賴英文的，這點也跟SWE面試很不一樣，SWE只有兩關英文，而且不會一直講話。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Technical Judgement
+老實說聽到第一個問題時就開始懷疑人生了，我原本已經擺好寫Code的姿勢了，結果第一個問題是：「你最成功的專案什麼？」(詳細題目記不得了，反正是類似這的問題)，是那種我以為應該在PgM或GCA面試會問的問題，還好之前已經準備了不少小故事，姿勢一換搬出從大學、研究所到工作時做的還算有技術深度的案子，講解要解決的問題、我在團隊扮演的腳色、技術的選擇、克服的問題等，過程有來有回，面試官聽也還算滿意，不過一連的幾個問題也都是差不多這種類型，讓我有種我是不是走錯棚的錯覺，結束時還問了一下：「請問這個是Technical Judgement Interview嘛？」面試官愣了一下回：「是阿」，「Ok&amp;hellip;」瞬間好像懂了甚麼又覺得甚麼都不懂，第二場Technical Judgement也是差不多的情況，總之自認表現還行，後來HR的feedback也是說Positive。&lt;/li&gt;
+&lt;li&gt;Program Management Related Knowledge(PgM)
+有鑒於Technical Judgement面試問題實在出乎意料，因此再次問HR有關PgM面試的細節，HR還是回說他給的文件已經有資訊了，那就只能自行腦補了，既然名字叫Program Management那應該就是問PM相關能力吧，那應該多往PM的腳色去回答就行，果然不其然，面試的題目跟Technical Judgement幾乎一樣，而我就搬出之前做專案時怎麼定Scope、怎麼寫Spec、怎麼drive project、怎麼溝通協調，面試官看起來還算滿意我的回答，結束面試前小聊了一下這個position的情報，面試官覺得跟我目前的經驗差距頗大，不過還是祝我Good luck。&lt;/li&gt;
+&lt;li&gt;General Cognitive Ability(GCA)
+到了GCA，我是真的想不到要怎麼準備了，如果是問解決問題的邏輯好像也很難準備。果然這關又問了跟前三關差不多的問題，然後我先從執行面去回答，但感覺面試官不太滿意，因此我又換一條路從技術面切入回答，面試官還是不太滿意，並建議我應該先從更High level的架構回答，因此我再給出了一個這方向的答案，不過沒有想得很透徹，應該是Bug滿滿，自己覺得答的超級爛，有感自己答的很爛，結束前後臉皮的跟面試官請教了一回，他也人很好跟我解釋了每一個問題的回答重點，大方向的概念是要先想出一個解決問題的框架，再將這個框架套入回答問題的框架去依序回答才有辦法打到得分點。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="結果"&gt;結果
+&lt;/h2&gt;&lt;p&gt;後來再跟HR約了一次1:1，結果跟想像的差不多，前面表現都還不錯，主要掛在GCA，沒辦法再move forward，只能回去等還有沒有team match的機會了。&lt;/p&gt;
+&lt;p&gt;後來想了一下這次的面試確實有很多可以改進的點，除了現在真的菜，能講的經驗還太少外，就是對TPM面試回答的框架還不夠熟，這邊指的框架像是:
+面對PgM的問題可以依序從以下幾點下手:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;專案範疇與組織&lt;/li&gt;
+&lt;li&gt;專案執行&lt;/li&gt;
+&lt;li&gt;溝通與影響力&lt;/li&gt;
+&lt;li&gt;釐清模糊不清的情況&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;面對GCA的問題可以依序從以下幾點下手:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;理解問題&lt;/li&gt;
+&lt;li&gt;蒐集資訊&lt;/li&gt;
+&lt;li&gt;找出解決方案&lt;/li&gt;
+&lt;li&gt;支持解決方案的證據&lt;/li&gt;
+&lt;li&gt;良好的溝通&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下次要再嘗試Google TPM的面試時，應該要多花點時間打磨手上的案例，想辦法塞進這些框架組織，然後熟練使用這些框架回答問題，某種程度上也算是刷題吧。&lt;/p&gt;
+&lt;h2 id="結語"&gt;結語
+&lt;/h2&gt;&lt;p&gt;個人覺得TPM的面試比SWE面試還要難而且複雜，即便如此Google似乎很想找有EECS背景且有PM能力的人進去當TPM，只是這類人不多又或者沒興趣所以一直找不到人，如果有相關背景的人有興趣可以去嘗試看看。&lt;/p&gt;
+&lt;p&gt;如果有看完這篇對你有幫助，就順便祝福我早日拿到Google Offer啦。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/C8prC95.jpg"
+loading="lazy"
+alt="image alt"
+&gt;
+附一張今年去101蹭飯的照片，好想進Google呀。&lt;/p&gt;</description></item><item><title>Google Taiwan Hiring Event Recording</title><link>https://www.hugoshih.com/zh-cn/p/google-taiwan-hiring-event-recording/</link><pubDate>Wed, 26 Apr 2023 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/google-taiwan-hiring-event-recording/</guid><description>&lt;img src="https://i.imgur.com/1QtpCke.jpg" alt="Featured image of post Google Taiwan Hiring Event Recording" /&gt;&lt;h2 id="google-taiwan-campus-talk-2023-線上直播校園徵才說明會"&gt;Google Taiwan Campus Talk, 2023 線上直播校園徵才說明會
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/11/11&lt;/li&gt;
+&lt;li&gt;Title: Google Taiwan Campus Talk, 2023 校園徵才說明會&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;主題&lt;/th&gt;
+&lt;th&gt;講者&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Welcome &amp;amp; Google Culture&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Hear more from the Googlers&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fireside Chat with all the&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/1USuLq2RKLE"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="made-by-google-behind-the-scenes-livestream"&gt;Made by Google: Behind the Scenes Livestream
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/11/5&lt;/li&gt;
+&lt;li&gt;Title: Taiwan Made by Google: Behind the Scenes 2022&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;主題&lt;/th&gt;
+&lt;th&gt;講者&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Next-gen Google Tensor processor&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fireside Chat : Pixel Camera&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Live Q&amp;amp;A and Latest Opportunities @Google Taiwan&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/w--KJFHJMq8"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="google-台灣-platforms-團隊介紹徵才說明會"&gt;Google 台灣 Platforms 團隊介紹＆徵才說明會
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/07/08&lt;/li&gt;
+&lt;li&gt;Title: 2022 Google Taiwan Platforms Team Face to Face&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;主題&lt;/th&gt;
+&lt;th&gt;講者&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Google Taiwan Platforms Team at a glance&lt;/td&gt;
+&lt;td&gt;Director Platforms HW Test/Quality &amp;amp; Eng Labs&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Software &amp;amp; Hardware Engineers in Google Taiwan Platforms Team&lt;/td&gt;
+&lt;td&gt;Hardware &amp;amp; Software Managers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Google Hiring Process &amp;amp; Tips&lt;/td&gt;
+&lt;td&gt;Recruiter&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;All You Want to Know - Q&amp;amp;A &amp;amp; See You at Google!&lt;/td&gt;
+&lt;td&gt;All Speakers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/OvL1daxDcE0"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="google-台灣軟體開發及測試團隊分享招募說明會"&gt;Google 台灣軟體開發及測試團隊分享＆招募說明會
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/05/18&lt;/li&gt;
+&lt;li&gt;Title: Google 台灣軟體開發及測試團隊分享＆招募說明會&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;主題&lt;/th&gt;
+&lt;th&gt;講者&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;解密Google 台灣軟體開發團隊&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Googler 分享 - Engineering Manager\Test Engineer\Tech Lead 及 Software Engineer&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Google 招募流程&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Q&amp;amp;A 時間&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/vE_ynVP1hUw"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="google-台灣-silicon--cpu-團隊面對面"&gt;Google 台灣 Silicon &amp;amp; CPU 團隊面對面
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/04/29&lt;/li&gt;
+&lt;li&gt;Title: 2022 Google Taiwan Silicon &amp;amp; CPU Face to Face&lt;/li&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/tWEQ9NLJDI4"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="campus-talk-校園徵才線上說明會"&gt;Campus Talk 校園徵才線上說明會
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2021/11/18&lt;/li&gt;
+&lt;li&gt;Title: 2022 Google Taiwan Tech Campus Talk YouTube Livestream&lt;/li&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/_hD89kSALA0"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="lifegoogle台灣硬體工程師篇"&gt;Life@Google台灣硬體工程師篇
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2019/07/19&lt;/li&gt;
+&lt;li&gt;Title: Life@Google台灣硬體工程師篇&lt;/li&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/JGx0XlEvuwk"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;</description></item><item><title>2022 Google Taiwan SWE 面試心路歷程</title><link>https://www.hugoshih.com/zh-cn/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/</link><pubDate>Mon, 05 Dec 2022 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/</guid><description>&lt;img src="https://i.imgur.com/N6UT0BQ.jpg" alt="Featured image of post 2022 Google Taiwan SWE 面試心路歷程" /&gt;&lt;h1 id="一個普通人的google面試經驗"&gt;一個普通人的Google面試經驗
+&lt;/h1&gt;&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;大學時期正處AI技術火熱發展的幾年，也因此經常有媒體報導AI技術領頭的Google的工作環境，像遊樂場一般的辦公室、吃不完的零食和飲料、五星級的免費三餐、領著百萬年薪上班還可以想睡覺就睡覺，其內部夢幻的刷新我對一份工作的三觀，從那時起對這間公司逐漸產生好奇，儘管好奇，我卻一直抱持著觀望的心態，如此夢幻的企業收人的標準想當然也是異常的高，傳言中只收台大電資的書卷大神或是競賽選手，望向我那慘慘的在校成績，完全不敢想像要如何才能拿到進入Google的門票。&lt;/p&gt;
+&lt;p&gt;大四那年系上開了企業參訪，地點就是朝思暮想的Google，當下毫不猶豫就報名了，就此開啟了與Google的第一次相遇的緣分，那時候板橋的總部還沒有成立，我們參觀的是位於101的總部，隨著前往76樓的電梯快速上升，興奮的心情難以壓抑，電梯們打開的剎那，迎接我的是我朝思暮想的夢幻國度，原來新聞裡講的都是真的，免費的冰、免費的飲料、免費的五星級三餐，搭配著76樓的高空美景，真有種去度假的感覺，遊樂器材、打盹房也是真的，完全體現了Google對員工的信任，在與帶領我們的員工交流後了解到Google對員工管理的自由，不僅僅是工時上的自由，工作項目上員工也有相當大的主導權，員工甚至可以自行組建小組發起專案，就這樣在震撼中結束了與Google的第一次邂逅，從那之後進入Google成了我的夢想，我深知自己的不足，只能一步步的朝那裡邁進。
+&lt;img src="https://i.imgur.com/me7lhlC.jpg"
+loading="lazy"
+&gt;
+&lt;img src="https://i.imgur.com/N6UT0BQ.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;大四的暑假有了一次前往美國舊金山的機會，趁著這個機會再次造訪心中的夢想之地，位在山景城的Google總部，不過這次比較可惜沒有人脈可以帶我進去參觀參觀，只能當個觀光客在園區閒晃，雖然說只能從外部看，也能感受到整間公司以Have Fun為中心思想的氛圍，隨處可見的腳踏車、沙灘排球場、還有各式各樣的野餐區域簡直就是個大型的度假中心，後來也去了園區附近的紀念品中心買了不少伴手禮回來，朝聖之旅讓我感受的這間公司迷人的活力與矽谷這個科技業的傳奇之地的魅力，這裡的創造力與帶給世界的改變，我心想未來的某一天，我也希望能來到這裡工作。
+&lt;img src="https://i.imgur.com/d6fIhVp.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;回台灣之後進入了研究所就讀，原本就對自己的技術能力不太抱有信心，進入研究所後被各路大神強者環繞，更是讓我深切的感受到想要進入Google還有很長的路要走，在技術能力與研究能力上必須要有更上一層的累積，抱持著這個心態，在被研究進度追趕之餘也儘可能的參與各式各樣的side project、hackathon，也參與了幾個新創專案累積了一些參與新創的經驗，在跌跌撞撞之中夾雜著過人的運氣，在研究所的最後一年極度幸運的拿到了微軟的實習機會，開啟了一年的實習與研究所兩邊跑的生活，儘管這個老牌的軟體公司在Google、Facebook這些當紅的網路公司略顯遜色，但作為老牌卻長青的科技巨頭，仍提供了我不少的成長養分，開發技術能力的提升、專案管理能力的培養，也讓我得以窺見在科技公司中的生活模式。&lt;/p&gt;
+&lt;p&gt;2021年板橋的Google成立，將會是亞洲最大的硬體研發中心，能預期的是Google在台灣將會有大規模的人才招募活動，進入Google的難度也會較以往稍微容易，我深知想要進入Google這是個非常好的機會，在2021年底我在Linkedin上第一次收到來自Google HR的面試邀約，在與HR面談後了解到這是屬於Google Silicon的Hardware Engineer職缺，招募台灣電機背景或是有硬體開發經驗的工程師，只可惜我完全沒有學過硬體設計，對於verilog是一竅不通，面談後就完全沒有後續消息了&amp;hellip;&lt;/p&gt;
+&lt;p&gt;2022年初聽聞有個學弟進入Google，我厚著臉皮請他幫忙推薦並投了2022年度的Software Engineer校園招募，這一次我總算沒有被拒於門外，順利的拿到了第一次面試的機會，就這樣開始了魔王級的面試挑戰之旅。&lt;/p&gt;
+&lt;h2 id="背景"&gt;背景
+&lt;/h2&gt;&lt;p&gt;112資管系雙主修森林系學士+112電信所碩士，沒有參加過程式競賽，也沒有貢獻過開源專案，只有和幾個朋友做過Side Project和Hackathon，大二修程式設計時因為花太多時間在社團而被當掉，大三重修A+過，資結演算法只能說是普通水準。&lt;/p&gt;
+&lt;h2 id="準備"&gt;準備
+&lt;/h2&gt;&lt;p&gt;差不多從2021年12月左右開始刷題，中間有一段時間在趕研究進度跟過年荒廢了一段時間，過完年後為了要強迫自己刷題買了一年份的Leetcode Premium，現在看起來是很不錯的投資，另外我也有買很多人推薦的&lt;a class="link" href="https://www.books.com.tw/products/0010881287?gclid=CjwKCAjws8yUBhA1EiwAi_tpEc7PyWvICvGCthzmnsrYVvP4OFhBHxPSQ-XjgJoZy5Ampx9c_pKHlxoC-NUQAvD_BwE" target="_blank" rel="noopener"
+&gt;Cracking the coding interview&lt;/a&gt;不過只有看一兩個不太熟的章節而已，刷題的策略前期我自己是從動態規劃開始練習，那時候是看花花醬的&lt;a class="link" href="https://www.youtube.com/watch?v=LG0adDNnnYg&amp;amp;list=PLLuMmzMTgVK6krji67w8tEAAud71nQQFe" target="_blank" rel="noopener"
+&gt;動態規劃終極學習方案&lt;/a&gt;系列影片累積思考動態規劃問題的技巧，差不多二月開始開始以寫完Leetcode前100題為目標，首先從Easy開始，然後是Medium，三月時開始以寫完&lt;a class="link" href="https://leetcode.com/discuss/general-discussion/460599/blind-75-leetcode-questions" target="_blank" rel="noopener"
+&gt;Blind 75&lt;/a&gt;為目標，刷完一遍Blind 75後在去看前100題中的Hard題，最後在Onsite前一週努力刷Google面試的高頻率題，不得不說Leetcode Premium都將高頻題整理好了真的蠻方便的(而且真的蠻有用的XD)，這段期間每天會固定上去寫Daily，算是強迫自己每天維持解題手感，刷的題目數量，在Phone Interview前差不多150題左右，在Onsite之前差不多230題左右，相對於各路大神來說應該不算多，不過對我自己而言還算夠，各方面的題型都算是有顧到，自己的感覺是都能夠穩定的解出Medium，Hard則是可以想出可行解。比較可惜的是這段時間沒有找朋友幫忙Mock interview，面試經驗的累積是靠實戰累積，在這之前還面了Amazon、Nvidia。
+因為Google的Technical Interview至少會有兩關以上的全英文面試，英文也是很重要的一部分，雖然不用到Native specker那樣流利，但至少邏輯要能正確傳達，我英文的部分主要就仰賴實習的時候累積下來的，抱括日常聊天用語與解釋技術的能力，很感謝在這段時間願意跟我交流和我練習英文的人。
+&lt;img src="https://i.imgur.com/9Pq3Dv9.png"
+loading="lazy"
+&gt;
+這一段時間的刷題紀錄&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/svYL759.png"
+loading="lazy"
+&gt;
+刷題的三圍&lt;/p&gt;
+&lt;h2 id="時辰"&gt;時辰
+&lt;/h2&gt;&lt;p&gt;2022/01/20 -&amp;gt; 收到朋友的內推通知信，官網投遞履歷，投的是Software Engineer, University Graduate, 2022
+2022/03/07 -&amp;gt; 收到HR來信通知安排面試
+2022/03/28 -&amp;gt; Phone Interview
+2022/04/07 -&amp;gt; 通知通過Phone Interview，準備安排Virtual Onsite Interview
+2022/04/25 -&amp;gt; 第一天Virtual Onsite Interview，兩關Technical Interview + 一關Behavior Interview
+2022/04/26 -&amp;gt; 第二天Virtual Onsite Interview，兩關Technical Interview
+2022/05/07 -&amp;gt; 通知面試結果most on positive
+2022/05/26 -&amp;gt; 得知Hiring政策可能會異動&lt;/p&gt;
+&lt;h2 id="過程"&gt;過程
+&lt;/h2&gt;&lt;p&gt;要說面試有什麼最需要注意的，我會覺得是要保持平常心，這也是我認爲面試最困難的部分，畢竟在跟自己的夢想公司面試，興奮、期待、緊張等情緒交雜，很難保持平常心，在第一次Phone Interview時我甚至前兩天晚上都緊張到睡不著，能做的就是去Youtube上找各種國外講軟體工程師面試的影片來看，提醒自己面試該注意的點，英文類的也順便可以練習英文聽力，以下推薦幾個不錯的影片：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=4tbQhdrpB9s" target="_blank" rel="noopener"
+&gt;面試流程大解析&lt;/a&gt;，用SOP的方式講解軟體工程師面試，淺顯易懂&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=4yznKC5ZE5I&amp;amp;t=129s" target="_blank" rel="noopener"
+&gt;Google谷歌技术面试经验分享&lt;/a&gt;，這個講解面試的過程與注意事項講的很仔細，很有參考價值&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=ASXM4-CQG8o" target="_blank" rel="noopener"
+&gt;How to tech interview Like a Pro&lt;/a&gt;，這個用搞笑的方式呈現程式面試的過程，蠻有趣的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="phone-interview"&gt;Phone Interview
+&lt;/h3&gt;&lt;p&gt;我差不多在預定時間的前十分鐘就坐在電腦前等，不過在預定時間點進去時面試官還沒上來，讓我緊張了一下以爲是不是記錯時間，等了差不多十分鐘後面試官終於來了，很抱歉的表示因為前面有一個會有一點耽擱到。面試官其實是一個親切的中國的小姊姊，一開始問了一個類似字串比對的問題，差不多是Easy等級，基本上一看到題目想到解法了，陳述了解法後面試官也同意這個解法，就花了10分鐘左右完成這題的coding，接著他表示有Follow up，比較像是會重複使用到第一題的概念屬於Medium等級，在思考這題的時候我原本以為只需要重複使用第一題的解法就行，結果發現我第一題使用的解法並非最佳解，到這邊其實有一點慌了，還好小姊姊人很好，不斷引導我去思考更好的解法，最終想出一個更佳的解法並花了幾分鐘實現，面試結束前小姊姊表示其實還有更好的解法，因此又花了幾分鐘請教一下，不過他表示這個解法他自己也沒有想到。
+個人評價，整體來說面試表現還行，解題並不是很流暢，中間卡了一下，但算是有解出來，所以也不到差。
+後來是通過了這一輪面試。&lt;/p&gt;
+&lt;h3 id="onsite-interview"&gt;Onsite Interview
+&lt;/h3&gt;&lt;h4 id="technical-interview-1"&gt;Technical Interview #1
+&lt;/h4&gt;&lt;p&gt;這一關是一個人很不錯的中國的大叔，也沒有遲到，問了一題排序的變化題，一開始以為是Easy，但實際解下去後發現有Medium難度，完全錯估了這題的深奧程度，最一開始提了一個可行解，但面試官希望我提出最佳解，就這樣在這討論解法的30min中我至少提出了五六種解法，並分析在輸入範圍不同的情況下複雜度的差異，但我都沒有提出最佳解，後來在面試官的提示下想出了最佳解，但時間基本上已經用完了，我只能快速的將想法實作出來，後來想想自己實作的演算法是有Bug的，還好面試官人很好，並沒有很急著要結束面試，反而盡可能多留一些時間讓我完成面試，最後面試官回應我認為這是個很有趣的討論，認爲我提出了許多有趣的想法。
+有了Phone Interview的經驗後，並沒有讓我比較不緊張，反而一直很擔心面試官一上來就會來一題Hard，就面試情形而言自己覺得表現是比較糟糕的。&lt;/p&gt;
+&lt;h4 id="technical-interview-2"&gt;Technical Interview #2
+&lt;/h4&gt;&lt;p&gt;這一關是一個懶得說話的小哥，問了一個類似尋找子字串的問題，他先請我思考一個brute force solution我基本上看完題目就有想法直接給出了解法，他聽完後也覺得可以因此就請我實作，我差不多花十分鐘實作完成並解釋了一下時間複雜度，接著希望我提出最佳解，對於最佳解自己其實沒什麼把握，只感覺字串應該可以用prefix tree來處理，因此提出了自己想法，沒想到他回應這是正確的思路，因此接續的想就給出了最佳解，還算順利的完成這一關，難度大概是Medium。
+在第一關爆掉之後這關心情反而輕鬆許多，有一點隨他去的感覺，大概是因為心情放鬆不少，反而思緒比較清楚，果然緊張才是大魔王。&lt;/p&gt;
+&lt;h4 id="behavior-interview"&gt;Behavior Interview
+&lt;/h4&gt;&lt;p&gt;這一關是一個中國的姊姊面試，首先問了一些蠻常見的Behavior question像是團隊的合作以及如何溝通，詳細題目網路上有蠻詳細的資訊，比較特別的是面試官問了一題有點類似產品設計的題目，因為事前完全沒有預料到，只能憑想像回答，但感覺面試官似乎沒有很滿意，面試最後有給個feedback認為我回答的沒有很深入，但他覺得我可能缺少工作經驗，因此回答的不深入也算預料之內。
+整體來說回答的算尚可，至少都有給出個穩健中庸的答案。&lt;/p&gt;
+&lt;h4 id="technical-interview-3"&gt;Technical Interview #3
+&lt;/h4&gt;&lt;p&gt;第三關開始就變成了用英文面試，面試官還是中國小哥，不得不說跟同樣母語是中文的人用英文溝通難度真的低很多，可能是因為背後的思考還卡在中文的框架下。
+面試官問了一個tree traverse然後output路徑的題目，高度相似於leetcode上某題Google高頻題，剛好前幾天刷題有寫到，幾乎是秒想出最佳解，當然看到原題還是很興奮的，大概花了15分鐘講解完以及寫完code之後面試官給了我一個follow up，表面上是上面這題的延伸，但實際上已經轉換成BFS尋找兩點最短路徑的題目，還算是有趣的Follow up，這個變化在leetcode上就找不到了，這題同樣也是medium難度。&lt;/p&gt;
+&lt;h4 id="technical-interview-4"&gt;Technical Interview #4
+&lt;/h4&gt;&lt;p&gt;第四關是一個沒有什麼表情的中國小哥，問了一個類似blind 75 pacific atlantic water flow的題目，看完題目後第一反應就連想到blind 75這題，事後也證明用同一題的方法可以解決這題，大概花了20分鐘講解跟寫完code後面試官同樣也給了follow-up，不過這個follow-up就沒有前一關有趣，只是單純數量上的增加，用同一題的方法改一下code就解決了，這題難度大概Medium。結果後來反而是這關的面試官認為我寫的code有些微的瑕疵，果然看到熟悉的題目還是不能太大意啊。&lt;/p&gt;
+&lt;h2 id="後續"&gt;後續
+&lt;/h2&gt;&lt;p&gt;我面試的時間已經算是Google 2022Campus Hire的末端了，大部分的缺都已經招完了，所以後來就變成直接沒有Headcount可以進行Team match，因此那時就有心理準備可能會需要等到下一年度的campus hire在繼續。&lt;/p&gt;
+&lt;p&gt;後來就如同大家所見的，在美國升息的壓力下各大公司開始被迫精簡人力，台灣這邊的campus hire也延到11月才開始，而headcount也必須要等到明年初人力政策確定後才會比較確定，好在面試結果可以保留一年，就祈禱明年還有機會可以繼續進行面試流程。&lt;/p&gt;
+&lt;p&gt;雖然尚未成功的進入我的Dream company，但這一路上還是很感謝許多人提供的機會以及幫助，此外也感謝協助我的Google HR不厭其煩的提供招聘流程的各種資訊。&lt;/p&gt;</description></item><item><title>機械相機系列 - 哈蘇A12片盒上片方法</title><link>https://www.hugoshih.com/zh-cn/p/%E6%A9%9F%E6%A2%B0%E7%9B%B8%E6%A9%9F%E7%B3%BB%E5%88%97-%E5%93%88%E8%98%87a12%E7%89%87%E7%9B%92%E4%B8%8A%E7%89%87%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 11 Jul 2022 17:10:00 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/%E6%A9%9F%E6%A2%B0%E7%9B%B8%E6%A9%9F%E7%B3%BB%E5%88%97-%E5%93%88%E8%98%87a12%E7%89%87%E7%9B%92%E4%B8%8A%E7%89%87%E6%96%B9%E6%B3%95/</guid><description>&lt;img src="https://i.imgur.com/e1gynu4.jpg" alt="Featured image of post 機械相機系列 - 哈蘇A12片盒上片方法" /&gt;&lt;h1 id="機械相機系列---哈蘇a12片盒上片方法"&gt;機械相機系列 - 哈蘇A12片盒上片方法
+&lt;/h1&gt;&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;前陣子被朋友推坑敗了一台哈蘇500cm + CB 60mm 3.5f，作為中片幅底片單眼相機，其機械結構的精妙不言而諭，即便不帶出去拿在手上把玩依舊很過癮，從觀景窗看出去，蔡司的光學之美展露無遺，唯一的缺點就是碩大的機身跟重量實在不太方便帶出門，買了好一陣子卻一直被我冰在防潮箱，最近終於下定決心要用它好好來拍照，心血來潮就記錄一下如何使用哈蘇A12片盒更換底片，對於初次使用哈蘇攝影的小白才驚覺還有許多細節需要注意，完全不如135底片相機來的無腦，一不小心就可能毀掉一捲底片跟辛苦累積的12張攝影作品。&lt;/p&gt;
+&lt;img src="https://i.imgur.com/mYSbGqS.jpg" width="100%"&gt;
+&lt;p&gt;從一位老師傅那裡收過來的黑色塗裝Hasselblad 500cm，一般人印象中的哈蘇有著銀色不銹鋼的外邊，有種古典工藝品之美，全黑的哈蘇則有種現代感也更為低調，CB 60mm 3.5f則是從品光攝影購入的原本是想搭個中規中矩的80mm，可惜當時市面上的80mm價格太過嚇人，CB 60mm算是CP質很高的選擇，銳度畸變都很完美，視角也接近135片幅的35mm鏡頭，不過實際拍攝給人的透視感就完全不同。&lt;/p&gt;
+&lt;h2 id="開始裝底片"&gt;開始裝底片
+&lt;/h2&gt;&lt;h3 id="拆片盒"&gt;拆片盒
+&lt;/h3&gt;&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/vC7wqpA.jpg" width="50%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/cTOmtCS.jpg" width="50%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;首先要做的是將片盒從機身上拆下來，將片盒上的圓鈕往圖片左邊的方向撥就可以解開卡楯將片盒拆下，&lt;strong&gt;要注意如果豆腐刀沒有插回片盒上時卡楯是撥不動的&lt;/strong&gt;，硬撥的話可能會造成機械損壞喔，片盒拆下來後要小心不要碰到機身後的兩片長得像門一樣的遮光板，否則弄壞造成漏光就不好玩了。&lt;/p&gt;
+&lt;h3 id="抽出上片機構"&gt;抽出上片機構
+&lt;/h3&gt;&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/xDQEHyP.jpg" width="36%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/B0KDczd.jpg" width="64%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;接下來要將裡面的上片機構取出來，&lt;strong&gt;但在取出來之前務必先確定一下裡面是不是還有底片&lt;/strong&gt;，如果有的話確認一下是不是已經完成回片，如果貿然取出上片機構的話會造成裡面底片漏光就慘了，再來只要將片盒一側的旋鈕從左邊的樣子轉成右邊的樣子在向外拉就可以將上片機構拉出來了，有時候可能會拉不出來，&lt;em&gt;大多都是因為插刀叉反了卡住上片機構，所以記得插刀也是有方向性的&lt;/em&gt;。&lt;/p&gt;
+&lt;h3 id="交換片軸"&gt;交換片軸
+&lt;/h3&gt;&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/iepOaK8.jpg" width="50%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/tY2pDPP.jpg" width="50%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;拆出來的上片機構長這樣，原來在左側的是舊的片軸，需要將他換到右邊去，&lt;em&gt;所以舊的片軸不要弄丟&lt;/em&gt;，如果弄丟也只能去&lt;del&gt;找底片沖洗店家要了&lt;/del&gt;，哈蘇的片盒在拍完後會將底片回卷到舊的片軸上，所有每次都回留下上一次拍的底片的片軸。&lt;/p&gt;
+&lt;h3 id="底片"&gt;底片
+&lt;/h3&gt;&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/IZCVPns.jpg" width="18%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/Ipbxo6M.jpg" width="18%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/bapytsW.jpg" width="32%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/NhSzGVp.jpg" width="32%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;今天要裝的是Kodak的&lt;strong&gt;Portra 400&lt;/strong&gt;底片，這捲應該是在底片種類越來越少的年代少數能讓人滿意的底片，色彩的寬容度與細緻度都比新的Gold 200還要好上許多，而且還有400度的ISO能提供比較高的快門速度，除了價格偏高外應該算是120彩色的首選了。&lt;/p&gt;
+&lt;p&gt;拆開120底片包裝後，需要撕開底片外部的紙封條，拉出來的這一段其實不是底片而是背紙，是120底片和135底片最大的差別，120底片因為沒有片殼，要防止底片意外曝光就需要靠背紙遮光，真正的底片是夾在背紙中間，拉到某一個位置會將真正的底片一起拉出來，真正的底片跟背紙是用一段紙膠帶黏起來的，詳細的結構可以參考這篇：&lt;a class="link" href="https://www.mobile01.com/topicdetail.php?f=255&amp;amp;t=495917" target="_blank" rel="noopener"
+&gt;120底片結構&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="安裝底片"&gt;安裝底片
+&lt;/h3&gt;&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/NLR08ER.jpg" width="64%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/3PapKLP.jpg" width="36%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;首先我們將底片安裝到&lt;strong&gt;右側&lt;/strong&gt;原來放片軸的位置，請注意背紙拉出的&lt;strong&gt;方向&lt;/strong&gt;，是從下方拉出的，不要將底片的方向裝反，接著將背紙拉到上片機構的背面。&lt;/p&gt;
+&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/cwIuRXY.jpg" width="50%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/Z73oXiK.jpg" width="50%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;將背紙繞到背面後，請注意在上片機構上有一個用來夾住背紙的結構，這個結構在拉出上片機構的時候是卡緊的，我們需要先將上片機構的旋鈕轉回原位這樣這個夾背紙的結構就會鬆開，才方便讓背紙從下面通過。&lt;/p&gt;
+&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/7LBLhN5.jpg" width="50%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/47ezilB.jpg" width="50%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;背紙通過之後在將上片結構的旋鈕轉回開啟的狀態，這個結構就會再夾緊背紙。&lt;/p&gt;
+&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/HluUKiO.jpg" width="50%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/L7Ti5uu.jpg" width="50%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;將背紙的末端穿過舊的片軸中心的孔洞。&lt;/p&gt;
+&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/kkZv7mF.jpg" width="50%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/uCWNv1c.jpg" width="50%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;最後我們旋轉另一側片軸下方的旋鈕收緊背紙，持續旋轉直到新底片側出現&lt;strong&gt;START箭頭&lt;/strong&gt;(不一定有START)，這個箭頭會對齊片盒上的紅色箭頭，這樣就完成底片的安裝了。&lt;/p&gt;
+&lt;h3 id="裝回上片機構"&gt;裝回上片機構
+&lt;/h3&gt;&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/DQWH6WD.jpg" width="50%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/Ayrb96e.jpg" width="50%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;裝回的時候請注意上片機構旋鈕的位置，需要將夾背紙的機構收緊上片機構才裝的進片盒中，裝進去後再將旋鈕轉回原位完成上片機構的安裝。&lt;/p&gt;
+&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/rj4iVee.jpg" width="50%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/rMNGTb7.jpg" width="50%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;哈蘇的片盒需要將底片預先捲至最後一張，可以理解為哈蘇片盒是從最後一張開始拍的，因此需要選轉片盒另一側的旋轉把手&lt;strong&gt;直到片盒左下角的小窗出現數字1&lt;/strong&gt;。&lt;/p&gt;
+&lt;div align="center"&gt;
+&lt;img src="https://i.imgur.com/6AvUQsX.jpg" width="50%" alt="圖片說明" &gt;&lt;img src="https://i.imgur.com/DSGryUW.jpg" width="50%" alt="圖片說明" &gt;
+&lt;/div&gt;
+&lt;p&gt;最後將片盒裝回機身就可以開始拍攝了，&lt;strong&gt;記得在裝回機身時確定機身已經是過片狀態了&lt;/strong&gt;，否則裝上片盒再上片會讓底片少拍一張。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/f3WEITW.jpg"
+loading="lazy"
+&gt;
+拍攝的時候要記得拔出片盒插刀，不然快門是按不下去的。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/qQO5bVJ.jpg"
+loading="lazy"
+&gt;
+從觀景窗看出去的畫面，蔡司光學的成像真美呀。&lt;/p&gt;
+&lt;h2 id="實拍"&gt;實拍
+&lt;/h2&gt;&lt;p&gt;附上一些Portra 400實拍的畫面給大家參考，紫羅蘭沖掃&lt;/p&gt;
+&lt;h4 id="遠東軟體園區正在蓋的google新大樓"&gt;遠東軟體園區正在蓋的Google新大樓
+&lt;/h4&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/EadfVtx.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h4 id="google板橋辦公室門口的logo"&gt;Google板橋辦公室門口的Logo
+&lt;/h4&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/e1gynu4.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h4 id="google板橋大樓"&gt;Google板橋大樓
+&lt;/h4&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/c5as5mB.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h4 id="google辦公室樓下的貳樓餐廳"&gt;Google辦公室樓下的貳樓餐廳
+&lt;/h4&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/0FZUu7n.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h4 id="內湖往野柳的小路"&gt;內湖往野柳的小路
+&lt;/h4&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/Wpy1WVq.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h4 id="風櫃嘴的展望"&gt;風櫃嘴的展望
+&lt;/h4&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/BZ8hN1n.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h2 id="a12片盒的一些奇淫巧技"&gt;A12片盒的一些奇淫巧技
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://blog.huiminchi.com/%E5%93%88%E8%98%87hasselblad-a12-%E7%89%87%E5%A4%BE%E6%8B%8D%E6%94%9D%E7%AC%AC13%E5%BC%B5/" target="_blank" rel="noopener"
+&gt;A12片盒偷13張&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="http://www.photosharp.com.tw/FORUM/ArticleList.aspx?ForumId=4&amp;amp;TopicId=114634" target="_blank" rel="noopener"
+&gt;片盒序號不一致&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Google Interview Leetcode Question Challenge</title><link>https://www.hugoshih.com/zh-cn/p/google-interview-leetcode-question-challenge/</link><pubDate>Mon, 30 May 2022 11:41:18 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/google-interview-leetcode-question-challenge/</guid><description>&lt;img src="https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/IMG_4879.jpg" alt="Featured image of post Google Interview Leetcode Question Challenge" /&gt;&lt;h1 id="google-interview-challenge"&gt;Google Interview Challenge
+&lt;/h1&gt;&lt;p&gt;&lt;a class="link" href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;amp;id=301667" target="_blank" rel="noopener"
+&gt;https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;id=301667&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://www.gushiciku.cn/pl/gyQP/zh-tw" target="_blank" rel="noopener"
+&gt;https://www.gushiciku.cn/pl/gyQP/zh-tw&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed" target="_blank" rel="noopener"
+&gt;https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158" target="_blank" rel="noopener"
+&gt;https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158&lt;/a&gt;
+Google面試準備
+刷題類型&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Arrays&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Binary Search Tree&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Binary Tree&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Dynamic Programming&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Greedy&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Graph – BFS、DFS&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Heap&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; LinkedList&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Recursion&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Searching – Binary Search、Quick Select&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Stack&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; String&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Sorting&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Topological sorting&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Trie&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Google面試經典題目&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; coin change&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; coin change 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Unique path&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Unique path 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Permutation&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Permutation 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; subset&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; subset 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; search in rotated sorted array&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; search in rotated sorted array 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word break&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word break 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; jump game&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; jump game 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word search&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word search 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; combination&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; combination 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; meeting room&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; meeting room 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of islands&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of islands 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of distinct island&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; number of distinct island 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;BQ準備
+Imagine you worked in a project or a team that had a problematic culture
+Tell about the leading experience of a group project
+Thinking about a time you were given a large amount of work to complete under the tight deadline
+Tell about a time you face a problem without having clear solution
+How do you solve the conflict that happen in the team&lt;/p&gt;
+&lt;h2 id="blind-75"&gt;Blind 75
+&lt;/h2&gt;&lt;h3 id="array"&gt;Array
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener"
+&gt;Two Sum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener"
+&gt;Best Time to Buy and Sell Stock&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/contains-duplicate/" target="_blank" rel="noopener"
+&gt;Contains Duplicate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank" rel="noopener"
+&gt;Product of Array Except Self&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/maximum-subarray/" target="_blank" rel="noopener"
+&gt;Maximum Subarray&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank" rel="noopener"
+&gt;Maximum Product Subarray&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener"
+&gt;Find Minimum in Rotated Sorted Array&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" rel="noopener"
+&gt;Search in Rotated Sorted Array&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/3sum/" target="_blank" rel="noopener"
+&gt;3 Sum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/container-with-most-water/" target="_blank" rel="noopener"
+&gt;Container With Most Water&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="binary"&gt;Binary
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/sum-of-two-integers/" target="_blank" rel="noopener"
+&gt;Sum of Two Integers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/number-of-1-bits/" target="_blank" rel="noopener"
+&gt;Number of 1 Bits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/counting-bits/" target="_blank" rel="noopener"
+&gt;Counting Bits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/missing-number/" target="_blank" rel="noopener"
+&gt;Missing Number&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/reverse-bits/" target="_blank" rel="noopener"
+&gt;Reverse Bits&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dynamic-programming"&gt;Dynamic Programming
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/climbing-stairs/" target="_blank" rel="noopener"
+&gt;Climbing Stairs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/coin-change/" target="_blank" rel="noopener"
+&gt;Coin Change&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener"
+&gt;Longest Increasing Subsequence&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-common-subsequence/" target="_blank" rel="noopener"
+&gt;Longest Common Subsequence&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/word-break/" target="_blank" rel="noopener"
+&gt;Word Break Problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/combination-sum-iv/" target="_blank" rel="noopener"
+&gt;Combination Sum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/house-robber/" target="_blank" rel="noopener"
+&gt;House Robber&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/house-robber-ii/" target="_blank" rel="noopener"
+&gt;House Robber II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/decode-ways/" target="_blank" rel="noopener"
+&gt;Decode Ways&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/unique-paths/" target="_blank" rel="noopener"
+&gt;Unique Paths&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/jump-game/" target="_blank" rel="noopener"
+&gt;Jump Game&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="graph"&gt;Graph
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/clone-graph/" target="_blank" rel="noopener"
+&gt;Clone Graph&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/course-schedule/" target="_blank" rel="noopener"
+&gt;Course Schedule&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank" rel="noopener"
+&gt;Pacific Atlantic Water Flow&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/number-of-islands/" target="_blank" rel="noopener"
+&gt;Number of Islands&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank" rel="noopener"
+&gt;Longest Consecutive Sequence&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/alien-dictionary/" target="_blank" rel="noopener"
+&gt;Alien Dictionary (Leetcode Premium)&lt;/a&gt; (H) Key: directed graph + DFS or BFS&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/graph-valid-tree/" target="_blank" rel="noopener"
+&gt;Graph Valid Tree (Leetcode Premium)&lt;/a&gt; (M) Key: Check edges number first and then check unconnected component (Graph theory), Union Find!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/" target="_blank" rel="noopener"
+&gt;Number of Connected Components in an Undirected Graph (Leetcode Premium)&lt;/a&gt; (M)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="interval"&gt;Interval
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/insert-interval/" target="_blank" rel="noopener"
+&gt;Insert Interval&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-intervals/" target="_blank" rel="noopener"
+&gt;Merge Intervals&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/non-overlapping-intervals/" target="_blank" rel="noopener"
+&gt;Non-overlapping Intervals&lt;/a&gt; (M) Key: greedy&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/meeting-rooms/" target="_blank" rel="noopener"
+&gt;Meeting Rooms (Leetcode Premium)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/meeting-rooms-ii/" target="_blank" rel="noopener"
+&gt;Meeting Rooms II (Leetcode Premium)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="linked-list"&gt;Linked List
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener"
+&gt;Reverse a Linked List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener"
+&gt;Detect Cycle in a Linked List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener"
+&gt;Merge Two Sorted Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener"
+&gt;Merge K Sorted Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener"
+&gt;Remove Nth Node From End Of List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/reorder-list/" target="_blank" rel="noopener"
+&gt;Reorder List&lt;/a&gt; (M)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="matrix"&gt;Matrix
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/set-matrix-zeroes/" target="_blank" rel="noopener"
+&gt;Set Matrix Zeroes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/spiral-matrix/" target="_blank" rel="noopener"
+&gt;Spiral Matrix&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/rotate-image/" target="_blank" rel="noopener"
+&gt;Rotate Image&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/word-search/" target="_blank" rel="noopener"
+&gt;Word Search&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="string"&gt;String
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener"
+&gt;Longest Substring Without Repeating Characters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener"
+&gt;Longest Repeating Character Replacement&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener"
+&gt;Minimum Window Substring&lt;/a&gt; (H) Key: Optimized Sliding Windows!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener"
+&gt;Valid Anagram&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener"
+&gt;Group Anagrams&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener"
+&gt;Valid Parentheses&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener"
+&gt;Valid Palindrome&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener"
+&gt;Longest Palindromic Substring&lt;/a&gt; Key: Manacher&amp;rsquo;s Algorithm&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/palindromic-substrings/" target="_blank" rel="noopener"
+&gt;Palindromic Substrings&lt;/a&gt; (M) Key: Manacher&amp;rsquo;s Algorithm&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/encode-and-decode-strings/" target="_blank" rel="noopener"
+&gt;Encode and Decode Strings (Leetcode Premium)&lt;/a&gt; (M)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tree"&gt;Tree
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener"
+&gt;Maximum Depth of Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/same-tree/" target="_blank" rel="noopener"
+&gt;Same Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/invert-binary-tree/" target="_blank" rel="noopener"
+&gt;Invert/Flip Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener"
+&gt;Binary Tree Maximum Path Sum&lt;/a&gt; (H)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" rel="noopener"
+&gt;Binary Tree Level Order Traversal&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank" rel="noopener"
+&gt;Serialize and Deserialize Binary Tree&lt;/a&gt; (H)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank" rel="noopener"
+&gt;Subtree of Another Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/" target="_blank" rel="noopener"
+&gt;Construct Binary Tree from Preorder and Inorder Traversal&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" rel="noopener"
+&gt;Validate Binary Search Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank" rel="noopener"
+&gt;Kth Smallest Element in a BST&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank" rel="noopener"
+&gt;Lowest Common Ancestor of BST&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/implement-trie-prefix-tree/" target="_blank" rel="noopener"
+&gt;Implement Trie (Prefix Tree)&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/add-and-search-word-data-structure-design/" target="_blank" rel="noopener"
+&gt;Add and Search Word&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/word-search-ii/" target="_blank" rel="noopener"
+&gt;Word Search II&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="heap"&gt;Heap
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener"
+&gt;Merge K Sorted Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener"
+&gt;Top K Frequent Elements&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank" rel="noopener"
+&gt;Find Median from Data Stream&lt;/a&gt; (H)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tips"&gt;Tips
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed" target="_blank" rel="noopener"
+&gt;https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="funny-one"&gt;Funny One
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/count-unique-characters-of-all-substrings-of-a-given-string" target="_blank" rel="noopener"
+&gt;Count Unique Characters of All Substrings of a Given String&lt;/a&gt; Key: really special solution&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank" rel="noopener"
+&gt;Find the Duplicate Number&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-leaves-of-binary-tree/" target="_blank" rel="noopener"
+&gt;Find Leaves of Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/split-array-largest-sum/" target="_blank" rel="noopener"
+&gt;Split Array Largest Sum&lt;/a&gt; Key: Binary Search!!!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/trapping-rain-water/" target="_blank" rel="noopener"
+&gt;Trapping Rain Water&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/the-skyline-problem/" target="_blank" rel="noopener"
+&gt;The Skyline Problem&lt;/a&gt; Key: Select the building with heapqueue&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/largest-rectangle-in-histogram/solution/" target="_blank" rel="noopener"
+&gt;Largest Rectangle in Histogram&lt;/a&gt; Key: tricky Apply with stack!!!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank" rel="noopener"
+&gt;Subtree of Another Tree&lt;/a&gt; Key: Markle Hash&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/substring-with-concatenation-of-all-words/" target="_blank" rel="noopener"
+&gt;Substring with Concatenation of All Words&lt;/a&gt; Key: Sliding Window&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-valid-parentheses/" target="_blank" rel="noopener"
+&gt;Longest Valid Parentheses&lt;/a&gt; key: Two pointer or DP or Stack&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener"
+&gt;Best Time to Buy and Sell Stock IV&lt;/a&gt; Key: Tricky One pass solution (DP or O(k) space)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/design-hashset/discuss/?currentPage=1&amp;amp;orderBy=most_votes&amp;amp;query=&amp;amp;tag=python" target="_blank" rel="noopener"
+&gt;Design HashSet&lt;/a&gt; Key: Multiplicative hashing&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/unique-binary-search-trees/solution/" target="_blank" rel="noopener"
+&gt;Unique Binary Search Trees&lt;/a&gt; Key: Catalan number!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/shortest-path-in-a-grid-with-obstacles-elimination/" target="_blank" rel="noopener"
+&gt;Shortest Path in a Grid with Obstacles Elimination&lt;/a&gt; Key: BFS + A*&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/student-attendance-record-ii/" target="_blank" rel="noopener"
+&gt;Student Attendance Record II&lt;/a&gt; Key: hardhard DP&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/guess-the-word/" target="_blank" rel="noopener"
+&gt;Guess the Word&lt;/a&gt; Key: Game theroy, compare with previous&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/min-cost-to-connect-all-points/" target="_blank" rel="noopener"
+&gt;Min Cost to Connect All Points&lt;/a&gt; Key: minmun spanning tree!! (Prim&amp;rsquo;s or )&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/path-with-minimum-effort/" target="_blank" rel="noopener"
+&gt;Path With Minimum Effort&lt;/a&gt; Key: Binary search space&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/132-pattern/" target="_blank" rel="noopener"
+&gt;132 Pattern&lt;/a&gt; Key: stack+min array&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

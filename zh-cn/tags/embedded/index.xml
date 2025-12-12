@@ -1,4 +1,332 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on 施星宇</title><link>https://www.hugoshih.com/zh-cn/tags/embedded/</link><description>Recent content in Embedded on 施星宇</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 05 Jan 2025 22:20:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/zh-cn/tags/embedded/index.xml" rel="self" type="application/rss+xml"/><item><title>Zephyr RTOS 兩種建立Thread的方式</title><link>https://www.hugoshih.com/zh-cn/p/zephyr-rtos-%E5%85%A9%E7%A8%AE%E5%BB%BA%E7%AB%8Bthread%E7%9A%84%E6%96%B9%E5%BC%8F/</link><pubDate>Sun, 05 Jan 2025 22:20:31 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/zephyr-rtos-%E5%85%A9%E7%A8%AE%E5%BB%BA%E7%AB%8Bthread%E7%9A%84%E6%96%B9%E5%BC%8F/</guid><description>&lt;img src="https://i.imgur.com/V5OSNcL.jpg" alt="Featured image of post Zephyr RTOS 兩種建立Thread的方式" /&gt;&lt;h1 id="zephyr-rtos-兩種建立thread的方式"&gt;Zephyr RTOS 兩種建立Thread的方式
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on 施星宇</title><link>https://www.hugoshih.com/zh-cn/tags/embedded/</link><description>Recent content in Embedded on 施星宇</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 30 Oct 2025 21:48:32 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/zh-cn/tags/embedded/index.xml" rel="self" type="application/rss+xml"/><item><title>關於 Aligned Memory Allocation</title><link>https://www.hugoshih.com/zh-cn/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</link><pubDate>Thu, 30 Oct 2025 21:48:32 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</guid><description>&lt;img src="https://i.imgur.com/WVmjgMd.jpeg" alt="Featured image of post 關於 Aligned Memory Allocation" /&gt;&lt;h2 id="起源"&gt;起源
+&lt;/h2&gt;&lt;p&gt;由於在這個東西上吃了大悶虧，至於是什麼虧就不細究了，總之是我當初在看到這東西的時候沒有認真摸透，就趁著這個機會好好還債了
+我想要用一個超級白話的方式讓人快速可以理解，下次遇到這個議題再回來看就能快速回憶起來&lt;/p&gt;
+&lt;h2 id="什麼是-aligned-memory-allocation"&gt;什麼是 Aligned Memory Allocation？
+&lt;/h2&gt;&lt;p&gt;設想一個情況，今天程式運行到一個地方，如果我需要一些額外的記憶體來儲存新的資料，在 C 語言中我們一定會用到 &lt;code&gt;malloc()&lt;/code&gt; 來跟系統要額外的記憶體空間&lt;/p&gt;
+&lt;p&gt;舉個例子，我現在突然需要 32 bytes 的空間，所以我就使出 &lt;code&gt;malloc()&lt;/code&gt;，然後系統就翻啊翻找啊找，最後在記憶體中找到了 32 bytes 的空間，並把起始的記憶體位置傳回來。這個起始的位置可能很隨機，像是 &lt;code&gt;0x08004321&lt;/code&gt;，不過這也無傷大雅，總之我現在有了 32 bytes 空間，我現在想對他幹嘛就幹嘛。&lt;/p&gt;
+&lt;p&gt;然而然而，在某些情況（至於是哪些情況後面再講），我們會希望我們得到的記憶體的起始位置是「對齊」的。那什麼叫做對齊呢？&lt;/p&gt;
+&lt;p&gt;舉個例子，如果你用一些 Hex 檔案的預覽工具，你會看到左邊的起始位置很整齊以 32 bytes 間隔，像下面這樣：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;一般隨機分配 (未對齊):
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08004321 | Data...
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ 起始位置很隨意
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;32-byte Alignment (對齊):
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000000 | Data...
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000020 | Data... &amp;lt;-- 0x20 就是 32
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000040 | Data... &amp;lt;-- 0x40 就是 64
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ 起始位置都可以被 32 整除
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/hr8QdrG.jpeg"
+loading="lazy"
+alt="image"
+&gt;&lt;/p&gt;
+&lt;p&gt;所謂的 &lt;strong&gt;Aligned Memory Allocation&lt;/strong&gt;，就是我在要新的記憶體空間時，想要拿到一個&lt;strong&gt;起始位置可以被 32（或是其他數字）整除的記憶體空間&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;OK，所以說到這邊應該對這個 Aligned Memory Allocation 是什麼應該有點概念了，這樣就成功了一半了。因為大多數人第一次聽到應該都比較難想到這是什麼，又或者知道這是什麼，但不知道有什麼用&lt;/p&gt;
+&lt;p&gt;所以，這個有什麼用呢？&lt;/p&gt;
+&lt;h2 id="為什麼需要-alignment"&gt;為什麼需要 Alignment？
+&lt;/h2&gt;&lt;p&gt;會需要 Alignment 大多是受到硬體設計的限制，例如：&lt;/p&gt;
+&lt;p&gt;向量指令集 (如 AVX)，當執行這類指令集的時候，會要求目標的記憶體位置是對齊的，沒有對齊的話得要拆成兩步去處理，或是直接出現錯誤，那為什麼不設計成指令集可以讀取任意位置起始的記憶體呢？我覺得大多是成本考量，如果能從驅動程式端去解決，又何必浪費昂貴的硬體空間呢&lt;/p&gt;
+&lt;p&gt;其他像是 CUDA 中 GPU 透過 PCIe 抓取資料時，使用 DMA 也會要求記憶體要對齊，又或者 GPU 指令抓取他自己記憶體的資料也會要求對齊，另外在 STM32 這類單晶片上使用 DMA 時，buffer 的記憶體位置也會要求對齊，才能夠被 DMA 正確寫入或讀取&lt;/p&gt;
+&lt;p&gt;這時候一定有人跳出來說：「我平常用 CUDA 或是在 STM32 上用 DMA 都沒遇到這問題啊！」&lt;/p&gt;
+&lt;p&gt;那是因為 CUDA driver 或是 HAL library 之類的會幫你處理好，所以當然沒感覺，反過來說，如果你今天寫的是 driver 或是 bare metal 開發，那一定要小心記憶體對齊這東西，不然可能連動都動不起來&lt;/p&gt;
+&lt;h2 id="所以該怎麼做到-alignment"&gt;所以該怎麼做到 Alignment？
+&lt;/h2&gt;&lt;p&gt;前面說了這麼多，那要怎麼才能做到記憶體分配時 Alignment 呢？&lt;/p&gt;
+&lt;p&gt;設想今天我們目標要一塊新的 64 bytes 記憶體，並且要求 32-byte 對齊。
+如果今天 &lt;code&gt;malloc&lt;/code&gt; 給的起始位置剛剛好就是 &lt;code&gt;0x08000040&lt;/code&gt;，是 alignment block 的起始位置，這樣就中大獎了，但實際上當然不會那麼幸運，他可能給你的起始位置是 &lt;code&gt;0x08000041&lt;/code&gt;（偏移了 1 個 byte），也可能起始是 &lt;code&gt;0x0800005F&lt;/code&gt;（偏移了 31 個 bytes）&lt;/p&gt;
+&lt;p&gt;但沒關係，這時候就會想到，只要&lt;code&gt;malloc&lt;/code&gt;的記憶體夠長，從中找到一個 Alignment Block 的起點並從那邊開始存資料，這樣也算對齊吧&lt;/p&gt;
+&lt;p&gt;那麼問題就回到，我們該要多長的記憶體呢？
+觀察前面的例子，如果做 32 bytes 的 alignment，偏移的量最多就是 &lt;code&gt;0 ~ 31&lt;/code&gt; bytes。所以我們要 &lt;code&gt;malloc()&lt;/code&gt; 的空間至少要是 &lt;code&gt;size + alignment - 1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;等等，好像少了什麼？
+這樣的話要怎麼才能 &lt;code&gt;free&lt;/code&gt; 掉 alignment 起始位址前面的那些空間呢？我們需要紀錄&lt;strong&gt;真正原本 &lt;code&gt;malloc&lt;/code&gt; 出來的起始位址&lt;/strong&gt;，所以還需要再多一個位置去存這個指標，這個需要的空間是 &lt;code&gt;sizeof(void*)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;總結來說，我們真正要 &lt;code&gt;malloc()&lt;/code&gt; 的長度是：
+&lt;code&gt;size + alignment - 1 + sizeof(void*)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;記憶體結構示意圖：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;實際 malloc 得到的區塊 (Original)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;v
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+-------------+---------------------+-------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| padding ... | 原始指標 (Stored) | 使用者拿到的指標 (Aligned)|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+-------------+---------------------+-------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ ^
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; | |
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 這格存著 original 符合 32-byte 對齊
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 的地址 我們回傳這個地址
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然後我們只要找到這裡面 alignment 的起始位址，並且把「原始的起始位址」存在 alignment 起始的前一格。這樣在 &lt;code&gt;free&lt;/code&gt; memory 時，只要從 alignment 位址&lt;strong&gt;往前找一格&lt;/strong&gt;，就可以找到我們應該要釋放的記憶體起點。&lt;/p&gt;
+&lt;p&gt;原理概念上就是這樣了，那麼就來看看要怎麼實作吧。&lt;/p&gt;
+&lt;h2 id="c-語言實作"&gt;C 語言實作
+&lt;/h2&gt;&lt;p&gt;以下用 32-byte alignment 為例子，可以把 32 換成任意想要的正整數 alignment（通常是 2 的次方）。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdint.h&amp;gt; // 為了使用 uintptr_t&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nf"&gt;aligned_malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 1. 計算需要的總空間：
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// size + (alignment - 1) 的調整空間 + 存放原始指標的空間
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 2. 算出 alignment 的起始位置
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 先預留一個 pointer 的空間給我們存地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;uintptr_t&lt;/span&gt; &lt;span class="n"&gt;raw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;uintptr_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 利用 Bitwise 操作進行對齊
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 原理：(address + mask) &amp;amp; ~mask
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 注意：這裡要用 ~(32 - 1) 也就是 ~31 才能遮掉後五位達到 32 對齊
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;uintptr_t&lt;/span&gt; &lt;span class="n"&gt;aligned&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;raw&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 其實也可以用(void*)(original - (original % 32));去算
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 只是用bit manipulation感覺比較優雅
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 3. 把原本 malloc() 的起始位址存到 alignment 位址的前一格
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;aligned&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 4. 最後回傳 alignment 的起始
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;aligned&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;aligned_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// free 的時候，去找到 alignment 位址前一格存的原來 malloc 的位址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 然後把它釋放就行了
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="nf"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="結語"&gt;結語
+&lt;/h2&gt;&lt;p&gt;總之就是這樣，Aligned Memory Allocation這個東西重要又有一些實作小細節，藉由這個機會算是有搞懂他了，以後忘了也可以快速回來複習一下&lt;/p&gt;
+&lt;h2 id="reference"&gt;Reference
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://bclin.tw/2020/03/15/aligned-malloc/" target="_blank" rel="noopener"
+&gt;如何實作一個 aligned_alloc () ？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://medium.com/howsofcoding/memory-management-aligned-malloc-and-free-9273336bd4c6" target="_blank" rel="noopener"
+&gt;Designing aligned Memory Allocator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://linux.die.net/man/3/aligned_alloc" target="_blank" rel="noopener"
+&gt;aligned_alloc(3) - Linux man page&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>常見 Real-Time OS 介紹與比較</title><link>https://www.hugoshih.com/zh-cn/p/%E5%B8%B8%E8%A6%8B-real-time-os-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%AF%94%E8%BC%83/</link><pubDate>Mon, 06 Jan 2025 15:32:31 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/%E5%B8%B8%E8%A6%8B-real-time-os-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%AF%94%E8%BC%83/</guid><description>&lt;img src="https://i.imgur.com/7SJYZ3b.jpg" alt="Featured image of post 常見 Real-Time OS 介紹與比較" /&gt;&lt;h2 id="介紹"&gt;介紹
+&lt;/h2&gt;&lt;p&gt;即時作業系統（Real-Time Operating System, RTOS）是一種專門為即時（real-time）應用而設計的作業系統，強調「在特定時間限制內（deadline）對事件進行回應」，試想一個情境在工業的領域若機器某部分突然產生故障，需要在極短的時間內停止所有馬達的運作，若此時使用的是傳統的作業系統如Linux，依OS內核的調度策略，最終馬達停止的動作會有些許延遲，相較之下RTOS則可以有較彈性的執行緒搶佔，讓緊急情況的處理可以更快被執行&lt;/p&gt;
+&lt;p&gt;本質上來說RTOS的內核使用起來的效果是大同小異的，基本上能做到多個執行緒的建立、輪詢執行、優先序搶佔、互斥鎖、內核級的中斷等功能，進階一點的則有可以動態記憶體管理、多核心的支援，這些RTOS主要的差異大多是在外圍模組的支援、周邊的開發生態系等，以下就分別介紹目前主流常見的幾種RTOS:&lt;/p&gt;
+&lt;h3 id="freertos"&gt;&lt;a class="link" href="https://github.com/FreeRTOS/FreeRTOS" target="_blank" rel="noopener"
+&gt;FreeRTOS&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;FreeRTOS 是由 Real Time Engineers Ltd. 及 Amazon 維護，完全開源並且在全球廣受使用，FreeRTOS 可以說是最最最常見的一種RTOS，成功之道大概在於早早就開源，早早就被各家IDE整合，各家晶片的SDK也都可以看到他的影子，我最早接觸他是在Arduino IDE，FreeRTOS早早就出現在Arduino library list中，使用起來也夠簡單，沒有什麼複雜的設定，加一兩行code就可以實現多執行緒，讓初學者很容易就可以踏入RTOS的世界。他背後的金主爸爸是 Amazon，後來也整合了不少 AWS 上IoT相關的功能，由於早早就開源，周圍的模組也不少。&lt;/p&gt;
+&lt;h3 id="azurertos-threadx"&gt;&lt;a class="link" href="https://github.com/eclipse-threadx/threadx" target="_blank" rel="noopener"
+&gt;AzureRTOS (Threadx)&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;ThreadX 是由 Express Logic 開發的即時作業系統（RTOS），後續被 Microsoft 收購並推出更名版本 AzureRTOS 並開源，從名字就可以看出來未來應該是要跟微軟的 Azure 搭配做一些IoT的功能，但目前好像還沒看到什麼殺手級的應用。由於開源的時間比較晚，周圍的套件比較少，像BLE、Wifi這類的Stack能用的東西好像比較少，但相信有微軟原生的支援應該可以成長的很快，我會碰到 AzureRTOS 是因為 STM32 官方原生支援 AzureRTOS，很有趣的是 STM32 的開發環境也有支援 FreeRTOS，但支援度是遠遜於 AzureRTOS 的。&lt;/p&gt;
+&lt;h3 id="zephyr"&gt;&lt;a class="link" href="https://github.com/zephyrproject-rtos/zephyr" target="_blank" rel="noopener"
+&gt;Zephyr&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;Zephyr 是由 Linux 基金會（Linux Foundation）主導的開源即時作業系統（RTOS），Zephyr雖然出現很久了，但算是這幾年才突然紅起來，主打一個跨平台的相容性和完整的開發工具鏈，有像是West這種很好用的工具、也有像是DeviceTree者種為跨平台設計的架構，可以說要用Zephyr就要連著這一整串工具鏈一起用才會好用，不過好像也是因為綁著工具鏈跟相容性的原因，好像各家晶片雖然說有支援，但好像又支援的沒那麼好，特別是牽涉到很底層的硬體設定(像時鐘樹設定)就會變的特別麻煩，如果沒有這種需求就蠻好用的，很多設定、初始化都幫你省略了。會碰到Zephyr是因為使用 Nordic 的藍牙 SoC，最新的的 nrf connect SDK 基本上是建立在 Zephyr 上的，而 Zephyr 通訊相關的套件也很完整，很適合給 Nordic 的晶片用。&lt;/p&gt;
+&lt;h3 id="rt-thread"&gt;&lt;a class="link" href="https://github.com/RT-Thread/rt-thread" target="_blank" rel="noopener"
+&gt;RT-Thread&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;RT-Thread 是一款由中國團隊主導開發的開源即時作業系統（RTOS），在中國的嵌入式系統開源社群算蠻熱門的，對中國製MCU(特別是一些RISC-V的晶片)支援度很好，但其他地方就比較少看到有人在用，跟Zephyr一樣也有蠻多工具可以使用，我自己還沒有用過，但讓我印象深刻的是RT-Thread社群有一個可以一鍵生成 STM32 bootloader 的工具，不過要使用要註冊帳號，而且還限定用中國的電話才能註冊&amp;hellip;，就對中國以外的開發者不是很友好。&lt;/p&gt;
+&lt;h2 id="比較"&gt;比較
+&lt;/h2&gt;&lt;h3 id="幾種rtos的差別"&gt;幾種RTOS的差別
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;名稱&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;RT-Thread&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;維護者&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 原為 Express Logic 開發，現由 Azure (Microsoft) 管理 &lt;br/&gt; - 被微軟購買後開源&lt;/td&gt;
+&lt;td&gt;- AWS（Amazon）及大社群共同維護 &lt;br/&gt; - 開源專案，有廣大社群支援&lt;/td&gt;
+&lt;td&gt;- 由 Linux Foundation 托管 &lt;br/&gt; - 眾多主要產業贊助商與貢獻者（如 Intel、Nordic 等）&lt;/td&gt;
+&lt;td&gt;- 中國嵌入式廠商與RT-Thread 社群&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;授權&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- MIT 授權 (開源版本)&lt;/td&gt;
+&lt;td&gt;- MIT 授權 &lt;br/&gt; - 完全開源、商業可使用&lt;/td&gt;
+&lt;td&gt;- Apache 2.0 授權 &lt;br/&gt; - 完全開源&lt;/td&gt;
+&lt;td&gt;- LGPL 授權 &lt;br/&gt; - 可商業使用，但需遵守 LGPL 條款&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;主要特色&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 小巧的記憶體佔用 &lt;br/&gt; - 高效能可搶先式多工 &lt;br/&gt; - 整合除錯功能、其他外設控制模組&lt;/td&gt;
+&lt;td&gt;- 模組化設計，可高度客製化內核 &lt;br/&gt; - 協同式及可搶先式多工 &lt;br/&gt; - 詳細文件與巨大社群，支援度高&lt;/td&gt;
+&lt;td&gt;- 跨平台相容性好 &lt;br/&gt; - 追蹤與分析工具完善 &lt;br/&gt; - 與 Percepio Tracealyzer 整合&lt;/td&gt;
+&lt;td&gt;- 輕量化設計與微核心架構 &lt;br/&gt; - 效率高，啟動速度快 &lt;br/&gt; - 著重模組化與易用性&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;使用門檻&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 門檻中 &lt;br/&gt; - 提供專門的 API 與工具鏈 &lt;br/&gt; - 原生支援STM32，其他晶片支援則較少&lt;/td&gt;
+&lt;td&gt;- 門檻低 &lt;br/&gt; - 文件全面且社群龐大 &lt;br/&gt; - 新手上手相對容易，維護成本低&lt;/td&gt;
+&lt;td&gt;- 門檻高 &lt;br/&gt; - 須熟悉成套的開發工具鏈 &lt;br/&gt; - 社群與企業資源豐富，難度取決於應用深度&lt;/td&gt;
+&lt;td&gt;- 門檻中 &lt;br/&gt; - 設計較為精簡易懂 &lt;br/&gt; - 模組化讓功能可彈性擴充，但仍需對 RTOS 原理有基礎理解&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;社群與生態&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 因 Microsoft Azure 加持，工業界支持度高 &lt;br/&gt; - 開源時間較晚，社群支援相較少&lt;/td&gt;
+&lt;td&gt;- 擁有極為廣泛的使用者社群 &lt;br/&gt; - 豐富的第三方套件與論壇資源&lt;/td&gt;
+&lt;td&gt;- 企業和開源社群雙管齊下 &lt;br/&gt; - 大型廠商投入資源開發並提供硬體支援 &lt;br/&gt; - 文件與套件工具逐漸成熟&lt;/td&gt;
+&lt;td&gt;- 亞洲市場擁有極大用戶基礎 &lt;br/&gt; - 社群不斷壯大，第三方資源也逐年提升&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;適用範圍&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 消費電子、工業設備 &lt;br/&gt; - 高度資源受限或需要高效能的應用&lt;/td&gt;
+&lt;td&gt;- 廣泛用於各類微控制器與嵌入式裝置 &lt;br/&gt; - 適合中小型專案或原型開發&lt;/td&gt;
+&lt;td&gt;- 高度跨平台相容性的產品 &lt;br/&gt; - 需要整合多種通訊協定的裝置&lt;/td&gt;
+&lt;td&gt;- 小型物聯網裝置、家電產品、工業控制等 &lt;br/&gt; - 適合資源有限且需高即時性的情境&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;範例&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 高度整合 SoC 平台 &lt;br/&gt; - 網路裝置、醫療器械、消費性電子設備 &lt;br/&gt; - 資源特別有限但需穩定度的系統&lt;/td&gt;
+&lt;td&gt;- 物聯網邊緣設備 &lt;br/&gt; - 小型感測器、可攜式產品 &lt;br/&gt; - 工業自動化控制&lt;/td&gt;
+&lt;td&gt;- 高速通訊設備 &lt;br/&gt; - 需要完整追蹤與調試能力的工業設備 &lt;br/&gt; - 精密儀器及高可靠度應用&lt;/td&gt;
+&lt;td&gt;- 嵌入式微控制器 &lt;br/&gt; - 智能家居與可穿戴式裝置 &lt;br/&gt; - 需要快速啟動、高效率排程的場景&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="內核功能層面的差異"&gt;內核功能層面的差異
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;名稱&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;RT-Thread&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;內核架構&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 輕量級、模組化設計 &lt;br/&gt; - 單核心即時系統 &lt;br/&gt; - 提供 preemption-threshold&lt;/td&gt;
+&lt;td&gt;- 單核心設計 &lt;br/&gt; - 透過設定檔自由啟用/停用功能 &lt;br/&gt; - 針對 MCU 移植方便&lt;/td&gt;
+&lt;td&gt;- 類微核心（microkernel）概念 &lt;br/&gt; - Kconfig 編譯時可裁剪/擴充 &lt;br/&gt; - 可支援多核心 (SMP)&lt;/td&gt;
+&lt;td&gt;- 微核心 + 模組化 &lt;br/&gt; - 通過 Packages 擴充 &lt;br/&gt; - 預設核心輕量、啟動速度快&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;排程機制&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 可搶先式多工 &lt;br/&gt; - 優先順序排程 &lt;br/&gt; - preemption-threshold 降低不必要的搶先&lt;/td&gt;
+&lt;td&gt;- 可搶先式或協同式多工 &lt;br/&gt; - 時間片 (time slicing) 可選 &lt;br/&gt; - 任務通知提高效能&lt;/td&gt;
+&lt;td&gt;- 可搶先式/協同式混合 &lt;br/&gt; - 支援多核心下的任務搬移 &lt;br/&gt; - 彈性設定時間片與搶先策略&lt;/td&gt;
+&lt;td&gt;- 以優先順序為基礎的可搶先式 &lt;br/&gt; - 切換開銷低 &lt;br/&gt; - 適合時限嚴苛的應用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;中斷管理&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 提供快速中斷響應 &lt;br/&gt; - ISR 中可使用 IPC 原語 &lt;br/&gt; - 建議複雜邏輯放在 Thread&lt;/td&gt;
+&lt;td&gt;- 有完整的中斷優先級設定規範 &lt;br/&gt; - 提供「FromISR」API 與核心互動 &lt;br/&gt; - 避免高優先級中斷封鎖 RTOS 服務&lt;/td&gt;
+&lt;td&gt;- 針對不同架構有對應方法 &lt;br/&gt; - 允許在 ISR 後半段做較複雜處理 &lt;br/&gt; - 支援 &lt;code&gt;irq_offload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;- 中斷入口/出口簡潔 &lt;br/&gt; - 可在 ISR 裡做任務喚醒或 IPC &lt;br/&gt; - 建議將重任務放在中斷後處理或 Task&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;任務通訊與同步&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 提供 Semaphore、Mutex、Event Flags、Message Queue &lt;br/&gt; - Block Pool / Byte Pool 作為底層資源&lt;/td&gt;
+&lt;td&gt;- 有 Queue、Semaphore、Mutex、Event Group、Task Notification &lt;br/&gt; - Queue 是核心溝通管道&lt;/td&gt;
+&lt;td&gt;- 提供 Queue、FIFO、LIFO、Pipe、Mailbox、Semaphore、Mutex 等多樣化機制 &lt;br/&gt; - 信號（Signals）/事件等高階通訊&lt;/td&gt;
+&lt;td&gt;- 提供 Semaphore、Mutex、Event、Mailbox、Message Queue &lt;br/&gt; - 模組化 API，易於擴充&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;記憶體管理&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Block Pool（固定大小） &lt;br/&gt; - Byte Pool（彈性分配） &lt;br/&gt; - 適合小型系統&lt;/td&gt;
+&lt;td&gt;- 多種 heap 實作 (heap1~heap5) &lt;br/&gt; - 依需求選擇靜態或動態配置 &lt;br/&gt; - 須注意配置 Semaphore / Mutex 以確保多任務安全&lt;/td&gt;
+&lt;td&gt;- slab、mempool、heap 等多種分配策略 &lt;br/&gt; - Kconfig 可細調 &lt;br/&gt; - 需在編譯階段做良好配置&lt;/td&gt;
+&lt;td&gt;- mempool、heap 二分法 &lt;br/&gt; - 預設輕量動態分配算法 &lt;br/&gt; - 可搭配自訂或高階 alloc 演算法&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;除錯與追蹤&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 可使用 TraceX 等工具 &lt;br/&gt; - 整合度高，針對 Thread、Event、IPC 做可視化&lt;/td&gt;
+&lt;td&gt;- FreeRTOS+Trace、第三方 IDE 追蹤工具多 &lt;br/&gt; - 與 Percepio Tracealyzer 深度整合&lt;/td&gt;
+&lt;td&gt;- 統一的 Tracing 子系統 &lt;br/&gt; - 可連接 Tracealyzer、LTTng、SystemView 等 &lt;br/&gt; - 追蹤支援度豐富&lt;/td&gt;
+&lt;td&gt;- RT-Thread Studio 或其他插件 &lt;br/&gt; - 提供簡單 log 系統與線上除錯機制 &lt;br/&gt; - 社群亦有類似 FreeRTOS Trace 的追蹤方案&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;可移植性與擴充性&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 官方主要支援多數 ARM、RISC-V、MIPS &lt;br/&gt; - Microsoft 收購後社群逐漸擴大&lt;/td&gt;
+&lt;td&gt;- 幾乎所有 MCU 都有移植 &lt;br/&gt; - 大量第三方套件與驅動 &lt;br/&gt; - 可透過 AWS FreeRTOS 延伸雲端功能&lt;/td&gt;
+&lt;td&gt;- 原生支援多家大廠硬體 (Intel、NXP、Nordic&amp;hellip;) &lt;br/&gt; - Kconfig + Devicetree 與 Linux 類似 &lt;br/&gt; - 企業支援與社群並重&lt;/td&gt;
+&lt;td&gt;- 在亞洲（特別是中國）用得廣泛 &lt;br/&gt; - 與國產 MCU、RISC-V 平台整合度高 &lt;br/&gt; - Packages 方式讓功能彈性擴充&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="總結"&gt;總結
+&lt;/h2&gt;&lt;p&gt;總結一下前面提到的四種RTOS：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;：以高效能與小巧佔用聞名，擅長在嚴苛的資源受限環境中執行，另有良好的除錯工具與商業案例，對STM32的支援度好。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;：擁有巨大開源社群與靈活的擴充性，適用於廣泛的微控制器與嵌入式應用，在學術或商業專案皆常見，初學者適合。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;：受到 Linux 基金會與多家企業的大力推動，硬體支援廣泛，並有強大的追蹤與分析工具，適合需要高可靠度及詳細監控的中大型嵌入式應用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RT-Thread&lt;/strong&gt;：架構輕量化、模組化明確，啟動速度快，適合物聯網及其他對即時性與資源效率要求高的場景。&lt;/li&gt;
+&lt;/ol&gt;</description></item><item><title>Zephyr RTOS 兩種建立Thread的方式</title><link>https://www.hugoshih.com/zh-cn/p/zephyr-rtos-%E5%85%A9%E7%A8%AE%E5%BB%BA%E7%AB%8Bthread%E7%9A%84%E6%96%B9%E5%BC%8F/</link><pubDate>Sun, 05 Jan 2025 22:20:31 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/zephyr-rtos-%E5%85%A9%E7%A8%AE%E5%BB%BA%E7%AB%8Bthread%E7%9A%84%E6%96%B9%E5%BC%8F/</guid><description>&lt;img src="https://i.imgur.com/V5OSNcL.jpg" alt="Featured image of post Zephyr RTOS 兩種建立Thread的方式" /&gt;&lt;h1 id="zephyr-rtos-兩種建立thread的方式"&gt;Zephyr RTOS 兩種建立Thread的方式
 &lt;/h1&gt;&lt;h2 id="thread-執行緒"&gt;Thread (執行緒)
 &lt;/h2&gt;&lt;p&gt;在 Zephyr OS中，每個獨立的功能或任務可以放在不同的執行緒中執行，內部使用了輕量級的排程器，可以根據不同執行緒的優先級，以及執行緒本身的狀態（ready, running, pending 等），來決定哪一個執行緒能夠先被 CPU 執行，執行緒可以有以下幾個性質：&lt;/p&gt;
 &lt;ol&gt;
@@ -411,4 +739,40 @@ loading="lazy"
 &lt;li&gt;適用於需要彈性創建和銷毀大量或不定數量執行緒的應用場景&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>嵌入式系統常用的幾種MCU</title><link>https://www.hugoshih.com/zh-cn/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</link><pubDate>Mon, 21 Aug 2023 19:32:31 +0800</pubDate><guid>https://www.hugoshih.com/zh-cn/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</guid><description>&lt;img src="https://i.imgur.com/xEqWwbo.jpg" alt="Featured image of post 嵌入式系統常用的幾種MCU" /&gt;&lt;h1 id="嵌入式系統常用的幾種mcu"&gt;嵌入式系統常用的幾種MCU
+&lt;/h1&gt;&lt;p&gt;最近在實作嵌入式系統時因為系統需要更強的運算功能，決定捨棄原本常用的Atmega328p，尋找其他32位元MCU開發平台，選擇平台是件大事，每個平台的適用場景跟開發環境都不同，藉此機會來分析一下。&lt;/p&gt;
+&lt;h2 id="atmel系列-如atmega328p"&gt;ATMEL系列 (如ATMEGA328P)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Atmega328p是ATMEL公司(美國)生產的8位元AVR架構MCU，常用於Arduino UNO板上&lt;/li&gt;
+&lt;li&gt;優點:容易入門且文檔完整、社群支援完整(Arduino生態系建立的很好)、良好的功耗效率(這點沒實測過但聽說很不錯)&lt;/li&gt;
+&lt;li&gt;缺點:與其他32位元MCU相比，處理能力有限、較少的內置記憶體和RAM、以他的性能來說小貴(35元上下)&lt;/li&gt;
+&lt;li&gt;適用場景: 初學者入門的專案(例如Arduino教學、簡單的嵌入式專案)、低功耗低成本的家用電子裝置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="esp系列-如esp32-c3"&gt;ESP系列 (如ESP32-C3)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;ESP32-C3是Espressif Systems公司(中國)的產品，基於32位元RICS-V或Xtensa架構，自帶WiFi和藍牙功能&lt;/li&gt;
+&lt;li&gt;優點:直接包含WiFi和藍牙不用外接模組所以CP很高(一顆35-50元)、也是很多人在使用社群支援算完整、有內涵SPI flash的版本很方便&lt;/li&gt;
+&lt;li&gt;缺點:較高的功耗(雖然有深度睡眠功能)、系統穩定性聽說不佳&lt;/li&gt;
+&lt;li&gt;適用場景: IoT (物聯網) 需要WiFi或藍牙連接的設備、智慧家電、智慧穿戴裝置、不是很關鍵的東西。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="stm系列-如stmf103c8t6"&gt;STM系列 (如STMF103C8T6)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;STMF103C8T6是STMicroelectronics公司(瑞士)的32位元ARM Cortex-M3微控制器&lt;/li&gt;
+&lt;li&gt;優點:運算功能強、具有多種接口、有低功耗模式的版本，具有較高的性價比(範圍大20-60元都有)、有很完整的開發除錯工具、在工業產品中比較常用&lt;/li&gt;
+&lt;li&gt;缺點:開發環境較為複雜、較少的RAM和Flash&lt;/li&gt;
+&lt;li&gt;適用場景: 複雜的嵌入式專案、需要強大的處理能力、工業自動化、無人機、高階的感測器系統&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="stc系列-如stc89c52"&gt;STC系列 (如STC89C52)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;STC89C52是STC Micro公司(中國)生產的8位元8051微控制器。&lt;/li&gt;
+&lt;li&gt;優點: 8051架構非常的古老、具有廣泛的應用和大量的資料支援、價格超便宜(10-50元)、開發環境算簡單。&lt;/li&gt;
+&lt;li&gt;缺點:超舊的架構，處理能力有限、較少的內存和RAM、可以看作是人弱化版的Atmel系列、但因為功能單純，家電之類的很常用到&lt;/li&gt;
+&lt;li&gt;適用場景: 傳統的嵌入式系統，如家用電器控制、教育用途，學習8051微控制器的原理和程式設計、簡單的LED顯示、鍵盤輸入等基本IO操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="raspberry系列-如rp2040"&gt;RASPBERRY系列 (如RP2040)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;RP2040是Raspberry Pi基金會(英國)開發的32位元ARM Cortex-M0+微控制器&lt;/li&gt;
+&lt;li&gt;優點:高效的處理性能、RAM算大、開源資源和社群支援、簡單的開發環境(Micropython)、CP值也很高(35元)&lt;/li&gt;
+&lt;li&gt;缺點: 較新的產品，可能存在與硬體不穩定的問題有些Bug可能還沒有解法&lt;/li&gt;
+&lt;li&gt;適用場景: 要求高性能處理的嵌入式專案、影音運算、影像處理、複雜的演算法運算、大數據處理、跑TinyML模型等等&lt;/li&gt;
 &lt;/ul&gt;</description></item></channel></rss>
