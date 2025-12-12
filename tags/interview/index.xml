@@ -1,1569 +1,1569 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/interview/</link><description>Recent content in Interview on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 30 Oct 2025 21:48:32 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/interview/index.xml" rel="self" type="application/rss+xml"/><item><title>關於 Aligned Memory Allocation</title><link>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</link><pubDate>Thu, 30 Oct 2025 21:48:32 +0800</pubDate><guid>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</guid><description>&lt;img src="https://i.imgur.com/WVmjgMd.jpeg" alt="Featured image of post 關於 Aligned Memory Allocation" />&lt;h2 id="起源">起源
-&lt;/h2>&lt;p>由於在這個東西上吃了大悶虧，至於是什麼虧就不細究了，總之是我當初在看到這東西的時候沒有認真摸透，就趁著這個機會好好還債了
-我想要用一個超級白話的方式讓人快速可以理解，下次遇到這個議題再回來看就能快速回憶起來&lt;/p>
-&lt;h2 id="什麼是-aligned-memory-allocation">什麼是 Aligned Memory Allocation？
-&lt;/h2>&lt;p>設想一個情況，今天程式運行到一個地方，如果我需要一些額外的記憶體來儲存新的資料，在 C 語言中我們一定會用到 &lt;code>malloc()&lt;/code> 來跟系統要額外的記憶體空間&lt;/p>
-&lt;p>舉個例子，我現在突然需要 32 bytes 的空間，所以我就使出 &lt;code>malloc()&lt;/code>，然後系統就翻啊翻找啊找，最後在記憶體中找到了 32 bytes 的空間，並把起始的記憶體位置傳回來。這個起始的位置可能很隨機，像是 &lt;code>0x08004321&lt;/code>，不過這也無傷大雅，總之我現在有了 32 bytes 空間，我現在想對他幹嘛就幹嘛。&lt;/p>
-&lt;p>然而然而，在某些情況（至於是哪些情況後面再講），我們會希望我們得到的記憶體的起始位置是「對齊」的。那什麼叫做對齊呢？&lt;/p>
-&lt;p>舉個例子，如果你用一些 Hex 檔案的預覽工具，你會看到左邊的起始位置很整齊以 32 bytes 間隔，像下面這樣：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;span class="lnt">6
-&lt;/span>&lt;span class="lnt">7
-&lt;/span>&lt;span class="lnt">8
-&lt;/span>&lt;span class="lnt">9
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">一般隨機分配 (未對齊):
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x08004321 | Data...
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ^ 起始位置很隨意
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">32-byte Alignment (對齊):
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x08000000 | Data...
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x08000020 | Data... &amp;lt;-- 0x20 就是 32
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x08000040 | Data... &amp;lt;-- 0x40 就是 64
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ^ 起始位置都可以被 32 整除
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>&lt;img src="https://i.imgur.com/hr8QdrG.jpeg"
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/interview/</link><description>Recent content in Interview on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 30 Oct 2025 21:48:32 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/interview/index.xml" rel="self" type="application/rss+xml"/><item><title>關於 Aligned Memory Allocation</title><link>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</link><pubDate>Thu, 30 Oct 2025 21:48:32 +0800</pubDate><guid>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</guid><description>&lt;img src="https://i.imgur.com/WVmjgMd.jpeg" alt="Featured image of post 關於 Aligned Memory Allocation" /&gt;&lt;h2 id="起源"&gt;起源
+&lt;/h2&gt;&lt;p&gt;由於在這個東西上吃了大悶虧，至於是什麼虧就不細究了，總之是我當初在看到這東西的時候沒有認真摸透，就趁著這個機會好好還債了
+我想要用一個超級白話的方式讓人快速可以理解，下次遇到這個議題再回來看就能快速回憶起來&lt;/p&gt;
+&lt;h2 id="什麼是-aligned-memory-allocation"&gt;什麼是 Aligned Memory Allocation？
+&lt;/h2&gt;&lt;p&gt;設想一個情況，今天程式運行到一個地方，如果我需要一些額外的記憶體來儲存新的資料，在 C 語言中我們一定會用到 &lt;code&gt;malloc()&lt;/code&gt; 來跟系統要額外的記憶體空間&lt;/p&gt;
+&lt;p&gt;舉個例子，我現在突然需要 32 bytes 的空間，所以我就使出 &lt;code&gt;malloc()&lt;/code&gt;，然後系統就翻啊翻找啊找，最後在記憶體中找到了 32 bytes 的空間，並把起始的記憶體位置傳回來。這個起始的位置可能很隨機，像是 &lt;code&gt;0x08004321&lt;/code&gt;，不過這也無傷大雅，總之我現在有了 32 bytes 空間，我現在想對他幹嘛就幹嘛。&lt;/p&gt;
+&lt;p&gt;然而然而，在某些情況（至於是哪些情況後面再講），我們會希望我們得到的記憶體的起始位置是「對齊」的。那什麼叫做對齊呢？&lt;/p&gt;
+&lt;p&gt;舉個例子，如果你用一些 Hex 檔案的預覽工具，你會看到左邊的起始位置很整齊以 32 bytes 間隔，像下面這樣：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;一般隨機分配 (未對齊):
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08004321 | Data...
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ 起始位置很隨意
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;32-byte Alignment (對齊):
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000000 | Data...
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000020 | Data... &amp;lt;-- 0x20 就是 32
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000040 | Data... &amp;lt;-- 0x40 就是 64
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ 起始位置都可以被 32 整除
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/hr8QdrG.jpeg"
 loading="lazy"
 alt="image"
->&lt;/p>
-&lt;p>所謂的 &lt;strong>Aligned Memory Allocation&lt;/strong>，就是我在要新的記憶體空間時，想要拿到一個&lt;strong>起始位置可以被 32（或是其他數字）整除的記憶體空間&lt;/strong>&lt;/p>
-&lt;p>OK，所以說到這邊應該對這個 Aligned Memory Allocation 是什麼應該有點概念了，這樣就成功了一半了。因為大多數人第一次聽到應該都比較難想到這是什麼，又或者知道這是什麼，但不知道有什麼用&lt;/p>
-&lt;p>所以，這個有什麼用呢？&lt;/p>
-&lt;h2 id="為什麼需要-alignment">為什麼需要 Alignment？
-&lt;/h2>&lt;p>會需要 Alignment 大多是受到硬體設計的限制，例如：&lt;/p>
-&lt;p>向量指令集 (如 AVX)，當執行這類指令集的時候，會要求目標的記憶體位置是對齊的，沒有對齊的話得要拆成兩步去處理，或是直接出現錯誤，那為什麼不設計成指令集可以讀取任意位置起始的記憶體呢？我覺得大多是成本考量，如果能從驅動程式端去解決，又何必浪費昂貴的硬體空間呢&lt;/p>
-&lt;p>其他像是 CUDA 中 GPU 透過 PCIe 抓取資料時，使用 DMA 也會要求記憶體要對齊，又或者 GPU 指令抓取他自己記憶體的資料也會要求對齊，另外在 STM32 這類單晶片上使用 DMA 時，buffer 的記憶體位置也會要求對齊，才能夠被 DMA 正確寫入或讀取&lt;/p>
-&lt;p>這時候一定有人跳出來說：「我平常用 CUDA 或是在 STM32 上用 DMA 都沒遇到這問題啊！」&lt;/p>
-&lt;p>那是因為 CUDA driver 或是 HAL library 之類的會幫你處理好，所以當然沒感覺，反過來說，如果你今天寫的是 driver 或是 bare metal 開發，那一定要小心記憶體對齊這東西，不然可能連動都動不起來&lt;/p>
-&lt;h2 id="所以該怎麼做到-alignment">所以該怎麼做到 Alignment？
-&lt;/h2>&lt;p>前面說了這麼多，那要怎麼才能做到記憶體分配時 Alignment 呢？&lt;/p>
-&lt;p>設想今天我們目標要一塊新的 64 bytes 記憶體，並且要求 32-byte 對齊。
-如果今天 &lt;code>malloc&lt;/code> 給的起始位置剛剛好就是 &lt;code>0x08000040&lt;/code>，是 alignment block 的起始位置，這樣就中大獎了，但實際上當然不會那麼幸運，他可能給你的起始位置是 &lt;code>0x08000041&lt;/code>（偏移了 1 個 byte），也可能起始是 &lt;code>0x0800005F&lt;/code>（偏移了 31 個 bytes）&lt;/p>
-&lt;p>但沒關係，這時候就會想到，只要&lt;code>malloc&lt;/code>的記憶體夠長，從中找到一個 Alignment Block 的起點並從那邊開始存資料，這樣也算對齊吧&lt;/p>
-&lt;p>那麼問題就回到，我們該要多長的記憶體呢？
-觀察前面的例子，如果做 32 bytes 的 alignment，偏移的量最多就是 &lt;code>0 ~ 31&lt;/code> bytes。所以我們要 &lt;code>malloc()&lt;/code> 的空間至少要是 &lt;code>size + alignment - 1&lt;/code>&lt;/p>
-&lt;p>等等，好像少了什麼？
-這樣的話要怎麼才能 &lt;code>free&lt;/code> 掉 alignment 起始位址前面的那些空間呢？我們需要紀錄&lt;strong>真正原本 &lt;code>malloc&lt;/code> 出來的起始位址&lt;/strong>，所以還需要再多一個位置去存這個指標，這個需要的空間是 &lt;code>sizeof(void*)&lt;/code>&lt;/p>
-&lt;p>總結來說，我們真正要 &lt;code>malloc()&lt;/code> 的長度是：
-&lt;code>size + alignment - 1 + sizeof(void*)&lt;/code>&lt;/p>
-&lt;p>&lt;strong>記憶體結構示意圖：&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">實際 malloc 得到的區塊 (Original)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">|
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">v
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">+-------------+---------------------+-------------------------+
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| padding ... | 原始指標 (Stored) | 使用者拿到的指標 (Aligned)|
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">+-------------+---------------------+-------------------------+
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ^ ^
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 這格存著 original 符合 32-byte 對齊
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 的地址 我們回傳這個地址
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>然後我們只要找到這裡面 alignment 的起始位址，並且把「原始的起始位址」存在 alignment 起始的前一格。這樣在 &lt;code>free&lt;/code> memory 時，只要從 alignment 位址&lt;strong>往前找一格&lt;/strong>，就可以找到我們應該要釋放的記憶體起點。&lt;/p>
-&lt;p>原理概念上就是這樣了，那麼就來看看要怎麼實作吧。&lt;/p>
-&lt;h2 id="c-語言實作">C 語言實作
-&lt;/h2>&lt;p>以下用 32-byte alignment 為例子，可以把 32 換成任意想要的正整數 alignment（通常是 2 的次方）。&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;span class="lnt">25
-&lt;/span>&lt;span class="lnt">26
-&lt;/span>&lt;span class="lnt">27
-&lt;/span>&lt;span class="lnt">28
-&lt;/span>&lt;span class="lnt">29
-&lt;/span>&lt;span class="lnt">30
-&lt;/span>&lt;span class="lnt">31
-&lt;/span>&lt;span class="lnt">32
-&lt;/span>&lt;span class="lnt">33
-&lt;/span>&lt;span class="lnt">34
-&lt;/span>&lt;span class="lnt">35
-&lt;/span>&lt;span class="lnt">36
-&lt;/span>&lt;span class="lnt">37
-&lt;/span>&lt;span class="lnt">38
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;stdlib.h&amp;gt;&lt;/span>&lt;span class="cp">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;stdint.h&amp;gt; // 為了使用 uintptr_t&lt;/span>&lt;span class="cp">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="nf">aligned_malloc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">size_t&lt;/span> &lt;span class="n">size&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 1. 計算需要的總空間：
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// size + (alignment - 1) 的調整空間 + 存放原始指標的空間
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">original&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">malloc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">size&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">32&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="k">sizeof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">));&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">original&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 2. 算出 alignment 的起始位置
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 先預留一個 pointer 的空間給我們存地址
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">uintptr_t&lt;/span> &lt;span class="n">raw&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">uintptr_t&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">original&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="k">sizeof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 利用 Bitwise 操作進行對齊
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 原理：(address + mask) &amp;amp; ~mask
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 注意：這裡要用 ~(32 - 1) 也就是 ~31 才能遮掉後五位達到 32 對齊
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">uintptr_t&lt;/span> &lt;span class="n">aligned&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">raw&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">32&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="o">~&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">32&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 其實也可以用(void*)(original - (original % 32));去算
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 只是用bit manipulation感覺比較優雅
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 3. 把原本 malloc() 的起始位址存到 alignment 位址的前一格
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">((&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">**&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">aligned&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">original&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 4. 最後回傳 alignment 的起始
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">aligned&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">aligned_free&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">ptr&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">ptr&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// free 的時候，去找到 alignment 位址前一格存的原來 malloc 的位址
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">original&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">((&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">**&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">ptr&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">];&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 然後把它釋放就行了
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nf">free&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">original&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="結語">結語
-&lt;/h2>&lt;p>總之就是這樣，Aligned Memory Allocation這個東西重要又有一些實作小細節，藉由這個機會算是有搞懂他了，以後忘了也可以快速回來複習一下&lt;/p>
-&lt;h2 id="reference">Reference
-&lt;/h2>&lt;ul>
-&lt;li>&lt;a class="link" href="https://bclin.tw/2020/03/15/aligned-malloc/" target="_blank" rel="noopener"
->如何實作一個 aligned_alloc () ？&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://medium.com/howsofcoding/memory-management-aligned-malloc-and-free-9273336bd4c6" target="_blank" rel="noopener"
->Designing aligned Memory Allocator&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://linux.die.net/man/3/aligned_alloc" target="_blank" rel="noopener"
->aligned_alloc(3) - Linux man page&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>2023 Google Technical Program Manager 面試經驗</title><link>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager 面試經驗" />&lt;h1 id="google-technical-program-manager-面試經驗">Google Technical Program Manager 面試經驗
-&lt;/h1>&lt;h2 id="前言">前言
-&lt;/h2>&lt;p>一直有許多Google SWE的面試經驗分享，然而Technical Program Manager(TPM)的面試經驗則幾乎沒有，其實不光是Dcard國外各大網站TPM的面試經驗分享也很少，因此來分享一下，雖然沒有拿到Offer，但有面到最後，經驗應該可以參考一下。&lt;/p>
-&lt;p>過去學經歷是112電資相關學碩，今年當完兵之後在比Google略大一點的公司當TPM。以前就有想進去Google，去年也投了Google SWE的面試，面完過HC等Team match時就遇到Hiring Freeze，詳細經歷可以參考：&lt;a class="link" href="https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/" target="_blank" rel="noopener"
->Google SWE 面試心路歷程&lt;/a>，直到今年景氣變好才又開始Fit talk，結果連match了三個team都沒中，心灰意冷之際就收到另一個HR寄來TPM的面試邀請，抱著打聽情報的心態就跟HR排了個1:1，其實本來是對Google TPM缺沒什麼興趣，但在會議中被HR一波洗腦後，抱著那就試試的心態就接下面試邀請了。&lt;/p>
-&lt;h2 id="時間">時間
-&lt;/h2>&lt;ul>
-&lt;li>5/12 - 收到HR的TPM面試邀請&lt;/li>
-&lt;li>5/23 - 跟HR約1:1了解職缺&lt;/li>
-&lt;li>6/13 - VO:Technical Judgement*2&lt;/li>
-&lt;li>6/20 - VO:PgM + GCA&lt;/li>
-&lt;li>6/30 - 跟HR1:1通知面試結果: not move forward&lt;/li>
-&lt;/ul>
-&lt;h2 id="面試">面試
-&lt;/h2>&lt;p>Google TPM的VO面試總共有五關，每關45分鐘:&lt;/p>
-&lt;ul>
-&lt;li>兩關的Technical Judgement面試&lt;/li>
-&lt;li>一關Program Management related(PgM)面試&lt;/li>
-&lt;li>一關General Cognitive Ability(GCA)面試&lt;/li>
-&lt;li>一關Googleyness面試&lt;/li>
-&lt;/ul>
-&lt;p>可能因為之前已經面過Googleyness，所以這關就直接跳過了，實際上只面了四關，考慮到我技術能力可能比PM能力好一點，HR先幫我排了兩場Technical Judgement面試，結果不錯的話再排PgM和GCA，後來也證明這是正確的策略。&lt;/p>
-&lt;p>根據網路上的情報跟HR提供的文件，我認為Technical Judgement面試可能像是技術面試，可能會問Codeing，也可能會問System design，為此還翻出leetcode刷了幾題暖身；PgM可能會問跟經驗相關的問題；GCA則可能問解決問題的邏輯，但這部分當下也想不到有什麼準備方向，所以我只把HR給的參考資料看完，再多回想幾個小故事，由於實在想不到要怎麼準備，我也想辦法跟HR要些Hint，不過HR看起來已經給我全部能給的東西了，那就硬著頭皮上吧，學習嘛&amp;hellip;。&lt;/p>
-&lt;p>順帶一提，TPM的面試是全英文的，四關差不多兩小時都在不停的說英文，這樣的要求也是可以理解，在Google這種公司Cross-function的溝通是極度仰賴英文的，這點也跟SWE面試很不一樣，SWE只有兩關英文，而且不會一直講話。&lt;/p>
-&lt;ul>
-&lt;li>Technical Judgement
-老實說聽到第一個問題時就開始懷疑人生了，我原本已經擺好寫Code的姿勢了，結果第一個問題是：「你最成功的專案什麼？」(詳細題目記不得了，反正是類似這的問題)，是那種我以為應該在PgM或GCA面試會問的問題，還好之前已經準備了不少小故事，姿勢一換搬出從大學、研究所到工作時做的還算有技術深度的案子，講解要解決的問題、我在團隊扮演的腳色、技術的選擇、克服的問題等，過程有來有回，面試官聽也還算滿意，不過一連的幾個問題也都是差不多這種類型，讓我有種我是不是走錯棚的錯覺，結束時還問了一下：「請問這個是Technical Judgement Interview嘛？」面試官愣了一下回：「是阿」，「Ok&amp;hellip;」瞬間好像懂了甚麼又覺得甚麼都不懂，第二場Technical Judgement也是差不多的情況，總之自認表現還行，後來HR的feedback也是說Positive。&lt;/li>
-&lt;li>Program Management Related Knowledge(PgM)
-有鑒於Technical Judgement面試問題實在出乎意料，因此再次問HR有關PgM面試的細節，HR還是回說他給的文件已經有資訊了，那就只能自行腦補了，既然名字叫Program Management那應該就是問PM相關能力吧，那應該多往PM的腳色去回答就行，果然不其然，面試的題目跟Technical Judgement幾乎一樣，而我就搬出之前做專案時怎麼定Scope、怎麼寫Spec、怎麼drive project、怎麼溝通協調，面試官看起來還算滿意我的回答，結束面試前小聊了一下這個position的情報，面試官覺得跟我目前的經驗差距頗大，不過還是祝我Good luck。&lt;/li>
-&lt;li>General Cognitive Ability(GCA)
-到了GCA，我是真的想不到要怎麼準備了，如果是問解決問題的邏輯好像也很難準備。果然這關又問了跟前三關差不多的問題，然後我先從執行面去回答，但感覺面試官不太滿意，因此我又換一條路從技術面切入回答，面試官還是不太滿意，並建議我應該先從更High level的架構回答，因此我再給出了一個這方向的答案，不過沒有想得很透徹，應該是Bug滿滿，自己覺得答的超級爛，有感自己答的很爛，結束前後臉皮的跟面試官請教了一回，他也人很好跟我解釋了每一個問題的回答重點，大方向的概念是要先想出一個解決問題的框架，再將這個框架套入回答問題的框架去依序回答才有辦法打到得分點。&lt;/li>
-&lt;/ul>
-&lt;h2 id="結果">結果
-&lt;/h2>&lt;p>後來再跟HR約了一次1:1，結果跟想像的差不多，前面表現都還不錯，主要掛在GCA，沒辦法再move forward，只能回去等還有沒有team match的機會了。&lt;/p>
-&lt;p>後來想了一下這次的面試確實有很多可以改進的點，除了現在真的菜，能講的經驗還太少外，就是對TPM面試回答的框架還不夠熟，這邊指的框架像是:
-面對PgM的問題可以依序從以下幾點下手:&lt;/p>
-&lt;ul>
-&lt;li>專案範疇與組織&lt;/li>
-&lt;li>專案執行&lt;/li>
-&lt;li>溝通與影響力&lt;/li>
-&lt;li>釐清模糊不清的情況&lt;/li>
-&lt;/ul>
-&lt;p>面對GCA的問題可以依序從以下幾點下手:&lt;/p>
-&lt;ul>
-&lt;li>理解問題&lt;/li>
-&lt;li>蒐集資訊&lt;/li>
-&lt;li>找出解決方案&lt;/li>
-&lt;li>支持解決方案的證據&lt;/li>
-&lt;li>良好的溝通&lt;/li>
-&lt;/ul>
-&lt;p>下次要再嘗試Google TPM的面試時，應該要多花點時間打磨手上的案例，想辦法塞進這些框架組織，然後熟練使用這些框架回答問題，某種程度上也算是刷題吧。&lt;/p>
-&lt;h2 id="結語">結語
-&lt;/h2>&lt;p>個人覺得TPM的面試比SWE面試還要難而且複雜，即便如此Google似乎很想找有EECS背景且有PM能力的人進去當TPM，只是這類人不多又或者沒興趣所以一直找不到人，如果有相關背景的人有興趣可以去嘗試看看。&lt;/p>
-&lt;p>如果有看完這篇對你有幫助，就順便祝福我早日拿到Google Offer啦。&lt;/p>
-&lt;p>&lt;img src="https://i.imgur.com/C8prC95.jpg"
+&gt;&lt;/p&gt;
+&lt;p&gt;所謂的 &lt;strong&gt;Aligned Memory Allocation&lt;/strong&gt;，就是我在要新的記憶體空間時，想要拿到一個&lt;strong&gt;起始位置可以被 32（或是其他數字）整除的記憶體空間&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;OK，所以說到這邊應該對這個 Aligned Memory Allocation 是什麼應該有點概念了，這樣就成功了一半了。因為大多數人第一次聽到應該都比較難想到這是什麼，又或者知道這是什麼，但不知道有什麼用&lt;/p&gt;
+&lt;p&gt;所以，這個有什麼用呢？&lt;/p&gt;
+&lt;h2 id="為什麼需要-alignment"&gt;為什麼需要 Alignment？
+&lt;/h2&gt;&lt;p&gt;會需要 Alignment 大多是受到硬體設計的限制，例如：&lt;/p&gt;
+&lt;p&gt;向量指令集 (如 AVX)，當執行這類指令集的時候，會要求目標的記憶體位置是對齊的，沒有對齊的話得要拆成兩步去處理，或是直接出現錯誤，那為什麼不設計成指令集可以讀取任意位置起始的記憶體呢？我覺得大多是成本考量，如果能從驅動程式端去解決，又何必浪費昂貴的硬體空間呢&lt;/p&gt;
+&lt;p&gt;其他像是 CUDA 中 GPU 透過 PCIe 抓取資料時，使用 DMA 也會要求記憶體要對齊，又或者 GPU 指令抓取他自己記憶體的資料也會要求對齊，另外在 STM32 這類單晶片上使用 DMA 時，buffer 的記憶體位置也會要求對齊，才能夠被 DMA 正確寫入或讀取&lt;/p&gt;
+&lt;p&gt;這時候一定有人跳出來說：「我平常用 CUDA 或是在 STM32 上用 DMA 都沒遇到這問題啊！」&lt;/p&gt;
+&lt;p&gt;那是因為 CUDA driver 或是 HAL library 之類的會幫你處理好，所以當然沒感覺，反過來說，如果你今天寫的是 driver 或是 bare metal 開發，那一定要小心記憶體對齊這東西，不然可能連動都動不起來&lt;/p&gt;
+&lt;h2 id="所以該怎麼做到-alignment"&gt;所以該怎麼做到 Alignment？
+&lt;/h2&gt;&lt;p&gt;前面說了這麼多，那要怎麼才能做到記憶體分配時 Alignment 呢？&lt;/p&gt;
+&lt;p&gt;設想今天我們目標要一塊新的 64 bytes 記憶體，並且要求 32-byte 對齊。
+如果今天 &lt;code&gt;malloc&lt;/code&gt; 給的起始位置剛剛好就是 &lt;code&gt;0x08000040&lt;/code&gt;，是 alignment block 的起始位置，這樣就中大獎了，但實際上當然不會那麼幸運，他可能給你的起始位置是 &lt;code&gt;0x08000041&lt;/code&gt;（偏移了 1 個 byte），也可能起始是 &lt;code&gt;0x0800005F&lt;/code&gt;（偏移了 31 個 bytes）&lt;/p&gt;
+&lt;p&gt;但沒關係，這時候就會想到，只要&lt;code&gt;malloc&lt;/code&gt;的記憶體夠長，從中找到一個 Alignment Block 的起點並從那邊開始存資料，這樣也算對齊吧&lt;/p&gt;
+&lt;p&gt;那麼問題就回到，我們該要多長的記憶體呢？
+觀察前面的例子，如果做 32 bytes 的 alignment，偏移的量最多就是 &lt;code&gt;0 ~ 31&lt;/code&gt; bytes。所以我們要 &lt;code&gt;malloc()&lt;/code&gt; 的空間至少要是 &lt;code&gt;size + alignment - 1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;等等，好像少了什麼？
+這樣的話要怎麼才能 &lt;code&gt;free&lt;/code&gt; 掉 alignment 起始位址前面的那些空間呢？我們需要紀錄&lt;strong&gt;真正原本 &lt;code&gt;malloc&lt;/code&gt; 出來的起始位址&lt;/strong&gt;，所以還需要再多一個位置去存這個指標，這個需要的空間是 &lt;code&gt;sizeof(void*)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;總結來說，我們真正要 &lt;code&gt;malloc()&lt;/code&gt; 的長度是：
+&lt;code&gt;size + alignment - 1 + sizeof(void*)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;記憶體結構示意圖：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;實際 malloc 得到的區塊 (Original)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;v
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+-------------+---------------------+-------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| padding ... | 原始指標 (Stored) | 使用者拿到的指標 (Aligned)|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+-------------+---------------------+-------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ ^
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; | |
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 這格存著 original 符合 32-byte 對齊
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 的地址 我們回傳這個地址
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然後我們只要找到這裡面 alignment 的起始位址，並且把「原始的起始位址」存在 alignment 起始的前一格。這樣在 &lt;code&gt;free&lt;/code&gt; memory 時，只要從 alignment 位址&lt;strong&gt;往前找一格&lt;/strong&gt;，就可以找到我們應該要釋放的記憶體起點。&lt;/p&gt;
+&lt;p&gt;原理概念上就是這樣了，那麼就來看看要怎麼實作吧。&lt;/p&gt;
+&lt;h2 id="c-語言實作"&gt;C 語言實作
+&lt;/h2&gt;&lt;p&gt;以下用 32-byte alignment 為例子，可以把 32 換成任意想要的正整數 alignment（通常是 2 的次方）。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdint.h&amp;gt; // 為了使用 uintptr_t&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nf"&gt;aligned_malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 1. 計算需要的總空間：
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// size + (alignment - 1) 的調整空間 + 存放原始指標的空間
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 2. 算出 alignment 的起始位置
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 先預留一個 pointer 的空間給我們存地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;uintptr_t&lt;/span&gt; &lt;span class="n"&gt;raw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;uintptr_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 利用 Bitwise 操作進行對齊
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 原理：(address + mask) &amp;amp; ~mask
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 注意：這裡要用 ~(32 - 1) 也就是 ~31 才能遮掉後五位達到 32 對齊
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;uintptr_t&lt;/span&gt; &lt;span class="n"&gt;aligned&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;raw&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 其實也可以用(void*)(original - (original % 32));去算
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 只是用bit manipulation感覺比較優雅
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 3. 把原本 malloc() 的起始位址存到 alignment 位址的前一格
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;aligned&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 4. 最後回傳 alignment 的起始
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;aligned&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;aligned_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// free 的時候，去找到 alignment 位址前一格存的原來 malloc 的位址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 然後把它釋放就行了
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="nf"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="結語"&gt;結語
+&lt;/h2&gt;&lt;p&gt;總之就是這樣，Aligned Memory Allocation這個東西重要又有一些實作小細節，藉由這個機會算是有搞懂他了，以後忘了也可以快速回來複習一下&lt;/p&gt;
+&lt;h2 id="reference"&gt;Reference
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://bclin.tw/2020/03/15/aligned-malloc/" target="_blank" rel="noopener"
+&gt;如何實作一個 aligned_alloc () ？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://medium.com/howsofcoding/memory-management-aligned-malloc-and-free-9273336bd4c6" target="_blank" rel="noopener"
+&gt;Designing aligned Memory Allocator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://linux.die.net/man/3/aligned_alloc" target="_blank" rel="noopener"
+&gt;aligned_alloc(3) - Linux man page&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>2023 Google Technical Program Manager 面試經驗</title><link>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager 面試經驗" /&gt;&lt;h1 id="google-technical-program-manager-面試經驗"&gt;Google Technical Program Manager 面試經驗
+&lt;/h1&gt;&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;一直有許多Google SWE的面試經驗分享，然而Technical Program Manager(TPM)的面試經驗則幾乎沒有，其實不光是Dcard國外各大網站TPM的面試經驗分享也很少，因此來分享一下，雖然沒有拿到Offer，但有面到最後，經驗應該可以參考一下。&lt;/p&gt;
+&lt;p&gt;過去學經歷是112電資相關學碩，今年當完兵之後在比Google略大一點的公司當TPM。以前就有想進去Google，去年也投了Google SWE的面試，面完過HC等Team match時就遇到Hiring Freeze，詳細經歷可以參考：&lt;a class="link" href="https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/" target="_blank" rel="noopener"
+&gt;Google SWE 面試心路歷程&lt;/a&gt;，直到今年景氣變好才又開始Fit talk，結果連match了三個team都沒中，心灰意冷之際就收到另一個HR寄來TPM的面試邀請，抱著打聽情報的心態就跟HR排了個1:1，其實本來是對Google TPM缺沒什麼興趣，但在會議中被HR一波洗腦後，抱著那就試試的心態就接下面試邀請了。&lt;/p&gt;
+&lt;h2 id="時間"&gt;時間
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;5/12 - 收到HR的TPM面試邀請&lt;/li&gt;
+&lt;li&gt;5/23 - 跟HR約1:1了解職缺&lt;/li&gt;
+&lt;li&gt;6/13 - VO:Technical Judgement*2&lt;/li&gt;
+&lt;li&gt;6/20 - VO:PgM + GCA&lt;/li&gt;
+&lt;li&gt;6/30 - 跟HR1:1通知面試結果: not move forward&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="面試"&gt;面試
+&lt;/h2&gt;&lt;p&gt;Google TPM的VO面試總共有五關，每關45分鐘:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;兩關的Technical Judgement面試&lt;/li&gt;
+&lt;li&gt;一關Program Management related(PgM)面試&lt;/li&gt;
+&lt;li&gt;一關General Cognitive Ability(GCA)面試&lt;/li&gt;
+&lt;li&gt;一關Googleyness面試&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可能因為之前已經面過Googleyness，所以這關就直接跳過了，實際上只面了四關，考慮到我技術能力可能比PM能力好一點，HR先幫我排了兩場Technical Judgement面試，結果不錯的話再排PgM和GCA，後來也證明這是正確的策略。&lt;/p&gt;
+&lt;p&gt;根據網路上的情報跟HR提供的文件，我認為Technical Judgement面試可能像是技術面試，可能會問Codeing，也可能會問System design，為此還翻出leetcode刷了幾題暖身；PgM可能會問跟經驗相關的問題；GCA則可能問解決問題的邏輯，但這部分當下也想不到有什麼準備方向，所以我只把HR給的參考資料看完，再多回想幾個小故事，由於實在想不到要怎麼準備，我也想辦法跟HR要些Hint，不過HR看起來已經給我全部能給的東西了，那就硬著頭皮上吧，學習嘛&amp;hellip;。&lt;/p&gt;
+&lt;p&gt;順帶一提，TPM的面試是全英文的，四關差不多兩小時都在不停的說英文，這樣的要求也是可以理解，在Google這種公司Cross-function的溝通是極度仰賴英文的，這點也跟SWE面試很不一樣，SWE只有兩關英文，而且不會一直講話。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Technical Judgement
+老實說聽到第一個問題時就開始懷疑人生了，我原本已經擺好寫Code的姿勢了，結果第一個問題是：「你最成功的專案什麼？」(詳細題目記不得了，反正是類似這的問題)，是那種我以為應該在PgM或GCA面試會問的問題，還好之前已經準備了不少小故事，姿勢一換搬出從大學、研究所到工作時做的還算有技術深度的案子，講解要解決的問題、我在團隊扮演的腳色、技術的選擇、克服的問題等，過程有來有回，面試官聽也還算滿意，不過一連的幾個問題也都是差不多這種類型，讓我有種我是不是走錯棚的錯覺，結束時還問了一下：「請問這個是Technical Judgement Interview嘛？」面試官愣了一下回：「是阿」，「Ok&amp;hellip;」瞬間好像懂了甚麼又覺得甚麼都不懂，第二場Technical Judgement也是差不多的情況，總之自認表現還行，後來HR的feedback也是說Positive。&lt;/li&gt;
+&lt;li&gt;Program Management Related Knowledge(PgM)
+有鑒於Technical Judgement面試問題實在出乎意料，因此再次問HR有關PgM面試的細節，HR還是回說他給的文件已經有資訊了，那就只能自行腦補了，既然名字叫Program Management那應該就是問PM相關能力吧，那應該多往PM的腳色去回答就行，果然不其然，面試的題目跟Technical Judgement幾乎一樣，而我就搬出之前做專案時怎麼定Scope、怎麼寫Spec、怎麼drive project、怎麼溝通協調，面試官看起來還算滿意我的回答，結束面試前小聊了一下這個position的情報，面試官覺得跟我目前的經驗差距頗大，不過還是祝我Good luck。&lt;/li&gt;
+&lt;li&gt;General Cognitive Ability(GCA)
+到了GCA，我是真的想不到要怎麼準備了，如果是問解決問題的邏輯好像也很難準備。果然這關又問了跟前三關差不多的問題，然後我先從執行面去回答，但感覺面試官不太滿意，因此我又換一條路從技術面切入回答，面試官還是不太滿意，並建議我應該先從更High level的架構回答，因此我再給出了一個這方向的答案，不過沒有想得很透徹，應該是Bug滿滿，自己覺得答的超級爛，有感自己答的很爛，結束前後臉皮的跟面試官請教了一回，他也人很好跟我解釋了每一個問題的回答重點，大方向的概念是要先想出一個解決問題的框架，再將這個框架套入回答問題的框架去依序回答才有辦法打到得分點。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="結果"&gt;結果
+&lt;/h2&gt;&lt;p&gt;後來再跟HR約了一次1:1，結果跟想像的差不多，前面表現都還不錯，主要掛在GCA，沒辦法再move forward，只能回去等還有沒有team match的機會了。&lt;/p&gt;
+&lt;p&gt;後來想了一下這次的面試確實有很多可以改進的點，除了現在真的菜，能講的經驗還太少外，就是對TPM面試回答的框架還不夠熟，這邊指的框架像是:
+面對PgM的問題可以依序從以下幾點下手:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;專案範疇與組織&lt;/li&gt;
+&lt;li&gt;專案執行&lt;/li&gt;
+&lt;li&gt;溝通與影響力&lt;/li&gt;
+&lt;li&gt;釐清模糊不清的情況&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;面對GCA的問題可以依序從以下幾點下手:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;理解問題&lt;/li&gt;
+&lt;li&gt;蒐集資訊&lt;/li&gt;
+&lt;li&gt;找出解決方案&lt;/li&gt;
+&lt;li&gt;支持解決方案的證據&lt;/li&gt;
+&lt;li&gt;良好的溝通&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下次要再嘗試Google TPM的面試時，應該要多花點時間打磨手上的案例，想辦法塞進這些框架組織，然後熟練使用這些框架回答問題，某種程度上也算是刷題吧。&lt;/p&gt;
+&lt;h2 id="結語"&gt;結語
+&lt;/h2&gt;&lt;p&gt;個人覺得TPM的面試比SWE面試還要難而且複雜，即便如此Google似乎很想找有EECS背景且有PM能力的人進去當TPM，只是這類人不多又或者沒興趣所以一直找不到人，如果有相關背景的人有興趣可以去嘗試看看。&lt;/p&gt;
+&lt;p&gt;如果有看完這篇對你有幫助，就順便祝福我早日拿到Google Offer啦。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/C8prC95.jpg"
 loading="lazy"
 alt="image alt"
->
-附一張今年去101蹭飯的照片，好想進Google呀。&lt;/p></description></item><item><title>科技業台商與外商公司暱稱</title><link>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</link><pubDate>Sat, 06 May 2023 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</guid><description>&lt;img src="https://i.imgur.com/1gEXPk2.jpg" alt="Featured image of post 科技業台商與外商公司暱稱" />&lt;h1 id="科技業台商與外商公司暱稱">科技業台商與外商公司暱稱
-&lt;/h1>&lt;h2 id="台商">台商
-&lt;/h2>&lt;h3 id="ic設計-豬屎屋">IC設計 (豬屎屋)
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th style="text-align: right">Ptt、Dcard暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>聯發科&lt;/td>
-&lt;td style="text-align: right">發哥、發弟、M、大M、麥當勞、篤行路麥當勞&lt;/td>
-&lt;td style="text-align: center">分紅多的時候就是發哥，少的時候就變發弟，因為被稱為M，員工自嘲為篤行路麥當勞打工仔，去上班謙稱為鏟薯條。叫大M是因為曾經有小M(晨星)&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>聯詠&lt;/td>
-&lt;td style="text-align: right">滷肉、N&lt;/td>
-&lt;td style="text-align: center">聯詠的英文是Novatek音似「滷肉」&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>瑞昱&lt;/td>
-&lt;td style="text-align: right">螃蟹、R、帝王蟹、寄居蟹、海產店&lt;/td>
-&lt;td style="text-align: center">Realtek、Logo就是一隻螃蟹，帝王蟹專指分紅特別多的部門，如果分紅少，鄉民就鄙稱寄居蟹，因為是螃蟹所以也有人稱海產店&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>群聯&lt;/td>
-&lt;td style="text-align: right">全聯、P、請支援收銀&lt;/td>
-&lt;td style="text-align: center">群聯音似全聯&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>5&lt;/td>
-&lt;td>慧榮&lt;/td>
-&lt;td style="text-align: right">S&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>7&lt;/td>
-&lt;td>奇景&lt;/td>
-&lt;td style="text-align: right">海馬&lt;/td>
-&lt;td style="text-align: center">Himax音似海馬&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>達發&lt;/td>
-&lt;td style="text-align: right">客運、發哥子公司&lt;/td>
-&lt;td style="text-align: center">發哥的一家子公司，英文名是Airoha發音似早期的阿羅哈客運&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>9&lt;/td>
-&lt;td>瑞鼎&lt;/td>
-&lt;td style="text-align: right">鼎王&lt;/td>
-&lt;td style="text-align: center">取鼎字。由於鼎王麻辣鍋是相較昂貴的餐廳，故這是分紅好的意&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>10&lt;/td>
-&lt;td>矽創&lt;/td>
-&lt;td style="text-align: right">洗窗&lt;/td>
-&lt;td style="text-align: center">取矽創的諧音&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>11&lt;/td>
-&lt;td>敦泰&lt;/td>
-&lt;td style="text-align: right">保全&lt;/td>
-&lt;td style="text-align: center">有一家保全公司叫敦泰保全&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>12&lt;/td>
-&lt;td>奕力&lt;/td>
-&lt;td style="text-align: right">一粒、粒粒&lt;/td>
-&lt;td style="text-align: center">奕力的諧音。或取粒字，源自《憫農詩》：「誰知盤中飧，粒粒皆辛苦」，為員工自嘲工作辛苦&lt;sup id="fnref1:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>13&lt;/td>
-&lt;td>華邦電&lt;/td>
-&lt;td style="text-align: right">邦邦&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>14&lt;/td>
-&lt;td>信驊&lt;/td>
-&lt;td style="text-align: right">股王&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>15&lt;/td>
-&lt;td>新唐&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="品牌廠">品牌廠
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th style="text-align: right">Ptt、Dcard暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>宏達電&lt;/td>
-&lt;td style="text-align: right">紅茶、紅茶店、Hㄒㄈ、阿姨&lt;/td>
-&lt;td style="text-align: center">紅茶店是取諧音，阿姨是指雪紅阿姨&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>華碩&lt;/td>
-&lt;td style="text-align: right">石頭&lt;/td>
-&lt;td style="text-align: center">華碩品質，以卵擊石&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>宏碁&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>微星&lt;/td>
-&lt;td style="text-align: right">小星星、中二龍、微薪、G星&lt;/td>
-&lt;td style="text-align: center">微薪是只薪水給的不多&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>5&lt;/td>
-&lt;td>技嘉&lt;/td>
-&lt;td style="text-align: right">雞排店&lt;/td>
-&lt;td style="text-align: center">英文名字是GIGABYTE，GIBYTE發音跟雞排很像&lt;sup id="fnref2:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>6&lt;/td>
-&lt;td>群暉&lt;/td>
-&lt;td style="text-align: right">亞東Google&lt;/td>
-&lt;td style="text-align: center">公司在捷運亞東醫院站附近，跟Google一樣吸引很多軟體頂尖人才&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="面板廠">面板廠
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th style="text-align: right">Ptt、Dcard暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>友達&lt;/td>
-&lt;td style="text-align: right">戀人、戀人未滿&lt;/td>
-&lt;td style="text-align: center">取名稱：友達以上，戀人未滿&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>群創&lt;/td>
-&lt;td style="text-align: right">包子&lt;/td>
-&lt;td style="text-align: center">之前與奇美電子合併，因奇美包子而得名&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="系統廠">系統廠
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th style="text-align: right">Ptt、Dcard暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>和碩&lt;/td>
-&lt;td style="text-align: right">皮卡&lt;/td>
-&lt;td style="text-align: center">音似其英文名Pegatron&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>廣達&lt;/td>
-&lt;td style="text-align: right">肉鬆、肉鬆店&lt;/td>
-&lt;td style="text-align: center">有一家肉鬆廠叫做&lt;strong>廣達香肉鬆&lt;/strong>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>緯創&lt;/td>
-&lt;td style="text-align: right">W、大W&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>緯穎&lt;/td>
-&lt;td style="text-align: right">小w、we win&lt;/td>
-&lt;td style="text-align: center">因為是緯創的子公司&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>5&lt;/td>
-&lt;td>仁寶&lt;/td>
-&lt;td style="text-align: right">寶寶&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>6&lt;/td>
-&lt;td>光寶&lt;/td>
-&lt;td style="text-align: right">點燈&lt;/td>
-&lt;td style="text-align: center">英文名字LITEON，表示light-on&lt;sup id="fnref3:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>7&lt;/td>
-&lt;td>研華&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>華擎&lt;/td>
-&lt;td style="text-align: right">小石頭、妖擎&lt;/td>
-&lt;td style="text-align: center">因為華擎是由華碩分家出來的所以叫小石頭，又專門生產一些奇怪的主機板和產品(妖板)&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>9&lt;/td>
-&lt;td>台達店&lt;/td>
-&lt;td style="text-align: right">三角、三角形&lt;/td>
-&lt;td style="text-align: center">Logo是一個三角&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>10&lt;/td>
-&lt;td>鴻海&lt;/td>
-&lt;td style="text-align: right">海公公（取海字）、海邊、海底、紅海&lt;/td>
-&lt;td style="text-align: center">取海字。《烏龍派出所》的阿兩常說：「你家住海邊啊！」這句話意指「多管閒事」（因為海邊鎖管(小卷/透抽)很多）。之所以稱鴻海為海邊，是暗指公司管很多&lt;sup id="fnref4:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>11&lt;/td>
-&lt;td>英業達&lt;/td>
-&lt;td style="text-align: right">小英&lt;/td>
-&lt;td style="text-align: center">名字裡有英字&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>12&lt;/td>
-&lt;td>啟碁&lt;/td>
-&lt;td style="text-align: right">道士&lt;/td>
-&lt;td style="text-align: center">取諧音，道士會起乩&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="半導體製造">半導體製造
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th style="text-align: right">Ptt、Dcard暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>台積電&lt;/td>
-&lt;td style="text-align: right">台GG、GG、護國神山、神山、大哥、祖墳冒煙&lt;/td>
-&lt;td style="text-align: center">因為台灣有台積電因此中國不敢隨便打台灣，所以稱之為護國神山。祖墳冒煙是在說能近台積電的人都是有祖先保佑&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>聯電&lt;/td>
-&lt;td style="text-align: right">二哥、U、大碩&lt;/td>
-&lt;td style="text-align: center">因其員工常以該公司為跳板跳槽至台積電，近似研究所補習班「大碩」而謔稱之&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>世界先進&lt;/td>
-&lt;td style="text-align: right">仙境、RO&lt;/td>
-&lt;td style="text-align: center">取&lt;strong>先進&lt;/strong>兩個字的諧音&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>日月光&lt;/td>
-&lt;td style="text-align: right">神教&lt;/td>
-&lt;td style="text-align: center">出自金庸小說《笑傲江湖》的虛構組織日月神教&lt;sup id="fnref5:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>5&lt;/td>
-&lt;td>南亞科&lt;/td>
-&lt;td style="text-align: right">牙科&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>6&lt;/td>
-&lt;td>華亞科&lt;/td>
-&lt;td style="text-align: right">滑牙科&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>7&lt;/td>
-&lt;td>矽品&lt;/td>
-&lt;td style="text-align: right">三口、三口組&lt;/td>
-&lt;td style="text-align: center">三個口、很多口的那間、 三口組 (因最後一個字品，而被鄉民取這些名稱 )&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>力積電&lt;/td>
-&lt;td style="text-align: right">假G、小GG&lt;/td>
-&lt;td style="text-align: center">叫假G是因為名稱跟台積電很容易混淆&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="軟體電信銀行">軟體、電信、銀行
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th style="text-align: right">Ptt、Dcard暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>中華電信&lt;/td>
-&lt;td style="text-align: right">種花、種花電信、種花點心、小公司（出自徐旭東）&lt;/td>
-&lt;td style="text-align: center">取諧音，加上工作很悠閒&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>台灣大哥大&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>遠傳&lt;/td>
-&lt;td style="text-align: right">大公司&lt;/td>
-&lt;td style="text-align: center">為網友呼應其老闆徐旭東之言論而謔稱之&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>趨勢&lt;/td>
-&lt;td style="text-align: right">亞洲最大純軟&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>5&lt;/td>
-&lt;td>國泰&lt;/td>
-&lt;td style="text-align: right">大樹、花椰菜&lt;/td>
-&lt;td style="text-align: center">Logo是一顆大樹，大樹長的很像花椰菜&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>6&lt;/td>
-&lt;td>Dcard&lt;/td>
-&lt;td style="text-align: right">豬腳、低卡、低能卡&lt;/td>
-&lt;td style="text-align: center">取諧音、又Dcard上的發文通常太過浮誇很低能故稱低能卡&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>7&lt;/td>
-&lt;td>愛卡拉&lt;/td>
-&lt;td style="text-align: right">卡拉雞&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h2 id="外商">外商
-&lt;/h2>&lt;h3 id="ic設計製造">IC設計製造
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th>台灣暱稱&lt;/th>
-&lt;th style="text-align: right">對岸暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>Qualcomm(高通)&lt;/td>
-&lt;td>Q&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>Marvell(邁威爾)&lt;/td>
-&lt;td>漫威&lt;/td>
-&lt;td style="text-align: right">&lt;/td>
-&lt;td style="text-align: center">Marvell發音跟漫威一樣&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>Nvidia(英偉達)&lt;/td>
-&lt;td>NV&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>Intel(英特爾)&lt;/td>
-&lt;td>牙膏廠&lt;/td>
-&lt;td style="text-align: right">牙膏廠、藍廠&lt;/td>
-&lt;td style="text-align: center">core i系列每一代效能都高一點點 就像擠牙膏&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>5&lt;/td>
-&lt;td>AMD(超微)&lt;/td>
-&lt;td>推土機廠&lt;/td>
-&lt;td style="text-align: right">推土機廠、紅廠&lt;/td>
-&lt;td style="text-align: center">AM3時代處理器名稱&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>6&lt;/td>
-&lt;td>Micron(美光)&lt;/td>
-&lt;td>光光、發光、人生發光&lt;/td>
-&lt;td style="text-align: right">&lt;/td>
-&lt;td style="text-align: center">來自徵才標語「加入美光，人生發光&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>7&lt;/td>
-&lt;td>Texas Instruments(德儀)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>Broadcom(博通)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>9&lt;/td>
-&lt;td>NXP(恩智浦)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="品牌與軟體設計">品牌與軟體設計
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th>台灣暱稱&lt;/th>
-&lt;th style="text-align: right">對岸暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>Google(科高)&lt;/td>
-&lt;td>G&lt;/td>
-&lt;td style="text-align: right">G社、狗家&lt;/td>
-&lt;td style="text-align: center">狗家取字Google的諧音&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>Microsoft(微軟)&lt;/td>
-&lt;td>M$、MS&lt;/td>
-&lt;td style="text-align: right">巨硬、巨嬰&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>&lt;/td>
-&lt;td style="text-align: center">M$是指微軟什麼東西都要錢，巨硬來自於微軟字面上的相反&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>Meta(臉書)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td style="text-align: right">臉家、M社&lt;/td>
-&lt;td style="text-align: center">Facebook翻譯為臉書&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>Amazon(亞馬遜)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td style="text-align: right">亞麻、雨林、香蕉廠&lt;sup id="fnref1:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>&lt;/td>
-&lt;td style="text-align: center">亞馬遜以對員工小氣聞名，公司福利只願意提供香蕉給員工&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>5&lt;/td>
-&lt;td>Apple(蘋果)&lt;/td>
-&lt;td>阿婆&lt;/td>
-&lt;td style="text-align: right">A社、水果家&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>6&lt;/td>
-&lt;td>IBM(國際商業機器)&lt;/td>
-&lt;td>外星科技&lt;/td>
-&lt;td style="text-align: right">大藍&lt;/td>
-&lt;td style="text-align: center">據說真的有從事外星科技&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>7&lt;/td>
-&lt;td>Netflix(網飛)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td style="text-align: right">N社、網飛&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>Tiktok(抖音)&lt;/td>
-&lt;td>父母白養&lt;/td>
-&lt;td style="text-align: right">字節&lt;/td>
-&lt;td style="text-align: center">取自「抖音一響，父母白養」&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>9&lt;/td>
-&lt;td>Dropbox&lt;/td>
-&lt;td>&lt;/td>
-&lt;td style="text-align: right">D社、丟盒子&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>10&lt;/td>
-&lt;td>Airbnb&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>11&lt;/td>
-&lt;td>Salesforce&lt;/td>
-&lt;td>&lt;/td>
-&lt;td style="text-align: right">賣力&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>12&lt;/td>
-&lt;td>Orcale(甲骨文)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td style="text-align: right">烏龜殼&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>13&lt;/td>
-&lt;td>Sony(索尼)&lt;/td>
-&lt;td>$ony、大法&lt;/td>
-&lt;td style="text-align: right">&lt;/td>
-&lt;td style="text-align: center">相機技術很厲害，就跟魔法一樣&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>14&lt;/td>
-&lt;td>Dell(戴爾)&lt;/td>
-&lt;td>呆鵝&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>15&lt;/td>
-&lt;td>騰訊&lt;/td>
-&lt;td>企鵝&lt;/td>
-&lt;td style="text-align: right">&lt;/td>
-&lt;td style="text-align: center">騰訊的Logo是一隻企鵝&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>16&lt;/td>
-&lt;td>百度&lt;/td>
-&lt;td>&lt;/td>
-&lt;td style="text-align: right">百毒&lt;/td>
-&lt;td style="text-align: center">中國網友慣稱呼，諧音&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>17&lt;/td>
-&lt;td>Uber&lt;/td>
-&lt;td>&lt;/td>
-&lt;td style="text-align: right">黑車&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>18&lt;/td>
-&lt;td>Uber Eats&lt;/td>
-&lt;td>吳柏毅&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>19&lt;/td>
-&lt;td>Foodpanda&lt;/td>
-&lt;td>熊貓&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>20&lt;/td>
-&lt;td>Garmin&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>21&lt;/td>
-&lt;td>Samsung(三星)&lt;/td>
-&lt;td>三爽&lt;/td>
-&lt;td style="text-align: right">&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="半導體設備商">半導體設備商
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th>台灣暱稱&lt;/th>
-&lt;th style="text-align: right">對岸暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>ASML(艾斯摩爾)&lt;/td>
-&lt;td>A4ML&lt;/td>
-&lt;td style="text-align: right">阿斯麥&lt;/td>
-&lt;td style="text-align: center">A4ML是只這家公司給的分紅很少，阿斯麥是中國ASML的翻譯&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>TEL(東京威力科創)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>ASM(先藝)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>AMT(應材)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>5&lt;/td>
-&lt;td>KLA(柯磊)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>6&lt;/td>
-&lt;td>LAM(柯林研發)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="系統廠-1">系統廠
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>公司名稱&lt;/th>
-&lt;th>台灣暱稱&lt;/th>
-&lt;th style="text-align: right">對岸暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>Supermicro(美超微)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>Lenovo(聯想)&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h2 id="知名企業家">知名企業家
-&lt;/h2>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>項次&lt;/th>
-&lt;th>名稱&lt;/th>
-&lt;th style="text-align: right">暱稱&lt;/th>
-&lt;th style="text-align: center">說明&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>郭台銘&lt;/td>
-&lt;td style="text-align: right">果凍&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>Lisa Su(蘇丰姿)&lt;/td>
-&lt;td style="text-align: right">蘇媽&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>Jason Huang(黃仁勳)&lt;/td>
-&lt;td style="text-align: right">老黃、皮衣刀客、AI教父&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>Sundar Pichai&lt;/td>
-&lt;td style="text-align: right">皮柴&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>5&lt;/td>
-&lt;td>Elon Musk&lt;/td>
-&lt;td style="text-align: right">鋼鐵人、馬投顧&lt;/td>
-&lt;td style="text-align: center">其言行對加密貨幣很有影響力&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>6&lt;/td>
-&lt;td>Sam Altman&lt;/td>
-&lt;td style="text-align: right">奧特曼&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>7&lt;/td>
-&lt;td>蔡力行&lt;/td>
-&lt;td style="text-align: right">Rick&lt;/td>
-&lt;td style="text-align: center">聯發科CEO&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;div class="footnotes" role="doc-endnotes">
-&lt;hr>
-&lt;ol>
-&lt;li id="fn:1">
-&lt;p>&lt;a class="link" href="https://pttpedia.fandom.com/zh/wiki/PTT%E4%BC%81%E6%A5%AD%E7%B6%BD%E8%99%9F%E5%88%97%E8%A1%A8" target="_blank" rel="noopener"
->https://pttpedia.fandom.com/zh/wiki/PTT%E4%BC%81%E6%A5%AD%E7%B6%BD%E8%99%9F%E5%88%97%E8%A1%A8&lt;/a>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li id="fn:2">
-&lt;p>&lt;a class="link" href="https://mtk.tw/2022/09/%E7%A7%91%E6%8A%80%E5%85%AC%E5%8F%B8%E7%9A%84%E6%9A%B1%E7%A8%B1/" target="_blank" rel="noopener"
->https://mtk.tw/2022/09/%E7%A7%91%E6%8A%80%E5%85%AC%E5%8F%B8%E7%9A%84%E6%9A%B1%E7%A8%B1/&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref2:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref3:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref4:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref5:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li id="fn:3">
-&lt;p>&lt;a class="link" href="https://www.1point3acres.com/bbs/thread-533022-2-1.html" target="_blank" rel="noopener"
->https://www.1point3acres.com/bbs/thread-533022-2-1.html&lt;/a>&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;/div></description></item><item><title>Google Taiwan Hiring Event Recording</title><link>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</link><pubDate>Wed, 26 Apr 2023 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</guid><description>&lt;img src="https://i.imgur.com/1QtpCke.jpg" alt="Featured image of post Google Taiwan Hiring Event Recording" />&lt;h2 id="google-taiwan-campus-talk-2023-線上直播校園徵才說明會">Google Taiwan Campus Talk, 2023 線上直播校園徵才說明會
-&lt;/h2>&lt;ul>
-&lt;li>Date: 2022/11/11&lt;/li>
-&lt;li>Title: Google Taiwan Campus Talk, 2023 校園徵才說明會&lt;/li>
-&lt;li>Agenda:&lt;/li>
-&lt;/ul>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>主題&lt;/th>
-&lt;th>講者&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Welcome &amp;amp; Google Culture&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Hear more from the Googlers&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Fireside Chat with all the&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;ul>
-&lt;li>Recording:&lt;/li>
-&lt;/ul>
-&lt;div class="video-wrapper">
+&gt;
+附一張今年去101蹭飯的照片，好想進Google呀。&lt;/p&gt;</description></item><item><title>科技業台商與外商公司暱稱</title><link>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</link><pubDate>Sat, 06 May 2023 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</guid><description>&lt;img src="https://i.imgur.com/1gEXPk2.jpg" alt="Featured image of post 科技業台商與外商公司暱稱" /&gt;&lt;h1 id="科技業台商與外商公司暱稱"&gt;科技業台商與外商公司暱稱
+&lt;/h1&gt;&lt;h2 id="台商"&gt;台商
+&lt;/h2&gt;&lt;h3 id="ic設計-豬屎屋"&gt;IC設計 (豬屎屋)
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;聯發科&lt;/td&gt;
+&lt;td style="text-align: right"&gt;發哥、發弟、M、大M、麥當勞、篤行路麥當勞&lt;/td&gt;
+&lt;td style="text-align: center"&gt;分紅多的時候就是發哥，少的時候就變發弟，因為被稱為M，員工自嘲為篤行路麥當勞打工仔，去上班謙稱為鏟薯條。叫大M是因為曾經有小M(晨星)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;聯詠&lt;/td&gt;
+&lt;td style="text-align: right"&gt;滷肉、N&lt;/td&gt;
+&lt;td style="text-align: center"&gt;聯詠的英文是Novatek音似「滷肉」&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;瑞昱&lt;/td&gt;
+&lt;td style="text-align: right"&gt;螃蟹、R、帝王蟹、寄居蟹、海產店&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Realtek、Logo就是一隻螃蟹，帝王蟹專指分紅特別多的部門，如果分紅少，鄉民就鄙稱寄居蟹，因為是螃蟹所以也有人稱海產店&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;群聯&lt;/td&gt;
+&lt;td style="text-align: right"&gt;全聯、P、請支援收銀&lt;/td&gt;
+&lt;td style="text-align: center"&gt;群聯音似全聯&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;慧榮&lt;/td&gt;
+&lt;td style="text-align: right"&gt;S&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;奇景&lt;/td&gt;
+&lt;td style="text-align: right"&gt;海馬&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Himax音似海馬&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;達發&lt;/td&gt;
+&lt;td style="text-align: right"&gt;客運、發哥子公司&lt;/td&gt;
+&lt;td style="text-align: center"&gt;發哥的一家子公司，英文名是Airoha發音似早期的阿羅哈客運&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;瑞鼎&lt;/td&gt;
+&lt;td style="text-align: right"&gt;鼎王&lt;/td&gt;
+&lt;td style="text-align: center"&gt;取鼎字。由於鼎王麻辣鍋是相較昂貴的餐廳，故這是分紅好的意&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;矽創&lt;/td&gt;
+&lt;td style="text-align: right"&gt;洗窗&lt;/td&gt;
+&lt;td style="text-align: center"&gt;取矽創的諧音&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;敦泰&lt;/td&gt;
+&lt;td style="text-align: right"&gt;保全&lt;/td&gt;
+&lt;td style="text-align: center"&gt;有一家保全公司叫敦泰保全&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;奕力&lt;/td&gt;
+&lt;td style="text-align: right"&gt;一粒、粒粒&lt;/td&gt;
+&lt;td style="text-align: center"&gt;奕力的諧音。或取粒字，源自《憫農詩》：「誰知盤中飧，粒粒皆辛苦」，為員工自嘲工作辛苦&lt;sup id="fnref1:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;華邦電&lt;/td&gt;
+&lt;td style="text-align: right"&gt;邦邦&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;信驊&lt;/td&gt;
+&lt;td style="text-align: right"&gt;股王&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;15&lt;/td&gt;
+&lt;td&gt;新唐&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="品牌廠"&gt;品牌廠
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;宏達電&lt;/td&gt;
+&lt;td style="text-align: right"&gt;紅茶、紅茶店、Hㄒㄈ、阿姨&lt;/td&gt;
+&lt;td style="text-align: center"&gt;紅茶店是取諧音，阿姨是指雪紅阿姨&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;華碩&lt;/td&gt;
+&lt;td style="text-align: right"&gt;石頭&lt;/td&gt;
+&lt;td style="text-align: center"&gt;華碩品質，以卵擊石&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;宏碁&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;微星&lt;/td&gt;
+&lt;td style="text-align: right"&gt;小星星、中二龍、微薪、G星&lt;/td&gt;
+&lt;td style="text-align: center"&gt;微薪是只薪水給的不多&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;技嘉&lt;/td&gt;
+&lt;td style="text-align: right"&gt;雞排店&lt;/td&gt;
+&lt;td style="text-align: center"&gt;英文名字是GIGABYTE，GIBYTE發音跟雞排很像&lt;sup id="fnref2:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;群暉&lt;/td&gt;
+&lt;td style="text-align: right"&gt;亞東Google&lt;/td&gt;
+&lt;td style="text-align: center"&gt;公司在捷運亞東醫院站附近，跟Google一樣吸引很多軟體頂尖人才&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="面板廠"&gt;面板廠
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;友達&lt;/td&gt;
+&lt;td style="text-align: right"&gt;戀人、戀人未滿&lt;/td&gt;
+&lt;td style="text-align: center"&gt;取名稱：友達以上，戀人未滿&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;群創&lt;/td&gt;
+&lt;td style="text-align: right"&gt;包子&lt;/td&gt;
+&lt;td style="text-align: center"&gt;之前與奇美電子合併，因奇美包子而得名&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="系統廠"&gt;系統廠
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;和碩&lt;/td&gt;
+&lt;td style="text-align: right"&gt;皮卡&lt;/td&gt;
+&lt;td style="text-align: center"&gt;音似其英文名Pegatron&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;廣達&lt;/td&gt;
+&lt;td style="text-align: right"&gt;肉鬆、肉鬆店&lt;/td&gt;
+&lt;td style="text-align: center"&gt;有一家肉鬆廠叫做&lt;strong&gt;廣達香肉鬆&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;緯創&lt;/td&gt;
+&lt;td style="text-align: right"&gt;W、大W&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;緯穎&lt;/td&gt;
+&lt;td style="text-align: right"&gt;小w、we win&lt;/td&gt;
+&lt;td style="text-align: center"&gt;因為是緯創的子公司&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;仁寶&lt;/td&gt;
+&lt;td style="text-align: right"&gt;寶寶&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;光寶&lt;/td&gt;
+&lt;td style="text-align: right"&gt;點燈&lt;/td&gt;
+&lt;td style="text-align: center"&gt;英文名字LITEON，表示light-on&lt;sup id="fnref3:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;研華&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;華擎&lt;/td&gt;
+&lt;td style="text-align: right"&gt;小石頭、妖擎&lt;/td&gt;
+&lt;td style="text-align: center"&gt;因為華擎是由華碩分家出來的所以叫小石頭，又專門生產一些奇怪的主機板和產品(妖板)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;台達店&lt;/td&gt;
+&lt;td style="text-align: right"&gt;三角、三角形&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Logo是一個三角&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;鴻海&lt;/td&gt;
+&lt;td style="text-align: right"&gt;海公公（取海字）、海邊、海底、紅海&lt;/td&gt;
+&lt;td style="text-align: center"&gt;取海字。《烏龍派出所》的阿兩常說：「你家住海邊啊！」這句話意指「多管閒事」（因為海邊鎖管(小卷/透抽)很多）。之所以稱鴻海為海邊，是暗指公司管很多&lt;sup id="fnref4:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;英業達&lt;/td&gt;
+&lt;td style="text-align: right"&gt;小英&lt;/td&gt;
+&lt;td style="text-align: center"&gt;名字裡有英字&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;啟碁&lt;/td&gt;
+&lt;td style="text-align: right"&gt;道士&lt;/td&gt;
+&lt;td style="text-align: center"&gt;取諧音，道士會起乩&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="半導體製造"&gt;半導體製造
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;台積電&lt;/td&gt;
+&lt;td style="text-align: right"&gt;台GG、GG、護國神山、神山、大哥、祖墳冒煙&lt;/td&gt;
+&lt;td style="text-align: center"&gt;因為台灣有台積電因此中國不敢隨便打台灣，所以稱之為護國神山。祖墳冒煙是在說能近台積電的人都是有祖先保佑&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;聯電&lt;/td&gt;
+&lt;td style="text-align: right"&gt;二哥、U、大碩&lt;/td&gt;
+&lt;td style="text-align: center"&gt;因其員工常以該公司為跳板跳槽至台積電，近似研究所補習班「大碩」而謔稱之&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;世界先進&lt;/td&gt;
+&lt;td style="text-align: right"&gt;仙境、RO&lt;/td&gt;
+&lt;td style="text-align: center"&gt;取&lt;strong&gt;先進&lt;/strong&gt;兩個字的諧音&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;日月光&lt;/td&gt;
+&lt;td style="text-align: right"&gt;神教&lt;/td&gt;
+&lt;td style="text-align: center"&gt;出自金庸小說《笑傲江湖》的虛構組織日月神教&lt;sup id="fnref5:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;南亞科&lt;/td&gt;
+&lt;td style="text-align: right"&gt;牙科&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;華亞科&lt;/td&gt;
+&lt;td style="text-align: right"&gt;滑牙科&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;矽品&lt;/td&gt;
+&lt;td style="text-align: right"&gt;三口、三口組&lt;/td&gt;
+&lt;td style="text-align: center"&gt;三個口、很多口的那間、 三口組 (因最後一個字品，而被鄉民取這些名稱 )&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;力積電&lt;/td&gt;
+&lt;td style="text-align: right"&gt;假G、小GG&lt;/td&gt;
+&lt;td style="text-align: center"&gt;叫假G是因為名稱跟台積電很容易混淆&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="軟體電信銀行"&gt;軟體、電信、銀行
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;中華電信&lt;/td&gt;
+&lt;td style="text-align: right"&gt;種花、種花電信、種花點心、小公司（出自徐旭東）&lt;/td&gt;
+&lt;td style="text-align: center"&gt;取諧音，加上工作很悠閒&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;台灣大哥大&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;遠傳&lt;/td&gt;
+&lt;td style="text-align: right"&gt;大公司&lt;/td&gt;
+&lt;td style="text-align: center"&gt;為網友呼應其老闆徐旭東之言論而謔稱之&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;趨勢&lt;/td&gt;
+&lt;td style="text-align: right"&gt;亞洲最大純軟&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;國泰&lt;/td&gt;
+&lt;td style="text-align: right"&gt;大樹、花椰菜&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Logo是一顆大樹，大樹長的很像花椰菜&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;Dcard&lt;/td&gt;
+&lt;td style="text-align: right"&gt;豬腳、低卡、低能卡&lt;/td&gt;
+&lt;td style="text-align: center"&gt;取諧音、又Dcard上的發文通常太過浮誇很低能故稱低能卡&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;愛卡拉&lt;/td&gt;
+&lt;td style="text-align: right"&gt;卡拉雞&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="外商"&gt;外商
+&lt;/h2&gt;&lt;h3 id="ic設計製造"&gt;IC設計製造
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th&gt;台灣暱稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;對岸暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;Qualcomm(高通)&lt;/td&gt;
+&lt;td&gt;Q&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Marvell(邁威爾)&lt;/td&gt;
+&lt;td&gt;漫威&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Marvell發音跟漫威一樣&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;Nvidia(英偉達)&lt;/td&gt;
+&lt;td&gt;NV&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;Intel(英特爾)&lt;/td&gt;
+&lt;td&gt;牙膏廠&lt;/td&gt;
+&lt;td style="text-align: right"&gt;牙膏廠、藍廠&lt;/td&gt;
+&lt;td style="text-align: center"&gt;core i系列每一代效能都高一點點 就像擠牙膏&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;AMD(超微)&lt;/td&gt;
+&lt;td&gt;推土機廠&lt;/td&gt;
+&lt;td style="text-align: right"&gt;推土機廠、紅廠&lt;/td&gt;
+&lt;td style="text-align: center"&gt;AM3時代處理器名稱&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;Micron(美光)&lt;/td&gt;
+&lt;td&gt;光光、發光、人生發光&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;來自徵才標語「加入美光，人生發光&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;Texas Instruments(德儀)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;Broadcom(博通)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;NXP(恩智浦)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="品牌與軟體設計"&gt;品牌與軟體設計
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th&gt;台灣暱稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;對岸暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;Google(科高)&lt;/td&gt;
+&lt;td&gt;G&lt;/td&gt;
+&lt;td style="text-align: right"&gt;G社、狗家&lt;/td&gt;
+&lt;td style="text-align: center"&gt;狗家取字Google的諧音&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Microsoft(微軟)&lt;/td&gt;
+&lt;td&gt;M$、MS&lt;/td&gt;
+&lt;td style="text-align: right"&gt;巨硬、巨嬰&lt;sup id="fnref:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;M$是指微軟什麼東西都要錢，巨硬來自於微軟字面上的相反&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;Meta(臉書)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;臉家、M社&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Facebook翻譯為臉書&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;Amazon(亞馬遜)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;亞麻、雨林、香蕉廠&lt;sup id="fnref1:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;亞馬遜以對員工小氣聞名，公司福利只願意提供香蕉給員工&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;Apple(蘋果)&lt;/td&gt;
+&lt;td&gt;阿婆&lt;/td&gt;
+&lt;td style="text-align: right"&gt;A社、水果家&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;IBM(國際商業機器)&lt;/td&gt;
+&lt;td&gt;外星科技&lt;/td&gt;
+&lt;td style="text-align: right"&gt;大藍&lt;/td&gt;
+&lt;td style="text-align: center"&gt;據說真的有從事外星科技&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;Netflix(網飛)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;N社、網飛&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;Tiktok(抖音)&lt;/td&gt;
+&lt;td&gt;父母白養&lt;/td&gt;
+&lt;td style="text-align: right"&gt;字節&lt;/td&gt;
+&lt;td style="text-align: center"&gt;取自「抖音一響，父母白養」&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;Dropbox&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;D社、丟盒子&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;Airbnb&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;Salesforce&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;賣力&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;Orcale(甲骨文)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;烏龜殼&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;Sony(索尼)&lt;/td&gt;
+&lt;td&gt;$ony、大法&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;相機技術很厲害，就跟魔法一樣&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;Dell(戴爾)&lt;/td&gt;
+&lt;td&gt;呆鵝&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;15&lt;/td&gt;
+&lt;td&gt;騰訊&lt;/td&gt;
+&lt;td&gt;企鵝&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;騰訊的Logo是一隻企鵝&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;百度&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;百毒&lt;/td&gt;
+&lt;td style="text-align: center"&gt;中國網友慣稱呼，諧音&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;17&lt;/td&gt;
+&lt;td&gt;Uber&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;黑車&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;18&lt;/td&gt;
+&lt;td&gt;Uber Eats&lt;/td&gt;
+&lt;td&gt;吳柏毅&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;19&lt;/td&gt;
+&lt;td&gt;Foodpanda&lt;/td&gt;
+&lt;td&gt;熊貓&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;20&lt;/td&gt;
+&lt;td&gt;Garmin&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;21&lt;/td&gt;
+&lt;td&gt;Samsung(三星)&lt;/td&gt;
+&lt;td&gt;三爽&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="半導體設備商"&gt;半導體設備商
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th&gt;台灣暱稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;對岸暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;ASML(艾斯摩爾)&lt;/td&gt;
+&lt;td&gt;A4ML&lt;/td&gt;
+&lt;td style="text-align: right"&gt;阿斯麥&lt;/td&gt;
+&lt;td style="text-align: center"&gt;A4ML是只這家公司給的分紅很少，阿斯麥是中國ASML的翻譯&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;TEL(東京威力科創)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;ASM(先藝)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;AMT(應材)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;KLA(柯磊)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;LAM(柯林研發)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="系統廠-1"&gt;系統廠
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;公司名稱&lt;/th&gt;
+&lt;th&gt;台灣暱稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;對岸暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;Supermicro(美超微)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Lenovo(聯想)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="知名企業家"&gt;知名企業家
+&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;項次&lt;/th&gt;
+&lt;th&gt;名稱&lt;/th&gt;
+&lt;th style="text-align: right"&gt;暱稱&lt;/th&gt;
+&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;郭台銘&lt;/td&gt;
+&lt;td style="text-align: right"&gt;果凍&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Lisa Su(蘇丰姿)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;蘇媽&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;Jason Huang(黃仁勳)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;老黃、皮衣刀客、AI教父&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;Sundar Pichai&lt;/td&gt;
+&lt;td style="text-align: right"&gt;皮柴&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;Elon Musk&lt;/td&gt;
+&lt;td style="text-align: right"&gt;鋼鐵人、馬投顧&lt;/td&gt;
+&lt;td style="text-align: center"&gt;其言行對加密貨幣很有影響力&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;Sam Altman&lt;/td&gt;
+&lt;td style="text-align: right"&gt;奧特曼&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;蔡力行&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Rick&lt;/td&gt;
+&lt;td style="text-align: center"&gt;聯發科CEO&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;&lt;a class="link" href="https://pttpedia.fandom.com/zh/wiki/PTT%E4%BC%81%E6%A5%AD%E7%B6%BD%E8%99%9F%E5%88%97%E8%A1%A8" target="_blank" rel="noopener"
+&gt;https://pttpedia.fandom.com/zh/wiki/PTT%E4%BC%81%E6%A5%AD%E7%B6%BD%E8%99%9F%E5%88%97%E8%A1%A8&lt;/a&gt;&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;&lt;a class="link" href="https://mtk.tw/2022/09/%E7%A7%91%E6%8A%80%E5%85%AC%E5%8F%B8%E7%9A%84%E6%9A%B1%E7%A8%B1/" target="_blank" rel="noopener"
+&gt;https://mtk.tw/2022/09/%E7%A7%91%E6%8A%80%E5%85%AC%E5%8F%B8%E7%9A%84%E6%9A%B1%E7%A8%B1/&lt;/a&gt;&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref1:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref2:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref3:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref4:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref5:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;&lt;a class="link" href="https://www.1point3acres.com/bbs/thread-533022-2-1.html" target="_blank" rel="noopener"
+&gt;https://www.1point3acres.com/bbs/thread-533022-2-1.html&lt;/a&gt;&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref1:3" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description></item><item><title>Google Taiwan Hiring Event Recording</title><link>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</link><pubDate>Wed, 26 Apr 2023 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</guid><description>&lt;img src="https://i.imgur.com/1QtpCke.jpg" alt="Featured image of post Google Taiwan Hiring Event Recording" /&gt;&lt;h2 id="google-taiwan-campus-talk-2023-線上直播校園徵才說明會"&gt;Google Taiwan Campus Talk, 2023 線上直播校園徵才說明會
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/11/11&lt;/li&gt;
+&lt;li&gt;Title: Google Taiwan Campus Talk, 2023 校園徵才說明會&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;主題&lt;/th&gt;
+&lt;th&gt;講者&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Welcome &amp;amp; Google Culture&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Hear more from the Googlers&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fireside Chat with all the&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
 &lt;iframe loading="lazy"
 src="https://www.youtube.com/embed/1USuLq2RKLE"
 allowfullscreen
 title="YouTube Video"
->
-&lt;/iframe>
-&lt;/div>
-&lt;h2 id="made-by-google-behind-the-scenes-livestream">Made by Google: Behind the Scenes Livestream
-&lt;/h2>&lt;ul>
-&lt;li>Date: 2022/11/5&lt;/li>
-&lt;li>Title: Taiwan Made by Google: Behind the Scenes 2022&lt;/li>
-&lt;li>Agenda:&lt;/li>
-&lt;/ul>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>主題&lt;/th>
-&lt;th>講者&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Next-gen Google Tensor processor&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Fireside Chat : Pixel Camera&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Live Q&amp;amp;A and Latest Opportunities @Google Taiwan&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;ul>
-&lt;li>Recording:&lt;/li>
-&lt;/ul>
-&lt;div class="video-wrapper">
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="made-by-google-behind-the-scenes-livestream"&gt;Made by Google: Behind the Scenes Livestream
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/11/5&lt;/li&gt;
+&lt;li&gt;Title: Taiwan Made by Google: Behind the Scenes 2022&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;主題&lt;/th&gt;
+&lt;th&gt;講者&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Next-gen Google Tensor processor&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fireside Chat : Pixel Camera&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Live Q&amp;amp;A and Latest Opportunities @Google Taiwan&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
 &lt;iframe loading="lazy"
 src="https://www.youtube.com/embed/w--KJFHJMq8"
 allowfullscreen
 title="YouTube Video"
->
-&lt;/iframe>
-&lt;/div>
-&lt;h2 id="google-台灣-platforms-團隊介紹徵才說明會">Google 台灣 Platforms 團隊介紹＆徵才說明會
-&lt;/h2>&lt;ul>
-&lt;li>Date: 2022/07/08&lt;/li>
-&lt;li>Title: 2022 Google Taiwan Platforms Team Face to Face&lt;/li>
-&lt;li>Agenda:&lt;/li>
-&lt;/ul>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>主題&lt;/th>
-&lt;th>講者&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Google Taiwan Platforms Team at a glance&lt;/td>
-&lt;td>Director Platforms HW Test/Quality &amp;amp; Eng Labs&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Software &amp;amp; Hardware Engineers in Google Taiwan Platforms Team&lt;/td>
-&lt;td>Hardware &amp;amp; Software Managers&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Google Hiring Process &amp;amp; Tips&lt;/td>
-&lt;td>Recruiter&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>All You Want to Know - Q&amp;amp;A &amp;amp; See You at Google!&lt;/td>
-&lt;td>All Speakers&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;ul>
-&lt;li>Recording:&lt;/li>
-&lt;/ul>
-&lt;div class="video-wrapper">
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="google-台灣-platforms-團隊介紹徵才說明會"&gt;Google 台灣 Platforms 團隊介紹＆徵才說明會
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/07/08&lt;/li&gt;
+&lt;li&gt;Title: 2022 Google Taiwan Platforms Team Face to Face&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;主題&lt;/th&gt;
+&lt;th&gt;講者&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Google Taiwan Platforms Team at a glance&lt;/td&gt;
+&lt;td&gt;Director Platforms HW Test/Quality &amp;amp; Eng Labs&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Software &amp;amp; Hardware Engineers in Google Taiwan Platforms Team&lt;/td&gt;
+&lt;td&gt;Hardware &amp;amp; Software Managers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Google Hiring Process &amp;amp; Tips&lt;/td&gt;
+&lt;td&gt;Recruiter&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;All You Want to Know - Q&amp;amp;A &amp;amp; See You at Google!&lt;/td&gt;
+&lt;td&gt;All Speakers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
 &lt;iframe loading="lazy"
 src="https://www.youtube.com/embed/OvL1daxDcE0"
 allowfullscreen
 title="YouTube Video"
->
-&lt;/iframe>
-&lt;/div>
-&lt;h2 id="google-台灣軟體開發及測試團隊分享招募說明會">Google 台灣軟體開發及測試團隊分享＆招募說明會
-&lt;/h2>&lt;ul>
-&lt;li>Date: 2022/05/18&lt;/li>
-&lt;li>Title: Google 台灣軟體開發及測試團隊分享＆招募說明會&lt;/li>
-&lt;li>Agenda:&lt;/li>
-&lt;/ul>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>主題&lt;/th>
-&lt;th>講者&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>解密Google 台灣軟體開發團隊&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Googler 分享 - Engineering Manager\Test Engineer\Tech Lead 及 Software Engineer&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Google 招募流程&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Q&amp;amp;A 時間&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;div class="video-wrapper">
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="google-台灣軟體開發及測試團隊分享招募說明會"&gt;Google 台灣軟體開發及測試團隊分享＆招募說明會
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/05/18&lt;/li&gt;
+&lt;li&gt;Title: Google 台灣軟體開發及測試團隊分享＆招募說明會&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;主題&lt;/th&gt;
+&lt;th&gt;講者&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;解密Google 台灣軟體開發團隊&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Googler 分享 - Engineering Manager\Test Engineer\Tech Lead 及 Software Engineer&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Google 招募流程&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Q&amp;amp;A 時間&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="video-wrapper"&gt;
 &lt;iframe loading="lazy"
 src="https://www.youtube.com/embed/vE_ynVP1hUw"
 allowfullscreen
 title="YouTube Video"
->
-&lt;/iframe>
-&lt;/div>
-&lt;h2 id="google-台灣-silicon--cpu-團隊面對面">Google 台灣 Silicon &amp;amp; CPU 團隊面對面
-&lt;/h2>&lt;ul>
-&lt;li>Date: 2022/04/29&lt;/li>
-&lt;li>Title: 2022 Google Taiwan Silicon &amp;amp; CPU Face to Face&lt;/li>
-&lt;li>Recording:&lt;/li>
-&lt;/ul>
-&lt;div class="video-wrapper">
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="google-台灣-silicon--cpu-團隊面對面"&gt;Google 台灣 Silicon &amp;amp; CPU 團隊面對面
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/04/29&lt;/li&gt;
+&lt;li&gt;Title: 2022 Google Taiwan Silicon &amp;amp; CPU Face to Face&lt;/li&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
 &lt;iframe loading="lazy"
 src="https://www.youtube.com/embed/tWEQ9NLJDI4"
 allowfullscreen
 title="YouTube Video"
->
-&lt;/iframe>
-&lt;/div>
-&lt;h2 id="campus-talk-校園徵才線上說明會">Campus Talk 校園徵才線上說明會
-&lt;/h2>&lt;ul>
-&lt;li>Date: 2021/11/18&lt;/li>
-&lt;li>Title: 2022 Google Taiwan Tech Campus Talk YouTube Livestream&lt;/li>
-&lt;li>Recording:&lt;/li>
-&lt;/ul>
-&lt;div class="video-wrapper">
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="campus-talk-校園徵才線上說明會"&gt;Campus Talk 校園徵才線上說明會
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2021/11/18&lt;/li&gt;
+&lt;li&gt;Title: 2022 Google Taiwan Tech Campus Talk YouTube Livestream&lt;/li&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
 &lt;iframe loading="lazy"
 src="https://www.youtube.com/embed/_hD89kSALA0"
 allowfullscreen
 title="YouTube Video"
->
-&lt;/iframe>
-&lt;/div>
-&lt;h2 id="lifegoogle台灣硬體工程師篇">Life@Google台灣硬體工程師篇
-&lt;/h2>&lt;ul>
-&lt;li>Date: 2019/07/19&lt;/li>
-&lt;li>Title: Life@Google台灣硬體工程師篇&lt;/li>
-&lt;li>Recording:&lt;/li>
-&lt;/ul>
-&lt;div class="video-wrapper">
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="lifegoogle台灣硬體工程師篇"&gt;Life@Google台灣硬體工程師篇
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2019/07/19&lt;/li&gt;
+&lt;li&gt;Title: Life@Google台灣硬體工程師篇&lt;/li&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
 &lt;iframe loading="lazy"
 src="https://www.youtube.com/embed/JGx0XlEvuwk"
 allowfullscreen
 title="YouTube Video"
->
-&lt;/iframe>
-&lt;/div></description></item><item><title>2022 Google Taiwan SWE 面試心路歷程</title><link>https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/</link><pubDate>Mon, 05 Dec 2022 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/</guid><description>&lt;img src="https://i.imgur.com/N6UT0BQ.jpg" alt="Featured image of post 2022 Google Taiwan SWE 面試心路歷程" />&lt;h1 id="一個普通人的google面試經驗">一個普通人的Google面試經驗
-&lt;/h1>&lt;h2 id="前言">前言
-&lt;/h2>&lt;p>大學時期正處AI技術火熱發展的幾年，也因此經常有媒體報導AI技術領頭的Google的工作環境，像遊樂場一般的辦公室、吃不完的零食和飲料、五星級的免費三餐、領著百萬年薪上班還可以想睡覺就睡覺，其內部夢幻的刷新我對一份工作的三觀，從那時起對這間公司逐漸產生好奇，儘管好奇，我卻一直抱持著觀望的心態，如此夢幻的企業收人的標準想當然也是異常的高，傳言中只收台大電資的書卷大神或是競賽選手，望向我那慘慘的在校成績，完全不敢想像要如何才能拿到進入Google的門票。&lt;/p>
-&lt;p>大四那年系上開了企業參訪，地點就是朝思暮想的Google，當下毫不猶豫就報名了，就此開啟了與Google的第一次相遇的緣分，那時候板橋的總部還沒有成立，我們參觀的是位於101的總部，隨著前往76樓的電梯快速上升，興奮的心情難以壓抑，電梯們打開的剎那，迎接我的是我朝思暮想的夢幻國度，原來新聞裡講的都是真的，免費的冰、免費的飲料、免費的五星級三餐，搭配著76樓的高空美景，真有種去度假的感覺，遊樂器材、打盹房也是真的，完全體現了Google對員工的信任，在與帶領我們的員工交流後了解到Google對員工管理的自由，不僅僅是工時上的自由，工作項目上員工也有相當大的主導權，員工甚至可以自行組建小組發起專案，就這樣在震撼中結束了與Google的第一次邂逅，從那之後進入Google成了我的夢想，我深知自己的不足，只能一步步的朝那裡邁進。
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;</description></item><item><title>2022 Google Taiwan SWE 面試心路歷程</title><link>https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/</link><pubDate>Mon, 05 Dec 2022 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/</guid><description>&lt;img src="https://i.imgur.com/N6UT0BQ.jpg" alt="Featured image of post 2022 Google Taiwan SWE 面試心路歷程" /&gt;&lt;h1 id="一個普通人的google面試經驗"&gt;一個普通人的Google面試經驗
+&lt;/h1&gt;&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;大學時期正處AI技術火熱發展的幾年，也因此經常有媒體報導AI技術領頭的Google的工作環境，像遊樂場一般的辦公室、吃不完的零食和飲料、五星級的免費三餐、領著百萬年薪上班還可以想睡覺就睡覺，其內部夢幻的刷新我對一份工作的三觀，從那時起對這間公司逐漸產生好奇，儘管好奇，我卻一直抱持著觀望的心態，如此夢幻的企業收人的標準想當然也是異常的高，傳言中只收台大電資的書卷大神或是競賽選手，望向我那慘慘的在校成績，完全不敢想像要如何才能拿到進入Google的門票。&lt;/p&gt;
+&lt;p&gt;大四那年系上開了企業參訪，地點就是朝思暮想的Google，當下毫不猶豫就報名了，就此開啟了與Google的第一次相遇的緣分，那時候板橋的總部還沒有成立，我們參觀的是位於101的總部，隨著前往76樓的電梯快速上升，興奮的心情難以壓抑，電梯們打開的剎那，迎接我的是我朝思暮想的夢幻國度，原來新聞裡講的都是真的，免費的冰、免費的飲料、免費的五星級三餐，搭配著76樓的高空美景，真有種去度假的感覺，遊樂器材、打盹房也是真的，完全體現了Google對員工的信任，在與帶領我們的員工交流後了解到Google對員工管理的自由，不僅僅是工時上的自由，工作項目上員工也有相當大的主導權，員工甚至可以自行組建小組發起專案，就這樣在震撼中結束了與Google的第一次邂逅，從那之後進入Google成了我的夢想，我深知自己的不足，只能一步步的朝那裡邁進。
 &lt;img src="https://i.imgur.com/me7lhlC.jpg"
 loading="lazy"
->
+&gt;
 &lt;img src="https://i.imgur.com/N6UT0BQ.jpg"
 loading="lazy"
->&lt;/p>
-&lt;p>大四的暑假有了一次前往美國舊金山的機會，趁著這個機會再次造訪心中的夢想之地，位在山景城的Google總部，不過這次比較可惜沒有人脈可以帶我進去參觀參觀，只能當個觀光客在園區閒晃，雖然說只能從外部看，也能感受到整間公司以Have Fun為中心思想的氛圍，隨處可見的腳踏車、沙灘排球場、還有各式各樣的野餐區域簡直就是個大型的度假中心，後來也去了園區附近的紀念品中心買了不少伴手禮回來，朝聖之旅讓我感受的這間公司迷人的活力與矽谷這個科技業的傳奇之地的魅力，這裡的創造力與帶給世界的改變，我心想未來的某一天，我也希望能來到這裡工作。
+&gt;&lt;/p&gt;
+&lt;p&gt;大四的暑假有了一次前往美國舊金山的機會，趁著這個機會再次造訪心中的夢想之地，位在山景城的Google總部，不過這次比較可惜沒有人脈可以帶我進去參觀參觀，只能當個觀光客在園區閒晃，雖然說只能從外部看，也能感受到整間公司以Have Fun為中心思想的氛圍，隨處可見的腳踏車、沙灘排球場、還有各式各樣的野餐區域簡直就是個大型的度假中心，後來也去了園區附近的紀念品中心買了不少伴手禮回來，朝聖之旅讓我感受的這間公司迷人的活力與矽谷這個科技業的傳奇之地的魅力，這裡的創造力與帶給世界的改變，我心想未來的某一天，我也希望能來到這裡工作。
 &lt;img src="https://i.imgur.com/d6fIhVp.jpg"
 loading="lazy"
->&lt;/p>
-&lt;p>回台灣之後進入了研究所就讀，原本就對自己的技術能力不太抱有信心，進入研究所後被各路大神強者環繞，更是讓我深切的感受到想要進入Google還有很長的路要走，在技術能力與研究能力上必須要有更上一層的累積，抱持著這個心態，在被研究進度追趕之餘也儘可能的參與各式各樣的side project、hackathon，也參與了幾個新創專案累積了一些參與新創的經驗，在跌跌撞撞之中夾雜著過人的運氣，在研究所的最後一年極度幸運的拿到了微軟的實習機會，開啟了一年的實習與研究所兩邊跑的生活，儘管這個老牌的軟體公司在Google、Facebook這些當紅的網路公司略顯遜色，但作為老牌卻長青的科技巨頭，仍提供了我不少的成長養分，開發技術能力的提升、專案管理能力的培養，也讓我得以窺見在科技公司中的生活模式。&lt;/p>
-&lt;p>2021年板橋的Google成立，將會是亞洲最大的硬體研發中心，能預期的是Google在台灣將會有大規模的人才招募活動，進入Google的難度也會較以往稍微容易，我深知想要進入Google這是個非常好的機會，在2021年底我在Linkedin上第一次收到來自Google HR的面試邀約，在與HR面談後了解到這是屬於Google Silicon的Hardware Engineer職缺，招募台灣電機背景或是有硬體開發經驗的工程師，只可惜我完全沒有學過硬體設計，對於verilog是一竅不通，面談後就完全沒有後續消息了&amp;hellip;&lt;/p>
-&lt;p>2022年初聽聞有個學弟進入Google，我厚著臉皮請他幫忙推薦並投了2022年度的Software Engineer校園招募，這一次我總算沒有被拒於門外，順利的拿到了第一次面試的機會，就這樣開始了魔王級的面試挑戰之旅。&lt;/p>
-&lt;h2 id="背景">背景
-&lt;/h2>&lt;p>112資管系雙主修森林系學士+112電信所碩士，沒有參加過程式競賽，也沒有貢獻過開源專案，只有和幾個朋友做過Side Project和Hackathon，大二修程式設計時因為花太多時間在社團而被當掉，大三重修A+過，資結演算法只能說是普通水準。&lt;/p>
-&lt;h2 id="準備">準備
-&lt;/h2>&lt;p>差不多從2021年12月左右開始刷題，中間有一段時間在趕研究進度跟過年荒廢了一段時間，過完年後為了要強迫自己刷題買了一年份的Leetcode Premium，現在看起來是很不錯的投資，另外我也有買很多人推薦的&lt;a class="link" href="https://www.books.com.tw/products/0010881287?gclid=CjwKCAjws8yUBhA1EiwAi_tpEc7PyWvICvGCthzmnsrYVvP4OFhBHxPSQ-XjgJoZy5Ampx9c_pKHlxoC-NUQAvD_BwE" target="_blank" rel="noopener"
->Cracking the coding interview&lt;/a>不過只有看一兩個不太熟的章節而已，刷題的策略前期我自己是從動態規劃開始練習，那時候是看花花醬的&lt;a class="link" href="https://www.youtube.com/watch?v=LG0adDNnnYg&amp;amp;list=PLLuMmzMTgVK6krji67w8tEAAud71nQQFe" target="_blank" rel="noopener"
->動態規劃終極學習方案&lt;/a>系列影片累積思考動態規劃問題的技巧，差不多二月開始開始以寫完Leetcode前100題為目標，首先從Easy開始，然後是Medium，三月時開始以寫完&lt;a class="link" href="https://leetcode.com/discuss/general-discussion/460599/blind-75-leetcode-questions" target="_blank" rel="noopener"
->Blind 75&lt;/a>為目標，刷完一遍Blind 75後在去看前100題中的Hard題，最後在Onsite前一週努力刷Google面試的高頻率題，不得不說Leetcode Premium都將高頻題整理好了真的蠻方便的(而且真的蠻有用的XD)，這段期間每天會固定上去寫Daily，算是強迫自己每天維持解題手感，刷的題目數量，在Phone Interview前差不多150題左右，在Onsite之前差不多230題左右，相對於各路大神來說應該不算多，不過對我自己而言還算夠，各方面的題型都算是有顧到，自己的感覺是都能夠穩定的解出Medium，Hard則是可以想出可行解。比較可惜的是這段時間沒有找朋友幫忙Mock interview，面試經驗的累積是靠實戰累積，在這之前還面了Amazon、Nvidia。
+&gt;&lt;/p&gt;
+&lt;p&gt;回台灣之後進入了研究所就讀，原本就對自己的技術能力不太抱有信心，進入研究所後被各路大神強者環繞，更是讓我深切的感受到想要進入Google還有很長的路要走，在技術能力與研究能力上必須要有更上一層的累積，抱持著這個心態，在被研究進度追趕之餘也儘可能的參與各式各樣的side project、hackathon，也參與了幾個新創專案累積了一些參與新創的經驗，在跌跌撞撞之中夾雜著過人的運氣，在研究所的最後一年極度幸運的拿到了微軟的實習機會，開啟了一年的實習與研究所兩邊跑的生活，儘管這個老牌的軟體公司在Google、Facebook這些當紅的網路公司略顯遜色，但作為老牌卻長青的科技巨頭，仍提供了我不少的成長養分，開發技術能力的提升、專案管理能力的培養，也讓我得以窺見在科技公司中的生活模式。&lt;/p&gt;
+&lt;p&gt;2021年板橋的Google成立，將會是亞洲最大的硬體研發中心，能預期的是Google在台灣將會有大規模的人才招募活動，進入Google的難度也會較以往稍微容易，我深知想要進入Google這是個非常好的機會，在2021年底我在Linkedin上第一次收到來自Google HR的面試邀約，在與HR面談後了解到這是屬於Google Silicon的Hardware Engineer職缺，招募台灣電機背景或是有硬體開發經驗的工程師，只可惜我完全沒有學過硬體設計，對於verilog是一竅不通，面談後就完全沒有後續消息了&amp;hellip;&lt;/p&gt;
+&lt;p&gt;2022年初聽聞有個學弟進入Google，我厚著臉皮請他幫忙推薦並投了2022年度的Software Engineer校園招募，這一次我總算沒有被拒於門外，順利的拿到了第一次面試的機會，就這樣開始了魔王級的面試挑戰之旅。&lt;/p&gt;
+&lt;h2 id="背景"&gt;背景
+&lt;/h2&gt;&lt;p&gt;112資管系雙主修森林系學士+112電信所碩士，沒有參加過程式競賽，也沒有貢獻過開源專案，只有和幾個朋友做過Side Project和Hackathon，大二修程式設計時因為花太多時間在社團而被當掉，大三重修A+過，資結演算法只能說是普通水準。&lt;/p&gt;
+&lt;h2 id="準備"&gt;準備
+&lt;/h2&gt;&lt;p&gt;差不多從2021年12月左右開始刷題，中間有一段時間在趕研究進度跟過年荒廢了一段時間，過完年後為了要強迫自己刷題買了一年份的Leetcode Premium，現在看起來是很不錯的投資，另外我也有買很多人推薦的&lt;a class="link" href="https://www.books.com.tw/products/0010881287?gclid=CjwKCAjws8yUBhA1EiwAi_tpEc7PyWvICvGCthzmnsrYVvP4OFhBHxPSQ-XjgJoZy5Ampx9c_pKHlxoC-NUQAvD_BwE" target="_blank" rel="noopener"
+&gt;Cracking the coding interview&lt;/a&gt;不過只有看一兩個不太熟的章節而已，刷題的策略前期我自己是從動態規劃開始練習，那時候是看花花醬的&lt;a class="link" href="https://www.youtube.com/watch?v=LG0adDNnnYg&amp;amp;list=PLLuMmzMTgVK6krji67w8tEAAud71nQQFe" target="_blank" rel="noopener"
+&gt;動態規劃終極學習方案&lt;/a&gt;系列影片累積思考動態規劃問題的技巧，差不多二月開始開始以寫完Leetcode前100題為目標，首先從Easy開始，然後是Medium，三月時開始以寫完&lt;a class="link" href="https://leetcode.com/discuss/general-discussion/460599/blind-75-leetcode-questions" target="_blank" rel="noopener"
+&gt;Blind 75&lt;/a&gt;為目標，刷完一遍Blind 75後在去看前100題中的Hard題，最後在Onsite前一週努力刷Google面試的高頻率題，不得不說Leetcode Premium都將高頻題整理好了真的蠻方便的(而且真的蠻有用的XD)，這段期間每天會固定上去寫Daily，算是強迫自己每天維持解題手感，刷的題目數量，在Phone Interview前差不多150題左右，在Onsite之前差不多230題左右，相對於各路大神來說應該不算多，不過對我自己而言還算夠，各方面的題型都算是有顧到，自己的感覺是都能夠穩定的解出Medium，Hard則是可以想出可行解。比較可惜的是這段時間沒有找朋友幫忙Mock interview，面試經驗的累積是靠實戰累積，在這之前還面了Amazon、Nvidia。
 因為Google的Technical Interview至少會有兩關以上的全英文面試，英文也是很重要的一部分，雖然不用到Native specker那樣流利，但至少邏輯要能正確傳達，我英文的部分主要就仰賴實習的時候累積下來的，抱括日常聊天用語與解釋技術的能力，很感謝在這段時間願意跟我交流和我練習英文的人。
 &lt;img src="https://i.imgur.com/9Pq3Dv9.png"
 loading="lazy"
->
-這一段時間的刷題紀錄&lt;/p>
-&lt;p>&lt;img src="https://i.imgur.com/svYL759.png"
+&gt;
+這一段時間的刷題紀錄&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/svYL759.png"
 loading="lazy"
->
-刷題的三圍&lt;/p>
-&lt;h2 id="時辰">時辰
-&lt;/h2>&lt;p>2022/01/20 -&amp;gt; 收到朋友的內推通知信，官網投遞履歷，投的是Software Engineer, University Graduate, 2022
+&gt;
+刷題的三圍&lt;/p&gt;
+&lt;h2 id="時辰"&gt;時辰
+&lt;/h2&gt;&lt;p&gt;2022/01/20 -&amp;gt; 收到朋友的內推通知信，官網投遞履歷，投的是Software Engineer, University Graduate, 2022
 2022/03/07 -&amp;gt; 收到HR來信通知安排面試
 2022/03/28 -&amp;gt; Phone Interview
 2022/04/07 -&amp;gt; 通知通過Phone Interview，準備安排Virtual Onsite Interview
 2022/04/25 -&amp;gt; 第一天Virtual Onsite Interview，兩關Technical Interview + 一關Behavior Interview
 2022/04/26 -&amp;gt; 第二天Virtual Onsite Interview，兩關Technical Interview
 2022/05/07 -&amp;gt; 通知面試結果most on positive
-2022/05/26 -&amp;gt; 得知Hiring政策可能會異動&lt;/p>
-&lt;h2 id="過程">過程
-&lt;/h2>&lt;p>要說面試有什麼最需要注意的，我會覺得是要保持平常心，這也是我認爲面試最困難的部分，畢竟在跟自己的夢想公司面試，興奮、期待、緊張等情緒交雜，很難保持平常心，在第一次Phone Interview時我甚至前兩天晚上都緊張到睡不著，能做的就是去Youtube上找各種國外講軟體工程師面試的影片來看，提醒自己面試該注意的點，英文類的也順便可以練習英文聽力，以下推薦幾個不錯的影片：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a class="link" href="https://www.youtube.com/watch?v=4tbQhdrpB9s" target="_blank" rel="noopener"
->面試流程大解析&lt;/a>，用SOP的方式講解軟體工程師面試，淺顯易懂&lt;/li>
-&lt;li>&lt;a class="link" href="https://www.youtube.com/watch?v=4yznKC5ZE5I&amp;amp;t=129s" target="_blank" rel="noopener"
->Google谷歌技术面试经验分享&lt;/a>，這個講解面試的過程與注意事項講的很仔細，很有參考價值&lt;/li>
-&lt;li>&lt;a class="link" href="https://www.youtube.com/watch?v=ASXM4-CQG8o" target="_blank" rel="noopener"
->How to tech interview Like a Pro&lt;/a>，這個用搞笑的方式呈現程式面試的過程，蠻有趣的&lt;/li>
-&lt;/ul>
-&lt;h3 id="phone-interview">Phone Interview
-&lt;/h3>&lt;p>我差不多在預定時間的前十分鐘就坐在電腦前等，不過在預定時間點進去時面試官還沒上來，讓我緊張了一下以爲是不是記錯時間，等了差不多十分鐘後面試官終於來了，很抱歉的表示因為前面有一個會有一點耽擱到。面試官其實是一個親切的中國的小姊姊，一開始問了一個類似字串比對的問題，差不多是Easy等級，基本上一看到題目想到解法了，陳述了解法後面試官也同意這個解法，就花了10分鐘左右完成這題的coding，接著他表示有Follow up，比較像是會重複使用到第一題的概念屬於Medium等級，在思考這題的時候我原本以為只需要重複使用第一題的解法就行，結果發現我第一題使用的解法並非最佳解，到這邊其實有一點慌了，還好小姊姊人很好，不斷引導我去思考更好的解法，最終想出一個更佳的解法並花了幾分鐘實現，面試結束前小姊姊表示其實還有更好的解法，因此又花了幾分鐘請教一下，不過他表示這個解法他自己也沒有想到。
+2022/05/26 -&amp;gt; 得知Hiring政策可能會異動&lt;/p&gt;
+&lt;h2 id="過程"&gt;過程
+&lt;/h2&gt;&lt;p&gt;要說面試有什麼最需要注意的，我會覺得是要保持平常心，這也是我認爲面試最困難的部分，畢竟在跟自己的夢想公司面試，興奮、期待、緊張等情緒交雜，很難保持平常心，在第一次Phone Interview時我甚至前兩天晚上都緊張到睡不著，能做的就是去Youtube上找各種國外講軟體工程師面試的影片來看，提醒自己面試該注意的點，英文類的也順便可以練習英文聽力，以下推薦幾個不錯的影片：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=4tbQhdrpB9s" target="_blank" rel="noopener"
+&gt;面試流程大解析&lt;/a&gt;，用SOP的方式講解軟體工程師面試，淺顯易懂&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=4yznKC5ZE5I&amp;amp;t=129s" target="_blank" rel="noopener"
+&gt;Google谷歌技术面试经验分享&lt;/a&gt;，這個講解面試的過程與注意事項講的很仔細，很有參考價值&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=ASXM4-CQG8o" target="_blank" rel="noopener"
+&gt;How to tech interview Like a Pro&lt;/a&gt;，這個用搞笑的方式呈現程式面試的過程，蠻有趣的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="phone-interview"&gt;Phone Interview
+&lt;/h3&gt;&lt;p&gt;我差不多在預定時間的前十分鐘就坐在電腦前等，不過在預定時間點進去時面試官還沒上來，讓我緊張了一下以爲是不是記錯時間，等了差不多十分鐘後面試官終於來了，很抱歉的表示因為前面有一個會有一點耽擱到。面試官其實是一個親切的中國的小姊姊，一開始問了一個類似字串比對的問題，差不多是Easy等級，基本上一看到題目想到解法了，陳述了解法後面試官也同意這個解法，就花了10分鐘左右完成這題的coding，接著他表示有Follow up，比較像是會重複使用到第一題的概念屬於Medium等級，在思考這題的時候我原本以為只需要重複使用第一題的解法就行，結果發現我第一題使用的解法並非最佳解，到這邊其實有一點慌了，還好小姊姊人很好，不斷引導我去思考更好的解法，最終想出一個更佳的解法並花了幾分鐘實現，面試結束前小姊姊表示其實還有更好的解法，因此又花了幾分鐘請教一下，不過他表示這個解法他自己也沒有想到。
 個人評價，整體來說面試表現還行，解題並不是很流暢，中間卡了一下，但算是有解出來，所以也不到差。
-後來是通過了這一輪面試。&lt;/p>
-&lt;h3 id="onsite-interview">Onsite Interview
-&lt;/h3>&lt;h4 id="technical-interview-1">Technical Interview #1
-&lt;/h4>&lt;p>這一關是一個人很不錯的中國的大叔，也沒有遲到，問了一題排序的變化題，一開始以為是Easy，但實際解下去後發現有Medium難度，完全錯估了這題的深奧程度，最一開始提了一個可行解，但面試官希望我提出最佳解，就這樣在這討論解法的30min中我至少提出了五六種解法，並分析在輸入範圍不同的情況下複雜度的差異，但我都沒有提出最佳解，後來在面試官的提示下想出了最佳解，但時間基本上已經用完了，我只能快速的將想法實作出來，後來想想自己實作的演算法是有Bug的，還好面試官人很好，並沒有很急著要結束面試，反而盡可能多留一些時間讓我完成面試，最後面試官回應我認為這是個很有趣的討論，認爲我提出了許多有趣的想法。
-有了Phone Interview的經驗後，並沒有讓我比較不緊張，反而一直很擔心面試官一上來就會來一題Hard，就面試情形而言自己覺得表現是比較糟糕的。&lt;/p>
-&lt;h4 id="technical-interview-2">Technical Interview #2
-&lt;/h4>&lt;p>這一關是一個懶得說話的小哥，問了一個類似尋找子字串的問題，他先請我思考一個brute force solution我基本上看完題目就有想法直接給出了解法，他聽完後也覺得可以因此就請我實作，我差不多花十分鐘實作完成並解釋了一下時間複雜度，接著希望我提出最佳解，對於最佳解自己其實沒什麼把握，只感覺字串應該可以用prefix tree來處理，因此提出了自己想法，沒想到他回應這是正確的思路，因此接續的想就給出了最佳解，還算順利的完成這一關，難度大概是Medium。
-在第一關爆掉之後這關心情反而輕鬆許多，有一點隨他去的感覺，大概是因為心情放鬆不少，反而思緒比較清楚，果然緊張才是大魔王。&lt;/p>
-&lt;h4 id="behavior-interview">Behavior Interview
-&lt;/h4>&lt;p>這一關是一個中國的姊姊面試，首先問了一些蠻常見的Behavior question像是團隊的合作以及如何溝通，詳細題目網路上有蠻詳細的資訊，比較特別的是面試官問了一題有點類似產品設計的題目，因為事前完全沒有預料到，只能憑想像回答，但感覺面試官似乎沒有很滿意，面試最後有給個feedback認為我回答的沒有很深入，但他覺得我可能缺少工作經驗，因此回答的不深入也算預料之內。
-整體來說回答的算尚可，至少都有給出個穩健中庸的答案。&lt;/p>
-&lt;h4 id="technical-interview-3">Technical Interview #3
-&lt;/h4>&lt;p>第三關開始就變成了用英文面試，面試官還是中國小哥，不得不說跟同樣母語是中文的人用英文溝通難度真的低很多，可能是因為背後的思考還卡在中文的框架下。
-面試官問了一個tree traverse然後output路徑的題目，高度相似於leetcode上某題Google高頻題，剛好前幾天刷題有寫到，幾乎是秒想出最佳解，當然看到原題還是很興奮的，大概花了15分鐘講解完以及寫完code之後面試官給了我一個follow up，表面上是上面這題的延伸，但實際上已經轉換成BFS尋找兩點最短路徑的題目，還算是有趣的Follow up，這個變化在leetcode上就找不到了，這題同樣也是medium難度。&lt;/p>
-&lt;h4 id="technical-interview-4">Technical Interview #4
-&lt;/h4>&lt;p>第四關是一個沒有什麼表情的中國小哥，問了一個類似blind 75 pacific atlantic water flow的題目，看完題目後第一反應就連想到blind 75這題，事後也證明用同一題的方法可以解決這題，大概花了20分鐘講解跟寫完code後面試官同樣也給了follow-up，不過這個follow-up就沒有前一關有趣，只是單純數量上的增加，用同一題的方法改一下code就解決了，這題難度大概Medium。結果後來反而是這關的面試官認為我寫的code有些微的瑕疵，果然看到熟悉的題目還是不能太大意啊。&lt;/p>
-&lt;h2 id="後續">後續
-&lt;/h2>&lt;p>我面試的時間已經算是Google 2022Campus Hire的末端了，大部分的缺都已經招完了，所以後來就變成直接沒有Headcount可以進行Team match，因此那時就有心理準備可能會需要等到下一年度的campus hire在繼續。&lt;/p>
-&lt;p>後來就如同大家所見的，在美國升息的壓力下各大公司開始被迫精簡人力，台灣這邊的campus hire也延到11月才開始，而headcount也必須要等到明年初人力政策確定後才會比較確定，好在面試結果可以保留一年，就祈禱明年還有機會可以繼續進行面試流程。&lt;/p>
-&lt;p>雖然尚未成功的進入我的Dream company，但這一路上還是很感謝許多人提供的機會以及幫助，此外也感謝協助我的Google HR不厭其煩的提供招聘流程的各種資訊。&lt;/p></description></item><item><title>Google Interview Leetcode Question Challenge</title><link>https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/</link><pubDate>Mon, 30 May 2022 11:41:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/</guid><description>&lt;img src="https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/IMG_4879.jpg" alt="Featured image of post Google Interview Leetcode Question Challenge" />&lt;h1 id="google-interview-challenge">Google Interview Challenge
-&lt;/h1>&lt;p>&lt;a class="link" href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;amp;id=301667" target="_blank" rel="noopener"
->https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;id=301667&lt;/a>&lt;/p>
-&lt;p>&lt;a class="link" href="https://www.gushiciku.cn/pl/gyQP/zh-tw" target="_blank" rel="noopener"
->https://www.gushiciku.cn/pl/gyQP/zh-tw&lt;/a>&lt;/p>
-&lt;p>&lt;a class="link" href="https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed" target="_blank" rel="noopener"
->https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed&lt;/a>&lt;/p>
-&lt;p>&lt;a class="link" href="https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158" target="_blank" rel="noopener"
->https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158&lt;/a>
+後來是通過了這一輪面試。&lt;/p&gt;
+&lt;h3 id="onsite-interview"&gt;Onsite Interview
+&lt;/h3&gt;&lt;h4 id="technical-interview-1"&gt;Technical Interview #1
+&lt;/h4&gt;&lt;p&gt;這一關是一個人很不錯的中國的大叔，也沒有遲到，問了一題排序的變化題，一開始以為是Easy，但實際解下去後發現有Medium難度，完全錯估了這題的深奧程度，最一開始提了一個可行解，但面試官希望我提出最佳解，就這樣在這討論解法的30min中我至少提出了五六種解法，並分析在輸入範圍不同的情況下複雜度的差異，但我都沒有提出最佳解，後來在面試官的提示下想出了最佳解，但時間基本上已經用完了，我只能快速的將想法實作出來，後來想想自己實作的演算法是有Bug的，還好面試官人很好，並沒有很急著要結束面試，反而盡可能多留一些時間讓我完成面試，最後面試官回應我認為這是個很有趣的討論，認爲我提出了許多有趣的想法。
+有了Phone Interview的經驗後，並沒有讓我比較不緊張，反而一直很擔心面試官一上來就會來一題Hard，就面試情形而言自己覺得表現是比較糟糕的。&lt;/p&gt;
+&lt;h4 id="technical-interview-2"&gt;Technical Interview #2
+&lt;/h4&gt;&lt;p&gt;這一關是一個懶得說話的小哥，問了一個類似尋找子字串的問題，他先請我思考一個brute force solution我基本上看完題目就有想法直接給出了解法，他聽完後也覺得可以因此就請我實作，我差不多花十分鐘實作完成並解釋了一下時間複雜度，接著希望我提出最佳解，對於最佳解自己其實沒什麼把握，只感覺字串應該可以用prefix tree來處理，因此提出了自己想法，沒想到他回應這是正確的思路，因此接續的想就給出了最佳解，還算順利的完成這一關，難度大概是Medium。
+在第一關爆掉之後這關心情反而輕鬆許多，有一點隨他去的感覺，大概是因為心情放鬆不少，反而思緒比較清楚，果然緊張才是大魔王。&lt;/p&gt;
+&lt;h4 id="behavior-interview"&gt;Behavior Interview
+&lt;/h4&gt;&lt;p&gt;這一關是一個中國的姊姊面試，首先問了一些蠻常見的Behavior question像是團隊的合作以及如何溝通，詳細題目網路上有蠻詳細的資訊，比較特別的是面試官問了一題有點類似產品設計的題目，因為事前完全沒有預料到，只能憑想像回答，但感覺面試官似乎沒有很滿意，面試最後有給個feedback認為我回答的沒有很深入，但他覺得我可能缺少工作經驗，因此回答的不深入也算預料之內。
+整體來說回答的算尚可，至少都有給出個穩健中庸的答案。&lt;/p&gt;
+&lt;h4 id="technical-interview-3"&gt;Technical Interview #3
+&lt;/h4&gt;&lt;p&gt;第三關開始就變成了用英文面試，面試官還是中國小哥，不得不說跟同樣母語是中文的人用英文溝通難度真的低很多，可能是因為背後的思考還卡在中文的框架下。
+面試官問了一個tree traverse然後output路徑的題目，高度相似於leetcode上某題Google高頻題，剛好前幾天刷題有寫到，幾乎是秒想出最佳解，當然看到原題還是很興奮的，大概花了15分鐘講解完以及寫完code之後面試官給了我一個follow up，表面上是上面這題的延伸，但實際上已經轉換成BFS尋找兩點最短路徑的題目，還算是有趣的Follow up，這個變化在leetcode上就找不到了，這題同樣也是medium難度。&lt;/p&gt;
+&lt;h4 id="technical-interview-4"&gt;Technical Interview #4
+&lt;/h4&gt;&lt;p&gt;第四關是一個沒有什麼表情的中國小哥，問了一個類似blind 75 pacific atlantic water flow的題目，看完題目後第一反應就連想到blind 75這題，事後也證明用同一題的方法可以解決這題，大概花了20分鐘講解跟寫完code後面試官同樣也給了follow-up，不過這個follow-up就沒有前一關有趣，只是單純數量上的增加，用同一題的方法改一下code就解決了，這題難度大概Medium。結果後來反而是這關的面試官認為我寫的code有些微的瑕疵，果然看到熟悉的題目還是不能太大意啊。&lt;/p&gt;
+&lt;h2 id="後續"&gt;後續
+&lt;/h2&gt;&lt;p&gt;我面試的時間已經算是Google 2022Campus Hire的末端了，大部分的缺都已經招完了，所以後來就變成直接沒有Headcount可以進行Team match，因此那時就有心理準備可能會需要等到下一年度的campus hire在繼續。&lt;/p&gt;
+&lt;p&gt;後來就如同大家所見的，在美國升息的壓力下各大公司開始被迫精簡人力，台灣這邊的campus hire也延到11月才開始，而headcount也必須要等到明年初人力政策確定後才會比較確定，好在面試結果可以保留一年，就祈禱明年還有機會可以繼續進行面試流程。&lt;/p&gt;
+&lt;p&gt;雖然尚未成功的進入我的Dream company，但這一路上還是很感謝許多人提供的機會以及幫助，此外也感謝協助我的Google HR不厭其煩的提供招聘流程的各種資訊。&lt;/p&gt;</description></item><item><title>Google Interview Leetcode Question Challenge</title><link>https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/</link><pubDate>Mon, 30 May 2022 11:41:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/</guid><description>&lt;img src="https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/IMG_4879.jpg" alt="Featured image of post Google Interview Leetcode Question Challenge" /&gt;&lt;h1 id="google-interview-challenge"&gt;Google Interview Challenge
+&lt;/h1&gt;&lt;p&gt;&lt;a class="link" href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;amp;id=301667" target="_blank" rel="noopener"
+&gt;https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;id=301667&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://www.gushiciku.cn/pl/gyQP/zh-tw" target="_blank" rel="noopener"
+&gt;https://www.gushiciku.cn/pl/gyQP/zh-tw&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed" target="_blank" rel="noopener"
+&gt;https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158" target="_blank" rel="noopener"
+&gt;https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158&lt;/a&gt;
 Google面試準備
-刷題類型&lt;/p>
-&lt;ul>
-&lt;li>&lt;input disabled="" type="checkbox"> Arrays&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> Binary Search Tree&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> Binary Tree&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> Dynamic Programming&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> Greedy&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> Graph – BFS、DFS&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> Heap&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> LinkedList&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> Recursion&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> Searching – Binary Search、Quick Select&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> Stack&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> String&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> Sorting&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> Topological sorting&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> Trie&lt;/li>
-&lt;/ul>
-&lt;p>Google面試經典題目&lt;/p>
-&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> coin change&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> coin change 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> Unique path&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> Unique path 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> Permutation&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> Permutation 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> subset&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> subset 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> search in rotated sorted array&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> search in rotated sorted array 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> word break&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> word break 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> jump game&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> jump game 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> word search&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> word search 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> combination&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> combination 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> meeting room&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> meeting room 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> number of islands&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> number of islands 2&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> number of distinct island&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> number of distinct island 2&lt;/li>
-&lt;/ul>
-&lt;p>BQ準備
+刷題類型&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Arrays&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Binary Search Tree&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Binary Tree&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Dynamic Programming&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Greedy&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Graph – BFS、DFS&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Heap&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; LinkedList&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Recursion&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Searching – Binary Search、Quick Select&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Stack&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; String&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Sorting&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Topological sorting&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Trie&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Google面試經典題目&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; coin change&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; coin change 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Unique path&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Unique path 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Permutation&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Permutation 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; subset&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; subset 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; search in rotated sorted array&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; search in rotated sorted array 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word break&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word break 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; jump game&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; jump game 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word search&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word search 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; combination&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; combination 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; meeting room&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; meeting room 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of islands&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of islands 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of distinct island&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; number of distinct island 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;BQ準備
 Imagine you worked in a project or a team that had a problematic culture
 Tell about the leading experience of a group project
 Thinking about a time you were given a large amount of work to complete under the tight deadline
 Tell about a time you face a problem without having clear solution
-How do you solve the conflict that happen in the team&lt;/p>
-&lt;h2 id="blind-75">Blind 75
-&lt;/h2>&lt;h3 id="array">Array
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener"
->Two Sum&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener"
->Best Time to Buy and Sell Stock&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/contains-duplicate/" target="_blank" rel="noopener"
->Contains Duplicate&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank" rel="noopener"
->Product of Array Except Self&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/maximum-subarray/" target="_blank" rel="noopener"
->Maximum Subarray&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank" rel="noopener"
->Maximum Product Subarray&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener"
->Find Minimum in Rotated Sorted Array&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" rel="noopener"
->Search in Rotated Sorted Array&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/3sum/" target="_blank" rel="noopener"
->3 Sum&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/container-with-most-water/" target="_blank" rel="noopener"
->Container With Most Water&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h3 id="binary">Binary
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/sum-of-two-integers/" target="_blank" rel="noopener"
->Sum of Two Integers&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/number-of-1-bits/" target="_blank" rel="noopener"
->Number of 1 Bits&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/counting-bits/" target="_blank" rel="noopener"
->Counting Bits&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/missing-number/" target="_blank" rel="noopener"
->Missing Number&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/reverse-bits/" target="_blank" rel="noopener"
->Reverse Bits&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h3 id="dynamic-programming">Dynamic Programming
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/climbing-stairs/" target="_blank" rel="noopener"
->Climbing Stairs&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/coin-change/" target="_blank" rel="noopener"
->Coin Change&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener"
->Longest Increasing Subsequence&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/longest-common-subsequence/" target="_blank" rel="noopener"
->Longest Common Subsequence&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/word-break/" target="_blank" rel="noopener"
->Word Break Problem&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/combination-sum-iv/" target="_blank" rel="noopener"
->Combination Sum&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/house-robber/" target="_blank" rel="noopener"
->House Robber&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/house-robber-ii/" target="_blank" rel="noopener"
->House Robber II&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/decode-ways/" target="_blank" rel="noopener"
->Decode Ways&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/unique-paths/" target="_blank" rel="noopener"
->Unique Paths&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/jump-game/" target="_blank" rel="noopener"
->Jump Game&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h3 id="graph">Graph
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/clone-graph/" target="_blank" rel="noopener"
->Clone Graph&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/course-schedule/" target="_blank" rel="noopener"
->Course Schedule&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank" rel="noopener"
->Pacific Atlantic Water Flow&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/number-of-islands/" target="_blank" rel="noopener"
->Number of Islands&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank" rel="noopener"
->Longest Consecutive Sequence&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/alien-dictionary/" target="_blank" rel="noopener"
->Alien Dictionary (Leetcode Premium)&lt;/a> (H) Key: directed graph + DFS or BFS&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/graph-valid-tree/" target="_blank" rel="noopener"
->Graph Valid Tree (Leetcode Premium)&lt;/a> (M) Key: Check edges number first and then check unconnected component (Graph theory), Union Find!&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/" target="_blank" rel="noopener"
->Number of Connected Components in an Undirected Graph (Leetcode Premium)&lt;/a> (M)&lt;/li>
-&lt;/ul>
-&lt;h3 id="interval">Interval
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/insert-interval/" target="_blank" rel="noopener"
->Insert Interval&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/merge-intervals/" target="_blank" rel="noopener"
->Merge Intervals&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/non-overlapping-intervals/" target="_blank" rel="noopener"
->Non-overlapping Intervals&lt;/a> (M) Key: greedy&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/meeting-rooms/" target="_blank" rel="noopener"
->Meeting Rooms (Leetcode Premium)&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/meeting-rooms-ii/" target="_blank" rel="noopener"
->Meeting Rooms II (Leetcode Premium)&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h3 id="linked-list">Linked List
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener"
->Reverse a Linked List&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener"
->Detect Cycle in a Linked List&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener"
->Merge Two Sorted Lists&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener"
->Merge K Sorted Lists&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener"
->Remove Nth Node From End Of List&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/reorder-list/" target="_blank" rel="noopener"
->Reorder List&lt;/a> (M)&lt;/li>
-&lt;/ul>
-&lt;h3 id="matrix">Matrix
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/set-matrix-zeroes/" target="_blank" rel="noopener"
->Set Matrix Zeroes&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/spiral-matrix/" target="_blank" rel="noopener"
->Spiral Matrix&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/rotate-image/" target="_blank" rel="noopener"
->Rotate Image&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/word-search/" target="_blank" rel="noopener"
->Word Search&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h3 id="string">String
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener"
->Longest Substring Without Repeating Characters&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener"
->Longest Repeating Character Replacement&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener"
->Minimum Window Substring&lt;/a> (H) Key: Optimized Sliding Windows!&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener"
->Valid Anagram&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener"
->Group Anagrams&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener"
->Valid Parentheses&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener"
->Valid Palindrome&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener"
->Longest Palindromic Substring&lt;/a> Key: Manacher&amp;rsquo;s Algorithm&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/palindromic-substrings/" target="_blank" rel="noopener"
->Palindromic Substrings&lt;/a> (M) Key: Manacher&amp;rsquo;s Algorithm&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/encode-and-decode-strings/" target="_blank" rel="noopener"
->Encode and Decode Strings (Leetcode Premium)&lt;/a> (M)&lt;/li>
-&lt;/ul>
-&lt;h3 id="tree">Tree
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener"
->Maximum Depth of Binary Tree&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/same-tree/" target="_blank" rel="noopener"
->Same Tree&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/invert-binary-tree/" target="_blank" rel="noopener"
->Invert/Flip Binary Tree&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener"
->Binary Tree Maximum Path Sum&lt;/a> (H)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" rel="noopener"
->Binary Tree Level Order Traversal&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank" rel="noopener"
->Serialize and Deserialize Binary Tree&lt;/a> (H)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank" rel="noopener"
->Subtree of Another Tree&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/" target="_blank" rel="noopener"
->Construct Binary Tree from Preorder and Inorder Traversal&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" rel="noopener"
->Validate Binary Search Tree&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank" rel="noopener"
->Kth Smallest Element in a BST&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank" rel="noopener"
->Lowest Common Ancestor of BST&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/implement-trie-prefix-tree/" target="_blank" rel="noopener"
->Implement Trie (Prefix Tree)&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/add-and-search-word-data-structure-design/" target="_blank" rel="noopener"
->Add and Search Word&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/word-search-ii/" target="_blank" rel="noopener"
->Word Search II&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h3 id="heap">Heap
-&lt;/h3>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener"
->Merge K Sorted Lists&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener"
->Top K Frequent Elements&lt;/a> (M)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank" rel="noopener"
->Find Median from Data Stream&lt;/a> (H)&lt;/li>
-&lt;/ul>
-&lt;h2 id="tips">Tips
-&lt;/h2>&lt;p>&lt;a class="link" href="https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed" target="_blank" rel="noopener"
->https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed&lt;/a>&lt;/p>
-&lt;h2 id="funny-one">Funny One
-&lt;/h2>&lt;ul>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/count-unique-characters-of-all-substrings-of-a-given-string" target="_blank" rel="noopener"
->Count Unique Characters of All Substrings of a Given String&lt;/a> Key: really special solution&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank" rel="noopener"
->Find the Duplicate Number&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/find-leaves-of-binary-tree/" target="_blank" rel="noopener"
->Find Leaves of Binary Tree&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/split-array-largest-sum/" target="_blank" rel="noopener"
->Split Array Largest Sum&lt;/a> Key: Binary Search!!!&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/trapping-rain-water/" target="_blank" rel="noopener"
->Trapping Rain Water&lt;/a>&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/the-skyline-problem/" target="_blank" rel="noopener"
->The Skyline Problem&lt;/a> Key: Select the building with heapqueue&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/largest-rectangle-in-histogram/solution/" target="_blank" rel="noopener"
->Largest Rectangle in Histogram&lt;/a> Key: tricky Apply with stack!!!&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank" rel="noopener"
->Subtree of Another Tree&lt;/a> Key: Markle Hash&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/substring-with-concatenation-of-all-words/" target="_blank" rel="noopener"
->Substring with Concatenation of All Words&lt;/a> Key: Sliding Window&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/longest-valid-parentheses/" target="_blank" rel="noopener"
->Longest Valid Parentheses&lt;/a> key: Two pointer or DP or Stack&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener"
->Best Time to Buy and Sell Stock IV&lt;/a> Key: Tricky One pass solution (DP or O(k) space)&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/design-hashset/discuss/?currentPage=1&amp;amp;orderBy=most_votes&amp;amp;query=&amp;amp;tag=python" target="_blank" rel="noopener"
->Design HashSet&lt;/a> Key: Multiplicative hashing&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/unique-binary-search-trees/solution/" target="_blank" rel="noopener"
->Unique Binary Search Trees&lt;/a> Key: Catalan number!&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/shortest-path-in-a-grid-with-obstacles-elimination/" target="_blank" rel="noopener"
->Shortest Path in a Grid with Obstacles Elimination&lt;/a> Key: BFS + A*&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/student-attendance-record-ii/" target="_blank" rel="noopener"
->Student Attendance Record II&lt;/a> Key: hardhard DP&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/guess-the-word/" target="_blank" rel="noopener"
->Guess the Word&lt;/a> Key: Game theroy, compare with previous&lt;/li>
-&lt;li>&lt;input checked="" disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/min-cost-to-connect-all-points/" target="_blank" rel="noopener"
->Min Cost to Connect All Points&lt;/a> Key: minmun spanning tree!! (Prim&amp;rsquo;s or )&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/path-with-minimum-effort/" target="_blank" rel="noopener"
->Path With Minimum Effort&lt;/a> Key: Binary search space&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> &lt;a class="link" href="https://leetcode.com/problems/132-pattern/" target="_blank" rel="noopener"
->132 Pattern&lt;/a> Key: stack+min array&lt;/li>
-&lt;/ul></description></item></channel></rss>
+How do you solve the conflict that happen in the team&lt;/p&gt;
+&lt;h2 id="blind-75"&gt;Blind 75
+&lt;/h2&gt;&lt;h3 id="array"&gt;Array
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener"
+&gt;Two Sum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener"
+&gt;Best Time to Buy and Sell Stock&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/contains-duplicate/" target="_blank" rel="noopener"
+&gt;Contains Duplicate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank" rel="noopener"
+&gt;Product of Array Except Self&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/maximum-subarray/" target="_blank" rel="noopener"
+&gt;Maximum Subarray&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank" rel="noopener"
+&gt;Maximum Product Subarray&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener"
+&gt;Find Minimum in Rotated Sorted Array&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" rel="noopener"
+&gt;Search in Rotated Sorted Array&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/3sum/" target="_blank" rel="noopener"
+&gt;3 Sum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/container-with-most-water/" target="_blank" rel="noopener"
+&gt;Container With Most Water&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="binary"&gt;Binary
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/sum-of-two-integers/" target="_blank" rel="noopener"
+&gt;Sum of Two Integers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/number-of-1-bits/" target="_blank" rel="noopener"
+&gt;Number of 1 Bits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/counting-bits/" target="_blank" rel="noopener"
+&gt;Counting Bits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/missing-number/" target="_blank" rel="noopener"
+&gt;Missing Number&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/reverse-bits/" target="_blank" rel="noopener"
+&gt;Reverse Bits&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dynamic-programming"&gt;Dynamic Programming
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/climbing-stairs/" target="_blank" rel="noopener"
+&gt;Climbing Stairs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/coin-change/" target="_blank" rel="noopener"
+&gt;Coin Change&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener"
+&gt;Longest Increasing Subsequence&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-common-subsequence/" target="_blank" rel="noopener"
+&gt;Longest Common Subsequence&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/word-break/" target="_blank" rel="noopener"
+&gt;Word Break Problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/combination-sum-iv/" target="_blank" rel="noopener"
+&gt;Combination Sum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/house-robber/" target="_blank" rel="noopener"
+&gt;House Robber&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/house-robber-ii/" target="_blank" rel="noopener"
+&gt;House Robber II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/decode-ways/" target="_blank" rel="noopener"
+&gt;Decode Ways&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/unique-paths/" target="_blank" rel="noopener"
+&gt;Unique Paths&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/jump-game/" target="_blank" rel="noopener"
+&gt;Jump Game&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="graph"&gt;Graph
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/clone-graph/" target="_blank" rel="noopener"
+&gt;Clone Graph&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/course-schedule/" target="_blank" rel="noopener"
+&gt;Course Schedule&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank" rel="noopener"
+&gt;Pacific Atlantic Water Flow&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/number-of-islands/" target="_blank" rel="noopener"
+&gt;Number of Islands&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank" rel="noopener"
+&gt;Longest Consecutive Sequence&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/alien-dictionary/" target="_blank" rel="noopener"
+&gt;Alien Dictionary (Leetcode Premium)&lt;/a&gt; (H) Key: directed graph + DFS or BFS&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/graph-valid-tree/" target="_blank" rel="noopener"
+&gt;Graph Valid Tree (Leetcode Premium)&lt;/a&gt; (M) Key: Check edges number first and then check unconnected component (Graph theory), Union Find!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/" target="_blank" rel="noopener"
+&gt;Number of Connected Components in an Undirected Graph (Leetcode Premium)&lt;/a&gt; (M)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="interval"&gt;Interval
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/insert-interval/" target="_blank" rel="noopener"
+&gt;Insert Interval&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-intervals/" target="_blank" rel="noopener"
+&gt;Merge Intervals&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/non-overlapping-intervals/" target="_blank" rel="noopener"
+&gt;Non-overlapping Intervals&lt;/a&gt; (M) Key: greedy&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/meeting-rooms/" target="_blank" rel="noopener"
+&gt;Meeting Rooms (Leetcode Premium)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/meeting-rooms-ii/" target="_blank" rel="noopener"
+&gt;Meeting Rooms II (Leetcode Premium)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="linked-list"&gt;Linked List
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener"
+&gt;Reverse a Linked List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener"
+&gt;Detect Cycle in a Linked List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener"
+&gt;Merge Two Sorted Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener"
+&gt;Merge K Sorted Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener"
+&gt;Remove Nth Node From End Of List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/reorder-list/" target="_blank" rel="noopener"
+&gt;Reorder List&lt;/a&gt; (M)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="matrix"&gt;Matrix
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/set-matrix-zeroes/" target="_blank" rel="noopener"
+&gt;Set Matrix Zeroes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/spiral-matrix/" target="_blank" rel="noopener"
+&gt;Spiral Matrix&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/rotate-image/" target="_blank" rel="noopener"
+&gt;Rotate Image&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/word-search/" target="_blank" rel="noopener"
+&gt;Word Search&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="string"&gt;String
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener"
+&gt;Longest Substring Without Repeating Characters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener"
+&gt;Longest Repeating Character Replacement&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener"
+&gt;Minimum Window Substring&lt;/a&gt; (H) Key: Optimized Sliding Windows!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener"
+&gt;Valid Anagram&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener"
+&gt;Group Anagrams&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener"
+&gt;Valid Parentheses&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener"
+&gt;Valid Palindrome&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener"
+&gt;Longest Palindromic Substring&lt;/a&gt; Key: Manacher&amp;rsquo;s Algorithm&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/palindromic-substrings/" target="_blank" rel="noopener"
+&gt;Palindromic Substrings&lt;/a&gt; (M) Key: Manacher&amp;rsquo;s Algorithm&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/encode-and-decode-strings/" target="_blank" rel="noopener"
+&gt;Encode and Decode Strings (Leetcode Premium)&lt;/a&gt; (M)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tree"&gt;Tree
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener"
+&gt;Maximum Depth of Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/same-tree/" target="_blank" rel="noopener"
+&gt;Same Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/invert-binary-tree/" target="_blank" rel="noopener"
+&gt;Invert/Flip Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener"
+&gt;Binary Tree Maximum Path Sum&lt;/a&gt; (H)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" rel="noopener"
+&gt;Binary Tree Level Order Traversal&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank" rel="noopener"
+&gt;Serialize and Deserialize Binary Tree&lt;/a&gt; (H)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank" rel="noopener"
+&gt;Subtree of Another Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/" target="_blank" rel="noopener"
+&gt;Construct Binary Tree from Preorder and Inorder Traversal&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" rel="noopener"
+&gt;Validate Binary Search Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank" rel="noopener"
+&gt;Kth Smallest Element in a BST&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank" rel="noopener"
+&gt;Lowest Common Ancestor of BST&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/implement-trie-prefix-tree/" target="_blank" rel="noopener"
+&gt;Implement Trie (Prefix Tree)&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/add-and-search-word-data-structure-design/" target="_blank" rel="noopener"
+&gt;Add and Search Word&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/word-search-ii/" target="_blank" rel="noopener"
+&gt;Word Search II&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="heap"&gt;Heap
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener"
+&gt;Merge K Sorted Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener"
+&gt;Top K Frequent Elements&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank" rel="noopener"
+&gt;Find Median from Data Stream&lt;/a&gt; (H)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tips"&gt;Tips
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed" target="_blank" rel="noopener"
+&gt;https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="funny-one"&gt;Funny One
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/count-unique-characters-of-all-substrings-of-a-given-string" target="_blank" rel="noopener"
+&gt;Count Unique Characters of All Substrings of a Given String&lt;/a&gt; Key: really special solution&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank" rel="noopener"
+&gt;Find the Duplicate Number&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-leaves-of-binary-tree/" target="_blank" rel="noopener"
+&gt;Find Leaves of Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/split-array-largest-sum/" target="_blank" rel="noopener"
+&gt;Split Array Largest Sum&lt;/a&gt; Key: Binary Search!!!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/trapping-rain-water/" target="_blank" rel="noopener"
+&gt;Trapping Rain Water&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/the-skyline-problem/" target="_blank" rel="noopener"
+&gt;The Skyline Problem&lt;/a&gt; Key: Select the building with heapqueue&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/largest-rectangle-in-histogram/solution/" target="_blank" rel="noopener"
+&gt;Largest Rectangle in Histogram&lt;/a&gt; Key: tricky Apply with stack!!!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank" rel="noopener"
+&gt;Subtree of Another Tree&lt;/a&gt; Key: Markle Hash&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/substring-with-concatenation-of-all-words/" target="_blank" rel="noopener"
+&gt;Substring with Concatenation of All Words&lt;/a&gt; Key: Sliding Window&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-valid-parentheses/" target="_blank" rel="noopener"
+&gt;Longest Valid Parentheses&lt;/a&gt; key: Two pointer or DP or Stack&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener"
+&gt;Best Time to Buy and Sell Stock IV&lt;/a&gt; Key: Tricky One pass solution (DP or O(k) space)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/design-hashset/discuss/?currentPage=1&amp;amp;orderBy=most_votes&amp;amp;query=&amp;amp;tag=python" target="_blank" rel="noopener"
+&gt;Design HashSet&lt;/a&gt; Key: Multiplicative hashing&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/unique-binary-search-trees/solution/" target="_blank" rel="noopener"
+&gt;Unique Binary Search Trees&lt;/a&gt; Key: Catalan number!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/shortest-path-in-a-grid-with-obstacles-elimination/" target="_blank" rel="noopener"
+&gt;Shortest Path in a Grid with Obstacles Elimination&lt;/a&gt; Key: BFS + A*&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/student-attendance-record-ii/" target="_blank" rel="noopener"
+&gt;Student Attendance Record II&lt;/a&gt; Key: hardhard DP&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/guess-the-word/" target="_blank" rel="noopener"
+&gt;Guess the Word&lt;/a&gt; Key: Game theroy, compare with previous&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/min-cost-to-connect-all-points/" target="_blank" rel="noopener"
+&gt;Min Cost to Connect All Points&lt;/a&gt; Key: minmun spanning tree!! (Prim&amp;rsquo;s or )&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/path-with-minimum-effort/" target="_blank" rel="noopener"
+&gt;Path With Minimum Effort&lt;/a&gt; Key: Binary search space&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/132-pattern/" target="_blank" rel="noopener"
+&gt;132 Pattern&lt;/a&gt; Key: stack+min array&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>
