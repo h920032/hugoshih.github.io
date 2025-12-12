@@ -1,4 +1,183 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/embedded/</link><description>Recent content in Embedded on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 06 Jan 2025 15:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/embedded/index.xml" rel="self" type="application/rss+xml"/><item><title>常見 Real-Time OS 介紹與比較</title><link>https://www.hugoshih.com/p/%E5%B8%B8%E8%A6%8B-real-time-os-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%AF%94%E8%BC%83/</link><pubDate>Mon, 06 Jan 2025 15:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B8%B8%E8%A6%8B-real-time-os-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%AF%94%E8%BC%83/</guid><description>&lt;img src="https://i.imgur.com/7SJYZ3b.jpg" alt="Featured image of post 常見 Real-Time OS 介紹與比較" />&lt;h2 id="介紹">介紹
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/embedded/</link><description>Recent content in Embedded on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 30 Nov 2025 21:48:32 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/embedded/index.xml" rel="self" type="application/rss+xml"/><item><title>關於 Aligned Memory Allocation</title><link>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</link><pubDate>Sun, 30 Nov 2025 21:48:32 +0800</pubDate><guid>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</guid><description>&lt;img src="https://i.imgur.com/WVmjgMd.jpeg" alt="Featured image of post 關於 Aligned Memory Allocation" />&lt;h2 id="起源">起源
+&lt;/h2>&lt;p>由於在這個東西上吃了大悶虧，至於是什麼虧就不細究了，總之是我當初在看到這東西的時候沒有認真摸透，就趁著這個機會好好還債了
+我想要用一個超級白話的方式讓人快速可以理解，下次遇到這個議題再回來看就能快速回憶起來&lt;/p>
+&lt;h2 id="什麼是-aligned-memory-allocation">什麼是 Aligned Memory Allocation？
+&lt;/h2>&lt;p>設想一個情況，今天程式運行到一個地方，如果我需要一些額外的記憶體來儲存新的資料，在 C 語言中我們一定會用到 &lt;code>malloc()&lt;/code> 來跟系統要額外的記憶體空間&lt;/p>
+&lt;p>舉個例子，我現在突然需要 32 bytes 的空間，所以我就使出 &lt;code>malloc()&lt;/code>，然後系統就翻啊翻找啊找，最後在記憶體中找到了 32 bytes 的空間，並把起始的記憶體位置傳回來。這個起始的位置可能很隨機，像是 &lt;code>0x08004321&lt;/code>，不過這也無傷大雅，總之我現在有了 32 bytes 空間，我現在想對他幹嘛就幹嘛。&lt;/p>
+&lt;p>然而然而，在某些情況（至於是哪些情況後面再講），我們會希望我們得到的記憶體的起始位置是「對齊」的。那什麼叫做對齊呢？&lt;/p>
+&lt;p>舉個例子，如果你用一些 Hex 檔案的預覽工具，你會看到左邊的起始位置很整齊以 32 bytes 間隔，像下面這樣：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">一般隨機分配 (未對齊):
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x08004321 | Data...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ^ 起始位置很隨意
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">32-byte Alignment (對齊):
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x08000000 | Data...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x08000020 | Data... &amp;lt;-- 0x20 就是 32
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x08000040 | Data... &amp;lt;-- 0x40 就是 64
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ^ 起始位置都可以被 32 整除
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://hackmd.io/_uploads/Sk3ct-wfWl.png"
+loading="lazy"
+alt="image"
+>&lt;/p>
+&lt;p>所謂的 &lt;strong>Aligned Memory Allocation&lt;/strong>，就是我在要新的記憶體空間時，想要拿到一個&lt;strong>起始位置可以被 32（或是其他數字）整除的記憶體空間&lt;/strong>&lt;/p>
+&lt;p>OK，所以說到這邊應該對這個 Aligned Memory Allocation 是什麼應該有點概念了，這樣就成功了一半了。因為大多數人第一次聽到應該都比較難想到這是什麼，又或者知道這是什麼，但不知道有什麼用&lt;/p>
+&lt;p>所以，這個有什麼用呢？&lt;/p>
+&lt;h2 id="為什麼需要-alignment">為什麼需要 Alignment？
+&lt;/h2>&lt;p>會需要 Alignment 大多是受到硬體設計的限制，例如：&lt;/p>
+&lt;p>向量指令集 (如 AVX)，當執行這類指令集的時候，會要求目標的記憶體位置是對齊的，沒有對齊的話得要拆成兩步去處理，或是直接出現錯誤，那為什麼不設計成指令集可以讀取任意位置起始的記憶體呢？我覺得大多是成本考量，如果能從驅動程式端去解決，又何必浪費昂貴的硬體空間呢&lt;/p>
+&lt;p>其他像是 CUDA 中 GPU 透過 PCIe 抓取資料時，使用 DMA 也會要求記憶體要對齊，又或者 GPU 指令抓取他自己記憶體的資料也會要求對齊，另外在 STM32 這類單晶片上使用 DMA 時，buffer 的記憶體位置也會要求對齊，才能夠被 DMA 正確寫入或讀取&lt;/p>
+&lt;p>這時候一定有人跳出來說：「我平常用 CUDA 或是在 STM32 上用 DMA 都沒遇到這問題啊！」&lt;/p>
+&lt;p>那是因為 CUDA driver 或是 HAL library 之類的會幫你處理好，所以當然沒感覺，反過來說，如果你今天寫的是 driver 或是 bare metal 開發，那一定要小心記憶體對齊這東西，不然可能連動都動不起來&lt;/p>
+&lt;h2 id="所以該怎麼做到-alignment">所以該怎麼做到 Alignment？
+&lt;/h2>&lt;p>前面說了這麼多，那要怎麼才能做到記憶體分配時 Alignment 呢？&lt;/p>
+&lt;p>設想今天我們目標要一塊新的 64 bytes 記憶體，並且要求 32-byte 對齊。
+如果今天 &lt;code>malloc&lt;/code> 給的起始位置剛剛好就是 &lt;code>0x08000040&lt;/code>，是 alignment block 的起始位置，這樣就中大獎了，但實際上當然不會那麼幸運，他可能給你的起始位置是 &lt;code>0x08000041&lt;/code>（偏移了 1 個 byte），也可能起始是 &lt;code>0x0800005F&lt;/code>（偏移了 31 個 bytes）&lt;/p>
+&lt;p>但沒關係，這時候就會想到，只要&lt;code>malloc&lt;/code>的記憶體夠長，從中找到一個 Alignment Block 的起點並從那邊開始存資料，這樣也算對齊吧&lt;/p>
+&lt;p>那麼問題就回到，我們該要多長的記憶體呢？
+觀察前面的例子，如果做 32 bytes 的 alignment，偏移的量最多就是 &lt;code>0 ~ 31&lt;/code> bytes。所以我們要 &lt;code>malloc()&lt;/code> 的空間至少要是 &lt;code>size + alignment - 1&lt;/code>&lt;/p>
+&lt;p>等等，好像少了什麼？
+這樣的話要怎麼才能 &lt;code>free&lt;/code> 掉 alignment 起始位址前面的那些空間呢？我們需要紀錄&lt;strong>真正原本 &lt;code>malloc&lt;/code> 出來的起始位址&lt;/strong>，所以還需要再多一個位置去存這個指標，這個需要的空間是 &lt;code>sizeof(void*)&lt;/code>&lt;/p>
+&lt;p>總結來說，我們真正要 &lt;code>malloc()&lt;/code> 的長度是：
+&lt;code>size + alignment - 1 + sizeof(void*)&lt;/code>&lt;/p>
+&lt;p>&lt;strong>記憶體結構示意圖：&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">實際 malloc 得到的區塊 (Original)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">|
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">v
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">+-------------+---------------------+-------------------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| padding ... | 原始指標 (Stored) | 使用者拿到的指標 (Aligned)|
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">+-------------+---------------------+-------------------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ^ ^
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 這格存著 original 符合 32-byte 對齊
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 的地址 我們回傳這個地址
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然後我們只要找到這裡面 alignment 的起始位址，並且把「原始的起始位址」存在 alignment 起始的前一格。這樣在 &lt;code>free&lt;/code> memory 時，只要從 alignment 位址&lt;strong>往前找一格&lt;/strong>，就可以找到我們應該要釋放的記憶體起點。&lt;/p>
+&lt;p>原理概念上就是這樣了，那麼就來看看要怎麼實作吧。&lt;/p>
+&lt;h2 id="c-語言實作">C 語言實作
+&lt;/h2>&lt;p>以下用 32-byte alignment 為例子，可以把 32 換成任意想要的正整數 alignment（通常是 2 的次方）。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;stdlib.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;stdint.h&amp;gt; // 為了使用 uintptr_t&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="nf">aligned_malloc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">size_t&lt;/span> &lt;span class="n">size&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 1. 計算需要的總空間：
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// size + (alignment - 1) 的調整空間 + 存放原始指標的空間
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">original&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">malloc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">size&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">32&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="k">sizeof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">original&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 2. 算出 alignment 的起始位置
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 先預留一個 pointer 的空間給我們存地址
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">uintptr_t&lt;/span> &lt;span class="n">raw&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">uintptr_t&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">original&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="k">sizeof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 利用 Bitwise 操作進行對齊
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 原理：(address + mask) &amp;amp; ~mask
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 注意：這裡要用 ~(32 - 1) 也就是 ~31 才能遮掉後五位達到 32 對齊
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">uintptr_t&lt;/span> &lt;span class="n">aligned&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">raw&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">32&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="o">~&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">32&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 其實也可以用(void*)(original - (original % 32));去算
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 只是用bit manipulation感覺比較優雅
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 3. 把原本 malloc() 的起始位址存到 alignment 位址的前一格
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">((&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">**&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">aligned&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">original&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 4. 最後回傳 alignment 的起始
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">aligned&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">aligned_free&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">ptr&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">ptr&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// free 的時候，去找到 alignment 位址前一格存的原來 malloc 的位址
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">original&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">((&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">**&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">ptr&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 然後把它釋放就行了
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nf">free&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">original&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="結語">結語
+&lt;/h2>&lt;p>總之就是這樣，Aligned Memory Allocation這個東西重要又有一些實作小細節，藉由這個機會算是有搞懂他了，以後忘了也可以快速回來複習一下&lt;/p>
+&lt;h2 id="reference">Reference
+&lt;/h2>&lt;ul>
+&lt;li>&lt;a class="link" href="https://bclin.tw/2020/03/15/aligned-malloc/" target="_blank" rel="noopener"
+>如何實作一個 aligned_alloc () ？&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://medium.com/howsofcoding/memory-management-aligned-malloc-and-free-9273336bd4c6" target="_blank" rel="noopener"
+>Designing aligned Memory Allocator&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://linux.die.net/man/3/aligned_alloc" target="_blank" rel="noopener"
+>aligned_alloc(3) - Linux man page&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>常見 Real-Time OS 介紹與比較</title><link>https://www.hugoshih.com/p/%E5%B8%B8%E8%A6%8B-real-time-os-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%AF%94%E8%BC%83/</link><pubDate>Mon, 06 Jan 2025 15:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B8%B8%E8%A6%8B-real-time-os-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%AF%94%E8%BC%83/</guid><description>&lt;img src="https://i.imgur.com/7SJYZ3b.jpg" alt="Featured image of post 常見 Real-Time OS 介紹與比較" />&lt;h2 id="介紹">介紹
 &lt;/h2>&lt;p>即時作業系統（Real-Time Operating System, RTOS）是一種專門為即時（real-time）應用而設計的作業系統，強調「在特定時間限制內（deadline）對事件進行回應」，試想一個情境在工業的領域若機器某部分突然產生故障，需要在極短的時間內停止所有馬達的運作，若此時使用的是傳統的作業系統如Linux，依OS內核的調度策略，最終馬達停止的動作會有些許延遲，相較之下RTOS則可以有較彈性的執行緒搶佔，讓緊急情況的處理可以更快被執行&lt;/p>
 &lt;p>本質上來說RTOS的內核使用起來的效果是大同小異的，基本上能做到多個執行緒的建立、輪詢執行、優先序搶佔、互斥鎖、內核級的中斷等功能，進階一點的則有可以動態記憶體管理、多核心的支援，這些RTOS主要的差異大多是在外圍模組的支援、周邊的開發生態系等，以下就分別介紹目前主流常見的幾種RTOS:&lt;/p>
 &lt;h3 id="freertoshttpsgithubcomfreertosfreertos">&lt;a class="link" href="https://github.com/FreeRTOS/FreeRTOS" target="_blank" rel="noopener"
