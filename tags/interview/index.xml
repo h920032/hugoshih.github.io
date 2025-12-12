@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/interview/</link><description>Recent content in Interview on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 30 Oct 2025 21:48:32 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/interview/index.xml" rel="self" type="application/rss+xml"/><item><title>關於 Aligned Memory Allocation</title><link>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</link><pubDate>Thu, 30 Oct 2025 21:48:32 +0800</pubDate><guid>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</guid><description>&lt;img src="https://i.imgur.com/WVmjgMd.jpeg" alt="Featured image of post 關於 Aligned Memory Allocation" /&gt;&lt;h2 id="起源"&gt;起源
-&lt;/h2&gt;&lt;p&gt;由於在這個東西上吃了大悶虧，至於是什麼虧就不細究了，總之是我當初在看到這東西的時候沒有認真摸透，就趁著這個機會好好還債了
-我想要用一個超級白話的方式讓人快速可以理解，下次遇到這個議題再回來看就能快速回憶起來&lt;/p&gt;
-&lt;h2 id="什麼是-aligned-memory-allocation"&gt;什麼是 Aligned Memory Allocation？
-&lt;/h2&gt;&lt;p&gt;設想一個情況，今天程式運行到一個地方，如果我需要一些額外的記憶體來儲存新的資料，在 C 語言中我們一定會用到 &lt;code&gt;malloc()&lt;/code&gt; 來跟系統要額外的記憶體空間&lt;/p&gt;
-&lt;p&gt;舉個例子，我現在突然需要 32 bytes 的空間，所以我就使出 &lt;code&gt;malloc()&lt;/code&gt;，然後系統就翻啊翻找啊找，最後在記憶體中找到了 32 bytes 的空間，並把起始的記憶體位置傳回來。這個起始的位置可能很隨機，像是 &lt;code&gt;0x08004321&lt;/code&gt;，不過這也無傷大雅，總之我現在有了 32 bytes 空間，我現在想對他幹嘛就幹嘛。&lt;/p&gt;
-&lt;p&gt;然而然而，在某些情況（至於是哪些情況後面再講），我們會希望我們得到的記憶體的起始位置是「對齊」的。那什麼叫做對齊呢？&lt;/p&gt;
-&lt;p&gt;舉個例子，如果你用一些 Hex 檔案的預覽工具，你會看到左邊的起始位置很整齊以 32 bytes 間隔，像下面這樣：&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/interview/</link><description>Recent content in Interview on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 30 Oct 2025 21:48:32 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/interview/index.xml" rel="self" type="application/rss+xml"/><item><title>About Aligned Memory Allocation</title><link>https://www.hugoshih.com/p/about-aligned-memory-allocation/</link><pubDate>Thu, 30 Oct 2025 21:48:32 +0800</pubDate><guid>https://www.hugoshih.com/p/about-aligned-memory-allocation/</guid><description>&lt;img src="https://i.imgur.com/WVmjgMd.jpeg" alt="Featured image of post About Aligned Memory Allocation" /&gt;&lt;h2 id="origin"&gt;Origin
+&lt;/h2&gt;&lt;p&gt;I suffered a big loss on this thing. As for what the loss was, I won&amp;rsquo;t go into details. In short, when I first saw this thing, I didn&amp;rsquo;t understand it thoroughly, so I&amp;rsquo;m taking this opportunity to pay off my debt.
+I want to use a super plain way to make people understand quickly, so next time I encounter this issue, I can quickly recall it.&lt;/p&gt;
+&lt;h2 id="what-is-aligned-memory-allocation"&gt;What is Aligned Memory Allocation?
+&lt;/h2&gt;&lt;p&gt;Imagine a situation where the program runs to a point where I need some extra memory to store new data. In C language, we will definitely use &lt;code&gt;malloc()&lt;/code&gt; to ask the system for extra memory space.&lt;/p&gt;
+&lt;p&gt;For example, I suddenly need 32 bytes of space, so I use &lt;code&gt;malloc()&lt;/code&gt;, and then the system looks around and finally finds 32 bytes of space in the memory and returns the starting memory address. This starting position might be very random, like &lt;code&gt;0x08004321&lt;/code&gt;, but it doesn&amp;rsquo;t matter. Anyway, I now have 32 bytes of space, and I can do whatever I want with it.&lt;/p&gt;
+&lt;p&gt;However, in some cases (I&amp;rsquo;ll talk about which cases later), we would hope that the starting position of the memory we get is &amp;ldquo;aligned&amp;rdquo;. So what is alignment?&lt;/p&gt;
+&lt;p&gt;For example, if you use some Hex file preview tools, you will see that the starting position on the left is neatly arranged at 32 bytes intervals, like this:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -19,42 +19,42 @@
 &lt;/span&gt;&lt;span class="lnt"&gt;9
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;一般隨機分配 (未對齊):
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;General Random Allocation (Unaligned):
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08004321 | Data...
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ 起始位置很隨意
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ Starting position is random
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;32-byte Alignment (對齊):
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;32-byte Alignment (Aligned):
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000000 | Data...
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000020 | Data... &amp;lt;-- 0x20 就是 32
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000040 | Data... &amp;lt;-- 0x40 就是 64
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ 起始位置都可以被 32 整除
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000020 | Data... &amp;lt;-- 0x20 is 32
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000040 | Data... &amp;lt;-- 0x40 is 64
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ Starting positions are all divisible by 32
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/hr8QdrG.jpeg"
 loading="lazy"
 alt="image"
 &gt;&lt;/p&gt;
-&lt;p&gt;所謂的 &lt;strong&gt;Aligned Memory Allocation&lt;/strong&gt;，就是我在要新的記憶體空間時，想要拿到一個&lt;strong&gt;起始位置可以被 32（或是其他數字）整除的記憶體空間&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;OK，所以說到這邊應該對這個 Aligned Memory Allocation 是什麼應該有點概念了，這樣就成功了一半了。因為大多數人第一次聽到應該都比較難想到這是什麼，又或者知道這是什麼，但不知道有什麼用&lt;/p&gt;
-&lt;p&gt;所以，這個有什麼用呢？&lt;/p&gt;
-&lt;h2 id="為什麼需要-alignment"&gt;為什麼需要 Alignment？
-&lt;/h2&gt;&lt;p&gt;會需要 Alignment 大多是受到硬體設計的限制，例如：&lt;/p&gt;
-&lt;p&gt;向量指令集 (如 AVX)，當執行這類指令集的時候，會要求目標的記憶體位置是對齊的，沒有對齊的話得要拆成兩步去處理，或是直接出現錯誤，那為什麼不設計成指令集可以讀取任意位置起始的記憶體呢？我覺得大多是成本考量，如果能從驅動程式端去解決，又何必浪費昂貴的硬體空間呢&lt;/p&gt;
-&lt;p&gt;其他像是 CUDA 中 GPU 透過 PCIe 抓取資料時，使用 DMA 也會要求記憶體要對齊，又或者 GPU 指令抓取他自己記憶體的資料也會要求對齊，另外在 STM32 這類單晶片上使用 DMA 時，buffer 的記憶體位置也會要求對齊，才能夠被 DMA 正確寫入或讀取&lt;/p&gt;
-&lt;p&gt;這時候一定有人跳出來說：「我平常用 CUDA 或是在 STM32 上用 DMA 都沒遇到這問題啊！」&lt;/p&gt;
-&lt;p&gt;那是因為 CUDA driver 或是 HAL library 之類的會幫你處理好，所以當然沒感覺，反過來說，如果你今天寫的是 driver 或是 bare metal 開發，那一定要小心記憶體對齊這東西，不然可能連動都動不起來&lt;/p&gt;
-&lt;h2 id="所以該怎麼做到-alignment"&gt;所以該怎麼做到 Alignment？
-&lt;/h2&gt;&lt;p&gt;前面說了這麼多，那要怎麼才能做到記憶體分配時 Alignment 呢？&lt;/p&gt;
-&lt;p&gt;設想今天我們目標要一塊新的 64 bytes 記憶體，並且要求 32-byte 對齊。
-如果今天 &lt;code&gt;malloc&lt;/code&gt; 給的起始位置剛剛好就是 &lt;code&gt;0x08000040&lt;/code&gt;，是 alignment block 的起始位置，這樣就中大獎了，但實際上當然不會那麼幸運，他可能給你的起始位置是 &lt;code&gt;0x08000041&lt;/code&gt;（偏移了 1 個 byte），也可能起始是 &lt;code&gt;0x0800005F&lt;/code&gt;（偏移了 31 個 bytes）&lt;/p&gt;
-&lt;p&gt;但沒關係，這時候就會想到，只要&lt;code&gt;malloc&lt;/code&gt;的記憶體夠長，從中找到一個 Alignment Block 的起點並從那邊開始存資料，這樣也算對齊吧&lt;/p&gt;
-&lt;p&gt;那麼問題就回到，我們該要多長的記憶體呢？
-觀察前面的例子，如果做 32 bytes 的 alignment，偏移的量最多就是 &lt;code&gt;0 ~ 31&lt;/code&gt; bytes。所以我們要 &lt;code&gt;malloc()&lt;/code&gt; 的空間至少要是 &lt;code&gt;size + alignment - 1&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;等等，好像少了什麼？
-這樣的話要怎麼才能 &lt;code&gt;free&lt;/code&gt; 掉 alignment 起始位址前面的那些空間呢？我們需要紀錄&lt;strong&gt;真正原本 &lt;code&gt;malloc&lt;/code&gt; 出來的起始位址&lt;/strong&gt;，所以還需要再多一個位置去存這個指標，這個需要的空間是 &lt;code&gt;sizeof(void*)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;總結來說，我們真正要 &lt;code&gt;malloc()&lt;/code&gt; 的長度是：
+&lt;p&gt;So-called &lt;strong&gt;Aligned Memory Allocation&lt;/strong&gt; means that when I ask for new memory space, I want to get a &lt;strong&gt;memory space whose starting position can be divisible by 32 (or other numbers)&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;OK, so up to this point, you should have some concept of what Aligned Memory Allocation is. That&amp;rsquo;s half the battle. Because most people hearing about this for the first time probably find it hard to imagine what it is, or know what it is but don&amp;rsquo;t know what it&amp;rsquo;s used for.&lt;/p&gt;
+&lt;p&gt;So, what is the use of this?&lt;/p&gt;
+&lt;h2 id="why-is-alignment-needed"&gt;Why is Alignment Needed?
+&lt;/h2&gt;&lt;p&gt;The need for Alignment is mostly due to hardware design constraints, for example:&lt;/p&gt;
+&lt;p&gt;Vector instruction sets (such as AVX), when executing such instruction sets, will require the target memory position to be aligned. If it is not aligned, it has to be split into two steps to handle, or an error will occur directly. Why not design the instruction set to read memory starting from any position? I think it&amp;rsquo;s mostly a cost consideration. If it can be solved on the driver side, why waste expensive hardware space?&lt;/p&gt;
+&lt;p&gt;Others like CUDA, when fetching data via PCIe on GPU, using DMA will also require memory to be aligned. Or when GPU instructions fetch data from its own memory, it will also require alignment. In addition, when using DMA on single chips like STM32, the memory position of the buffer will also be required to be aligned so that it can be correctly written or read by DMA.&lt;/p&gt;
+&lt;p&gt;At this time, someone will definitely jump out and say: &amp;ldquo;I usually use CUDA or use DMA on STM32 and haven&amp;rsquo;t encountered this problem!&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s because the CUDA driver or HAL library etc. will handle it for you, so of course you don&amp;rsquo;t feel it. Conversely, if you are writing a driver or doing bare metal development today, you must be careful about memory alignment, otherwise it might not even move.&lt;/p&gt;
+&lt;h2 id="so-how-to-achieve-alignment"&gt;So how to achieve Alignment?
+&lt;/h2&gt;&lt;p&gt;Having said so much, how can we achieve Alignment during memory allocation?&lt;/p&gt;
+&lt;p&gt;Imagine that our goal today is to get a new 64 bytes memory, and require 32-byte alignment.
+If the starting position given by &lt;code&gt;malloc&lt;/code&gt; today happens to be &lt;code&gt;0x08000040&lt;/code&gt;, which is the starting position of an alignment block, then we hit the jackpot, but in reality, we are certainly not that lucky. The starting position it gives you might be &lt;code&gt;0x08000041&lt;/code&gt; (offset by 1 byte), or it might be &lt;code&gt;0x0800005F&lt;/code&gt; (offset by 31 bytes).&lt;/p&gt;
+&lt;p&gt;But it doesn&amp;rsquo;t matter. At this time, we will think that as long as the memory &lt;code&gt;malloc&lt;/code&gt;&amp;rsquo;d is long enough, finding the starting point of an Alignment Block from it and starting to store data from there, that also counts as alignment.&lt;/p&gt;
+&lt;p&gt;So the question returns to, how long memory should we ask for?
+Observing the previous example, if doing 32 bytes alignment, the offset amount is at most &lt;code&gt;0 ~ 31&lt;/code&gt; bytes. So the space we want to &lt;code&gt;malloc()&lt;/code&gt; must be at least &lt;code&gt;size + alignment - 1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Wait, something seems missing?
+If so, how can we &lt;code&gt;free&lt;/code&gt; those spaces before the alignment starting address? We need to record &lt;strong&gt;the starting address originally &lt;code&gt;malloc&lt;/code&gt;&amp;rsquo;d&lt;/strong&gt;, so we need one more position to store this pointer. This required space is &lt;code&gt;sizeof(void*)&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In summary, the length we really want to &lt;code&gt;malloc()&lt;/code&gt; is:
 &lt;code&gt;size + alignment - 1 + sizeof(void*)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;記憶體結構示意圖：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Memory Structure Diagram:&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -67,24 +67,26 @@ alt="image"
 &lt;/span&gt;&lt;span class="lnt"&gt; 8
 &lt;/span&gt;&lt;span class="lnt"&gt; 9
 &lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;實際 malloc 得到的區塊 (Original)
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Actual malloc&amp;#39;d block (Original)
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;v
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+-------------+---------------------+-------------------------+
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| padding ... | 原始指標 (Stored) | 使用者拿到的指標 (Aligned)|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| padding ... | Original Pointer | User Pointer (Aligned) |
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| | (Stored) | |
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+-------------+---------------------+-------------------------+
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ ^
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; | |
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 這格存著 original 符合 32-byte 對齊
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 的地址 我們回傳這個地址
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; This slot stores Fits 32-byte alignment
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; original address We return this address
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;然後我們只要找到這裡面 alignment 的起始位址，並且把「原始的起始位址」存在 alignment 起始的前一格。這樣在 &lt;code&gt;free&lt;/code&gt; memory 時，只要從 alignment 位址&lt;strong&gt;往前找一格&lt;/strong&gt;，就可以找到我們應該要釋放的記憶體起點。&lt;/p&gt;
-&lt;p&gt;原理概念上就是這樣了，那麼就來看看要怎麼實作吧。&lt;/p&gt;
-&lt;h2 id="c-語言實作"&gt;C 語言實作
-&lt;/h2&gt;&lt;p&gt;以下用 32-byte alignment 為例子，可以把 32 換成任意想要的正整數 alignment（通常是 2 的次方）。&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;Then we just need to find the alignment starting address inside, and store the &amp;ldquo;original starting address&amp;rdquo; in the slot before the alignment start. This way, when &lt;code&gt;free&lt;/code&gt;ing memory, just look &lt;strong&gt;one slot backward&lt;/strong&gt; from the alignment address, and we can find the memory starting point we should free.&lt;/p&gt;
+&lt;p&gt;The principle concept is just like this. So let&amp;rsquo;s see how to implement it.&lt;/p&gt;
+&lt;h2 id="c-implementation"&gt;C Implementation
+&lt;/h2&gt;&lt;p&gt;The following takes 32-byte alignment as an example. You can change 32 to any positive integer alignment you want (usually a power of 2).&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -128,638 +130,644 @@ alt="image"
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdint.h&amp;gt; // 為了使用 uintptr_t&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdint.h&amp;gt; // for uintptr_t&lt;/span&gt;&lt;span class="cp"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nf"&gt;aligned_malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 1. 計算需要的總空間：
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// size + (alignment - 1) 的調整空間 + 存放原始指標的空間
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 1. Calculate the total space needed:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// size + adjustment space of (alignment - 1) + space to store original pointer
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 2. 算出 alignment 的起始位置
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 先預留一個 pointer 的空間給我們存地址
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 2. Calculate the alignment starting position
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// First reserve a pointer space for us to store the address
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;uintptr_t&lt;/span&gt; &lt;span class="n"&gt;raw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;uintptr_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 利用 Bitwise 操作進行對齊
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 原理：(address + mask) &amp;amp; ~mask
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 注意：這裡要用 ~(32 - 1) 也就是 ~31 才能遮掉後五位達到 32 對齊
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Use Bitwise operation for alignment
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// Principle: (address + mask) &amp;amp; ~mask
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// Note: Here use ~(32 - 1) i.e. ~31 to mask off the last five bits to achieve 32 alignment
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;uintptr_t&lt;/span&gt; &lt;span class="n"&gt;aligned&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;raw&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 其實也可以用(void*)(original - (original % 32));去算
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 只是用bit manipulation感覺比較優雅
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Actually can also use (void*)(original - (original % 32)); to calculate
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// Just that using bit manipulation feels more elegant
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 3. 把原本 malloc() 的起始位址存到 alignment 位址的前一格
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 3. Store the original malloc() starting address in the slot before the alignment address
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;aligned&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 4. 最後回傳 alignment 的起始
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 4. Finally return the alignment start
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;aligned&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;aligned_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// free 的時候，去找到 alignment 位址前一格存的原來 malloc 的位址
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// When freeing, find the original malloc address stored one slot before the alignment address
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 然後把它釋放就行了
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Then just free it
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="nf"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="結語"&gt;結語
-&lt;/h2&gt;&lt;p&gt;總之就是這樣，Aligned Memory Allocation這個東西重要又有一些實作小細節，藉由這個機會算是有搞懂他了，以後忘了也可以快速回來複習一下&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="conclusion"&gt;Conclusion
+&lt;/h2&gt;&lt;p&gt;Anyway, that&amp;rsquo;s it. Aligned Memory Allocation is important and has some implementation details. Taking this opportunity, I have figured it out. Even if I forget it in the future, I can quickly come back to review it.&lt;/p&gt;
 &lt;h2 id="reference"&gt;Reference
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://bclin.tw/2020/03/15/aligned-malloc/" target="_blank" rel="noopener"
-&gt;如何實作一個 aligned_alloc () ？&lt;/a&gt;&lt;/li&gt;
+&gt;How to implement an aligned_alloc () ?&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://medium.com/howsofcoding/memory-management-aligned-malloc-and-free-9273336bd4c6" target="_blank" rel="noopener"
 &gt;Designing aligned Memory Allocator&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://linux.die.net/man/3/aligned_alloc" target="_blank" rel="noopener"
 &gt;aligned_alloc(3) - Linux man page&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>2023 Google Technical Program Manager 面試經驗</title><link>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2023-google-technical-program-manager-%E9%9D%A2%E8%A9%A6%E7%B6%93%E9%A9%97/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager 面試經驗" /&gt;&lt;h1 id="google-technical-program-manager-面試經驗"&gt;Google Technical Program Manager 面試經驗
-&lt;/h1&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;一直有許多Google SWE的面試經驗分享，然而Technical Program Manager(TPM)的面試經驗則幾乎沒有，其實不光是Dcard國外各大網站TPM的面試經驗分享也很少，因此來分享一下，雖然沒有拿到Offer，但有面到最後，經驗應該可以參考一下。&lt;/p&gt;
-&lt;p&gt;過去學經歷是112電資相關學碩，今年當完兵之後在比Google略大一點的公司當TPM。以前就有想進去Google，去年也投了Google SWE的面試，面完過HC等Team match時就遇到Hiring Freeze，詳細經歷可以參考：&lt;a class="link" href="https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/" target="_blank" rel="noopener"
-&gt;Google SWE 面試心路歷程&lt;/a&gt;，直到今年景氣變好才又開始Fit talk，結果連match了三個team都沒中，心灰意冷之際就收到另一個HR寄來TPM的面試邀請，抱著打聽情報的心態就跟HR排了個1:1，其實本來是對Google TPM缺沒什麼興趣，但在會議中被HR一波洗腦後，抱著那就試試的心態就接下面試邀請了。&lt;/p&gt;
-&lt;h2 id="時間"&gt;時間
+&lt;/ul&gt;</description></item><item><title>2023 Google Technical Program Manager Interview Experience</title><link>https://www.hugoshih.com/p/2023-google-technical-program-manager-interview-experience/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2023-google-technical-program-manager-interview-experience/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager Interview Experience" /&gt;&lt;h1 id="google-technical-program-manager-interview-experience"&gt;Google Technical Program Manager Interview Experience
+&lt;/h1&gt;&lt;h2 id="preface"&gt;Preface
+&lt;/h2&gt;&lt;p&gt;There have always been many Google SWE interview experiences shared, however, Technical Program Manager (TPM) interview experiences are almost non-existent. In fact, not only on Dcard but also on major foreign websites, there are very few TPM interview experience shares. Therefore, I am sharing this. Although I did not get the offer, I interviewed until the end, and the experience should be referable.&lt;/p&gt;
+&lt;p&gt;My past education and experience include a Bachelor&amp;rsquo;s and Master&amp;rsquo;s in EE/CS from NTU. After finishing military service this year, I worked as a TPM in a company slightly larger than Google. I had always wanted to enter Google. Last year, I also applied for a Google SWE interview. After finishing the interview and passing HC, waiting for Team match, I encountered a Hiring Freeze. For detailed experience, please refer to: &lt;a class="link" href="https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/" target="_blank" rel="noopener"
+&gt;Google SWE Interview Journey&lt;/a&gt;. It wasn&amp;rsquo;t until the economy improved this year that I started Fit talk again. However, I matched with three teams and didn&amp;rsquo;t get any. Just as I was disheartened, I received a TPM interview invitation from another HR. With the mentality of gathering intelligence, I scheduled a 1:1 with HR. Actually, I wasn&amp;rsquo;t very interested in the Google TPM vacancy initially, but after being persuaded by HR in the meeting, I accepted the interview invitation with a &amp;ldquo;why not try it&amp;rdquo; attitude.&lt;/p&gt;
+&lt;h2 id="timeline"&gt;Timeline
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;5/12 - 收到HR的TPM面試邀請&lt;/li&gt;
-&lt;li&gt;5/23 - 跟HR約1:1了解職缺&lt;/li&gt;
-&lt;li&gt;6/13 - VO:Technical Judgement*2&lt;/li&gt;
-&lt;li&gt;6/20 - VO:PgM + GCA&lt;/li&gt;
-&lt;li&gt;6/30 - 跟HR1:1通知面試結果: not move forward&lt;/li&gt;
+&lt;li&gt;5/12 - Received TPM interview invitation from HR&lt;/li&gt;
+&lt;li&gt;5/23 - 1:1 with HR to understand the vacancy&lt;/li&gt;
+&lt;li&gt;6/13 - VO: Technical Judgement * 2&lt;/li&gt;
+&lt;li&gt;6/20 - VO: PgM + GCA&lt;/li&gt;
+&lt;li&gt;6/30 - 1:1 with HR to notify interview result: not move forward&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="面試"&gt;面試
-&lt;/h2&gt;&lt;p&gt;Google TPM的VO面試總共有五關，每關45分鐘:&lt;/p&gt;
+&lt;h2 id="interview"&gt;Interview
+&lt;/h2&gt;&lt;p&gt;The Google TPM VO interview has a total of five rounds, each 45 minutes:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;兩關的Technical Judgement面試&lt;/li&gt;
-&lt;li&gt;一關Program Management related(PgM)面試&lt;/li&gt;
-&lt;li&gt;一關General Cognitive Ability(GCA)面試&lt;/li&gt;
-&lt;li&gt;一關Googleyness面試&lt;/li&gt;
+&lt;li&gt;Two rounds of Technical Judgement interview&lt;/li&gt;
+&lt;li&gt;One round of Program Management related (PgM) interview&lt;/li&gt;
+&lt;li&gt;One round of General Cognitive Ability (GCA) interview&lt;/li&gt;
+&lt;li&gt;One round of Googleyness interview&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;可能因為之前已經面過Googleyness，所以這關就直接跳過了，實際上只面了四關，考慮到我技術能力可能比PM能力好一點，HR先幫我排了兩場Technical Judgement面試，結果不錯的話再排PgM和GCA，後來也證明這是正確的策略。&lt;/p&gt;
-&lt;p&gt;根據網路上的情報跟HR提供的文件，我認為Technical Judgement面試可能像是技術面試，可能會問Codeing，也可能會問System design，為此還翻出leetcode刷了幾題暖身；PgM可能會問跟經驗相關的問題；GCA則可能問解決問題的邏輯，但這部分當下也想不到有什麼準備方向，所以我只把HR給的參考資料看完，再多回想幾個小故事，由於實在想不到要怎麼準備，我也想辦法跟HR要些Hint，不過HR看起來已經給我全部能給的東西了，那就硬著頭皮上吧，學習嘛&amp;hellip;。&lt;/p&gt;
-&lt;p&gt;順帶一提，TPM的面試是全英文的，四關差不多兩小時都在不停的說英文，這樣的要求也是可以理解，在Google這種公司Cross-function的溝通是極度仰賴英文的，這點也跟SWE面試很不一樣，SWE只有兩關英文，而且不會一直講話。&lt;/p&gt;
+&lt;p&gt;Maybe because I had interviewed for Googleyness before, this round was skipped directly. In fact, I only interviewed for four rounds. Considering my technical ability might be slightly better than my PM ability, HR first scheduled two Technical Judgement interviews for me. If the results were good, then PgM and GCA would be scheduled. Later it proved to be the correct strategy.&lt;/p&gt;
+&lt;p&gt;According to online intelligence and documents provided by HR, I thought the Technical Judgement interview might be like a technical interview, possibly asking for Coding, or maybe System design. For this, I even dug out leetcode and brushed up a few questions to warm up; PgM might ask experience-related questions; GCA might ask about problem-solving logic, but at that time I couldn&amp;rsquo;t think of any preparation direction, so I only finished reading the reference materials given by HR, and recalled a few more small stories. Since I really couldn&amp;rsquo;t think of how to prepare, I also tried to ask HR for some Hints, but HR seemed to have given me everything they could give, so I just bit the bullet. Learning, right&amp;hellip;&lt;/p&gt;
+&lt;p&gt;By the way, the TPM interview is entirely in English. I spoke English non-stop for about two hours in four rounds. This requirement is understandable. In a company like Google, Cross-function communication relies heavily on English. This point is also very different from the SWE interview. SWE only has two rounds of English, and you don&amp;rsquo;t talk all the time.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Technical Judgement
-老實說聽到第一個問題時就開始懷疑人生了，我原本已經擺好寫Code的姿勢了，結果第一個問題是：「你最成功的專案什麼？」(詳細題目記不得了，反正是類似這的問題)，是那種我以為應該在PgM或GCA面試會問的問題，還好之前已經準備了不少小故事，姿勢一換搬出從大學、研究所到工作時做的還算有技術深度的案子，講解要解決的問題、我在團隊扮演的腳色、技術的選擇、克服的問題等，過程有來有回，面試官聽也還算滿意，不過一連的幾個問題也都是差不多這種類型，讓我有種我是不是走錯棚的錯覺，結束時還問了一下：「請問這個是Technical Judgement Interview嘛？」面試官愣了一下回：「是阿」，「Ok&amp;hellip;」瞬間好像懂了甚麼又覺得甚麼都不懂，第二場Technical Judgement也是差不多的情況，總之自認表現還行，後來HR的feedback也是說Positive。&lt;/li&gt;
-&lt;li&gt;Program Management Related Knowledge(PgM)
-有鑒於Technical Judgement面試問題實在出乎意料，因此再次問HR有關PgM面試的細節，HR還是回說他給的文件已經有資訊了，那就只能自行腦補了，既然名字叫Program Management那應該就是問PM相關能力吧，那應該多往PM的腳色去回答就行，果然不其然，面試的題目跟Technical Judgement幾乎一樣，而我就搬出之前做專案時怎麼定Scope、怎麼寫Spec、怎麼drive project、怎麼溝通協調，面試官看起來還算滿意我的回答，結束面試前小聊了一下這個position的情報，面試官覺得跟我目前的經驗差距頗大，不過還是祝我Good luck。&lt;/li&gt;
-&lt;li&gt;General Cognitive Ability(GCA)
-到了GCA，我是真的想不到要怎麼準備了，如果是問解決問題的邏輯好像也很難準備。果然這關又問了跟前三關差不多的問題，然後我先從執行面去回答，但感覺面試官不太滿意，因此我又換一條路從技術面切入回答，面試官還是不太滿意，並建議我應該先從更High level的架構回答，因此我再給出了一個這方向的答案，不過沒有想得很透徹，應該是Bug滿滿，自己覺得答的超級爛，有感自己答的很爛，結束前後臉皮的跟面試官請教了一回，他也人很好跟我解釋了每一個問題的回答重點，大方向的概念是要先想出一個解決問題的框架，再將這個框架套入回答問題的框架去依序回答才有辦法打到得分點。&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Technical Judgement
+To be honest, I started doubting life when I heard the first question. I was already in the posture to write Code, but the first question was: &amp;ldquo;What is your most successful project?&amp;rdquo; (I can&amp;rsquo;t remember the detailed question, anyway, it was similar to this). It was the kind of question I thought would be asked in PgM or GCA interviews. Fortunately, I had prepared quite a few small stories before. I changed my posture and brought out projects with some technical depth from university, graduate school to work, explaining the problems to be solved, my role in the team, technical choices, problems overcome, etc. The process was interactive, and the interviewer seemed satisfied. However, several consecutive questions were also of this type, giving me the illusion that I was in the wrong room. At the end, I asked: &amp;ldquo;Is this a Technical Judgement Interview?&amp;rdquo; The interviewer was stunned and replied: &amp;ldquo;Yes&amp;rdquo;, &amp;ldquo;Ok&amp;hellip;&amp;rdquo; In an instant, I seemed to understand something but also felt I understood nothing. The second Technical Judgement was also a similar situation. Anyway, I thought my performance was okay, and HR&amp;rsquo;s feedback later was also Positive.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Program Management Related Knowledge (PgM)
+Given that the Technical Judgement interview questions were really unexpected, I asked HR again about the details of the PgM interview. HR still replied that the document he gave already had information, so I could only brainstorm by myself. Since the name is Program Management, it should be asking PM-related capabilities, so I should answer more towards the PM role. Sure enough, the interview questions were almost the same as Technical Judgement, and I brought out how I defined Scope, wrote Spec, drove project, and communicated and coordinated during previous projects. The interviewer seemed quite satisfied with my answer. Before ending the interview, we chatted a bit about the intelligence of this position. The interviewer felt that there was a gap with my current experience, but still wished me Good luck.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;General Cognitive Ability (GCA)
+When it came to GCA, I really couldn&amp;rsquo;t think of how to prepare. If it asks about problem-solving logic, it seems hard to prepare too. Sure enough, this round asked questions similar to the first three rounds. Then I first answered from the execution aspect, but felt the interviewer wasn&amp;rsquo;t very satisfied, so I changed tack and answered from the technical aspect. The interviewer was still not very satisfied and suggested I should answer from a higher-level architecture first. So I gave an answer in this direction, but I didn&amp;rsquo;t think it through thoroughly, and it should be full of bugs. I felt I answered terribly locally. Feeling that I answered poorly, I thick-skinned asked the interviewer for advice at the end. He was also very nice and explained the key points of answering each question to me. The general concept is to first come up with a problem-solving framework, and then fit this framework into the answer framework to answer in order, only then can you hit the scoring points.&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="結果"&gt;結果
-&lt;/h2&gt;&lt;p&gt;後來再跟HR約了一次1:1，結果跟想像的差不多，前面表現都還不錯，主要掛在GCA，沒辦法再move forward，只能回去等還有沒有team match的機會了。&lt;/p&gt;
-&lt;p&gt;後來想了一下這次的面試確實有很多可以改進的點，除了現在真的菜，能講的經驗還太少外，就是對TPM面試回答的框架還不夠熟，這邊指的框架像是:
-面對PgM的問題可以依序從以下幾點下手:&lt;/p&gt;
+&lt;h2 id="result"&gt;Result
+&lt;/h2&gt;&lt;p&gt;Later I scheduled another 1:1 with HR. The result was similar to what I imagined. The previous performance was quite good, mainly failed at GCA. Unable to move forward, I could only go back and wait to see if there are any team match opportunities.&lt;/p&gt;
+&lt;p&gt;Later I thought about it, there were indeed many points for improvement in this interview. Besides being really junior now and having too few experiences to talk about, I was not familiar enough with the framework for answering TPM interviews. The framework here refers to:&lt;/p&gt;
+&lt;p&gt;When facing PgM questions, you can start from the following points in order:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;專案範疇與組織&lt;/li&gt;
-&lt;li&gt;專案執行&lt;/li&gt;
-&lt;li&gt;溝通與影響力&lt;/li&gt;
-&lt;li&gt;釐清模糊不清的情況&lt;/li&gt;
+&lt;li&gt;Project Scope and Organization&lt;/li&gt;
+&lt;li&gt;Project Execution&lt;/li&gt;
+&lt;li&gt;Communication and Influence&lt;/li&gt;
+&lt;li&gt;Clarifying Ambiguous Situations&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;面對GCA的問題可以依序從以下幾點下手:&lt;/p&gt;
+&lt;p&gt;When facing GCA questions, you can start from the following points in order:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;理解問題&lt;/li&gt;
-&lt;li&gt;蒐集資訊&lt;/li&gt;
-&lt;li&gt;找出解決方案&lt;/li&gt;
-&lt;li&gt;支持解決方案的證據&lt;/li&gt;
-&lt;li&gt;良好的溝通&lt;/li&gt;
+&lt;li&gt;Understand the Problem&lt;/li&gt;
+&lt;li&gt;Gather Information&lt;/li&gt;
+&lt;li&gt;Find Solutions&lt;/li&gt;
+&lt;li&gt;Evidence Supporting Solutions&lt;/li&gt;
+&lt;li&gt;Good Communication&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;下次要再嘗試Google TPM的面試時，應該要多花點時間打磨手上的案例，想辦法塞進這些框架組織，然後熟練使用這些框架回答問題，某種程度上也算是刷題吧。&lt;/p&gt;
-&lt;h2 id="結語"&gt;結語
-&lt;/h2&gt;&lt;p&gt;個人覺得TPM的面試比SWE面試還要難而且複雜，即便如此Google似乎很想找有EECS背景且有PM能力的人進去當TPM，只是這類人不多又或者沒興趣所以一直找不到人，如果有相關背景的人有興趣可以去嘗試看看。&lt;/p&gt;
-&lt;p&gt;如果有看完這篇對你有幫助，就順便祝福我早日拿到Google Offer啦。&lt;/p&gt;
+&lt;p&gt;Next time when attempting Google TPM interview again, I should spend more time polishing the cases on hand, trying to fit them into these frameworks, and then skillfully use these frameworks to answer questions. To some extent, this is also &amp;ldquo;grinding questions&amp;rdquo;.&lt;/p&gt;
+&lt;h2 id="conclusion"&gt;Conclusion
+&lt;/h2&gt;&lt;p&gt;Personally, I feel that the TPM interview is harder and more complex than the SWE interview. Even so, Google seems to want to find people with EECS background and PM capabilities to be TPMs. It&amp;rsquo;s just that there are not many such people or they are not interested, so they can&amp;rsquo;t find anyone. If people with relevant backgrounds are interested, they can try it out.&lt;/p&gt;
+&lt;p&gt;If reading this article helps you, please wish me to get a Google Offer soon passing by.&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://i.imgur.com/C8prC95.jpg"
 loading="lazy"
 alt="image alt"
 &gt;
-附一張今年去101蹭飯的照片，好想進Google呀。&lt;/p&gt;</description></item><item><title>科技業台商與外商公司暱稱</title><link>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</link><pubDate>Sat, 06 May 2023 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</guid><description>&lt;img src="https://i.imgur.com/1gEXPk2.jpg" alt="Featured image of post 科技業台商與外商公司暱稱" /&gt;&lt;h1 id="科技業台商與外商公司暱稱"&gt;科技業台商與外商公司暱稱
-&lt;/h1&gt;&lt;h2 id="台商"&gt;台商
-&lt;/h2&gt;&lt;h3 id="ic設計-豬屎屋"&gt;IC設計 (豬屎屋)
+Attached is a photo of me freeloading a meal at 101 this year. I really want to enter Google.&lt;/p&gt;</description></item><item><title>Nicknames of Taiwanese and Foreign Tech Companies</title><link>https://www.hugoshih.com/p/nicknames-of-taiwanese-and-foreign-tech-companies/</link><pubDate>Sat, 06 May 2023 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/nicknames-of-taiwanese-and-foreign-tech-companies/</guid><description>&lt;img src="https://i.imgur.com/1gEXPk2.jpg" alt="Featured image of post Nicknames of Taiwanese and Foreign Tech Companies" /&gt;&lt;h1 id="nicknames-of-taiwanese-and-foreign-tech-companies"&gt;Nicknames of Taiwanese and Foreign Tech Companies
+&lt;/h1&gt;&lt;h2 id="taiwanese-companies"&gt;Taiwanese Companies
+&lt;/h2&gt;&lt;h3 id="ic-design-pig-shit-house"&gt;IC Design (Pig Shit House)
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt, Dcard Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;聯發科&lt;/td&gt;
-&lt;td style="text-align: right"&gt;發哥、發弟、M、大M、麥當勞、篤行路麥當勞&lt;/td&gt;
-&lt;td style="text-align: center"&gt;分紅多的時候就是發哥，少的時候就變發弟，因為被稱為M，員工自嘲為篤行路麥當勞打工仔，去上班謙稱為鏟薯條。叫大M是因為曾經有小M(晨星)&lt;/td&gt;
+&lt;td&gt;MediaTek (聯發科)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Fa Ge (Brother Fa), Fa Di (Brother Fa&amp;rsquo;s younger brother), M, Big M, McDonald&amp;rsquo;s, Duxing Road McDonald&amp;rsquo;s&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Called Fa Ge when bonuses are high, Fa Di when low. Because it&amp;rsquo;s called M, employees mock themselves as Duxing Road McDonald&amp;rsquo;s workers, serving fries. Called Big M because there used to be a Small M (MStar)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;聯詠&lt;/td&gt;
-&lt;td style="text-align: right"&gt;滷肉、N&lt;/td&gt;
-&lt;td style="text-align: center"&gt;聯詠的英文是Novatek音似「滷肉」&lt;/td&gt;
+&lt;td&gt;Novatek (聯詠)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Lo Bah (Braised Pork), N&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Novatek sounds like &amp;ldquo;Lo Bah&amp;rdquo; (Braised Pork)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;瑞昱&lt;/td&gt;
-&lt;td style="text-align: right"&gt;螃蟹、R、帝王蟹、寄居蟹、海產店&lt;/td&gt;
-&lt;td style="text-align: center"&gt;Realtek、Logo就是一隻螃蟹，帝王蟹專指分紅特別多的部門，如果分紅少，鄉民就鄙稱寄居蟹，因為是螃蟹所以也有人稱海產店&lt;/td&gt;
+&lt;td&gt;Realtek (瑞昱)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Crab, R, King Crab, Hermit Crab, Seafood Restaurant&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Realtek Logo is a crab. King Crab refers to departments with high bonuses. If less bonus, netizens mock as Hermit Crab. Also called Seafood Restaurant due to crab.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
-&lt;td&gt;群聯&lt;/td&gt;
-&lt;td style="text-align: right"&gt;全聯、P、請支援收銀&lt;/td&gt;
-&lt;td style="text-align: center"&gt;群聯音似全聯&lt;/td&gt;
+&lt;td&gt;Phison (群聯)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;PX Mart, P, Please support cashier&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Phison sounds like PX Mart (Quan Lian)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;5&lt;/td&gt;
-&lt;td&gt;慧榮&lt;/td&gt;
+&lt;td&gt;Silicon Motion (慧榮)&lt;/td&gt;
 &lt;td style="text-align: right"&gt;S&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;7&lt;/td&gt;
-&lt;td&gt;奇景&lt;/td&gt;
-&lt;td style="text-align: right"&gt;海馬&lt;/td&gt;
-&lt;td style="text-align: center"&gt;Himax音似海馬&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td&gt;Himax (奇景)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Seahorse&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Himax sounds like Seahorse&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;8&lt;/td&gt;
-&lt;td&gt;達發&lt;/td&gt;
-&lt;td style="text-align: right"&gt;客運、發哥子公司&lt;/td&gt;
-&lt;td style="text-align: center"&gt;發哥的一家子公司，英文名是Airoha發音似早期的阿羅哈客運&lt;/td&gt;
+&lt;td&gt;Airoha (達發)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Bus, Fa Ge&amp;rsquo;s subsidiary&lt;/td&gt;
+&lt;td style="text-align: center"&gt;A subsidiary of MediaTek. English name Airoha sounds like early Aloha Bus&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;9&lt;/td&gt;
-&lt;td&gt;瑞鼎&lt;/td&gt;
-&lt;td style="text-align: right"&gt;鼎王&lt;/td&gt;
-&lt;td style="text-align: center"&gt;取鼎字。由於鼎王麻辣鍋是相較昂貴的餐廳，故這是分紅好的意&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td&gt;Raydium (瑞鼎)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Ding Wang&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Take the word Ding. Since Ding Wang Spicy Pot is a relatively expensive restaurant, implying good bonuses&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;10&lt;/td&gt;
-&lt;td&gt;矽創&lt;/td&gt;
-&lt;td style="text-align: right"&gt;洗窗&lt;/td&gt;
-&lt;td style="text-align: center"&gt;取矽創的諧音&lt;/td&gt;
+&lt;td&gt;Sitronix (矽創)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Window Washing (Xi Chuang)&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Homonym of Sitronix&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;11&lt;/td&gt;
-&lt;td&gt;敦泰&lt;/td&gt;
-&lt;td style="text-align: right"&gt;保全&lt;/td&gt;
-&lt;td style="text-align: center"&gt;有一家保全公司叫敦泰保全&lt;/td&gt;
+&lt;td&gt;FocalTech (敦泰)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Security&lt;/td&gt;
+&lt;td style="text-align: center"&gt;There is a security company called Duntai Security&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;12&lt;/td&gt;
-&lt;td&gt;奕力&lt;/td&gt;
-&lt;td style="text-align: right"&gt;一粒、粒粒&lt;/td&gt;
-&lt;td style="text-align: center"&gt;奕力的諧音。或取粒字，源自《憫農詩》：「誰知盤中飧，粒粒皆辛苦」，為員工自嘲工作辛苦&lt;sup id="fnref1:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td&gt;Ilitek (奕力)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;One Grain (Yi Li), Grain Grain (Li Li)&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Homonym of Ilitek. Or taken from poem &amp;ldquo;Every grain is hard work&amp;rdquo;, employees mocking hard work&lt;sup id="fnref1:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;13&lt;/td&gt;
-&lt;td&gt;華邦電&lt;/td&gt;
-&lt;td style="text-align: right"&gt;邦邦&lt;/td&gt;
+&lt;td&gt;Winbond (華邦電)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Bang Bang&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;14&lt;/td&gt;
-&lt;td&gt;信驊&lt;/td&gt;
-&lt;td style="text-align: right"&gt;股王&lt;/td&gt;
+&lt;td&gt;Aspeed (信驊)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Stock King&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;15&lt;/td&gt;
-&lt;td&gt;新唐&lt;/td&gt;
+&lt;td&gt;Nuvoton (新唐)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="品牌廠"&gt;品牌廠
+&lt;h3 id="brand-manufacturers"&gt;Brand Manufacturers
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt, Dcard Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;宏達電&lt;/td&gt;
-&lt;td style="text-align: right"&gt;紅茶、紅茶店、Hㄒㄈ、阿姨&lt;/td&gt;
-&lt;td style="text-align: center"&gt;紅茶店是取諧音，阿姨是指雪紅阿姨&lt;/td&gt;
+&lt;td&gt;HTC (宏達電)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Black Tea, Black Tea Shop, HTC, Auntie&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Black Tea Shop is homonym. Auntie refers to Cher Wang&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;華碩&lt;/td&gt;
-&lt;td style="text-align: right"&gt;石頭&lt;/td&gt;
-&lt;td style="text-align: center"&gt;華碩品質，以卵擊石&lt;/td&gt;
+&lt;td&gt;ASUS (華碩)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Stone&lt;/td&gt;
+&lt;td style="text-align: center"&gt;ASUS quality, hit stone with egg&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;宏碁&lt;/td&gt;
+&lt;td&gt;Acer (宏碁)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
-&lt;td&gt;微星&lt;/td&gt;
-&lt;td style="text-align: right"&gt;小星星、中二龍、微薪、G星&lt;/td&gt;
-&lt;td style="text-align: center"&gt;微薪是只薪水給的不多&lt;/td&gt;
+&lt;td&gt;MSI (微星)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Little Star, Chuuni Dragon, Meager Salary (Wei Xin), G Star&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Wei Xin implies salary given is not much&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;5&lt;/td&gt;
-&lt;td&gt;技嘉&lt;/td&gt;
-&lt;td style="text-align: right"&gt;雞排店&lt;/td&gt;
-&lt;td style="text-align: center"&gt;英文名字是GIGABYTE，GIBYTE發音跟雞排很像&lt;sup id="fnref2:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td&gt;GIGABYTE (技嘉)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Chicken Cutlet Shop&lt;/td&gt;
+&lt;td style="text-align: center"&gt;English name GIGABYTE, GIBYTE pronunciation very like Chicken Cutlet (Ji Pai)&lt;sup id="fnref2:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;6&lt;/td&gt;
-&lt;td&gt;群暉&lt;/td&gt;
-&lt;td style="text-align: right"&gt;亞東Google&lt;/td&gt;
-&lt;td style="text-align: center"&gt;公司在捷運亞東醫院站附近，跟Google一樣吸引很多軟體頂尖人才&lt;/td&gt;
+&lt;td&gt;Synology (群暉)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Far East Google&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Company near Far Eastern Hospital MRT station, attracts top software talents like Google&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="面板廠"&gt;面板廠
+&lt;h3 id="panel-manufacturers"&gt;Panel Manufacturers
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt, Dcard Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;友達&lt;/td&gt;
-&lt;td style="text-align: right"&gt;戀人、戀人未滿&lt;/td&gt;
-&lt;td style="text-align: center"&gt;取名稱：友達以上，戀人未滿&lt;/td&gt;
+&lt;td&gt;AUO (友達)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Lover, More than friends&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Name implies: More than friends (You Da), less than lovers&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;群創&lt;/td&gt;
-&lt;td style="text-align: right"&gt;包子&lt;/td&gt;
-&lt;td style="text-align: center"&gt;之前與奇美電子合併，因奇美包子而得名&lt;/td&gt;
+&lt;td&gt;Innolux (群創)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Bun (Baozi)&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Merged with Chi Mei Optoelectronics, named after Chi Mei Buns&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="系統廠"&gt;系統廠
+&lt;h3 id="system-manufacturers"&gt;System Manufacturers
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt, Dcard Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;和碩&lt;/td&gt;
-&lt;td style="text-align: right"&gt;皮卡&lt;/td&gt;
-&lt;td style="text-align: center"&gt;音似其英文名Pegatron&lt;/td&gt;
+&lt;td&gt;Pegatron (和碩)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Pika&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Sounds like its English name Pegatron&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;廣達&lt;/td&gt;
-&lt;td style="text-align: right"&gt;肉鬆、肉鬆店&lt;/td&gt;
-&lt;td style="text-align: center"&gt;有一家肉鬆廠叫做&lt;strong&gt;廣達香肉鬆&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Quanta (廣達)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Meat Floss, Meat Floss Shop&lt;/td&gt;
+&lt;td style="text-align: center"&gt;There is a meat floss factory called &lt;strong&gt;Guang Da Xiang Meat Floss&lt;/strong&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;緯創&lt;/td&gt;
-&lt;td style="text-align: right"&gt;W、大W&lt;/td&gt;
+&lt;td&gt;Wistron (緯創)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;W, Big W&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
-&lt;td&gt;緯穎&lt;/td&gt;
-&lt;td style="text-align: right"&gt;小w、we win&lt;/td&gt;
-&lt;td style="text-align: center"&gt;因為是緯創的子公司&lt;/td&gt;
+&lt;td&gt;Wiwynn (緯穎)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Small w, we win&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Because it is a subsidiary of Wistron&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;5&lt;/td&gt;
-&lt;td&gt;仁寶&lt;/td&gt;
-&lt;td style="text-align: right"&gt;寶寶&lt;/td&gt;
+&lt;td&gt;Compal (仁寶)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Baby (Bao Bao)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;6&lt;/td&gt;
-&lt;td&gt;光寶&lt;/td&gt;
-&lt;td style="text-align: right"&gt;點燈&lt;/td&gt;
-&lt;td style="text-align: center"&gt;英文名字LITEON，表示light-on&lt;sup id="fnref3:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td&gt;Lite-On (光寶)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Light On&lt;/td&gt;
+&lt;td style="text-align: center"&gt;English name LITEON, means light-on&lt;sup id="fnref3:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;7&lt;/td&gt;
-&lt;td&gt;研華&lt;/td&gt;
+&lt;td&gt;Advantech (研華)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;8&lt;/td&gt;
-&lt;td&gt;華擎&lt;/td&gt;
-&lt;td style="text-align: right"&gt;小石頭、妖擎&lt;/td&gt;
-&lt;td style="text-align: center"&gt;因為華擎是由華碩分家出來的所以叫小石頭，又專門生產一些奇怪的主機板和產品(妖板)&lt;/td&gt;
+&lt;td&gt;ASRock (華擎)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Little Stone, Demon Rock&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Spun off from ASUS so called Little Stone. Specializes in strange motherboards and products (Demon Board)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;9&lt;/td&gt;
-&lt;td&gt;台達店&lt;/td&gt;
-&lt;td style="text-align: right"&gt;三角、三角形&lt;/td&gt;
-&lt;td style="text-align: center"&gt;Logo是一個三角&lt;/td&gt;
+&lt;td&gt;Delta (台達電)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Delta, Triangle&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Logo is a triangle&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;10&lt;/td&gt;
-&lt;td&gt;鴻海&lt;/td&gt;
-&lt;td style="text-align: right"&gt;海公公（取海字）、海邊、海底、紅海&lt;/td&gt;
-&lt;td style="text-align: center"&gt;取海字。《烏龍派出所》的阿兩常說：「你家住海邊啊！」這句話意指「多管閒事」（因為海邊鎖管(小卷/透抽)很多）。之所以稱鴻海為海邊，是暗指公司管很多&lt;sup id="fnref4:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td&gt;Foxconn (鴻海)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Grandpa Hai (Hai Gong Gong), Seaside, Seabed, Red Sea&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Take word Hai. Ah-Liang from &amp;ldquo;Kochikame&amp;rdquo; often says &amp;ldquo;You live by the seaside!&amp;rdquo; meaning &amp;ldquo;Nosy&amp;rdquo; (Because seaside has many tubes). Calling Foxconn Seaside implies company micromanages&lt;sup id="fnref4:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;11&lt;/td&gt;
-&lt;td&gt;英業達&lt;/td&gt;
-&lt;td style="text-align: right"&gt;小英&lt;/td&gt;
-&lt;td style="text-align: center"&gt;名字裡有英字&lt;/td&gt;
+&lt;td&gt;Inventec (英業達)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Xiao Ying&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Name has word Ying&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;12&lt;/td&gt;
-&lt;td&gt;啟碁&lt;/td&gt;
-&lt;td style="text-align: right"&gt;道士&lt;/td&gt;
-&lt;td style="text-align: center"&gt;取諧音，道士會起乩&lt;/td&gt;
+&lt;td&gt;WNC (啟碁)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Taoist Priest&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Homonym, Taoist priest performs trance (Qi Ji)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="半導體製造"&gt;半導體製造
+&lt;h3 id="semiconductor-manufacturing"&gt;Semiconductor Manufacturing
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt, Dcard Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;台積電&lt;/td&gt;
-&lt;td style="text-align: right"&gt;台GG、GG、護國神山、神山、大哥、祖墳冒煙&lt;/td&gt;
-&lt;td style="text-align: center"&gt;因為台灣有台積電因此中國不敢隨便打台灣，所以稱之為護國神山。祖墳冒煙是在說能近台積電的人都是有祖先保佑&lt;/td&gt;
+&lt;td&gt;TSMC (台積電)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Tai GG, GG, Protector of the Nation, Sacred Mountain, Big Brother, Ancestral Grave Smoking&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Because Taiwan has TSMC, China dares not attack Taiwan easily, so called Protector of the Nation Sacred Mountain. Ancestral Grave Smoking means those who enter TSMC are blessed by ancestors&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;聯電&lt;/td&gt;
-&lt;td style="text-align: right"&gt;二哥、U、大碩&lt;/td&gt;
-&lt;td style="text-align: center"&gt;因其員工常以該公司為跳板跳槽至台積電，近似研究所補習班「大碩」而謔稱之&lt;/td&gt;
+&lt;td&gt;UMC (聯德)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Second Brother, U, Da Shuo&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Employees often use it as a springboard to TSMC, similar to grad school cram school &amp;ldquo;Da Shuo&amp;rdquo;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;世界先進&lt;/td&gt;
-&lt;td style="text-align: right"&gt;仙境、RO&lt;/td&gt;
-&lt;td style="text-align: center"&gt;取&lt;strong&gt;先進&lt;/strong&gt;兩個字的諧音&lt;/td&gt;
+&lt;td&gt;Vanguard (世界先進)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Wonderland, RO&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Homonym of &lt;strong&gt;Advanced&lt;/strong&gt; (Xian Jin)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
-&lt;td&gt;日月光&lt;/td&gt;
-&lt;td style="text-align: right"&gt;神教&lt;/td&gt;
-&lt;td style="text-align: center"&gt;出自金庸小說《笑傲江湖》的虛構組織日月神教&lt;sup id="fnref5:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td&gt;ASE (日月光)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Cult (Shen Jiao)&lt;/td&gt;
+&lt;td style="text-align: center"&gt;From fictional organization Sun Moon Holy Cult in Jin Yong&amp;rsquo;s novel &amp;ldquo;The Smiling, Proud Wanderer&amp;rdquo;&lt;sup id="fnref5:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;5&lt;/td&gt;
-&lt;td&gt;南亞科&lt;/td&gt;
-&lt;td style="text-align: right"&gt;牙科&lt;/td&gt;
+&lt;td&gt;Nanya (南亞科)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Dentistry (Ya Ke)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;6&lt;/td&gt;
-&lt;td&gt;華亞科&lt;/td&gt;
-&lt;td style="text-align: right"&gt;滑牙科&lt;/td&gt;
+&lt;td&gt;Inotera (華亞科)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Slippery Dentistry (Hua Ya Ke)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;7&lt;/td&gt;
-&lt;td&gt;矽品&lt;/td&gt;
-&lt;td style="text-align: right"&gt;三口、三口組&lt;/td&gt;
-&lt;td style="text-align: center"&gt;三個口、很多口的那間、 三口組 (因最後一個字品，而被鄉民取這些名稱 )&lt;/td&gt;
+&lt;td&gt;SPIL (矽品)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Three Mouths, Three Mouths Gang&lt;/td&gt;
+&lt;td style="text-align: center"&gt;That one with three mouths, many mouths. Three Mouths Gang (Because last character Pin has three mouths)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;8&lt;/td&gt;
-&lt;td&gt;力積電&lt;/td&gt;
-&lt;td style="text-align: right"&gt;假G、小GG&lt;/td&gt;
-&lt;td style="text-align: center"&gt;叫假G是因為名稱跟台積電很容易混淆&lt;/td&gt;
+&lt;td&gt;PSMC (力積電)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Fake G, Little GG&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Called Fake G because name easily confused with TSMC&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="軟體電信銀行"&gt;軟體、電信、銀行
+&lt;h3 id="software-telecom-banking"&gt;Software, Telecom, Banking
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;Ptt、Dcard暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Ptt, Dcard Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;中華電信&lt;/td&gt;
-&lt;td style="text-align: right"&gt;種花、種花電信、種花點心、小公司（出自徐旭東）&lt;/td&gt;
-&lt;td style="text-align: center"&gt;取諧音，加上工作很悠閒&lt;/td&gt;
+&lt;td&gt;Chunghwa Telecom (中華電信)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Flower Planting (Zhong Hua), Flower Planting Telecom, Flower Planting Snack, Small Company (by Douglas Hsu)&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Homonym, plus work is very leisurely&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;台灣大哥大&lt;/td&gt;
+&lt;td&gt;Taiwan Mobile (台灣大哥大)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;遠傳&lt;/td&gt;
-&lt;td style="text-align: right"&gt;大公司&lt;/td&gt;
-&lt;td style="text-align: center"&gt;為網友呼應其老闆徐旭東之言論而謔稱之&lt;/td&gt;
+&lt;td&gt;Far EasTone (遠傳)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Big Company&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Netizens responding to its boss Douglas Hsu&amp;rsquo;s remarks&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
-&lt;td&gt;趨勢&lt;/td&gt;
-&lt;td style="text-align: right"&gt;亞洲最大純軟&lt;/td&gt;
+&lt;td&gt;Trend Micro (趨勢)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Asia&amp;rsquo;s Largest Pure Software&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;5&lt;/td&gt;
-&lt;td&gt;國泰&lt;/td&gt;
-&lt;td style="text-align: right"&gt;大樹、花椰菜&lt;/td&gt;
-&lt;td style="text-align: center"&gt;Logo是一顆大樹，大樹長的很像花椰菜&lt;/td&gt;
+&lt;td&gt;Cathay (國泰)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Big Tree, Broccoli&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Logo is a big tree, looks like broccoli&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;6&lt;/td&gt;
 &lt;td&gt;Dcard&lt;/td&gt;
-&lt;td style="text-align: right"&gt;豬腳、低卡、低能卡&lt;/td&gt;
-&lt;td style="text-align: center"&gt;取諧音、又Dcard上的發文通常太過浮誇很低能故稱低能卡&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Pig&amp;rsquo;s Trotter, Low Card, Low Energy Card&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Homonym, and Dcard posts often too exaggerated and low energy so called Low Energy Card&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;7&lt;/td&gt;
-&lt;td&gt;愛卡拉&lt;/td&gt;
-&lt;td style="text-align: right"&gt;卡拉雞&lt;/td&gt;
+&lt;td&gt;iKala (愛卡拉)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Kara Chicken&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id="外商"&gt;外商
-&lt;/h2&gt;&lt;h3 id="ic設計製造"&gt;IC設計製造
+&lt;h2 id="foreign-companies"&gt;Foreign Companies
+&lt;/h2&gt;&lt;h3 id="ic-design--manufacturing"&gt;IC Design &amp;amp; Manufacturing
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th&gt;台灣暱稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;對岸暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th&gt;Taiwan Nickname&lt;/th&gt;
+&lt;th style="text-align: right"&gt;China Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;Qualcomm(高通)&lt;/td&gt;
+&lt;td&gt;Qualcomm (高通)&lt;/td&gt;
 &lt;td&gt;Q&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;Marvell(邁威爾)&lt;/td&gt;
-&lt;td&gt;漫威&lt;/td&gt;
+&lt;td&gt;Marvell (邁威爾)&lt;/td&gt;
+&lt;td&gt;Marvel&lt;/td&gt;
 &lt;td style="text-align: right"&gt;&lt;/td&gt;
-&lt;td style="text-align: center"&gt;Marvell發音跟漫威一樣&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Marvell pronunciation same as Marvel&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;Nvidia(英偉達)&lt;/td&gt;
+&lt;td&gt;Nvidia (英偉達)&lt;/td&gt;
 &lt;td&gt;NV&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
-&lt;td&gt;Intel(英特爾)&lt;/td&gt;
-&lt;td&gt;牙膏廠&lt;/td&gt;
-&lt;td style="text-align: right"&gt;牙膏廠、藍廠&lt;/td&gt;
-&lt;td style="text-align: center"&gt;core i系列每一代效能都高一點點 就像擠牙膏&lt;/td&gt;
+&lt;td&gt;Intel (英特爾)&lt;/td&gt;
+&lt;td&gt;Toothpaste Factory&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Toothpaste Factory, Blue Factory&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Every generation of core i series performance increases a little bit, like squeezing toothpaste&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;5&lt;/td&gt;
-&lt;td&gt;AMD(超微)&lt;/td&gt;
-&lt;td&gt;推土機廠&lt;/td&gt;
-&lt;td style="text-align: right"&gt;推土機廠、紅廠&lt;/td&gt;
-&lt;td style="text-align: center"&gt;AM3時代處理器名稱&lt;/td&gt;
+&lt;td&gt;AMD (超微)&lt;/td&gt;
+&lt;td&gt;Bulldozer Factory&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Bulldozer Factory, Red Factory&lt;/td&gt;
+&lt;td style="text-align: center"&gt;AM3 era processor name&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;6&lt;/td&gt;
-&lt;td&gt;Micron(美光)&lt;/td&gt;
-&lt;td&gt;光光、發光、人生發光&lt;/td&gt;
+&lt;td&gt;Micron (美光)&lt;/td&gt;
+&lt;td&gt;Light Light, Glow, Life Glow&lt;/td&gt;
 &lt;td style="text-align: right"&gt;&lt;/td&gt;
-&lt;td style="text-align: center"&gt;來自徵才標語「加入美光，人生發光&lt;/td&gt;
+&lt;td style="text-align: center"&gt;From recruitment slogan &amp;ldquo;Join Micron, Life Glows&amp;rdquo;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;7&lt;/td&gt;
-&lt;td&gt;Texas Instruments(德儀)&lt;/td&gt;
+&lt;td&gt;Texas Instruments (德儀)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;8&lt;/td&gt;
-&lt;td&gt;Broadcom(博通)&lt;/td&gt;
+&lt;td&gt;Broadcom (博通)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;9&lt;/td&gt;
-&lt;td&gt;NXP(恩智浦)&lt;/td&gt;
+&lt;td&gt;NXP (恩智浦)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="品牌與軟體設計"&gt;品牌與軟體設計
+&lt;h3 id="brand--software-design"&gt;Brand &amp;amp; Software Design
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th&gt;台灣暱稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;對岸暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th&gt;Taiwan Nickname&lt;/th&gt;
+&lt;th style="text-align: right"&gt;China Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;Google(科高)&lt;/td&gt;
+&lt;td&gt;Google (科高)&lt;/td&gt;
 &lt;td&gt;G&lt;/td&gt;
-&lt;td style="text-align: right"&gt;G社、狗家&lt;/td&gt;
-&lt;td style="text-align: center"&gt;狗家取字Google的諧音&lt;/td&gt;
+&lt;td style="text-align: right"&gt;G Corp, Dog Family&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Dog Family homonym of Google (Goo -&amp;gt; Gou)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;Microsoft(微軟)&lt;/td&gt;
+&lt;td&gt;Microsoft (微軟)&lt;/td&gt;
 &lt;td&gt;M$、MS&lt;/td&gt;
-&lt;td style="text-align: right"&gt;巨硬、巨嬰&lt;sup id="fnref:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
-&lt;td style="text-align: center"&gt;M$是指微軟什麼東西都要錢，巨硬來自於微軟字面上的相反&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Giant Hard, Giant Infant&lt;sup id="fnref:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;M$ means Microsoft wants money for everything, Giant Hard from literal opposite of Microsoft&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;Meta(臉書)&lt;/td&gt;
+&lt;td&gt;Meta (臉書)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td style="text-align: right"&gt;臉家、M社&lt;/td&gt;
-&lt;td style="text-align: center"&gt;Facebook翻譯為臉書&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Face Family, M Corp&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Facebook translated as Face Book&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
-&lt;td&gt;Amazon(亞馬遜)&lt;/td&gt;
+&lt;td&gt;Amazon (亞馬遜)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td style="text-align: right"&gt;亞麻、雨林、香蕉廠&lt;sup id="fnref1:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
-&lt;td style="text-align: center"&gt;亞馬遜以對員工小氣聞名，公司福利只願意提供香蕉給員工&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Flax (Ya Ma), Rainforest, Banana Factory&lt;sup id="fnref1:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Amazon famous for being stingy to employees, benefits only willing to provide bananas&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;5&lt;/td&gt;
-&lt;td&gt;Apple(蘋果)&lt;/td&gt;
-&lt;td&gt;阿婆&lt;/td&gt;
-&lt;td style="text-align: right"&gt;A社、水果家&lt;/td&gt;
+&lt;td&gt;Apple (蘋果)&lt;/td&gt;
+&lt;td&gt;Grandma (A Po)&lt;/td&gt;
+&lt;td style="text-align: right"&gt;A Corp, Fruit Family&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;6&lt;/td&gt;
-&lt;td&gt;IBM(國際商業機器)&lt;/td&gt;
-&lt;td&gt;外星科技&lt;/td&gt;
-&lt;td style="text-align: right"&gt;大藍&lt;/td&gt;
-&lt;td style="text-align: center"&gt;據說真的有從事外星科技&lt;/td&gt;
+&lt;td&gt;IBM (國際商業機器)&lt;/td&gt;
+&lt;td&gt;Alien Tech&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Big Blue&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Rumored to really engage in alien technology&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;7&lt;/td&gt;
-&lt;td&gt;Netflix(網飛)&lt;/td&gt;
+&lt;td&gt;Netflix (網飛)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td style="text-align: right"&gt;N社、網飛&lt;/td&gt;
+&lt;td style="text-align: right"&gt;N Corp, Netflix&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;8&lt;/td&gt;
-&lt;td&gt;Tiktok(抖音)&lt;/td&gt;
-&lt;td&gt;父母白養&lt;/td&gt;
-&lt;td style="text-align: right"&gt;字節&lt;/td&gt;
-&lt;td style="text-align: center"&gt;取自「抖音一響，父母白養」&lt;/td&gt;
+&lt;td&gt;Tiktok (抖音)&lt;/td&gt;
+&lt;td&gt;Parents Raise in Vain&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Byte&lt;/td&gt;
+&lt;td style="text-align: center"&gt;From &amp;ldquo;Once TikTok sounds, parents raise in vain&amp;rdquo;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;9&lt;/td&gt;
 &lt;td&gt;Dropbox&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td style="text-align: right"&gt;D社、丟盒子&lt;/td&gt;
+&lt;td style="text-align: right"&gt;D Corp, Throw Box&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -773,62 +781,62 @@ alt="image alt"
 &lt;td&gt;11&lt;/td&gt;
 &lt;td&gt;Salesforce&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td style="text-align: right"&gt;賣力&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Sell Force&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;12&lt;/td&gt;
-&lt;td&gt;Orcale(甲骨文)&lt;/td&gt;
+&lt;td&gt;Orcale (甲骨文)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td style="text-align: right"&gt;烏龜殼&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Turtle Shell&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;13&lt;/td&gt;
-&lt;td&gt;Sony(索尼)&lt;/td&gt;
-&lt;td&gt;$ony、大法&lt;/td&gt;
+&lt;td&gt;Sony (索尼)&lt;/td&gt;
+&lt;td&gt;$ony, Great Law&lt;/td&gt;
 &lt;td style="text-align: right"&gt;&lt;/td&gt;
-&lt;td style="text-align: center"&gt;相機技術很厲害，就跟魔法一樣&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Camera technology very powerful, just like magic&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;14&lt;/td&gt;
-&lt;td&gt;Dell(戴爾)&lt;/td&gt;
-&lt;td&gt;呆鵝&lt;/td&gt;
+&lt;td&gt;Dell (戴爾)&lt;/td&gt;
+&lt;td&gt;Dumb Goose (Dai E)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;15&lt;/td&gt;
-&lt;td&gt;騰訊&lt;/td&gt;
-&lt;td&gt;企鵝&lt;/td&gt;
+&lt;td&gt;Tencent (騰訊)&lt;/td&gt;
+&lt;td&gt;Penguin&lt;/td&gt;
 &lt;td style="text-align: right"&gt;&lt;/td&gt;
-&lt;td style="text-align: center"&gt;騰訊的Logo是一隻企鵝&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Tencent Logo is a penguin&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;16&lt;/td&gt;
-&lt;td&gt;百度&lt;/td&gt;
+&lt;td&gt;Baidu (百度)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td style="text-align: right"&gt;百毒&lt;/td&gt;
-&lt;td style="text-align: center"&gt;中國網友慣稱呼，諧音&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Hundred Poisons (Bai Du)&lt;/td&gt;
+&lt;td style="text-align: center"&gt;Chinese netizens custom, homonym&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;17&lt;/td&gt;
 &lt;td&gt;Uber&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td style="text-align: right"&gt;黑車&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Black Car&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;18&lt;/td&gt;
 &lt;td&gt;Uber Eats&lt;/td&gt;
-&lt;td&gt;吳柏毅&lt;/td&gt;
+&lt;td&gt;Wu Bo Yi&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;19&lt;/td&gt;
 &lt;td&gt;Foodpanda&lt;/td&gt;
-&lt;td&gt;熊貓&lt;/td&gt;
+&lt;td&gt;Panda&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -841,149 +849,149 @@ alt="image alt"
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;21&lt;/td&gt;
-&lt;td&gt;Samsung(三星)&lt;/td&gt;
-&lt;td&gt;三爽&lt;/td&gt;
+&lt;td&gt;Samsung (三星)&lt;/td&gt;
+&lt;td&gt;Three Cool (San Shuang)&lt;/td&gt;
 &lt;td style="text-align: right"&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="半導體設備商"&gt;半導體設備商
+&lt;h3 id="semiconductor-equipment"&gt;Semiconductor Equipment
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th&gt;台灣暱稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;對岸暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th&gt;Taiwan Nickname&lt;/th&gt;
+&lt;th style="text-align: right"&gt;China Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;ASML(艾斯摩爾)&lt;/td&gt;
+&lt;td&gt;ASML (艾斯摩爾)&lt;/td&gt;
 &lt;td&gt;A4ML&lt;/td&gt;
-&lt;td style="text-align: right"&gt;阿斯麥&lt;/td&gt;
-&lt;td style="text-align: center"&gt;A4ML是只這家公司給的分紅很少，阿斯麥是中國ASML的翻譯&lt;/td&gt;
+&lt;td style="text-align: right"&gt;ASML (Ah Si Mai)&lt;/td&gt;
+&lt;td style="text-align: center"&gt;A4ML means this company gives very little bonus, Ah Si Mai is China&amp;rsquo;s ASML translation&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;TEL(東京威力科創)&lt;/td&gt;
+&lt;td&gt;TEL (東京威力科創)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;ASM(先藝)&lt;/td&gt;
+&lt;td&gt;ASM (先藝)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
-&lt;td&gt;AMT(應材)&lt;/td&gt;
+&lt;td&gt;AMT (應材)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;5&lt;/td&gt;
-&lt;td&gt;KLA(柯磊)&lt;/td&gt;
+&lt;td&gt;KLA (柯磊)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;6&lt;/td&gt;
-&lt;td&gt;LAM(柯林研發)&lt;/td&gt;
+&lt;td&gt;LAM (柯林研發)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="系統廠-1"&gt;系統廠
+&lt;h3 id="system-manufacturers-1"&gt;System Manufacturers
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;公司名稱&lt;/th&gt;
-&lt;th&gt;台灣暱稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;對岸暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Company Name&lt;/th&gt;
+&lt;th&gt;Taiwan Nickname&lt;/th&gt;
+&lt;th style="text-align: right"&gt;China Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;Supermicro(美超微)&lt;/td&gt;
+&lt;td&gt;Supermicro (美超微)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;Lenovo(聯想)&lt;/td&gt;
+&lt;td&gt;Lenovo (聯想)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id="知名企業家"&gt;知名企業家
+&lt;h2 id="famous-entrepreneurs"&gt;Famous Entrepreneurs
 &lt;/h2&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;項次&lt;/th&gt;
-&lt;th&gt;名稱&lt;/th&gt;
-&lt;th style="text-align: right"&gt;暱稱&lt;/th&gt;
-&lt;th style="text-align: center"&gt;說明&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Nickname&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Explanation&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;郭台銘&lt;/td&gt;
-&lt;td style="text-align: right"&gt;果凍&lt;/td&gt;
+&lt;td&gt;Terry Gou&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Jelly (Guo Dong)&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;Lisa Su(蘇丰姿)&lt;/td&gt;
-&lt;td style="text-align: right"&gt;蘇媽&lt;/td&gt;
+&lt;td&gt;Lisa Su&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Mama Su&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;Jason Huang(黃仁勳)&lt;/td&gt;
-&lt;td style="text-align: right"&gt;老黃、皮衣刀客、AI教父&lt;/td&gt;
+&lt;td&gt;Jensen Huang&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Old Huang, Leather Jacket Swordsman, AI Godfather&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
 &lt;td&gt;Sundar Pichai&lt;/td&gt;
-&lt;td style="text-align: right"&gt;皮柴&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Pi Chai&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;5&lt;/td&gt;
 &lt;td&gt;Elon Musk&lt;/td&gt;
-&lt;td style="text-align: right"&gt;鋼鐵人、馬投顧&lt;/td&gt;
-&lt;td style="text-align: center"&gt;其言行對加密貨幣很有影響力&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Iron Man, Ma Investment Advisor&lt;/td&gt;
+&lt;td style="text-align: center"&gt;His words and actions have great influence on cryptocurrency&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;6&lt;/td&gt;
 &lt;td&gt;Sam Altman&lt;/td&gt;
-&lt;td style="text-align: right"&gt;奧特曼&lt;/td&gt;
+&lt;td style="text-align: right"&gt;Altman&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;7&lt;/td&gt;
-&lt;td&gt;蔡力行&lt;/td&gt;
+&lt;td&gt;Rick Tsai&lt;/td&gt;
 &lt;td style="text-align: right"&gt;Rick&lt;/td&gt;
-&lt;td style="text-align: center"&gt;聯發科CEO&lt;/td&gt;
+&lt;td style="text-align: center"&gt;MediaTek CEO&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1003,17 +1011,17 @@ alt="image alt"
 &gt;https://www.1point3acres.com/bbs/thread-533022-2-1.html&lt;/a&gt;&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref1:3" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/div&gt;</description></item><item><title>Google Taiwan Hiring Event Recording</title><link>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</link><pubDate>Wed, 26 Apr 2023 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</guid><description>&lt;img src="https://i.imgur.com/1QtpCke.jpg" alt="Featured image of post Google Taiwan Hiring Event Recording" /&gt;&lt;h2 id="google-taiwan-campus-talk-2023-線上直播校園徵才說明會"&gt;Google Taiwan Campus Talk, 2023 線上直播校園徵才說明會
+&lt;/div&gt;</description></item><item><title>Google Taiwan Hiring Event Recording</title><link>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</link><pubDate>Wed, 26 Apr 2023 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-taiwan-hiring-event-recording/</guid><description>&lt;img src="https://i.imgur.com/1QtpCke.jpg" alt="Featured image of post Google Taiwan Hiring Event Recording" /&gt;&lt;h2 id="google-taiwan-campus-talk-2023-hiring-event-livestream"&gt;Google Taiwan Campus Talk, 2023 Hiring Event Livestream
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;Date: 2022/11/11&lt;/li&gt;
-&lt;li&gt;Title: Google Taiwan Campus Talk, 2023 校園徵才說明會&lt;/li&gt;
+&lt;li&gt;Title: Google Taiwan Campus Talk, 2023 Hiring Event&lt;/li&gt;
 &lt;li&gt;Agenda:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;主題&lt;/th&gt;
-&lt;th&gt;講者&lt;/th&gt;
+&lt;th&gt;Topic&lt;/th&gt;
+&lt;th&gt;Speaker&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -1051,8 +1059,8 @@ title="YouTube Video"
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;主題&lt;/th&gt;
-&lt;th&gt;講者&lt;/th&gt;
+&lt;th&gt;Topic&lt;/th&gt;
+&lt;th&gt;Speaker&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -1081,7 +1089,7 @@ title="YouTube Video"
 &gt;
 &lt;/iframe&gt;
 &lt;/div&gt;
-&lt;h2 id="google-台灣-platforms-團隊介紹徵才說明會"&gt;Google 台灣 Platforms 團隊介紹＆徵才說明會
+&lt;h2 id="google-taiwan-platforms-team-introduction--hiring-event"&gt;Google Taiwan Platforms Team Introduction &amp;amp; Hiring Event
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;Date: 2022/07/08&lt;/li&gt;
 &lt;li&gt;Title: 2022 Google Taiwan Platforms Team Face to Face&lt;/li&gt;
@@ -1090,8 +1098,8 @@ title="YouTube Video"
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;主題&lt;/th&gt;
-&lt;th&gt;講者&lt;/th&gt;
+&lt;th&gt;Topic&lt;/th&gt;
+&lt;th&gt;Speaker&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -1124,34 +1132,34 @@ title="YouTube Video"
 &gt;
 &lt;/iframe&gt;
 &lt;/div&gt;
-&lt;h2 id="google-台灣軟體開發及測試團隊分享招募說明會"&gt;Google 台灣軟體開發及測試團隊分享＆招募說明會
+&lt;h2 id="google-taiwan-software-development--test-team-sharing--hiring-event"&gt;Google Taiwan Software Development &amp;amp; Test Team Sharing &amp;amp; Hiring Event
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;Date: 2022/05/18&lt;/li&gt;
-&lt;li&gt;Title: Google 台灣軟體開發及測試團隊分享＆招募說明會&lt;/li&gt;
+&lt;li&gt;Title: Google Taiwan Software Development &amp;amp; Test Team Sharing &amp;amp; Hiring Event&lt;/li&gt;
 &lt;li&gt;Agenda:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;主題&lt;/th&gt;
-&lt;th&gt;講者&lt;/th&gt;
+&lt;th&gt;Topic&lt;/th&gt;
+&lt;th&gt;Speaker&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;解密Google 台灣軟體開發團隊&lt;/td&gt;
+&lt;td&gt;Decrypting Google Taiwan Software Development Team&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Googler 分享 - Engineering Manager\Test Engineer\Tech Lead 及 Software Engineer&lt;/td&gt;
+&lt;td&gt;Googler Sharing - Engineering Manager\Test Engineer\Tech Lead and Software Engineer&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Google 招募流程&lt;/td&gt;
+&lt;td&gt;Google Hiring Process&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Q&amp;amp;A 時間&lt;/td&gt;
+&lt;td&gt;Q&amp;amp;A Time&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1164,7 +1172,7 @@ title="YouTube Video"
 &gt;
 &lt;/iframe&gt;
 &lt;/div&gt;
-&lt;h2 id="google-台灣-silicon--cpu-團隊面對面"&gt;Google 台灣 Silicon &amp;amp; CPU 團隊面對面
+&lt;h2 id="google-taiwan-silicon--cpu-team-face-to-face"&gt;Google Taiwan Silicon &amp;amp; CPU Team Face to Face
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;Date: 2022/04/29&lt;/li&gt;
 &lt;li&gt;Title: 2022 Google Taiwan Silicon &amp;amp; CPU Face to Face&lt;/li&gt;
@@ -1178,7 +1186,7 @@ title="YouTube Video"
 &gt;
 &lt;/iframe&gt;
 &lt;/div&gt;
-&lt;h2 id="campus-talk-校園徵才線上說明會"&gt;Campus Talk 校園徵才線上說明會
+&lt;h2 id="campus-talk-hiring-online-session"&gt;Campus Talk Hiring Online Session
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;Date: 2021/11/18&lt;/li&gt;
 &lt;li&gt;Title: 2022 Google Taiwan Tech Campus Talk YouTube Livestream&lt;/li&gt;
@@ -1192,10 +1200,10 @@ title="YouTube Video"
 &gt;
 &lt;/iframe&gt;
 &lt;/div&gt;
-&lt;h2 id="lifegoogle台灣硬體工程師篇"&gt;Life@Google台灣硬體工程師篇
+&lt;h2 id="lifegoogle-taiwan-hardware-engineer-edition"&gt;Life@Google Taiwan Hardware Engineer Edition
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;Date: 2019/07/19&lt;/li&gt;
-&lt;li&gt;Title: Life@Google台灣硬體工程師篇&lt;/li&gt;
+&lt;li&gt;Title: Life@Google Taiwan Hardware Engineer Edition&lt;/li&gt;
 &lt;li&gt;Recording:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="video-wrapper"&gt;
@@ -1205,81 +1213,81 @@ allowfullscreen
 title="YouTube Video"
 &gt;
 &lt;/iframe&gt;
-&lt;/div&gt;</description></item><item><title>2022 Google Taiwan SWE 面試心路歷程</title><link>https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/</link><pubDate>Mon, 05 Dec 2022 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/</guid><description>&lt;img src="https://i.imgur.com/N6UT0BQ.jpg" alt="Featured image of post 2022 Google Taiwan SWE 面試心路歷程" /&gt;&lt;h1 id="一個普通人的google面試經驗"&gt;一個普通人的Google面試經驗
-&lt;/h1&gt;&lt;h2 id="前言"&gt;前言
-&lt;/h2&gt;&lt;p&gt;大學時期正處AI技術火熱發展的幾年，也因此經常有媒體報導AI技術領頭的Google的工作環境，像遊樂場一般的辦公室、吃不完的零食和飲料、五星級的免費三餐、領著百萬年薪上班還可以想睡覺就睡覺，其內部夢幻的刷新我對一份工作的三觀，從那時起對這間公司逐漸產生好奇，儘管好奇，我卻一直抱持著觀望的心態，如此夢幻的企業收人的標準想當然也是異常的高，傳言中只收台大電資的書卷大神或是競賽選手，望向我那慘慘的在校成績，完全不敢想像要如何才能拿到進入Google的門票。&lt;/p&gt;
-&lt;p&gt;大四那年系上開了企業參訪，地點就是朝思暮想的Google，當下毫不猶豫就報名了，就此開啟了與Google的第一次相遇的緣分，那時候板橋的總部還沒有成立，我們參觀的是位於101的總部，隨著前往76樓的電梯快速上升，興奮的心情難以壓抑，電梯們打開的剎那，迎接我的是我朝思暮想的夢幻國度，原來新聞裡講的都是真的，免費的冰、免費的飲料、免費的五星級三餐，搭配著76樓的高空美景，真有種去度假的感覺，遊樂器材、打盹房也是真的，完全體現了Google對員工的信任，在與帶領我們的員工交流後了解到Google對員工管理的自由，不僅僅是工時上的自由，工作項目上員工也有相當大的主導權，員工甚至可以自行組建小組發起專案，就這樣在震撼中結束了與Google的第一次邂逅，從那之後進入Google成了我的夢想，我深知自己的不足，只能一步步的朝那裡邁進。
+&lt;/div&gt;</description></item><item><title>2022 Google Taiwan SWE Interview Journey</title><link>https://www.hugoshih.com/p/2022-google-taiwan-swe-interview-journey/</link><pubDate>Mon, 05 Dec 2022 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/p/2022-google-taiwan-swe-interview-journey/</guid><description>&lt;img src="https://i.imgur.com/N6UT0BQ.jpg" alt="Featured image of post 2022 Google Taiwan SWE Interview Journey" /&gt;&lt;h1 id="a-google-interview-experience-of-an-ordinary-person"&gt;A Google Interview Experience of an Ordinary Person
+&lt;/h1&gt;&lt;h2 id="preface"&gt;Preface
+&lt;/h2&gt;&lt;p&gt;During my university years, AI technology was developing hotly. Therefore, there were frequent media reports about Google&amp;rsquo;s working environment, the leader of AI technology. Playground-like offices, endless snacks and drinks, five-star free meals, earning a million-dollar annual salary and sleeping whenever you want. Its internal fantasy refreshed my worldview of a job. Since then, I gradually became curious about this company. Although curious, I always held a wait-and-see attitude. The standard for admitting people to such a dream enterprise is naturally abnormally high. Ideally, they only accept bookworm gods or competition players from NTU EE/CS. Looking at my miserable school grades, I couldn&amp;rsquo;t imagine how to get a ticket to Google.&lt;/p&gt;
+&lt;p&gt;In my senior year, the department opened a corporate visit. The location was the Google I dreamed of. I signed up without hesitation, thus opening the fate of my first encounter with Google. At that time, the headquarters in Banqiao had not yet been established. We visited the headquarters located in 101. As the elevator to the 76th floor rose rapidly, the excitement was hard to suppress. The moment the elevator doors opened, I was greeted by the dream kingdom I dreamed of. It turned out that what the news said was true: free ice cream, free drinks, free five-star meals, coupled with the high-altitude view from the 76th floor, it really felt like a vacation. The amusement equipment and nap rooms were also real, fully reflecting Google&amp;rsquo;s trust in employees. After communicating with the employees leading us, I learned about the freedom of Google&amp;rsquo;s employee management. It is not only freedom in working hours, but employees also have considerable dominance over work items. Employees can even form small groups to initiate projects. Thus ended the first encounter with Google in shock. Since then, entering Google became my dream. I knew my shortcomings deeply and could only move towards there step by step.
 &lt;img src="https://i.imgur.com/me7lhlC.jpg"
 loading="lazy"
 &gt;
 &lt;img src="https://i.imgur.com/N6UT0BQ.jpg"
 loading="lazy"
 &gt;&lt;/p&gt;
-&lt;p&gt;大四的暑假有了一次前往美國舊金山的機會，趁著這個機會再次造訪心中的夢想之地，位在山景城的Google總部，不過這次比較可惜沒有人脈可以帶我進去參觀參觀，只能當個觀光客在園區閒晃，雖然說只能從外部看，也能感受到整間公司以Have Fun為中心思想的氛圍，隨處可見的腳踏車、沙灘排球場、還有各式各樣的野餐區域簡直就是個大型的度假中心，後來也去了園區附近的紀念品中心買了不少伴手禮回來，朝聖之旅讓我感受的這間公司迷人的活力與矽谷這個科技業的傳奇之地的魅力，這裡的創造力與帶給世界的改變，我心想未來的某一天，我也希望能來到這裡工作。
+&lt;p&gt;During the summer vacation of my senior year, I had an opportunity to go to San Francisco, USA. Taking this opportunity, I visited the dream place in my heart again, Google headquarters in Mountain View. However, this time it was a pity that I didn&amp;rsquo;t have connections to take me inside for a visit. I could only wander around the campus as a tourist. Although I could only look from the outside, I could feel the atmosphere of the entire company centered on Have Fun. Bicycles, beach volleyball courts, and various picnic areas everywhere were simply a large resort. Later I also went to the souvenir center near the campus to buy a lot of souvenirs. The pilgrimage trip made me feel the charming vitality of this company and the charm of Silicon Valley, the legendary place of the technology industry. With the creativity here and the changes brought to the world, I thought to myself that one day in the future, I also hope to come here to work.
 &lt;img src="https://i.imgur.com/d6fIhVp.jpg"
 loading="lazy"
 &gt;&lt;/p&gt;
-&lt;p&gt;回台灣之後進入了研究所就讀，原本就對自己的技術能力不太抱有信心，進入研究所後被各路大神強者環繞，更是讓我深切的感受到想要進入Google還有很長的路要走，在技術能力與研究能力上必須要有更上一層的累積，抱持著這個心態，在被研究進度追趕之餘也儘可能的參與各式各樣的side project、hackathon，也參與了幾個新創專案累積了一些參與新創的經驗，在跌跌撞撞之中夾雜著過人的運氣，在研究所的最後一年極度幸運的拿到了微軟的實習機會，開啟了一年的實習與研究所兩邊跑的生活，儘管這個老牌的軟體公司在Google、Facebook這些當紅的網路公司略顯遜色，但作為老牌卻長青的科技巨頭，仍提供了我不少的成長養分，開發技術能力的提升、專案管理能力的培養，也讓我得以窺見在科技公司中的生活模式。&lt;/p&gt;
-&lt;p&gt;2021年板橋的Google成立，將會是亞洲最大的硬體研發中心，能預期的是Google在台灣將會有大規模的人才招募活動，進入Google的難度也會較以往稍微容易，我深知想要進入Google這是個非常好的機會，在2021年底我在Linkedin上第一次收到來自Google HR的面試邀約，在與HR面談後了解到這是屬於Google Silicon的Hardware Engineer職缺，招募台灣電機背景或是有硬體開發經驗的工程師，只可惜我完全沒有學過硬體設計，對於verilog是一竅不通，面談後就完全沒有後續消息了&amp;hellip;&lt;/p&gt;
-&lt;p&gt;2022年初聽聞有個學弟進入Google，我厚著臉皮請他幫忙推薦並投了2022年度的Software Engineer校園招募，這一次我總算沒有被拒於門外，順利的拿到了第一次面試的機會，就這樣開始了魔王級的面試挑戰之旅。&lt;/p&gt;
-&lt;h2 id="背景"&gt;背景
-&lt;/h2&gt;&lt;p&gt;112資管系雙主修森林系學士+112電信所碩士，沒有參加過程式競賽，也沒有貢獻過開源專案，只有和幾個朋友做過Side Project和Hackathon，大二修程式設計時因為花太多時間在社團而被當掉，大三重修A+過，資結演算法只能說是普通水準。&lt;/p&gt;
-&lt;h2 id="準備"&gt;準備
-&lt;/h2&gt;&lt;p&gt;差不多從2021年12月左右開始刷題，中間有一段時間在趕研究進度跟過年荒廢了一段時間，過完年後為了要強迫自己刷題買了一年份的Leetcode Premium，現在看起來是很不錯的投資，另外我也有買很多人推薦的&lt;a class="link" href="https://www.books.com.tw/products/0010881287?gclid=CjwKCAjws8yUBhA1EiwAi_tpEc7PyWvICvGCthzmnsrYVvP4OFhBHxPSQ-XjgJoZy5Ampx9c_pKHlxoC-NUQAvD_BwE" target="_blank" rel="noopener"
-&gt;Cracking the coding interview&lt;/a&gt;不過只有看一兩個不太熟的章節而已，刷題的策略前期我自己是從動態規劃開始練習，那時候是看花花醬的&lt;a class="link" href="https://www.youtube.com/watch?v=LG0adDNnnYg&amp;amp;list=PLLuMmzMTgVK6krji67w8tEAAud71nQQFe" target="_blank" rel="noopener"
-&gt;動態規劃終極學習方案&lt;/a&gt;系列影片累積思考動態規劃問題的技巧，差不多二月開始開始以寫完Leetcode前100題為目標，首先從Easy開始，然後是Medium，三月時開始以寫完&lt;a class="link" href="https://leetcode.com/discuss/general-discussion/460599/blind-75-leetcode-questions" target="_blank" rel="noopener"
-&gt;Blind 75&lt;/a&gt;為目標，刷完一遍Blind 75後在去看前100題中的Hard題，最後在Onsite前一週努力刷Google面試的高頻率題，不得不說Leetcode Premium都將高頻題整理好了真的蠻方便的(而且真的蠻有用的XD)，這段期間每天會固定上去寫Daily，算是強迫自己每天維持解題手感，刷的題目數量，在Phone Interview前差不多150題左右，在Onsite之前差不多230題左右，相對於各路大神來說應該不算多，不過對我自己而言還算夠，各方面的題型都算是有顧到，自己的感覺是都能夠穩定的解出Medium，Hard則是可以想出可行解。比較可惜的是這段時間沒有找朋友幫忙Mock interview，面試經驗的累積是靠實戰累積，在這之前還面了Amazon、Nvidia。
-因為Google的Technical Interview至少會有兩關以上的全英文面試，英文也是很重要的一部分，雖然不用到Native specker那樣流利，但至少邏輯要能正確傳達，我英文的部分主要就仰賴實習的時候累積下來的，抱括日常聊天用語與解釋技術的能力，很感謝在這段時間願意跟我交流和我練習英文的人。
+&lt;p&gt;After returning to Taiwan, I entered graduate school. Originally, I didn&amp;rsquo;t have much confidence in my technical ability. After entering graduate school, I was surrounded by powerful people from all walks of life, which made me feel deeply that there is still a long way to go to enter Google. I must have a higher level of accumulation in technical ability and research ability. Holding this mentality, while being chased by research progress, I also participated in various side projects and hackathons as much as possible. I also participated in several startup projects and accumulated some experience in participating in startups. Amidst stumbling mixed with extraordinary luck, in the last year of graduate school, I was extremely lucky to get an internship opportunity at Microsoft, starting a year of life running between internship and graduate school. Although this old software company is slightly inferior to popular internet companies like Google and Facebook, as an old but evergreen tech giant, it still provided me with a lot of growth nutrients. The improvement of development technical ability and the cultivation of project management ability also allowed me to glimpse the life mode in technology companies.&lt;/p&gt;
+&lt;p&gt;In 2021, Google in Banqiao was established, which will be the largest hardware R&amp;amp;D center in Asia. What can be expected is that Google will have large-scale talent recruitment activities in Taiwan, and the difficulty of entering Google will be slightly easier than before. I deeply knew that this was a very good opportunity to enter Google. At the end of 2021, I received an interview invitation from Google HR on Linkedin for the first time. After interviewing with HR, I learned that this was a Hardware Engineer vacancy under Google Silicon, recruiting engineers with EE background or hardware development experience in Taiwan. It&amp;rsquo;s a pity that I had never learned hardware design and knew nothing about verilog. There was no follow-up news after the interview&amp;hellip;&lt;/p&gt;
+&lt;p&gt;In early 2022, heard that a junior schoolmate entered Google. I cheekily asked him to help refer me and applied for the 2022 Software Engineer Campus Recruitment. This time I was finally not shut out and successfully got the opportunity for the first interview. Thus began the devil-level interview challenge journey.&lt;/p&gt;
+&lt;h2 id="background"&gt;Background
+&lt;/h2&gt;&lt;p&gt;Bachelor&amp;rsquo;s in Information Management double major in Forestry from NTU + Master&amp;rsquo;s from NTU Telecommunication Engineering. Never participated in programming competitions, nor contributed to open source projects. Only did Side Projects and Hackathons with a few friends. Failed Programming Design in sophomore year because spent too much time in clubs, retook it in junior year and passed with A+. Data Structures and Algorithms were only at an ordinary level.&lt;/p&gt;
+&lt;h2 id="preparation"&gt;Preparation
+&lt;/h2&gt;&lt;p&gt;Started grinding questions around December 2021. There was a period in between rushing research progress and wasting some time during Chinese New Year. After the New Year, to force myself to grind questions, I bought a one-year Leetcode Premium. It seems to be a very good investment now. In addition, I also bought the widely recommended &lt;a class="link" href="https://www.books.com.tw/products/0010881287?gclid=CjwKCAjws8yUBhA1EiwAi_tpEc7PyWvICvGCthzmnsrYVvP4OFhBHxPSQ-XjgJoZy5Ampx9c_pKHlxoC-NUQAvD_BwE" target="_blank" rel="noopener"
+&gt;Cracking the coding interview&lt;/a&gt;, but only read one or two chapters I wasn&amp;rsquo;t familiar with. My strategy for grinding questions in the early stage was starting from Dynamic Programming. At that time, I watched Huahua Jiang&amp;rsquo;s &lt;a class="link" href="https://www.youtube.com/watch?v=LG0adDNnnYg&amp;amp;list=PLLuMmzMTgVK6krji67w8tEAAud71nQQFe" target="_blank" rel="noopener"
+&gt;Dynamic Programming Ultimate Learning Strategy&lt;/a&gt; series videos to accumulate skills in thinking about DP problems. Around February, I started aiming to finish the first 100 Leetcode questions, starting from Easy, then Medium. In March, I started aiming to finish &lt;a class="link" href="https://leetcode.com/discuss/general-discussion/460599/blind-75-leetcode-questions" target="_blank" rel="noopener"
+&gt;Blind 75&lt;/a&gt;. After finishing Blind 75 once, I went to look at the Hard questions in the first 100 questions. Finally, in the week before Onsite, I worked hard to grind Google interview high-frequency questions. I have to say Leetcode Premium organizing high-frequency questions is really convenient (and really quite useful XD). During this period, I would go up and write Daily every day, counting as forcing myself to maintain the feeling of solving problem every day. The number of questions ground was about 150 before Phone Interview, and about 230 before Onsite. Compared to various gods, it shouldn&amp;rsquo;t be considered much, but for myself it was enough. All types of questions were covered. My feeling was that I could stably solve Medium, and could come up with feasible solutions for Hard. It&amp;rsquo;s a pity that I didn&amp;rsquo;t find friends to help Mock interview during this time. The accumulation of interview experience relied on actual combat accumulation. Before this, I also interviewed with Amazon and Nvidia.
+Because Google&amp;rsquo;s Technical Interview will have at least two rounds of all-English interviews, English is also a very important part. Although it doesn&amp;rsquo;t need to be as fluent as a Native speaker, at least the logic must be conveyed correctly. My English part mainly relied on what I accumulated during the internship, including daily chat terms and ability to explain technology. I am very grateful to people who were willing to communicate with me and practice English with me during this time.
 &lt;img src="https://i.imgur.com/9Pq3Dv9.png"
 loading="lazy"
 &gt;
-這一段時間的刷題紀錄&lt;/p&gt;
+Record of grinding questions during this period&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://i.imgur.com/svYL759.png"
 loading="lazy"
 &gt;
-刷題的三圍&lt;/p&gt;
-&lt;h2 id="時辰"&gt;時辰
-&lt;/h2&gt;&lt;p&gt;2022/01/20 -&amp;gt; 收到朋友的內推通知信，官網投遞履歷，投的是Software Engineer, University Graduate, 2022
-2022/03/07 -&amp;gt; 收到HR來信通知安排面試
+Stats of grinding questions&lt;/p&gt;
+&lt;h2 id="timeline"&gt;Timeline
+&lt;/h2&gt;&lt;p&gt;2022/01/20 -&amp;gt; Received friend&amp;rsquo;s referral notification email, submitted resume on official website, applied for Software Engineer, University Graduate, 2022
+2022/03/07 -&amp;gt; Received email from HR notifying interview arrangement
 2022/03/28 -&amp;gt; Phone Interview
-2022/04/07 -&amp;gt; 通知通過Phone Interview，準備安排Virtual Onsite Interview
-2022/04/25 -&amp;gt; 第一天Virtual Onsite Interview，兩關Technical Interview + 一關Behavior Interview
-2022/04/26 -&amp;gt; 第二天Virtual Onsite Interview，兩關Technical Interview
-2022/05/07 -&amp;gt; 通知面試結果most on positive
-2022/05/26 -&amp;gt; 得知Hiring政策可能會異動&lt;/p&gt;
-&lt;h2 id="過程"&gt;過程
-&lt;/h2&gt;&lt;p&gt;要說面試有什麼最需要注意的，我會覺得是要保持平常心，這也是我認爲面試最困難的部分，畢竟在跟自己的夢想公司面試，興奮、期待、緊張等情緒交雜，很難保持平常心，在第一次Phone Interview時我甚至前兩天晚上都緊張到睡不著，能做的就是去Youtube上找各種國外講軟體工程師面試的影片來看，提醒自己面試該注意的點，英文類的也順便可以練習英文聽力，以下推薦幾個不錯的影片：&lt;/p&gt;
+2022/04/07 -&amp;gt; Notified passing Phone Interview, preparing to arrange Virtual Onsite Interview
+2022/04/25 -&amp;gt; First day Virtual Onsite Interview, two rounds Technical Interview + one round Behavior Interview
+2022/04/26 -&amp;gt; Second day Virtual Onsite Interview, two rounds Technical Interview
+2022/05/07 -&amp;gt; Notified interview result most on positive
+2022/05/26 -&amp;gt; Learned that Hiring policy might change&lt;/p&gt;
+&lt;h2 id="process"&gt;Process
+&lt;/h2&gt;&lt;p&gt;To say what needs most attention in the interview, I would feel it is to maintain a normal heart. This is also what I think is the most difficult part of the interview. After all, interviewing with your dream company, mixed emotions of excitement, expectation, nervousness etc., it is difficult to maintain a normal heart. During the first Phone Interview, I was even too nervous to sleep for the two nights before. What I could do was go to Youtube to find various videos of foreigners talking about software engineer interviews to watch, reminding myself of points to pay attention to in the interview. English ones could also practice English listening by the way. Here are a few recommended videos:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=4tbQhdrpB9s" target="_blank" rel="noopener"
-&gt;面試流程大解析&lt;/a&gt;，用SOP的方式講解軟體工程師面試，淺顯易懂&lt;/li&gt;
+&gt;Interview Process Analysis&lt;/a&gt;, explaining software engineer interview in SOP way, simple &amp;amp; easy to understand&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=4yznKC5ZE5I&amp;amp;t=129s" target="_blank" rel="noopener"
-&gt;Google谷歌技术面试经验分享&lt;/a&gt;，這個講解面試的過程與注意事項講的很仔細，很有參考價值&lt;/li&gt;
+&gt;Google Technical Interview Experience Sharing&lt;/a&gt;, this one explains the interview process and precautions very carefully, very valuable for reference&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=ASXM4-CQG8o" target="_blank" rel="noopener"
-&gt;How to tech interview Like a Pro&lt;/a&gt;，這個用搞笑的方式呈現程式面試的過程，蠻有趣的&lt;/li&gt;
+&gt;How to tech interview Like a Pro&lt;/a&gt;, this presents the process of coding interview in a funny way, quite interesting&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="phone-interview"&gt;Phone Interview
-&lt;/h3&gt;&lt;p&gt;我差不多在預定時間的前十分鐘就坐在電腦前等，不過在預定時間點進去時面試官還沒上來，讓我緊張了一下以爲是不是記錯時間，等了差不多十分鐘後面試官終於來了，很抱歉的表示因為前面有一個會有一點耽擱到。面試官其實是一個親切的中國的小姊姊，一開始問了一個類似字串比對的問題，差不多是Easy等級，基本上一看到題目想到解法了，陳述了解法後面試官也同意這個解法，就花了10分鐘左右完成這題的coding，接著他表示有Follow up，比較像是會重複使用到第一題的概念屬於Medium等級，在思考這題的時候我原本以為只需要重複使用第一題的解法就行，結果發現我第一題使用的解法並非最佳解，到這邊其實有一點慌了，還好小姊姊人很好，不斷引導我去思考更好的解法，最終想出一個更佳的解法並花了幾分鐘實現，面試結束前小姊姊表示其實還有更好的解法，因此又花了幾分鐘請教一下，不過他表示這個解法他自己也沒有想到。
-個人評價，整體來說面試表現還行，解題並不是很流暢，中間卡了一下，但算是有解出來，所以也不到差。
-後來是通過了這一輪面試。&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;I sat in front of the computer waiting about ten minutes before the scheduled time. However, the interviewer hadn&amp;rsquo;t come online when I clicked in at the scheduled time, which made me nervous thinking if I remembered the time wrong. After waiting for about ten minutes, the interviewer finally came, apologizing that a previous meeting delayed a bit. The interviewer was actually a kind Chinese young lady. Initially she asked a problem similar to string comparison, about Easy level. Basically I thought of the solution as soon as I saw the question. After stating the solution, the interviewer also agreed with this solution, so I spent about 10 minutes finishing coding this question. Then she indicated there was a Follow up, more like using the concept of the first question repeatedly, belonging to Medium level. When thinking about this question, I originally thought I just needed to reuse the solution of the first question, but found that my solution used in the first question was not the optimal solution. I panicked a bit here. Fortunately, the young lady was very nice, constantly guiding me to think of a better solution. Finally I came up with a better solution and spent a few minutes implementing it. Before the interview ended, the young lady indicated there was actually a better solution, so used another few minutes to ask for advice, but she indicated she hadn&amp;rsquo;t thought of this solution herself either.
+Personal evaluation: overall interview performance was okay, problem solving wasn&amp;rsquo;t very fluent, got stuck in the middle, but solved it, so not bad.
+Later passed this round of interview.&lt;/p&gt;
 &lt;h3 id="onsite-interview"&gt;Onsite Interview
 &lt;/h3&gt;&lt;h4 id="technical-interview-1"&gt;Technical Interview #1
-&lt;/h4&gt;&lt;p&gt;這一關是一個人很不錯的中國的大叔，也沒有遲到，問了一題排序的變化題，一開始以為是Easy，但實際解下去後發現有Medium難度，完全錯估了這題的深奧程度，最一開始提了一個可行解，但面試官希望我提出最佳解，就這樣在這討論解法的30min中我至少提出了五六種解法，並分析在輸入範圍不同的情況下複雜度的差異，但我都沒有提出最佳解，後來在面試官的提示下想出了最佳解，但時間基本上已經用完了，我只能快速的將想法實作出來，後來想想自己實作的演算法是有Bug的，還好面試官人很好，並沒有很急著要結束面試，反而盡可能多留一些時間讓我完成面試，最後面試官回應我認為這是個很有趣的討論，認爲我提出了許多有趣的想法。
-有了Phone Interview的經驗後，並沒有讓我比較不緊張，反而一直很擔心面試官一上來就會來一題Hard，就面試情形而言自己覺得表現是比較糟糕的。&lt;/p&gt;
+&lt;/h4&gt;&lt;p&gt;This round was a very nice Chinese uncle, didn&amp;rsquo;t arrive late either. Asked a variation of sorting problem. Initially thought it was Easy, but after actually solving it found it had Medium difficulty. Completely underestimated the depth of this question. Proposed a feasible solution at the very beginning, but the interviewer hoped I propose the optimal solution. Just like this, in the 30min of discussing solution, I proposed at least five or six solutions, and analyzed the difference in complexity under different input ranges, but I didn&amp;rsquo;t propose the optimal solution. Later with the interviewer&amp;rsquo;s hint I came up with the optimal solution, but time was basically used up. I could only quickly implement the idea. Later thinking back, the algorithm I implemented had Bugs. Fortunately the interviewer was very nice, didn&amp;rsquo;t rush to end the interview, instead tried to leave as much time as possible for me to finish the interview. Finally the interviewer responded that he thought this was a very interesting discussion, and thought I proposed many interesting ideas.
+With the experience of Phone Interview, I didn&amp;rsquo;t feel less nervous, instead was constantly worried the interviewer would come with a Hard question right away. In terms of the interview situation, I felt my performance was relatively terrible.&lt;/p&gt;
 &lt;h4 id="technical-interview-2"&gt;Technical Interview #2
-&lt;/h4&gt;&lt;p&gt;這一關是一個懶得說話的小哥，問了一個類似尋找子字串的問題，他先請我思考一個brute force solution我基本上看完題目就有想法直接給出了解法，他聽完後也覺得可以因此就請我實作，我差不多花十分鐘實作完成並解釋了一下時間複雜度，接著希望我提出最佳解，對於最佳解自己其實沒什麼把握，只感覺字串應該可以用prefix tree來處理，因此提出了自己想法，沒想到他回應這是正確的思路，因此接續的想就給出了最佳解，還算順利的完成這一關，難度大概是Medium。
-在第一關爆掉之後這關心情反而輕鬆許多，有一點隨他去的感覺，大概是因為心情放鬆不少，反而思緒比較清楚，果然緊張才是大魔王。&lt;/p&gt;
+&lt;/h4&gt;&lt;p&gt;This round was a young guy too lazy to talk. Asked a question similar to finding substring. He first asked me to think of a brute force solution. I basically had an idea and gave the solution right after reading the question. After he listened, he felt okay so asked me to implement. I spent about ten minutes implementing and explained the time complexity. Then he hoped I propose the optimal solution. I actually wasn&amp;rsquo;t confident about the optimal solution, only felt strings should be handled with prefix tree. So I proposed my idea. Unexpectedly he responded this was the correct line of thought. So continuing thinking I gave the optimal solution. Finished this round quite smoothly. Difficulty was about Medium.
+After bombing the first round, the mood in this round was much more relaxed. A bit of a &amp;ldquo;whatever&amp;rdquo; feeling. Probably because the mood was relaxed a lot, thoughts were clearer. Sure enough, nervousness is the big devil.&lt;/p&gt;
 &lt;h4 id="behavior-interview"&gt;Behavior Interview
-&lt;/h4&gt;&lt;p&gt;這一關是一個中國的姊姊面試，首先問了一些蠻常見的Behavior question像是團隊的合作以及如何溝通，詳細題目網路上有蠻詳細的資訊，比較特別的是面試官問了一題有點類似產品設計的題目，因為事前完全沒有預料到，只能憑想像回答，但感覺面試官似乎沒有很滿意，面試最後有給個feedback認為我回答的沒有很深入，但他覺得我可能缺少工作經驗，因此回答的不深入也算預料之內。
-整體來說回答的算尚可，至少都有給出個穩健中庸的答案。&lt;/p&gt;
+&lt;/h4&gt;&lt;p&gt;This round was a Chinese sister interviewing. First asked some quite common Behavior questions like team cooperation and how to communicate. Detailed questions have detailed info online. More surprisingly, the interviewer asked a question somewhat similar to product design. Because I completely didn&amp;rsquo;t anticipate this beforehand, I could only answer by imagination. But felt the interviewer didn&amp;rsquo;t seem very satisfied. At the end of the interview, gave a feedback thinking my answer wasn&amp;rsquo;t very deep, but she thought I might lack work experience, so not answering deeply was also within expectation.
+Overall answering was acceptable, at least gave steady and moderate answers.&lt;/p&gt;
 &lt;h4 id="technical-interview-3"&gt;Technical Interview #3
-&lt;/h4&gt;&lt;p&gt;第三關開始就變成了用英文面試，面試官還是中國小哥，不得不說跟同樣母語是中文的人用英文溝通難度真的低很多，可能是因為背後的思考還卡在中文的框架下。
-面試官問了一個tree traverse然後output路徑的題目，高度相似於leetcode上某題Google高頻題，剛好前幾天刷題有寫到，幾乎是秒想出最佳解，當然看到原題還是很興奮的，大概花了15分鐘講解完以及寫完code之後面試官給了我一個follow up，表面上是上面這題的延伸，但實際上已經轉換成BFS尋找兩點最短路徑的題目，還算是有趣的Follow up，這個變化在leetcode上就找不到了，這題同樣也是medium難度。&lt;/p&gt;
+&lt;/h4&gt;&lt;p&gt;Starting from the third round it became English interview. The interviewer was still a Chinese guy. Have to say communicating in English with someone whose mother tongue is also Chinese is really much lower difficulty. Maybe because the thinking behind is still stuck in Chinese framework.
+The interviewer asked a tree traverse and output path question, highly similar to a Google high-frequency question on leetcode. Just happened to write it when grinding questions a few days ago. Almost instantly thought of optimal solution. Of course seeing original question was very exciting. Spent about 15 minutes explaining and finishing coding. Then the interviewer gave me a follow up. Superficially it was an extension of the above question, but actually already transformed into BFS finding shortest path between two points question. Quite an interesting Follow up. This variation couldn&amp;rsquo;t be found on leetcode. This question was also medium difficulty.&lt;/p&gt;
 &lt;h4 id="technical-interview-4"&gt;Technical Interview #4
-&lt;/h4&gt;&lt;p&gt;第四關是一個沒有什麼表情的中國小哥，問了一個類似blind 75 pacific atlantic water flow的題目，看完題目後第一反應就連想到blind 75這題，事後也證明用同一題的方法可以解決這題，大概花了20分鐘講解跟寫完code後面試官同樣也給了follow-up，不過這個follow-up就沒有前一關有趣，只是單純數量上的增加，用同一題的方法改一下code就解決了，這題難度大概Medium。結果後來反而是這關的面試官認為我寫的code有些微的瑕疵，果然看到熟悉的題目還是不能太大意啊。&lt;/p&gt;
-&lt;h2 id="後續"&gt;後續
-&lt;/h2&gt;&lt;p&gt;我面試的時間已經算是Google 2022Campus Hire的末端了，大部分的缺都已經招完了，所以後來就變成直接沒有Headcount可以進行Team match，因此那時就有心理準備可能會需要等到下一年度的campus hire在繼續。&lt;/p&gt;
-&lt;p&gt;後來就如同大家所見的，在美國升息的壓力下各大公司開始被迫精簡人力，台灣這邊的campus hire也延到11月才開始，而headcount也必須要等到明年初人力政策確定後才會比較確定，好在面試結果可以保留一年，就祈禱明年還有機會可以繼續進行面試流程。&lt;/p&gt;
-&lt;p&gt;雖然尚未成功的進入我的Dream company，但這一路上還是很感謝許多人提供的機會以及幫助，此外也感謝協助我的Google HR不厭其煩的提供招聘流程的各種資訊。&lt;/p&gt;</description></item><item><title>Google Interview Leetcode Question Challenge</title><link>https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/</link><pubDate>Mon, 30 May 2022 11:41:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/</guid><description>&lt;img src="https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/IMG_4879.jpg" alt="Featured image of post Google Interview Leetcode Question Challenge" /&gt;&lt;h1 id="google-interview-challenge"&gt;Google Interview Challenge
+&lt;/h4&gt;&lt;p&gt;The fourth round was a Chinese guy without much expression. Asked a question similar to blind 75 pacific atlantic water flow. First reaction after reading question linked to this blind 75 question. Afterwards also proved using same method could solve this question. Spent about 20 minutes explaining and finishing code. Then interviewer also gave a follow-up. But this follow-up wasn&amp;rsquo;t as interesting as previous round, just simple increase in quantity. Solved by modifying code slightly using same method. This question difficulty about Medium. Result was instead this interviewer thought the code I wrote had slight flaws. Sure enough, seeing familiar questions still cannot be too careless.&lt;/p&gt;
+&lt;h2 id="follow-up"&gt;Follow-up
+&lt;/h2&gt;&lt;p&gt;My interview time was valid as the tail end of Google 2022 Campus Hire. Most vacancies were already filled. So later it became directly no Headcount to proceed with Team match. So at that time I was mentally prepared to wait until next year&amp;rsquo;s campus hire to continue.&lt;/p&gt;
+&lt;p&gt;Later as everyone saw, under the pressure of US interest rate hikes, major companies began to be forced to streamline manpower. The campus hire in Taiwan was also delayed until November to start, and headcount would have to wait until early next year after manpower policy is confirmed to be more certain. Fortunately interview results can be kept for one year. Just pray next year there are still opportunities to continue the interview process.&lt;/p&gt;
+&lt;p&gt;Although I haven&amp;rsquo;t successfully entered my Dream company, I am still very grateful for opportunities and help provided by many people along the way. Also thanks to the Google HR assisting me for tirelessly providing various info on recruitment process.&lt;/p&gt;</description></item><item><title>Google Interview Leetcode Question Challenge</title><link>https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/</link><pubDate>Mon, 30 May 2022 11:41:18 +0800</pubDate><guid>https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/</guid><description>&lt;img src="https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/IMG_4879.jpg" alt="Featured image of post Google Interview Leetcode Question Challenge" /&gt;&lt;h1 id="google-interview-challenge"&gt;Google Interview Challenge
 &lt;/h1&gt;&lt;p&gt;&lt;a class="link" href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;amp;id=301667" target="_blank" rel="noopener"
 &gt;https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;id=301667&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class="link" href="https://www.gushiciku.cn/pl/gyQP/zh-tw" target="_blank" rel="noopener"
@@ -1288,8 +1296,8 @@ loading="lazy"
 &gt;https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class="link" href="https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158" target="_blank" rel="noopener"
 &gt;https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158&lt;/a&gt;
-Google面試準備
-刷題類型&lt;/p&gt;
+Google Interview Preparation
+Problem Types&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Arrays&lt;/li&gt;
 &lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Binary Search Tree&lt;/li&gt;
@@ -1307,7 +1315,7 @@ Google面試準備
 &lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Topological sorting&lt;/li&gt;
 &lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Trie&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Google面試經典題目&lt;/p&gt;
+&lt;p&gt;Google Interview Classic Questions&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; coin change&lt;/li&gt;
 &lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; coin change 2&lt;/li&gt;
@@ -1334,12 +1342,14 @@ Google面試準備
 &lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of distinct island&lt;/li&gt;
 &lt;li&gt;&lt;input disabled="" type="checkbox"&gt; number of distinct island 2&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;BQ準備
-Imagine you worked in a project or a team that had a problematic culture
-Tell about the leading experience of a group project
-Thinking about a time you were given a large amount of work to complete under the tight deadline
-Tell about a time you face a problem without having clear solution
-How do you solve the conflict that happen in the team&lt;/p&gt;
+&lt;p&gt;BQ Preparation&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Imagine you worked in a project or a team that had a problematic culture&lt;/li&gt;
+&lt;li&gt;Tell about the leading experience of a group project&lt;/li&gt;
+&lt;li&gt;Thinking about a time you were given a large amount of work to complete under the tight deadline&lt;/li&gt;
+&lt;li&gt;Tell about a time you face a problem without having clear solution&lt;/li&gt;
+&lt;li&gt;How do you solve the conflict that happen in the team&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id="blind-75"&gt;Blind 75
 &lt;/h2&gt;&lt;h3 id="array"&gt;Array
 &lt;/h3&gt;&lt;ul&gt;
