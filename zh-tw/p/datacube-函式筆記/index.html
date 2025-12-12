@@ -1,0 +1,528 @@
+<!doctype html><html lang=zh-tw dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="學習Open Data Cube的筆記"><title>Datacube 函式筆記</title><link rel=canonical href=https://www.hugoshih.com/zh-tw/p/datacube-%E5%87%BD%E5%BC%8F%E7%AD%86%E8%A8%98/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="Datacube 函式筆記"><meta property='og:description' content="學習Open Data Cube的筆記"><meta property='og:url' content='https://www.hugoshih.com/zh-tw/p/datacube-%E5%87%BD%E5%BC%8F%E7%AD%86%E8%A8%98/'><meta property='og:site_name' content='施星宇'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Datacube'><meta property='article:published_time' content='2019-03-22T00:58:25+08:00'><meta property='article:modified_time' content='2019-03-22T00:58:25+08:00'><meta property='og:image' content='https://miro.medium.com/max/1400/0*dq7FvX_09B4zw8ZO'><meta name=twitter:title content="Datacube 函式筆記"><meta name=twitter:description content="學習Open Data Cube的筆記"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content='https://miro.medium.com/max/1400/0*dq7FvX_09B4zw8ZO'><link rel="shortcut icon" href=/img/favicon.png><script async src="https://www.googletagmanager.com/gtag/js?id=G-6PQF6N4WXG"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6PQF6N4WXG")}</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.setItem(e,"dark")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切換選單>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/zh-tw/><img src=/img/avatar_hu_819cc45341d19fd1.jpg width=300 height=300 class=site-logo loading=lazy alt=Avatar></a></figure><div class=site-meta><h1 class=site-name><a href=/zh-tw>施星宇</a></h1><h2 class=site-description>Embedded Systems Engineer
+| Chase excellence, success will follow you.</h2></div></header><ol class=menu-social><li><a href=https://github.com/h920032 target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://www.linkedin.com/in/hugoshih/ target=_blank title=Linkedin rel=me><svg class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/brand-linkedin</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="8" y1="11" x2="8" y2="16"/><line x1="8" y1="8" x2="8" y2="8.01"/><line x1="12" y1="16" x2="12" y2="11"/><path d="M16 16v-3a2 2 0 00-4 0"/></svg></a></li><li><a href=https://orcid.org/0000-0003-4111-3768 target=_blank title=Research rel=me><svg class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/school</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 9 12 5 2 9l10 4 10-4v6"/><path d="M6 10.6V16a6 3 0 0012 0v-5.4"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/zh-tw/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>首頁</span></a></li><li><a href=/zh-tw/%E9%97%9C%E6%96%BC/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>關於</span></a></li><li><a href=/zh-tw/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>典藏</span></a></li><li><a href=/zh-tw/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜尋</span></a></li><li class=menu-bottom-section><ol class=menu><li id=i18n-switch><svg class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg>
+<select name=language title=language onchange="window.location.href=this.selectedOptions[0].value"><option value=https://www.hugoshih.com/>English</option><option value=https://www.hugoshih.com/zh-tw/ selected>中文</option></select></li></ol></li></ol></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/zh-tw/p/datacube-%E5%87%BD%E5%BC%8F%E7%AD%86%E8%A8%98/><img src=https://miro.medium.com/max/1400/0*dq7FvX_09B4zw8ZO loading=lazy alt="Featured image of post Datacube 函式筆記"></a></div><div class=article-details><header class=article-category><a href=/zh-tw/categories/uncategorized/>Uncategorized</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/zh-tw/p/datacube-%E5%87%BD%E5%BC%8F%E7%AD%86%E8%A8%98/>Datacube 函式筆記</a></h2><h3 class=article-subtitle>學習Open Data Cube的筆記</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2019-03-22T00:58:25+08:00>Mar 22, 2019</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>閱讀時間: 6 分鐘</time></div></footer><footer class=article-translations><svg class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg><div><a href=https://www.hugoshih.com/p/datacube-function-note/ class=link>English</a></div></footer></div></header><section class=article-content><h1 id=datacube-函式筆記-基礎>Datacube 函式筆記-基礎</h1><h2 id=api函式>API函式</h2><p>可以參考這個網站：https://nbviewer.jupyter.org/github/opendatacube/datacube-core/blob/develop/examples/notebooks/Datacube_Summary.ipynb
+官方函式說明：https://datacube-core.readthedocs.io/en/latest/_modules/index.html
+調整圖片顏色：http://xarray.pydata.org/en/stable/plotting.html
+範例包：https://nbviewer.jupyter.org/github/opendatacube/datacube-core/tree/develop/examples/notebooks/
+xarray用法：https://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset
+<a class=link href=https://xarray.pydata.org/en/stable/api.html#dataarray target=_blank rel=noopener>https://xarray.pydata.org/en/stable/api.html#dataarray</a></p><ol><li>：Datacube class，建立一個Datacube項目，用來導入Datacube資料庫時會用到</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=k>class</span> <span class=nc>datacube</span><span class=o>.</span><span class=n>Datacube</span><span class=p>(</span><span class=n>index</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>config</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>app</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl><span class=n>env</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>validate_connection</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>範例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>datacube</span>
+</span></span><span class=line><span class=cl><span class=n>dc</span> <span class=o>=</span> <span class=n>datacube</span><span class=o>.</span><span class=n>Datacube</span><span class=p>(</span><span class=n>app</span> <span class=o>=</span> <span class=s1>&#39;my_app&#39;</span><span class=p>,</span> <span class=n>config</span> <span class=o>=</span> 
+</span></span><span class=line><span class=cl><span class=s1>&#39;/home/localuser/.datacube.conf&#39;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=c1>#基本上就看你用的Datacube裡面的資料位置在哪，建議直接用</span>
+</span></span></code></pre></td></tr></table></div></div><ol><li>：Datacube.list_products() & Datacube.list_measurements()</li></ol><ul><li><strong>Datacube.list_products()</strong>：列出所有的衛星資料</li><li><strong>Datacube.list_measurements()</strong>：列出衛星資料所含有的波段種類</li></ul><p>範例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>list_of_products</span> <span class=o>=</span> <span class=n>dc</span><span class=o>.</span><span class=n>list_products</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>netCDF_products</span> <span class=o>=</span> <span class=n>list_of_products</span><span class=p>[</span><span class=n>list_of_products</span><span class=p>[</span><span class=s1>&#39;format&#39;</span><span class=p>]</span> <span class=o>==</span> <span class=s1>&#39;NetCDF&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>netCDF_products</span>
+</span></span><span class=line><span class=cl><span class=c1>#list_of_products的參數就照上面設，我也不知道差別在哪</span>
+</span></span><span class=line><span class=cl><span class=c1>#印出來就一個表格</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>list_of_measurements</span> <span class=o>=</span> <span class=n>dc</span><span class=o>.</span><span class=n>list_measurements</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>list_of_measurements</span>
+</span></span><span class=line><span class=cl><span class=c1>#可以直接印出來，印出來也是一個表格</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>：Datacube.load()，建立一個xarray.Dataset用來儲存要撈的資料的各種參數</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>Datacube</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>product</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> <span class=n>measurements</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> <span class=n>output_crs</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl><span class=n>resolution</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> <span class=n>resampling</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> <span class=n>dask_chunks</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl><span class=n>like</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> <span class=n>fuse_func</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> <span class=n>align</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl><span class=n>datasets</span> <span class=o>=</span> <span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>query</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>範例1：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>datetime</span>
+</span></span><span class=line><span class=cl><span class=c1># define geographic boundaries in (min, max) format</span>
+</span></span><span class=line><span class=cl><span class=c1># 用兩個變數來儲存要找的經緯度範圍(方框)，我也不知道多邊形怎麼用</span>
+</span></span><span class=line><span class=cl><span class=n>lon</span> <span class=o>=</span> <span class=p>(</span><span class=mf>120.3697</span><span class=p>,</span> <span class=mf>120.5044</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>lat</span> <span class=o>=</span> <span class=p>(</span><span class=mf>23.6686</span><span class=p>,</span> <span class=mf>23.7476</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># define date range boundaries in (min,max) format</span>
+</span></span><span class=line><span class=cl><span class=c1># 用datetime格式來儲存要提取資料的時間範圍</span>
+</span></span><span class=line><span class=cl><span class=n>date_range</span> <span class=o>=</span><span class=p>(</span><span class=n>datetime</span><span class=o>.</span><span class=n>datetime</span><span class=p>(</span><span class=mi>2016</span><span class=p>,</span><span class=mi>1</span><span class=p>,</span><span class=mi>1</span><span class=p>),</span> 
+</span></span><span class=line><span class=cl><span class=n>datetime</span><span class=o>.</span><span class=n>datetime</span><span class=p>(</span><span class=mi>2017</span><span class=p>,</span><span class=mi>6</span><span class=p>,</span><span class=mi>30</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># define product and platform to specify our intent to </span>
+</span></span><span class=line><span class=cl><span class=c1>#load Landsat 8 sr products</span>
+</span></span><span class=line><span class=cl><span class=n>platform</span> <span class=o>=</span> <span class=s1>&#39;LANDSAT_8&#39;</span> 
+</span></span><span class=line><span class=cl><span class=c1># 衛星資料的模板，其實可以不用打，要打就不要打錯</span>
+</span></span><span class=line><span class=cl><span class=n>product</span> <span class=o>=</span> <span class=s1>&#39;ls8_lasrc_taiwan&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1># 用來辨識讀取哪一個衛星的資料，絕對不能打錯</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># define desired bands. </span>
+</span></span><span class=line><span class=cl><span class=n>desired_bands</span> <span class=o>=</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=s1>&#39;red&#39;</span><span class=p>,</span><span class=s1>&#39;green&#39;</span><span class=p>,</span><span class=s1>&#39;blue&#39;</span><span class=p>,</span><span class=s1>&#39;nir&#39;</span><span class=p>,</span><span class=s1>&#39;swir1&#39;</span><span class=p>,</span><span class=s1>&#39;swir2&#39;</span><span class=p>,</span><span class=s1>&#39;pixel_qa&#39;</span><span class=p>]</span>  
+</span></span><span class=line><span class=cl><span class=c1># 要提取的波段資料</span>
+</span></span><span class=line><span class=cl><span class=c1># 以Landset8的話共有coastal_aerosol、blue、green、red、nir、swir1、swir2、</span>
+</span></span><span class=line><span class=cl><span class=c1># lwir1、lwir2、pixel_qa、sr_aerosol、radsat_qa這些波段，我們只提取了其中幾個，也可以在加</span>
+</span></span><span class=line><span class=cl><span class=c1># 輸出的順序會按照陣列的裡的排列出現</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># load area. Should result in approximately 15 </span>
+</span></span><span class=line><span class=cl><span class=c1>#acquisitions between 2014 and 2016      </span>
+</span></span><span class=line><span class=cl><span class=n>landsat</span> <span class=o>=</span> <span class=n>dc</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>product</span> <span class=o>=</span> <span class=n>product</span><span class=p>,</span><span class=n>platform</span> <span class=o>=</span> <span class=n>platform</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=n>lat</span> <span class=o>=</span> <span class=n>lat</span><span class=p>,</span><span class=n>lon</span> <span class=o>=</span> <span class=n>lon</span><span class=p>,</span><span class=n>time</span> <span class=o>=</span> <span class=n>date_range</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl><span class=n>measurements</span> <span class=o>=</span> <span class=n>desired_bands</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>landsat</span>
+</span></span><span class=line><span class=cl><span class=c1># 然後實際把資料load出來，回傳的格式是xarray.Dataset</span>
+</span></span></code></pre></td></tr></table></div></div><p>範例2：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>dc</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>product</span><span class=o>=</span><span class=s1>&#39;ls5_nbar_albers&#39;</span><span class=p>,</span> <span class=n>x</span><span class=o>=</span><span class=p>(</span><span class=mf>148.15</span><span class=p>,</span> <span class=mf>148.2</span><span class=p>),</span> <span class=n>y</span><span class=o>=</span><span class=p>(</span><span class=o>-</span><span class=mf>35.15</span><span class=p>,</span> <span class=o>-</span><span class=mf>35.2</span><span class=p>),</span> <span class=n>time</span><span class=o>=</span><span class=p>(</span><span class=s1>&#39;1990&#39;</span><span class=p>,</span> <span class=s1>&#39;1991&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl><span class=c1># 時間座標等也可以用上面這種表示法</span>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>=</span><span class=p>(</span><span class=mi>1516200</span><span class=p>,</span> <span class=mi>1541300</span><span class=p>),</span> <span class=n>y</span><span class=o>=</span><span class=p>(</span><span class=o>-</span><span class=mi>3867375</span><span class=p>,</span> <span class=o>-</span><span class=mi>3867350</span><span class=p>),</span> <span class=n>crs</span><span class=o>=</span><span class=s1>&#39;EPSG:3577&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1># 也可以這樣，只是就要附註crs</span>
+</span></span><span class=line><span class=cl><span class=c1># 時間也可以用上面那種方法</span>
+</span></span><span class=line><span class=cl><span class=n>output_crs</span><span class=o>=</span><span class=s1>&#39;EPSG:3577`, resolution=(-25, 25), resampling=&#39;</span><span class=n>cubic</span><span class=s1>&#39;)</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=3><li>：Datacube.find_datasets()、Datacube.group_datasets()、Datacube.load_data()</li></ol><ul><li><strong>Datacube.find_datasets()</strong>：列出符合條件的影像資料位置，以list方式回傳</li><li><strong>Datacube.group_datasets()</strong>：將上面find_datasets()回傳的list裡的資料group起來，也可以自己弄一個符合格式的檔案路徑list，然後一樣嘢可幫你group起來</li><li><strong>Datacube.load_data()</strong>：把剛剛group起來的資料load出來</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>Datacube</span><span class=o>.</span><span class=n>find_datasets</span><span class=p>(</span><span class=o>**</span><span class=n>search_terms</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 參數的部分要輸入一種特殊的Query型態，不過datacube怪怪的，不能import這種格式</span>
+</span></span><span class=line><span class=cl><span class=c1># 所以等下範例有直接輸入參數的方式</span>
+</span></span><span class=line><span class=cl><span class=n>Datacube</span><span class=o>.</span><span class=n>group_datasets</span><span class=p>(</span><span class=n>datasets</span><span class=p>,</span> <span class=n>group_by</span><span class=p>)</span> <span class=c1># 放棄嘗試這個函式XDD 主要是不知道group_by參數要填什麼</span>
+</span></span><span class=line><span class=cl><span class=c1># 就是傳入上面那個find_datasets return 的東西</span>
+</span></span><span class=line><span class=cl><span class=c1># 會回傳先前看到的xarray.DataArray格式</span>
+</span></span><span class=line><span class=cl><span class=n>Datacube</span><span class=o>.</span><span class=n>load_data</span><span class=p>(</span><span class=n>sources</span><span class=p>,</span> <span class=n>geobox</span><span class=p>,</span> <span class=n>measurements</span><span class=p>,</span> <span class=n>resampling</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>fuse_func</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>dask_chunks</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>skip_broken_datasets</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 也是放棄嘗試這個函式XDD</span>
+</span></span><span class=line><span class=cl><span class=c1># 傳入剛剛group_datasets弄好的xarray，然後傳出xarray.Dataset</span>
+</span></span></code></pre></td></tr></table></div></div><p>範例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>dc</span><span class=o>.</span><span class=n>find_datasets</span><span class=p>(</span><span class=n>product</span> <span class=o>=</span> <span class=s1>&#39;ls8_lasrc_taiwan&#39;</span><span class=p>,</span> <span class=n>time</span> <span class=o>=</span> <span class=p>(</span><span class=s1>&#39;2016-01-01&#39;</span><span class=p>,</span> <span class=s1>&#39;2017-01-01&#39;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=c1># 然後就會回傳一個list，裡面有所有符合條件資料的位置</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=4><li>：加入crs資料
+其實這步可以不用做，基本上就是把讀取的參數整合</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>xarray</span> <span class=k>as</span> <span class=nn>xr</span>  
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=c1># xarray是用來儲存讀取資料的格式</span>
+</span></span><span class=line><span class=cl><span class=n>combined_dataset</span> <span class=o>=</span> <span class=n>xr</span><span class=o>.</span><span class=n>merge</span><span class=p>([</span><span class=n>landsat</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=c1># Copy original crs to merged dataset </span>
+</span></span><span class=line><span class=cl><span class=n>combined_dataset</span> <span class=o>=</span> <span class=n>combined_dataset</span><span class=o>.</span><span class=n>assign_attrs</span><span class=p>(</span><span class=n>landsat</span><span class=o>.</span><span class=n>attrs</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>combined_dataset</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=5><li>：實際撈資料</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>time</span> <span class=c1># 裡面有把時間轉為字串的函式</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>rasterio</span> <span class=c1># 將點狀資料轉成圖塊</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>dc_utilities</span> <span class=kn>import</span> <span class=n>write_geotiff_from_xr</span> <span class=c1># 這蠻重要的，可以將xr格式轉成geotiff格式</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>time_to_string</span><span class=p>(</span><span class=n>t</span><span class=p>):</span> <span class=c1># 將時間轉為字串</span>
+</span></span><span class=line><span class=cl>   <span class=k>return</span> <span class=n>time</span><span class=o>.</span><span class=n>strftime</span><span class=p>(</span><span class=s2>&#34;%Y_%m_</span><span class=si>%d</span><span class=s2>_%H_%M_%S&#34;</span><span class=p>,</span> <span class=n>time</span><span class=o>.</span><span class=n>gmtime</span><span class=p>(</span><span class=n>t</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=nb>int</span><span class=p>)</span><span class=o>/</span><span class=mi>1000000000</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>   <span class=c1># 就採用`time.strftime`函數將時間轉為字串，等等用來加入檔名當中</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>export_slice_to_geotiff</span><span class=p>(</span><span class=n>ds</span><span class=p>,</span> <span class=n>path</span><span class=p>):</span> <span class=c1># 將資料轉為實際的tiff檔案</span>
+</span></span><span class=line><span class=cl>   <span class=n>write_geotiff_from_xr</span><span class=p>(</span><span class=n>path</span><span class=p>,</span><span class=n>ds</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=n>np</span><span class=o>.</span><span class=n>float32</span><span class=p>),</span><span class=nb>list</span><span class=p>(</span><span class=n>landsat</span><span class=o>.</span><span class=n>data_vars</span><span class=o>.</span><span class=n>keys</span><span class=p>()),</span><span class=n>crs</span><span class=o>=</span><span class=s2>&#34;EPSG:4326&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>   <span class=c1># 在這裡引用了write_geotiff_from_xr()函數，path是新建的tiff檔案的路徑和檔名，</span>
+</span></span><span class=line><span class=cl>   <span class=c1># ds.astype(np.float32)是將原來資料裡的整數值轉為浮點數值，大概是因為這個函數只接受浮點數，</span>
+</span></span><span class=line><span class=cl>   <span class=c1># list(landsat.data_vars.keys())則是將這裡面所有的屬性質(就是nir、red、blue那些)轉成list形式而已</span>
+</span></span><span class=line><span class=cl>   <span class=c1># 最後crs就不必說惹，可以試一下怎麼直接從原來那個xarray.Dataset讀取這個資料，手動輸入實在很智障</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#For each time slice in a dataset we call export_slice_to_geotif</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>export_xarray_to_geotiff</span><span class=p>(</span><span class=n>ds</span><span class=p>,</span> <span class=n>path</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>   <span class=k>for</span> <span class=n>t</span> <span class=ow>in</span> <span class=n>ds</span><span class=o>.</span><span class=n>time</span><span class=p>:</span> <span class=c1># 接著就根據xarrayDataset.time裡面的時間資料list一筆一筆抓出來處理</span>
+</span></span><span class=line><span class=cl>       <span class=n>time_slice_xarray</span> <span class=o>=</span> <span class=n>ds</span><span class=o>.</span><span class=n>sel</span><span class=p>(</span><span class=n>time</span> <span class=o>=</span> <span class=n>t</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>       <span class=c1># 先是搞一個新的xarray，然後把裡面的time換成單一的值(有點像是從一層抽出一片的感覺)，以便等會用write_geotiff_from_xr轉換</span>
+</span></span><span class=line><span class=cl>       <span class=n>export_slice_to_geotiff</span><span class=p>(</span><span class=n>time_slice_xarray</span><span class=p>,</span> <span class=n>path</span> <span class=o>+</span> <span class=s2>&#34;_&#34;</span> <span class=o>+</span> <span class=n>time_to_string</span><span class=p>(</span><span class=n>t</span><span class=p>)</span> <span class=o>+</span> <span class=s2>&#34;.tif&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=c1># 然後就呼叫export_slice_to_geotiff，其實就是write_geotiff_from_xr()函數</span>
+</span></span><span class=line><span class=cl><span class=c1>#Start Export</span>
+</span></span><span class=line><span class=cl><span class=n>output_dir</span> <span class=o>=</span> <span class=s2>&#34;/home/localuser/Datacube/data_cube_notebooks/NTUF_Hsing-Yu/ToTiffTest&#34;</span> <span class=c1># 存檔的路徑</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=ow>not</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>exists</span><span class=p>(</span><span class=n>output_dir</span><span class=p>):</span> <span class=c1># 資料夾存在就直接存，沒有就新建一個</span>
+</span></span><span class=line><span class=cl>   <span class=n>os</span><span class=o>.</span><span class=n>makedirs</span><span class=p>(</span><span class=n>output_dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>export_xarray_to_geotiff</span><span class=p>(</span><span class=n>landsat</span><span class=p>,</span> <span class=s2>&#34;</span><span class=si>{}</span><span class=s2>/</span><span class=si>{}</span><span class=s2>&#34;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>output_dir</span><span class=p>,</span><span class=n>product</span><span class=p>))</span> 
+</span></span><span class=line><span class=cl><span class=c1># &#34;{}/{}&#34;.format(output_dir,product)的用法還沒有研究</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=6><li>：資料繪圖plot()
+在xarray.Dataset的格式下可以直接呼叫plot()函數匯出影像</li></ol><ul><li><strong>範例1：</strong></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>autumn</span> <span class=o>=</span> <span class=n>nbar</span><span class=o>.</span><span class=n>green</span><span class=o>.</span><span class=n>loc</span><span class=p>[</span><span class=s1>&#39;1991-3&#39;</span><span class=p>:</span><span class=s1>&#39;1991-5&#39;</span><span class=p>]</span> <span class=c1># 圖檔的話好像只能用單一波段繪圖， 所以這邊要選擇你要的波段</span>
+</span></span><span class=line><span class=cl><span class=c1># 這邊是選綠色，然後後面那邊可以設定時間區間，似乎也是可以不用設定！？</span>
+</span></span><span class=line><span class=cl><span class=n>autumn</span><span class=o>.</span><span class=n>shape</span> <span class=c1># 看一下格式這樣</span>
+</span></span><span class=line><span class=cl><span class=n>autumn</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span> <span class=c1># 然後印出圖形，橫軸按照時間排列，每一排三個</span>
+</span></span><span class=line><span class=cl><span class=c1># 印出來之後就向下圖這樣</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/LiOMvUZ.png loading=lazy></p><ul><li><strong>範例2：去除nodata的版本：</strong></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>autumn_valid</span> <span class=o>=</span> <span class=n>autumn</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>autumn</span> <span class=o>!=</span> <span class=n>autumn</span><span class=o>.</span><span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;nodata&#39;</span><span class=p>])</span> <span class=c1># 新建一個變數，用來儲存去除nodata的資料</span>
+</span></span><span class=line><span class=cl><span class=n>autumn_valid</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span> <span class=c1># 然後一樣輸出</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/YZHQWlN.png loading=lazy></p><ul><li><strong>範例3：去除雲</strong>
+在landsat5以後的衛星資料會提供一個pixelquality波段，通常是用來表示該相素的含雲量，有幾個特定的值是表示該像素是可以用的，不過我忘了</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>pq</span> <span class=o>=</span> <span class=n>dc</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>product</span><span class=o>=</span><span class=s1>&#39;ls5_pq_albers&#39;</span><span class=p>,</span> <span class=n>x</span><span class=o>=</span><span class=p>(</span><span class=mf>149.25</span><span class=p>,</span> <span class=mf>149.35</span><span class=p>),</span> <span class=n>y</span><span class=o>=</span><span class=p>(</span><span class=o>-</span><span class=mf>35.25</span><span class=p>,</span> <span class=o>-</span><span class=mf>35.35</span><span class=p>))</span> 
+</span></span><span class=line><span class=cl><span class=c1># 一樣先load做出xarray.Dataset ，可以注意到這邊load的版本是ls5_pq_albers，跟前面load的nbar版本不一樣</span>
+</span></span><span class=line><span class=cl><span class=n>pq_autumn</span> <span class=o>=</span> <span class=n>pq</span><span class=o>.</span><span class=n>pixelquality</span><span class=o>.</span><span class=n>loc</span><span class=p>[</span><span class=s1>&#39;1991-3&#39;</span><span class=p>:</span><span class=s1>&#39;1991-5&#39;</span><span class=p>]</span> <span class=c1># 然後一樣，只是改成以pixelquality波段作圖</span>
+</span></span><span class=line><span class=cl><span class=n>pq_autumn</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span> <span class=c1># 顯示出來就像下面那樣</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/aUUzZnB.png loading=lazy>
+可以注意到有特殊顏色的就是含雲量較高的像素，正常應該是黃色，所以等等要將這些有色區塊去除
+這邊會用到masking工具，可以從datacube.storage中取出來</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>datacube.storage</span> <span class=kn>import</span> <span class=n>masking</span> <span class=c1># 取出masking工具</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>pandas</span>
+</span></span><span class=line><span class=cl><span class=n>pandas</span><span class=o>.</span><span class=n>DataFrame</span><span class=o>.</span><span class=n>from_dict</span><span class=p>(</span><span class=n>masking</span><span class=o>.</span><span class=n>get_flags_def</span><span class=p>(</span><span class=n>pq</span><span class=p>),</span> <span class=n>orient</span><span class=o>=</span><span class=s1>&#39;index&#39;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=c1># 這裡的masking.get_flags_def(pq)，是從原來的xarray.Dataset找到如何判斷pixelquality值的表</span>
+</span></span><span class=line><span class=cl><span class=c1># 然後就會得到一個對照表</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>good_data</span> <span class=o>=</span> <span class=n>masking</span><span class=o>.</span><span class=n>make_mask</span><span class=p>(</span><span class=n>pq</span><span class=p>,</span> <span class=n>cloud_acca</span><span class=o>=</span><span class=s1>&#39;no_cloud&#39;</span><span class=p>,</span> <span class=n>cloud_fmask</span><span class=o>=</span><span class=s1>&#39;no_cloud&#39;</span><span class=p>,</span> <span class=n>contiguous</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 接下來要建立一個新的mask，mask上顏色不同的地方就是判定有雲的地方</span>
+</span></span><span class=line><span class=cl><span class=c1># 根據前面的表，只要把cloud_acca和cloud_fmask這兩個變數都設為&#39;no_cloud&#39;，而contiguous=True則是表示這個pixel還含有其他波段，</span>
+</span></span><span class=line><span class=cl><span class=c1># 可以試試設成false會怎樣</span>
+</span></span><span class=line><span class=cl><span class=c1># 這樣就可以做出一個mask</span>
+</span></span><span class=line><span class=cl><span class=n>autumn_good_data</span> <span class=o>=</span> <span class=n>good_data</span><span class=o>.</span><span class=n>pixelquality</span><span class=o>.</span><span class=n>loc</span><span class=p>[</span><span class=s1>&#39;1991-3&#39;</span><span class=p>:</span><span class=s1>&#39;1991-5&#39;</span><span class=p>]</span> <span class=c1># 然後再一次實際套用到剛剛的xarray.Dataset上</span>
+</span></span><span class=line><span class=cl><span class=n>autumn_good_data</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span> <span class=c1># 印出來就如下圖</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/0o5VUvz.png loading=lazy>
+可以發現，現在不是黃色就是紫色
+最後拿去跟一開始有綠色波段且做過nodata處理的那張圖疊</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>autumn_cloud_free</span> <span class=o>=</span> <span class=n>autumn_valid</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>autumn_good_data</span><span class=p>)</span> <span class=c1># 就跟用來疊nodata的作法一樣</span>
+</span></span><span class=line><span class=cl><span class=n>autumn_cloud_free</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span> <span class=c1># 印出來就像下面那樣</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/4jtH7yl.png loading=lazy>
+可以發現原本有雲的地方都變成無資料了，因為mask裡面，有雲的地方，數字被設為0，沒有雲的地方為1</p><p>後來發現mask不給力，landsat8的資料不太能用，因此我就直接用where取出pixel_qa為322的資料
+範例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>autumn</span> <span class=o>=</span> <span class=n>combined_dataset</span><span class=o>.</span><span class=n>green</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>combined_dataset</span><span class=o>.</span><span class=n>pixel_qa</span> <span class=o>==</span> <span class=mi>322</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 取值為322的資料，這是landsat8中品質最好的資料</span>
+</span></span><span class=line><span class=cl><span class=n>autumn_valid</span> <span class=o>=</span> <span class=n>autumn</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>autumn</span> <span class=o>!=</span> <span class=n>autumn</span><span class=o>.</span><span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;nodata&#39;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=c1># 一樣清除nodata</span>
+</span></span><span class=line><span class=cl><span class=n>autumn_valid</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 印出來就像下面那樣(顏色沒有調得很好XDD)</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/jKdyrYy.png loading=lazy></p><ol start=7><li>：將圖群組化(超重要！！)
+有時候因為衛星軌道的關係，一個地區的影像會被切成兩三張圖放，用Group可將時間相近的圖整合成一張</li></ol><ul><li><strong>範例：</strong></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>nbar_by_solar_day</span> <span class=o>=</span> <span class=n>dc</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>product</span><span class=o>=</span><span class=s1>&#39;ls5_nbar_albers&#39;</span><span class=p>,</span> <span class=n>x</span><span class=o>=</span><span class=p>(</span><span class=mf>149.25</span><span class=p>,</span> <span class=mf>149.35</span><span class=p>),</span> <span class=n>y</span><span class=o>=</span><span class=p>(</span><span class=o>-</span><span class=mf>35.25</span><span class=p>,</span> <span class=o>-</span><span class=mf>35.35</span><span class=p>),</span> <span class=n>group_by</span><span class=o>=</span><span class=s1>&#39;solar_day&#39;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=c1># 大部分跟之前用load()的方式差不多，只是在最後加了group_by=&#39;solar_day&#39;就是根據太陽日的範圍群組化圖</span>
+</span></span><span class=line><span class=cl><span class=nb>len</span><span class=p>(</span><span class=n>nbar_by_solar_day</span><span class=o>.</span><span class=n>time</span><span class=p>)</span> <span class=c1># 看一下圖是不是真的變少了</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>autumn2</span> <span class=o>=</span> <span class=n>nbar_by_solar_day</span><span class=o>.</span><span class=n>green</span><span class=o>.</span><span class=n>loc</span><span class=p>[</span><span class=s1>&#39;1991-3&#39;</span><span class=p>:</span><span class=s1>&#39;1991-5&#39;</span><span class=p>]</span> <span class=c1># 一樣取出綠色的波段作圖</span>
+</span></span><span class=line><span class=cl><span class=n>autumn2</span><span class=o>.</span><span class=n>shape</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>autumn2</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span> <span class=c1># 一樣畫出圖，就變下面那樣</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/XJzQQ6L.png loading=lazy>
+可以發現原來切掉的部分不見了！！！
+8. ：算ndvi
+就用red和nir這兩個波段算出ndvi，大概就是可以反映出地面物是不是植物這樣
+red就是紅光，nir就是近紅外光</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>two_bands</span> <span class=o>=</span> <span class=n>dc</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>product</span><span class=o>=</span><span class=s1>&#39;ls5_nbar_albers&#39;</span><span class=p>,</span> <span class=n>x</span><span class=o>=</span><span class=p>(</span><span class=mf>149.07</span><span class=p>,</span> <span class=mf>149.17</span><span class=p>),</span> <span class=n>y</span><span class=o>=</span><span class=p>(</span><span class=o>-</span><span class=mf>35.25</span><span class=p>,</span> <span class=o>-</span><span class=mf>35.35</span><span class=p>),</span> <span class=n>time</span><span class=o>=</span><span class=p>(</span><span class=s1>&#39;1991&#39;</span><span class=p>,</span> <span class=s1>&#39;1992&#39;</span><span class=p>),</span> <span class=n>measurements</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;red&#39;</span><span class=p>,</span> <span class=s1>&#39;nir&#39;</span><span class=p>],</span> <span class=n>group_by</span><span class=o>=</span><span class=s1>&#39;solar_day&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 跟前面使用load()的方式差不多，不過這次要用measurements，同時只load&#39;red&#39;, &#39;nir&#39;這兩個波段，一樣要記得用group_by</span>
+</span></span><span class=line><span class=cl><span class=n>red</span> <span class=o>=</span> <span class=n>two_bands</span><span class=o>.</span><span class=n>red</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>two_bands</span><span class=o>.</span><span class=n>red</span> <span class=o>!=</span> <span class=n>two_bands</span><span class=o>.</span><span class=n>red</span><span class=o>.</span><span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;nodata&#39;</span><span class=p>])</span> <span class=c1># 然後去除nodata</span>
+</span></span><span class=line><span class=cl><span class=n>nir</span> <span class=o>=</span> <span class=n>two_bands</span><span class=o>.</span><span class=n>nir</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>two_bands</span><span class=o>.</span><span class=n>nir</span> <span class=o>!=</span> <span class=n>two_bands</span><span class=o>.</span><span class=n>nir</span><span class=o>.</span><span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;nodata&#39;</span><span class=p>])</span> <span class=c1># 也是去除nodata</span>
+</span></span><span class=line><span class=cl><span class=n>pq</span> <span class=o>=</span> <span class=n>dc</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>product</span><span class=o>=</span><span class=s1>&#39;ls5_pq_albers&#39;</span><span class=p>,</span> <span class=n>x</span><span class=o>=</span><span class=p>(</span><span class=mf>149.07</span><span class=p>,</span> <span class=mf>149.17</span><span class=p>),</span> <span class=n>y</span><span class=o>=</span><span class=p>(</span><span class=o>-</span><span class=mf>35.25</span><span class=p>,</span> <span class=o>-</span><span class=mf>35.35</span><span class=p>),</span> <span class=n>time</span><span class=o>=</span><span class=p>(</span><span class=s1>&#39;1991&#39;</span><span class=p>,</span> <span class=s1>&#39;1992&#39;</span><span class=p>),</span> <span class=n>group_by</span><span class=o>=</span><span class=s1>&#39;solar_day&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 然後load另一個圖(是pq版本的)，等等用來做could free的mask</span>
+</span></span><span class=line><span class=cl><span class=n>cloud_free</span> <span class=o>=</span> <span class=n>masking</span><span class=o>.</span><span class=n>make_mask</span><span class=p>(</span><span class=n>pq</span><span class=p>,</span> <span class=n>cloud_acca</span><span class=o>=</span><span class=s1>&#39;no_cloud&#39;</span><span class=p>,</span> <span class=n>cloud_fmask</span><span class=o>=</span><span class=s1>&#39;no_cloud&#39;</span><span class=p>,</span> <span class=n>contiguous</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span><span class=o>.</span><span class=n>pixelquality</span>
+</span></span><span class=line><span class=cl><span class=c1># 用之前坐的那張圖做一個mask，一樣取出pixelquality的部分</span>
+</span></span><span class=line><span class=cl><span class=n>ndvi</span> <span class=o>=</span> <span class=p>((</span><span class=n>nir</span> <span class=o>-</span> <span class=n>red</span><span class=p>)</span> <span class=o>/</span> <span class=p>(</span><span class=n>nir</span> <span class=o>+</span> <span class=n>red</span><span class=p>))</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>cloud_free</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 拿nir和red這兩張圖算一下ndvi，然後跟cloud_free疊加，去除雲的部分</span>
+</span></span><span class=line><span class=cl><span class=n>ndvi</span><span class=o>.</span><span class=n>shape</span> <span class=c1># 看一下資料量</span>
+</span></span><span class=line><span class=cl><span class=n>ndvi</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>5</span><span class=p>)</span> <span class=c1># 印出來，就像下面那樣</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/SsOBuDA.png loading=lazy>
+其實還是有很多地方被切掉XDD，而且圖像的品質參差，接下來可以取出影像品質比較好的幾張，也就是含雲量較少的</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>mostly_cloud_free</span> <span class=o>=</span> <span class=n>cloud_free</span><span class=o>.</span><span class=n>sum</span><span class=p>(</span><span class=n>dim</span><span class=o>=</span><span class=p>(</span><span class=s1>&#39;x&#39;</span><span class=p>,</span><span class=s1>&#39;y&#39;</span><span class=p>))</span> <span class=o>&gt;</span> <span class=p>(</span><span class=mf>0.75</span> <span class=o>*</span> <span class=n>cloud_free</span><span class=o>.</span><span class=n>size</span> <span class=o>/</span> <span class=n>cloud_free</span><span class=o>.</span><span class=n>time</span><span class=o>.</span><span class=n>size</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 簡單來說就是找含雲量前25%少的圖</span>
+</span></span><span class=line><span class=cl><span class=n>mostly_good_ndvi</span> <span class=o>=</span> <span class=n>ndvi</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>mostly_cloud_free</span><span class=p>)</span><span class=o>.</span><span class=n>dropna</span><span class=p>(</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>how</span><span class=o>=</span><span class=s1>&#39;all&#39;</span><span class=p>)</span> <span class=c1># 然後拿去跟原來的疊，刪掉雲多的圖</span>
+</span></span><span class=line><span class=cl><span class=n>mostly_good_ndvi</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>5</span><span class=p>)</span> <span class=c1># 印出來</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/biR5vE2.png loading=lazy>
+就發現只剩清晰的圖了
+以下是我用先前桃園市的資料算的ndvi</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>red</span> <span class=o>=</span> <span class=n>combined_dataset</span><span class=o>.</span><span class=n>red</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>combined_dataset</span><span class=o>.</span><span class=n>red</span> <span class=o>!=</span> <span class=n>combined_dataset</span><span class=o>.</span><span class=n>red</span><span class=o>.</span><span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;nodata&#39;</span><span class=p>])</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>combined_dataset</span><span class=o>.</span><span class=n>pixel_qa</span> <span class=o>==</span> <span class=mi>322</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>nir</span> <span class=o>=</span> <span class=n>combined_dataset</span><span class=o>.</span><span class=n>nir</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>combined_dataset</span><span class=o>.</span><span class=n>nir</span> <span class=o>!=</span> <span class=n>combined_dataset</span><span class=o>.</span><span class=n>nir</span><span class=o>.</span><span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;nodata&#39;</span><span class=p>])</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>combined_dataset</span><span class=o>.</span><span class=n>pixel_qa</span> <span class=o>==</span> <span class=mi>322</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 跟上面差不多，取出red和nir兩個波段，然後用where取出pixel_qa為322的地方</span>
+</span></span><span class=line><span class=cl><span class=n>ndvi</span> <span class=o>=</span> <span class=p>((</span><span class=n>nir</span> <span class=o>-</span> <span class=n>red</span><span class=p>)</span> <span class=o>/</span> <span class=p>(</span><span class=n>nir</span> <span class=o>+</span> <span class=n>red</span><span class=p>))</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>ndvi</span> <span class=o>&lt;=</span> <span class=mi>1</span><span class=p>)</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>ndvi</span> <span class=o>&gt;=</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 套個ndvi的公式</span>
+</span></span><span class=line><span class=cl><span class=n>ndvi</span><span class=o>.</span><span class=n>shape</span>
+</span></span><span class=line><span class=cl><span class=n>ndvi</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 印出來</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/qAhJJWt.jpg loading=lazy>
+接下來挑選一下雲含量比較少的圖</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>cloud_free</span> <span class=o>=</span> <span class=n>combined_dataset</span><span class=o>.</span><span class=n>pixel_qa</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>combined_dataset</span><span class=o>.</span><span class=n>pixel_qa</span> <span class=o>!=</span>     <span class=n>combined_dataset</span><span class=o>.</span><span class=n>pixel_qa</span><span class=o>.</span><span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;nodata&#39;</span><span class=p>])</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>combined_dataset</span><span class=o>.</span><span class=n>pixel_qa</span> <span class=o>==</span> <span class=mi>322</span><span class=p>)</span> <span class=o>/</span> <span class=mi>322</span>
+</span></span><span class=line><span class=cl><span class=c1># 這邊就用先前pixel_qa的圖，抓值為322的部分，rescale為1，偽造成一個mask</span>
+</span></span><span class=line><span class=cl><span class=c1>#cloud_free.plot(col=&#39;time&#39;, col_wrap=3)</span>
+</span></span><span class=line><span class=cl><span class=n>mostly_cloud_free</span> <span class=o>=</span> <span class=n>cloud_free</span><span class=o>.</span><span class=n>sum</span><span class=p>(</span><span class=n>dim</span><span class=o>=</span><span class=p>(</span><span class=s1>&#39;latitude&#39;</span><span class=p>,</span><span class=s1>&#39;longitude&#39;</span><span class=p>))</span> <span class=o>&gt;</span> <span class=p>(</span><span class=mf>0.75</span> <span class=o>*</span> <span class=n>cloud_free</span><span class=o>.</span><span class=n>size</span> <span class=o>/</span> <span class=n>cloud_free</span><span class=o>.</span><span class=n>time</span><span class=o>.</span><span class=n>size</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 然後去算裡面不是雲的資料的比例，其實就是把它加總這樣</span>
+</span></span><span class=line><span class=cl><span class=n>mostly_good_ndvi</span> <span class=o>=</span> <span class=n>ndvi</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>mostly_cloud_free</span><span class=p>)</span><span class=o>.</span><span class=n>dropna</span><span class=p>(</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>how</span><span class=o>=</span><span class=s1>&#39;all&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 然後疊一下圖</span>
+</span></span><span class=line><span class=cl><span class=n>mostly_good_ndvi</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>col</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=n>col_wrap</span><span class=o>=</span><span class=mi>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 印出來</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/ilufKDH.png loading=lazy>
+第一張圖估計是系統弄錯惹，都是雲，但值是322，將就著看吧
+接下來ndvi還可以組一張中位數的圖，有點類似平均值的概念，可以看大範圍完整的樣子，不會受到圖片卻失的影響</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>mostly_good_ndvi</span><span class=o>.</span><span class=n>median</span><span class=p>(</span><span class=n>dim</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>plot</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1># 就是取出每一個pixel的中位數，組成一張圖，這個函式還蠻厲害ㄉ</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/sIwU3Hr.png loading=lazy>
+印出來就像這樣，顏色較深的地方大概就是沒有植物啦哈哈
+p.s.為什麼不用平均數呢？因為平均數會受到nodata的影響
+然後也可以做一張std的圖，表示變化程度</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>mostly_good_ndvi</span><span class=o>.</span><span class=n>std</span><span class=p>(</span><span class=n>dim</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>plot</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1># 概念跟剛剛median差不多</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/7Nl2H8e.png loading=lazy>
+顏色較淺的地方就是變化量較大的地方，ndvi會隨季節變化，這個大家都知道ㄉ，所以一樣，亮的地方就是有植物的地方</p><p>然後也可以抓單一一點的ndvi變化，所以我隨便用google map選了一點
+引用sel函式，後面輸入參數，可以讀出該座標上每個時間的值</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>mostly_good_ndvi</span><span class=o>.</span><span class=n>sel</span><span class=p>(</span><span class=n>latitude</span><span class=o>=</span><span class=mf>24.958132</span><span class=p>,</span> <span class=n>longitude</span><span class=o>=</span><span class=mf>121.126085</span><span class=p>,</span> <span class=n>method</span><span class=o>=</span><span class=s1>&#39;nearest&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>plot</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/Out4BAu.png loading=lazy>
+畫出來的圖，某種程度上還是會受到nodata的影響</p><p>下面這個是範例的奇妙用法，好像是抓出ndvi趨勢的感覺，詳細機制還要再研究</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>mostly_good_ndvi</span><span class=o>.</span><span class=n>isel</span><span class=p>(</span><span class=n>latitude</span><span class=o>=</span><span class=p>[</span><span class=mi>200</span><span class=p>],</span> <span class=n>longitude</span><span class=o>=</span><span class=p>[</span><span class=mi>200</span><span class=p>])</span><span class=o>.</span><span class=n>plot</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1># 那個兩百我不知道是要幹嘛的，我有試試看其他值，但跑出來的圖都怪怪的</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/0iFxSwE.png loading=lazy>
+這張圖就可以很明顯的看到ndvi的季節性變化了</p><p>接下來也是範例的奇妙用法，可以固定緯度，將不同時間的情況列出來</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>mostly_good_ndvi</span><span class=o>.</span><span class=n>isel</span><span class=p>(</span><span class=n>longitude</span><span class=o>=</span><span class=mi>30</span><span class=p>)</span><span class=o>.</span><span class=n>plot</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1># 30的意義好像是代表longitude的第30個pixel</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/bug1KLd.png loading=lazy>
+這樣一比對還真的可以看出明顯的季節變化</p><p>另外還可以抓出特定幾個點比較時間的影響</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>mostly_good_ndvi</span><span class=o>.</span><span class=n>isel_points</span><span class=p>(</span><span class=n>latitude</span><span class=o>=</span><span class=p>[</span><span class=mi>0</span><span class=p>,</span> <span class=mi>10</span><span class=p>,</span> <span class=mi>20</span><span class=p>,</span> <span class=mi>30</span><span class=p>,</span> <span class=mi>40</span><span class=p>,</span> <span class=mi>50</span><span class=p>],</span> <span class=n>longitude</span><span class=o>=</span><span class=p>[</span><span class=mi>20</span><span class=p>,</span> <span class=mi>30</span><span class=p>,</span> <span class=mi>40</span><span class=p>,</span> <span class=mi>50</span><span class=p>,</span> <span class=mi>60</span><span class=p>,</span> <span class=mi>70</span><span class=p>])</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>x</span><span class=o>=</span><span class=s1>&#39;points&#39;</span><span class=p>,</span> <span class=n>y</span><span class=o>=</span><span class=s1>&#39;time&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 同上那些數值也是以座標而言的第幾個點這樣</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/oEY66gD.png loading=lazy></p><ol start=9><li>：多頻譜製圖(不是做成tif)
+玩久了之後還是會想要做一張彩色的圖自爽一下
+以下的方法就可以惹</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>rgb</span> <span class=o>=</span> <span class=n>dc</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>product</span><span class=o>=</span><span class=n>product</span><span class=p>,</span> <span class=n>lon</span><span class=o>=</span><span class=n>lon</span><span class=p>,</span> <span class=n>lat</span><span class=o>=</span><span class=n>lat</span><span class=p>,</span> <span class=n>time</span><span class=o>=</span><span class=n>date_range</span><span class=p>,</span> <span class=n>measurements</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;red&#39;</span><span class=p>,</span> <span class=s1>&#39;green&#39;</span><span class=p>,</span> <span class=s1>&#39;blue&#39;</span><span class=p>],</span> <span class=n>group_by</span><span class=o>=</span><span class=s1>&#39;solar_day&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>to_array</span><span class=p>(</span><span class=n>dim</span><span class=o>=</span><span class=s1>&#39;color&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>transpose</span><span class=p>(</span><span class=s1>&#39;time&#39;</span><span class=p>,</span> <span class=s1>&#39;latitude&#39;</span><span class=p>,</span> <span class=s1>&#39;longitude&#39;</span><span class=p>,</span> <span class=s1>&#39;color&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 前面坐過很多次了，就不贅述，紅綠藍波段一定要load近來，load了其他波段我不知道會怎樣，有空再試試</span>
+</span></span><span class=line><span class=cl><span class=c1># 後面就是新建一個dim為新的color</span>
+</span></span><span class=line><span class=cl><span class=nb>zip</span><span class=p>(</span><span class=n>rgb</span><span class=o>.</span><span class=n>dims</span><span class=p>,</span> <span class=n>rgb</span><span class=o>.</span><span class=n>shape</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 有沒有做這個zip其實沒差</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=n>fake_saturation</span> <span class=o>=</span> <span class=mi>3000</span>
+</span></span><span class=line><span class=cl><span class=c1># 這個是用來當作影像值得上限，超過就用3000取代</span>
+</span></span><span class=line><span class=cl><span class=n>clipped_visible</span> <span class=o>=</span> <span class=n>rgb</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>rgb</span> <span class=o>&lt;</span> <span class=n>fake_saturation</span><span class=p>)</span><span class=o>.</span><span class=n>fillna</span><span class=p>(</span><span class=n>fake_saturation</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 上面這邊就是這樣做，透過fillna()函式可以填入值</span>
+</span></span><span class=line><span class=cl><span class=n>max_val</span> <span class=o>=</span> <span class=n>clipped_visible</span><span class=o>.</span><span class=n>max</span><span class=p>([</span><span class=s1>&#39;latitude&#39;</span><span class=p>,</span> <span class=s1>&#39;longitude&#39;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=c1># 然後找最大的scale</span>
+</span></span><span class=line><span class=cl><span class=n>scaled</span> <span class=o>=</span> <span class=p>(</span><span class=n>clipped_visible</span> <span class=o>/</span> <span class=n>max_val</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 設定scaled</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>matplotlib</span> <span class=kn>import</span> <span class=n>pyplot</span> <span class=k>as</span> <span class=n>plt</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>imshow</span><span class=p>(</span><span class=n>scaled</span><span class=o>.</span><span class=n>isel</span><span class=p>(</span><span class=n>time</span><span class=o>=</span><span class=mi>19</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=c1># 最後就印出來，記得要import該import的東西</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://i.imgur.com/ziPdkS2.png loading=lazy>
+選了一張被雲遮比較少ㄉ</p><ol start=10><li>：將xarray.Dataarray製成Dataset
+<a class=link href=http://xarray.pydata.org/en/stable/generated/xarray.DataArray.to_dataset.html target=_blank rel=noopener>http://xarray.pydata.org/en/stable/generated/xarray.DataArray.to_dataset.html</a>
+<a class=link href=https://stackoverflow.com/questions/38826505/python-xarray-add-dataarray-to-dataset target=_blank rel=noopener>https://stackoverflow.com/questions/38826505/python-xarray-add-dataarray-to-dataset</a></li><li>：Dataarray or Dataset中的資料型別轉換
+<a class=link href=http://xarray.pydata.org/en/stable/generated/xarray.DataArray.astype.html target=_blank rel=noopener>http://xarray.pydata.org/en/stable/generated/xarray.DataArray.astype.html</a></li><li>：不想要用.varibales的替代方案.get()
+<a class=link href=https://github.com/pydata/xarray/issues/1801 target=_blank rel=noopener>https://github.com/pydata/xarray/issues/1801</a></li><li>：將matplotlib畫出的東西輸出成png
+<a class=link href=https://stackoverflow.com/questions/9622163/save-plot-to-image-file-instead-of-displaying-it-using-matplotlib target=_blank rel=noopener>https://stackoverflow.com/questions/9622163/save-plot-to-image-file-instead-of-displaying-it-using-matplotlib</a></li></ol><h1 id=datacube-函式筆記-進階>Datacube 函式筆記-進階</h1><ul><li>WOFs</li></ul><h1 id=datacube-函式筆記-其他>Datacube 函式筆記-其他</h1><ul><li>文件解壓縮
+在可以使用sever Shell的情況下，通常將文件打包(.zip)上傳之後再用Linux下的unzip解壓縮，不過新版的jupyter介面將Shell的功能關惹，所以只能用python內建的函式庫解壓縮，程式如下：</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>os</span><span class=o>,</span><span class=nn>zipfile</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>un_zip</span><span class=p>(</span><span class=n>file_name</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;unzip zip file&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>zip_file</span> <span class=o>=</span> <span class=n>zipfile</span><span class=o>.</span><span class=n>ZipFile</span><span class=p>(</span><span class=n>file_name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>isdir</span><span class=p>(</span><span class=n>file_name</span> <span class=o>+</span> <span class=s2>&#34;_files&#34;</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>pass</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>os</span><span class=o>.</span><span class=n>mkdir</span><span class=p>(</span><span class=n>file_name</span> <span class=o>+</span> <span class=s2>&#34;_files&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>names</span> <span class=ow>in</span> <span class=n>zip_file</span><span class=o>.</span><span class=n>namelist</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>        <span class=n>zip_file</span><span class=o>.</span><span class=n>extract</span><span class=p>(</span><span class=n>names</span><span class=p>,</span><span class=n>file_name</span> <span class=o>+</span> <span class=s2>&#34;_files/&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>zip_file</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>un_zip</span><span class=p>(</span><span class=s2>&#34;utils.zip&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用方式：先用%指令切換到正確的工作目錄，然後啟動run上面的程式</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>os</span><span class=o>,</span> <span class=nn>zipfile</span>
+</span></span><span class=line><span class=cl><span class=c1>#打包目录为zip文件（未压缩）</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>make_zip</span><span class=p>(</span><span class=n>source_dir</span><span class=p>,</span> <span class=n>output_filename</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>zipf</span> <span class=o>=</span> <span class=n>zipfile</span><span class=o>.</span><span class=n>ZipFile</span><span class=p>(</span><span class=n>output_filename</span><span class=p>,</span> <span class=s1>&#39;w&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>pre_len</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>dirname</span><span class=p>(</span><span class=n>source_dir</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>parent</span><span class=p>,</span> <span class=n>dirnames</span><span class=p>,</span> <span class=n>filenames</span> <span class=ow>in</span> <span class=n>os</span><span class=o>.</span><span class=n>walk</span><span class=p>(</span><span class=n>source_dir</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>filename</span> <span class=ow>in</span> <span class=n>filenames</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=n>filename</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>pathfile</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>parent</span><span class=p>,</span> <span class=n>filename</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>arcname</span> <span class=o>=</span> <span class=n>pathfile</span><span class=p>[</span><span class=n>pre_len</span><span class=p>:]</span><span class=o>.</span><span class=n>strip</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>sep</span><span class=p>)</span>   <span class=c1>#相对路径</span>
+</span></span><span class=line><span class=cl>            <span class=n>zipf</span><span class=o>.</span><span class=n>write</span><span class=p>(</span><span class=n>pathfile</span><span class=p>,</span> <span class=n>arcname</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>zipf</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>make_zip</span><span class=p>(</span><span class=sa>r</span><span class=s2>&#34;E:\python_sample\libs\test_tar_files\libs&#34;</span><span class=p>,</span><span class=s2>&#34;test.zip&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>Jupyter使用終端機指令
+雖然終止了shell的使用，但一樣可以在Jupyter使用Linux指令，不過一樣會受到權限限制
+ex:</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Bash data-lang=Bash><span class=line><span class=cl>% ls
+</span></span><span class=line><span class=cl>% <span class=nb>cd</span> ~
+</span></span><span class=line><span class=cl>% <span class=nb>pwd</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/zh-tw/tags/datacube/>Datacube</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2019 -
+2025 施星宇</section><section class=powerby></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
