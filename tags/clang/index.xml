@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Clang on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/clang/</link><description>Recent content in Clang on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 30 Oct 2025 21:48:32 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/clang/index.xml" rel="self" type="application/rss+xml"/><item><title>About Aligned Memory Allocation</title><link>https://www.hugoshih.com/p/about-aligned-memory-allocation/</link><pubDate>Thu, 30 Oct 2025 21:48:32 +0800</pubDate><guid>https://www.hugoshih.com/p/about-aligned-memory-allocation/</guid><description>&lt;img src="https://i.imgur.com/WVmjgMd.jpeg" alt="Featured image of post About Aligned Memory Allocation" /&gt;&lt;h2 id="origin"&gt;Origin
-&lt;/h2&gt;&lt;p&gt;I suffered a big loss on this thing. As for what the loss was, I won&amp;rsquo;t go into details. In short, when I first saw this thing, I didn&amp;rsquo;t understand it thoroughly, so I&amp;rsquo;m taking this opportunity to pay off my debt.
-I want to use a super plain way to make people understand quickly, so next time I encounter this issue, I can quickly recall it.&lt;/p&gt;
-&lt;h2 id="what-is-aligned-memory-allocation"&gt;What is Aligned Memory Allocation?
-&lt;/h2&gt;&lt;p&gt;Imagine a situation where the program runs to a point where I need some extra memory to store new data. In C language, we will definitely use &lt;code&gt;malloc()&lt;/code&gt; to ask the system for extra memory space.&lt;/p&gt;
-&lt;p&gt;For example, I suddenly need 32 bytes of space, so I use &lt;code&gt;malloc()&lt;/code&gt;, and then the system looks around and finally finds 32 bytes of space in the memory and returns the starting memory address. This starting position might be very random, like &lt;code&gt;0x08004321&lt;/code&gt;, but it doesn&amp;rsquo;t matter. Anyway, I now have 32 bytes of space, and I can do whatever I want with it.&lt;/p&gt;
-&lt;p&gt;However, in some cases (I&amp;rsquo;ll talk about which cases later), we would hope that the starting position of the memory we get is &amp;ldquo;aligned&amp;rdquo;. So what is alignment?&lt;/p&gt;
-&lt;p&gt;For example, if you use some Hex file preview tools, you will see that the starting position on the left is neatly arranged at 32 bytes intervals, like this:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Clang on 施星宇</title><link>https://www.hugoshih.com/tags/clang/</link><description>Recent content in Clang on 施星宇</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Thu, 30 Oct 2025 21:48:32 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/clang/index.xml" rel="self" type="application/rss+xml"/><item><title>關於 Aligned Memory Allocation</title><link>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</link><pubDate>Thu, 30 Oct 2025 21:48:32 +0800</pubDate><guid>https://www.hugoshih.com/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/</guid><description>&lt;img src="https://i.imgur.com/WVmjgMd.jpeg" alt="Featured image of post 關於 Aligned Memory Allocation" /&gt;&lt;h2 id="起源"&gt;起源
+&lt;/h2&gt;&lt;p&gt;由於在這個東西上吃了大悶虧，至於是什麼虧就不細究了，總之是我當初在看到這東西的時候沒有認真摸透，就趁著這個機會好好還債了
+我想要用一個超級白話的方式讓人快速可以理解，下次遇到這個議題再回來看就能快速回憶起來&lt;/p&gt;
+&lt;h2 id="什麼是-aligned-memory-allocation"&gt;什麼是 Aligned Memory Allocation？
+&lt;/h2&gt;&lt;p&gt;設想一個情況，今天程式運行到一個地方，如果我需要一些額外的記憶體來儲存新的資料，在 C 語言中我們一定會用到 &lt;code&gt;malloc()&lt;/code&gt; 來跟系統要額外的記憶體空間&lt;/p&gt;
+&lt;p&gt;舉個例子，我現在突然需要 32 bytes 的空間，所以我就使出 &lt;code&gt;malloc()&lt;/code&gt;，然後系統就翻啊翻找啊找，最後在記憶體中找到了 32 bytes 的空間，並把起始的記憶體位置傳回來。這個起始的位置可能很隨機，像是 &lt;code&gt;0x08004321&lt;/code&gt;，不過這也無傷大雅，總之我現在有了 32 bytes 空間，我現在想對他幹嘛就幹嘛。&lt;/p&gt;
+&lt;p&gt;然而然而，在某些情況（至於是哪些情況後面再講），我們會希望我們得到的記憶體的起始位置是「對齊」的。那什麼叫做對齊呢？&lt;/p&gt;
+&lt;p&gt;舉個例子，如果你用一些 Hex 檔案的預覽工具，你會看到左邊的起始位置很整齊以 32 bytes 間隔，像下面這樣：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -19,42 +19,42 @@ I want to use a super plain way to make people understand quickly, so next time 
 &lt;/span&gt;&lt;span class="lnt"&gt;9
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;General Random Allocation (Unaligned):
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;一般隨機分配 (未對齊):
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08004321 | Data...
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ Starting position is random
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ 起始位置很隨意
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;32-byte Alignment (Aligned):
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;32-byte Alignment (對齊):
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000000 | Data...
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000020 | Data... &amp;lt;-- 0x20 is 32
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000040 | Data... &amp;lt;-- 0x40 is 64
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ Starting positions are all divisible by 32
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000020 | Data... &amp;lt;-- 0x20 就是 32
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x08000040 | Data... &amp;lt;-- 0x40 就是 64
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ 起始位置都可以被 32 整除
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;img src="https://i.imgur.com/hr8QdrG.jpeg"
 loading="lazy"
 alt="image"
 &gt;&lt;/p&gt;
-&lt;p&gt;So-called &lt;strong&gt;Aligned Memory Allocation&lt;/strong&gt; means that when I ask for new memory space, I want to get a &lt;strong&gt;memory space whose starting position can be divisible by 32 (or other numbers)&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;OK, so up to this point, you should have some concept of what Aligned Memory Allocation is. That&amp;rsquo;s half the battle. Because most people hearing about this for the first time probably find it hard to imagine what it is, or know what it is but don&amp;rsquo;t know what it&amp;rsquo;s used for.&lt;/p&gt;
-&lt;p&gt;So, what is the use of this?&lt;/p&gt;
-&lt;h2 id="why-is-alignment-needed"&gt;Why is Alignment Needed?
-&lt;/h2&gt;&lt;p&gt;The need for Alignment is mostly due to hardware design constraints, for example:&lt;/p&gt;
-&lt;p&gt;Vector instruction sets (such as AVX), when executing such instruction sets, will require the target memory position to be aligned. If it is not aligned, it has to be split into two steps to handle, or an error will occur directly. Why not design the instruction set to read memory starting from any position? I think it&amp;rsquo;s mostly a cost consideration. If it can be solved on the driver side, why waste expensive hardware space?&lt;/p&gt;
-&lt;p&gt;Others like CUDA, when fetching data via PCIe on GPU, using DMA will also require memory to be aligned. Or when GPU instructions fetch data from its own memory, it will also require alignment. In addition, when using DMA on single chips like STM32, the memory position of the buffer will also be required to be aligned so that it can be correctly written or read by DMA.&lt;/p&gt;
-&lt;p&gt;At this time, someone will definitely jump out and say: &amp;ldquo;I usually use CUDA or use DMA on STM32 and haven&amp;rsquo;t encountered this problem!&amp;rdquo;&lt;/p&gt;
-&lt;p&gt;That&amp;rsquo;s because the CUDA driver or HAL library etc. will handle it for you, so of course you don&amp;rsquo;t feel it. Conversely, if you are writing a driver or doing bare metal development today, you must be careful about memory alignment, otherwise it might not even move.&lt;/p&gt;
-&lt;h2 id="so-how-to-achieve-alignment"&gt;So how to achieve Alignment?
-&lt;/h2&gt;&lt;p&gt;Having said so much, how can we achieve Alignment during memory allocation?&lt;/p&gt;
-&lt;p&gt;Imagine that our goal today is to get a new 64 bytes memory, and require 32-byte alignment.
-If the starting position given by &lt;code&gt;malloc&lt;/code&gt; today happens to be &lt;code&gt;0x08000040&lt;/code&gt;, which is the starting position of an alignment block, then we hit the jackpot, but in reality, we are certainly not that lucky. The starting position it gives you might be &lt;code&gt;0x08000041&lt;/code&gt; (offset by 1 byte), or it might be &lt;code&gt;0x0800005F&lt;/code&gt; (offset by 31 bytes).&lt;/p&gt;
-&lt;p&gt;But it doesn&amp;rsquo;t matter. At this time, we will think that as long as the memory &lt;code&gt;malloc&lt;/code&gt;&amp;rsquo;d is long enough, finding the starting point of an Alignment Block from it and starting to store data from there, that also counts as alignment.&lt;/p&gt;
-&lt;p&gt;So the question returns to, how long memory should we ask for?
-Observing the previous example, if doing 32 bytes alignment, the offset amount is at most &lt;code&gt;0 ~ 31&lt;/code&gt; bytes. So the space we want to &lt;code&gt;malloc()&lt;/code&gt; must be at least &lt;code&gt;size + alignment - 1&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Wait, something seems missing?
-If so, how can we &lt;code&gt;free&lt;/code&gt; those spaces before the alignment starting address? We need to record &lt;strong&gt;the starting address originally &lt;code&gt;malloc&lt;/code&gt;&amp;rsquo;d&lt;/strong&gt;, so we need one more position to store this pointer. This required space is &lt;code&gt;sizeof(void*)&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;In summary, the length we really want to &lt;code&gt;malloc()&lt;/code&gt; is:
+&lt;p&gt;所謂的 &lt;strong&gt;Aligned Memory Allocation&lt;/strong&gt;，就是我在要新的記憶體空間時，想要拿到一個&lt;strong&gt;起始位置可以被 32（或是其他數字）整除的記憶體空間&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;OK，所以說到這邊應該對這個 Aligned Memory Allocation 是什麼應該有點概念了，這樣就成功了一半了。因為大多數人第一次聽到應該都比較難想到這是什麼，又或者知道這是什麼，但不知道有什麼用&lt;/p&gt;
+&lt;p&gt;所以，這個有什麼用呢？&lt;/p&gt;
+&lt;h2 id="為什麼需要-alignment"&gt;為什麼需要 Alignment？
+&lt;/h2&gt;&lt;p&gt;會需要 Alignment 大多是受到硬體設計的限制，例如：&lt;/p&gt;
+&lt;p&gt;向量指令集 (如 AVX)，當執行這類指令集的時候，會要求目標的記憶體位置是對齊的，沒有對齊的話得要拆成兩步去處理，或是直接出現錯誤，那為什麼不設計成指令集可以讀取任意位置起始的記憶體呢？我覺得大多是成本考量，如果能從驅動程式端去解決，又何必浪費昂貴的硬體空間呢&lt;/p&gt;
+&lt;p&gt;其他像是 CUDA 中 GPU 透過 PCIe 抓取資料時，使用 DMA 也會要求記憶體要對齊，又或者 GPU 指令抓取他自己記憶體的資料也會要求對齊，另外在 STM32 這類單晶片上使用 DMA 時，buffer 的記憶體位置也會要求對齊，才能夠被 DMA 正確寫入或讀取&lt;/p&gt;
+&lt;p&gt;這時候一定有人跳出來說：「我平常用 CUDA 或是在 STM32 上用 DMA 都沒遇到這問題啊！」&lt;/p&gt;
+&lt;p&gt;那是因為 CUDA driver 或是 HAL library 之類的會幫你處理好，所以當然沒感覺，反過來說，如果你今天寫的是 driver 或是 bare metal 開發，那一定要小心記憶體對齊這東西，不然可能連動都動不起來&lt;/p&gt;
+&lt;h2 id="所以該怎麼做到-alignment"&gt;所以該怎麼做到 Alignment？
+&lt;/h2&gt;&lt;p&gt;前面說了這麼多，那要怎麼才能做到記憶體分配時 Alignment 呢？&lt;/p&gt;
+&lt;p&gt;設想今天我們目標要一塊新的 64 bytes 記憶體，並且要求 32-byte 對齊。
+如果今天 &lt;code&gt;malloc&lt;/code&gt; 給的起始位置剛剛好就是 &lt;code&gt;0x08000040&lt;/code&gt;，是 alignment block 的起始位置，這樣就中大獎了，但實際上當然不會那麼幸運，他可能給你的起始位置是 &lt;code&gt;0x08000041&lt;/code&gt;（偏移了 1 個 byte），也可能起始是 &lt;code&gt;0x0800005F&lt;/code&gt;（偏移了 31 個 bytes）&lt;/p&gt;
+&lt;p&gt;但沒關係，這時候就會想到，只要&lt;code&gt;malloc&lt;/code&gt;的記憶體夠長，從中找到一個 Alignment Block 的起點並從那邊開始存資料，這樣也算對齊吧&lt;/p&gt;
+&lt;p&gt;那麼問題就回到，我們該要多長的記憶體呢？
+觀察前面的例子，如果做 32 bytes 的 alignment，偏移的量最多就是 &lt;code&gt;0 ~ 31&lt;/code&gt; bytes。所以我們要 &lt;code&gt;malloc()&lt;/code&gt; 的空間至少要是 &lt;code&gt;size + alignment - 1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;等等，好像少了什麼？
+這樣的話要怎麼才能 &lt;code&gt;free&lt;/code&gt; 掉 alignment 起始位址前面的那些空間呢？我們需要紀錄&lt;strong&gt;真正原本 &lt;code&gt;malloc&lt;/code&gt; 出來的起始位址&lt;/strong&gt;，所以還需要再多一個位置去存這個指標，這個需要的空間是 &lt;code&gt;sizeof(void*)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;總結來說，我們真正要 &lt;code&gt;malloc()&lt;/code&gt; 的長度是：
 &lt;code&gt;size + alignment - 1 + sizeof(void*)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Memory Structure Diagram:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;記憶體結構示意圖：&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -67,26 +67,24 @@ If so, how can we &lt;code&gt;free&lt;/code&gt; those spaces before the alignmen
 &lt;/span&gt;&lt;span class="lnt"&gt; 8
 &lt;/span&gt;&lt;span class="lnt"&gt; 9
 &lt;/span&gt;&lt;span class="lnt"&gt;10
-&lt;/span&gt;&lt;span class="lnt"&gt;11
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Actual malloc&amp;#39;d block (Original)
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;實際 malloc 得到的區塊 (Original)
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;v
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+-------------+---------------------+-------------------------+
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| padding ... | Original Pointer | User Pointer (Aligned) |
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| | (Stored) | |
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| padding ... | 原始指標 (Stored) | 使用者拿到的指標 (Aligned)|
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+-------------+---------------------+-------------------------+
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ^ ^
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; | |
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; This slot stores Fits 32-byte alignment
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; original address We return this address
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 這格存著 original 符合 32-byte 對齊
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 的地址 我們回傳這個地址
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;Then we just need to find the alignment starting address inside, and store the &amp;ldquo;original starting address&amp;rdquo; in the slot before the alignment start. This way, when &lt;code&gt;free&lt;/code&gt;ing memory, just look &lt;strong&gt;one slot backward&lt;/strong&gt; from the alignment address, and we can find the memory starting point we should free.&lt;/p&gt;
-&lt;p&gt;The principle concept is just like this. So let&amp;rsquo;s see how to implement it.&lt;/p&gt;
-&lt;h2 id="c-implementation"&gt;C Implementation
-&lt;/h2&gt;&lt;p&gt;The following takes 32-byte alignment as an example. You can change 32 to any positive integer alignment you want (usually a power of 2).&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;然後我們只要找到這裡面 alignment 的起始位址，並且把「原始的起始位址」存在 alignment 起始的前一格。這樣在 &lt;code&gt;free&lt;/code&gt; memory 時，只要從 alignment 位址&lt;strong&gt;往前找一格&lt;/strong&gt;，就可以找到我們應該要釋放的記憶體起點。&lt;/p&gt;
+&lt;p&gt;原理概念上就是這樣了，那麼就來看看要怎麼實作吧。&lt;/p&gt;
+&lt;h2 id="c-語言實作"&gt;C 語言實作
+&lt;/h2&gt;&lt;p&gt;以下用 32-byte alignment 為例子，可以把 32 換成任意想要的正整數 alignment（通常是 2 的次方）。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
@@ -130,51 +128,51 @@ If so, how can we &lt;code&gt;free&lt;/code&gt; those spaces before the alignmen
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdint.h&amp;gt; // for uintptr_t&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdint.h&amp;gt; // 為了使用 uintptr_t&lt;/span&gt;&lt;span class="cp"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nf"&gt;aligned_malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 1. Calculate the total space needed:
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// size + adjustment space of (alignment - 1) + space to store original pointer
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 1. 計算需要的總空間：
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// size + (alignment - 1) 的調整空間 + 存放原始指標的空間
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 2. Calculate the alignment starting position
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// First reserve a pointer space for us to store the address
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 2. 算出 alignment 的起始位置
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 先預留一個 pointer 的空間給我們存地址
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;uintptr_t&lt;/span&gt; &lt;span class="n"&gt;raw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;uintptr_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Use Bitwise operation for alignment
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// Principle: (address + mask) &amp;amp; ~mask
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// Note: Here use ~(32 - 1) i.e. ~31 to mask off the last five bits to achieve 32 alignment
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 利用 Bitwise 操作進行對齊
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 原理：(address + mask) &amp;amp; ~mask
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 注意：這裡要用 ~(32 - 1) 也就是 ~31 才能遮掉後五位達到 32 對齊
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;uintptr_t&lt;/span&gt; &lt;span class="n"&gt;aligned&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;raw&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Actually can also use (void*)(original - (original % 32)); to calculate
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// Just that using bit manipulation feels more elegant
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 其實也可以用(void*)(original - (original % 32));去算
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// 只是用bit manipulation感覺比較優雅
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 3. Store the original malloc() starting address in the slot before the alignment address
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 3. 把原本 malloc() 的起始位址存到 alignment 位址的前一格
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;aligned&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 4. Finally return the alignment start
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 4. 最後回傳 alignment 的起始
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;aligned&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;aligned_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// When freeing, find the original malloc address stored one slot before the alignment address
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// free 的時候，去找到 alignment 位址前一格存的原來 malloc 的位址
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Then just free it
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 然後把它釋放就行了
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="nf"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;original&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id="conclusion"&gt;Conclusion
-&lt;/h2&gt;&lt;p&gt;Anyway, that&amp;rsquo;s it. Aligned Memory Allocation is important and has some implementation details. Taking this opportunity, I have figured it out. Even if I forget it in the future, I can quickly come back to review it.&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id="結語"&gt;結語
+&lt;/h2&gt;&lt;p&gt;總之就是這樣，Aligned Memory Allocation這個東西重要又有一些實作小細節，藉由這個機會算是有搞懂他了，以後忘了也可以快速回來複習一下&lt;/p&gt;
 &lt;h2 id="reference"&gt;Reference
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://bclin.tw/2020/03/15/aligned-malloc/" target="_blank" rel="noopener"
-&gt;How to implement an aligned_alloc () ?&lt;/a&gt;&lt;/li&gt;
+&gt;如何實作一個 aligned_alloc () ？&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://medium.com/howsofcoding/memory-management-aligned-malloc-and-free-9273336bd4c6" target="_blank" rel="noopener"
 &gt;Designing aligned Memory Allocator&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://linux.die.net/man/3/aligned_alloc" target="_blank" rel="noopener"

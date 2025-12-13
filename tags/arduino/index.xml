@@ -1,37 +1,37 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Arduino on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/arduino/</link><description>Recent content in Arduino on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 21 Aug 2023 19:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/arduino/index.xml" rel="self" type="application/rss+xml"/><item><title>Common MCUs in Embedded Systems</title><link>https://www.hugoshih.com/p/common-mcus-in-embedded-systems/</link><pubDate>Mon, 21 Aug 2023 19:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/common-mcus-in-embedded-systems/</guid><description>&lt;img src="https://i.imgur.com/xEqWwbo.jpg" alt="Featured image of post Common MCUs in Embedded Systems" /&gt;&lt;h1 id="common-mcus-in-embedded-systems"&gt;Common MCUs in Embedded Systems
-&lt;/h1&gt;&lt;p&gt;Recently, while implementing an embedded system, I needed more powerful computing capabilities, so I decided to move away from the commonly used Atmega328p and look for other 32-bit MCU development platforms. Choosing a platform is a big decision, as each platform has different use cases and development environments. I&amp;rsquo;ll take this opportunity to analyze them.&lt;/p&gt;
-&lt;h2 id="atmel-series-eg-atmega328p"&gt;ATMEL Series (e.g., ATMEGA328P)
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Arduino on 施星宇</title><link>https://www.hugoshih.com/tags/arduino/</link><description>Recent content in Arduino on 施星宇</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 21 Aug 2023 19:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/arduino/index.xml" rel="self" type="application/rss+xml"/><item><title>嵌入式系統常用的幾種MCU</title><link>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</link><pubDate>Mon, 21 Aug 2023 19:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</guid><description>&lt;img src="https://i.imgur.com/xEqWwbo.jpg" alt="Featured image of post 嵌入式系統常用的幾種MCU" /&gt;&lt;h1 id="嵌入式系統常用的幾種mcu"&gt;嵌入式系統常用的幾種MCU
+&lt;/h1&gt;&lt;p&gt;最近在實作嵌入式系統時因為系統需要更強的運算功能，決定捨棄原本常用的Atmega328p，尋找其他32位元MCU開發平台，選擇平台是件大事，每個平台的適用場景跟開發環境都不同，藉此機會來分析一下。&lt;/p&gt;
+&lt;h2 id="atmel系列-如atmega328p"&gt;ATMEL系列 (如ATMEGA328P)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;Atmega328p is an 8-bit AVR architecture MCU produced by ATMEL (USA), commonly found on Arduino UNO boards.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Easy to get started, complete documentation, complete community support (excellent Arduino ecosystem), good power efficiency (haven&amp;rsquo;t tested this personally but heard it&amp;rsquo;s good).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Limited processing power compared to other 32-bit MCUs, less internal memory and RAM, slightly expensive for its performance (around 35 NTD).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Beginner projects (e.g., Arduino tutorials, simple embedded projects), low-power and low-cost home electronic devices.&lt;/li&gt;
+&lt;li&gt;Atmega328p是ATMEL公司(美國)生產的8位元AVR架構MCU，常用於Arduino UNO板上&lt;/li&gt;
+&lt;li&gt;優點:容易入門且文檔完整、社群支援完整(Arduino生態系建立的很好)、良好的功耗效率(這點沒實測過但聽說很不錯)&lt;/li&gt;
+&lt;li&gt;缺點:與其他32位元MCU相比，處理能力有限、較少的內置記憶體和RAM、以他的性能來說小貴(35元上下)&lt;/li&gt;
+&lt;li&gt;適用場景: 初學者入門的專案(例如Arduino教學、簡單的嵌入式專案)、低功耗低成本的家用電子裝置&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="esp-series-eg-esp32-c3"&gt;ESP Series (e.g., ESP32-C3)
+&lt;h2 id="esp系列-如esp32-c3"&gt;ESP系列 (如ESP32-C3)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;ESP32-C3 is a product of Espressif Systems (China), based on 32-bit RISC-V or Xtensa architecture, with built-in WiFi and Bluetooth capabilities.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Includes WiFi and Bluetooth without external modules, so high CP value (one chip 35-50 NTD), widely used with decent community support, versions with internal SPI flash are very convenient.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Higher power consumption (although it has deep sleep capability), system stability is rumored to be less than ideal.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: IoT (Internet of Things) devices requiring WiFi or Bluetooth connection, smart home appliances, smart wearable devices, non-critical applications.&lt;/li&gt;
+&lt;li&gt;ESP32-C3是Espressif Systems公司(中國)的產品，基於32位元RICS-V或Xtensa架構，自帶WiFi和藍牙功能&lt;/li&gt;
+&lt;li&gt;優點:直接包含WiFi和藍牙不用外接模組所以CP很高(一顆35-50元)、也是很多人在使用社群支援算完整、有內涵SPI flash的版本很方便&lt;/li&gt;
+&lt;li&gt;缺點:較高的功耗(雖然有深度睡眠功能)、系統穩定性聽說不佳&lt;/li&gt;
+&lt;li&gt;適用場景: IoT (物聯網) 需要WiFi或藍牙連接的設備、智慧家電、智慧穿戴裝置、不是很關鍵的東西。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="stm-series-eg-stm32f103c8t6"&gt;STM Series (e.g., STM32F103C8T6)
+&lt;h2 id="stm系列-如stmf103c8t6"&gt;STM系列 (如STMF103C8T6)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;STM32F103C8T6 is a 32-bit ARM Cortex-M3 microcontroller from STMicroelectronics (Switzerland).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Strong computing power, multiple interfaces, low-power versions available, high cost-performance ratio (wide range from 20-60 NTD), complete development and debugging tools, commonly used in industrial products.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Development environment is more complex, less RAM and Flash in some models.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Complex embedded projects, applications requiring strong processing power, industrial automation, drones, high-end sensor systems.&lt;/li&gt;
+&lt;li&gt;STMF103C8T6是STMicroelectronics公司(瑞士)的32位元ARM Cortex-M3微控制器&lt;/li&gt;
+&lt;li&gt;優點:運算功能強、具有多種接口、有低功耗模式的版本，具有較高的性價比(範圍大20-60元都有)、有很完整的開發除錯工具、在工業產品中比較常用&lt;/li&gt;
+&lt;li&gt;缺點:開發環境較為複雜、較少的RAM和Flash&lt;/li&gt;
+&lt;li&gt;適用場景: 複雜的嵌入式專案、需要強大的處理能力、工業自動化、無人機、高階的感測器系統&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="stc-series-eg-stc89c52"&gt;STC Series (e.g., STC89C52)
+&lt;h2 id="stc系列-如stc89c52"&gt;STC系列 (如STC89C52)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;STC89C52 is an 8-bit 8051 microcontroller produced by STC Micro (China).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: 8051 architecture is very old, has extensive applications and massive data support, ultra-cheap (10-50 NTD), development environment is relatively simple.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Very old architecture, limited processing power, less memory and RAM, can be seen as a weakened version of Atmel series, but because functions are simple, it&amp;rsquo;s commonly used in home appliances.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Traditional embedded systems, such as home appliance control, educational purposes, learning 8051 microcontroller principles and programming, simple LED display, keyboard input, and other basic IO operations.&lt;/li&gt;
+&lt;li&gt;STC89C52是STC Micro公司(中國)生產的8位元8051微控制器。&lt;/li&gt;
+&lt;li&gt;優點: 8051架構非常的古老、具有廣泛的應用和大量的資料支援、價格超便宜(10-50元)、開發環境算簡單。&lt;/li&gt;
+&lt;li&gt;缺點:超舊的架構，處理能力有限、較少的內存和RAM、可以看作是人弱化版的Atmel系列、但因為功能單純，家電之類的很常用到&lt;/li&gt;
+&lt;li&gt;適用場景: 傳統的嵌入式系統，如家用電器控制、教育用途，學習8051微控制器的原理和程式設計、簡單的LED顯示、鍵盤輸入等基本IO操作&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="raspberry-series-eg-rp2040"&gt;RASPBERRY Series (e.g., RP2040)
+&lt;h2 id="raspberry系列-如rp2040"&gt;RASPBERRY系列 (如RP2040)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;RP2040 is a 32-bit ARM Cortex-M0+ microcontroller developed by the Raspberry Pi Foundation (UK).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Efficient processing performance, relatively large RAM, open-source resources and community support, simple development environment (Micropython), high CP value (35 NTD).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Newer product, may have hardware instability issues or bugs without solutions yet.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Embedded projects requiring high-performance processing, audio/video computing, image processing, complex algorithm computing, big data processing, running TinyML models, etc.&lt;/li&gt;
+&lt;li&gt;RP2040是Raspberry Pi基金會(英國)開發的32位元ARM Cortex-M0+微控制器&lt;/li&gt;
+&lt;li&gt;優點:高效的處理性能、RAM算大、開源資源和社群支援、簡單的開發環境(Micropython)、CP值也很高(35元)&lt;/li&gt;
+&lt;li&gt;缺點: 較新的產品，可能存在與硬體不穩定的問題有些Bug可能還沒有解法&lt;/li&gt;
+&lt;li&gt;適用場景: 要求高性能處理的嵌入式專案、影音運算、影像處理、複雜的演算法運算、大數據處理、跑TinyML模型等等&lt;/li&gt;
 &lt;/ul&gt;</description></item></channel></rss>

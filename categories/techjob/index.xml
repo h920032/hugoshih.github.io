@@ -1,28 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TechJob on Hsing-Yu Shih</title><link>https://www.hugoshih.com/categories/techjob/</link><description>Recent content in TechJob on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 05 May 2025 14:52:00 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/categories/techjob/index.xml" rel="self" type="application/rss+xml"/><item><title>Comparison of Various PMs</title><link>https://www.hugoshih.com/p/comparison-of-various-pms/</link><pubDate>Mon, 05 May 2025 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/comparison-of-various-pms/</guid><description>&lt;img src="https://i.imgur.com/Hw4bXMX.jpg" alt="Featured image of post Comparison of Various PMs" /&gt;&lt;h2 id="why-is-everyone-called-pm"&gt;Why is everyone called PM?
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TechJob on 施星宇</title><link>https://www.hugoshih.com/categories/techjob/</link><description>Recent content in TechJob on 施星宇</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 05 May 2025 14:52:00 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/categories/techjob/index.xml" rel="self" type="application/rss+xml"/><item><title>各種PM比較</title><link>https://www.hugoshih.com/p/%E5%90%84%E7%A8%AEpm%E6%AF%94%E8%BC%83/</link><pubDate>Mon, 05 May 2025 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%90%84%E7%A8%AEpm%E6%AF%94%E8%BC%83/</guid><description>&lt;img src="https://i.imgur.com/Hw4bXMX.jpg" alt="Featured image of post 各種PM比較" /&gt;&lt;h2 id="為什麼大家都叫-pm"&gt;為什麼大家都叫 PM？
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;Product Manager focuses on market, customers and product vision, deciding &amp;ldquo;what to do, for whom&amp;rdquo;; hailed as &amp;ldquo;Product CEO&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;Program Manager stands above multiple projects, ensuring projects weave into a chain consistent with strategy, focusing on &amp;ldquo;Integration and Enablement&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;Project Manager focuses on time, cost, scope triangle, managing &amp;ldquo;making things happen&amp;rdquo; through processes and nodes
-The three have intersections due to organizational scale and industry differences, but thinking levels descend from &amp;ldquo;Strategy -&amp;gt; Tactics -&amp;gt; Execution&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Product Manager 關注市場、客戶與產品願景，決定「做什麼、為誰做」；被譽為「產品的 CEO」&lt;/li&gt;
+&lt;li&gt;Program Manager 站在多專案之上，確保各專案交織成一條合乎策略的長鏈，重點在「整合與賦能」&lt;/li&gt;
+&lt;li&gt;Project Manager 聚焦時間、成本、範圍三角，以流程與節點管理「把東西做出來」
+三者因組織規模和行業差異而有交集，但思考層次由「戰略→戰術→執行」逐層向下&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="core-responsibilities"&gt;Core Responsibilities
-&lt;/h2&gt;&lt;h3 id="project-manager"&gt;Project Manager
+&lt;h2 id="核心職責"&gt;核心職責
+&lt;/h2&gt;&lt;h3 id="project-manager專案經理"&gt;Project Manager｜專案經理
 &lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;Mission: Deliver clear outputs (building built, App launched) and achieve established metrics (Time / Cost / Scope)&lt;/li&gt;
-&lt;li&gt;Key Activities: Scheduling, risk control, milestone tracking, stakeholder communication&lt;/li&gt;
-&lt;li&gt;Success Indicators: Project on-time rate, budget control rate, scope change frequency&lt;/li&gt;
+&lt;li&gt;使命：交付明確產出（樓蓋起來、App 上線）並達成既定三圍（Time／Cost／Scope）&lt;/li&gt;
+&lt;li&gt;關鍵活動：排程、風險控管、里程碑追蹤、利害關係人溝通&lt;/li&gt;
+&lt;li&gt;成功指標：專案準時率、預算控制率、範圍變更次數&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="program-manager"&gt;Program Manager
+&lt;h3 id="program-manager計畫經理"&gt;Program Manager｜計畫經理
 &lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;Mission: Connect multiple projects and processes, deliver measurable &amp;ldquo;business results&amp;rdquo; or &amp;ldquo;strategic transformation outcomes&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;Key Activities: Formulate Roadmap, allocate cross-project resources, governance standardization, measure benefits&lt;/li&gt;
-&lt;li&gt;Success Indicators: Added value, strategic goal achievement, organizational capability improvement&lt;/li&gt;
+&lt;li&gt;使命：串接多個專案與流程，交付可衡量的「業務成效」或「策略轉型成果」&lt;/li&gt;
+&lt;li&gt;關鍵活動：擬定 Roadmap、配置跨案資源、治理標準化、衡量收益&lt;/li&gt;
+&lt;li&gt;成功指標：附加價值、策略目標達成度、組織能力提升&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="product-manager"&gt;Product Manager
+&lt;h3 id="product-manager產品經理"&gt;Product Manager｜產品經理
 &lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;Mission: Find market pain points, define product positioning, continuously drive PMF (Product‑Market Fit)&lt;/li&gt;
-&lt;li&gt;Key Activities: Market/User research, product strategy, requirement prioritization, MVP validation&lt;/li&gt;
-&lt;li&gt;Success Indicators: ARR / MAU growth, retention rate, customer satisfaction, commercial gross profit&lt;/li&gt;
+&lt;li&gt;使命：找到市場痛點、定義產品定位，持續推動 PMF（Product‑Market Fit）&lt;/li&gt;
+&lt;li&gt;關鍵活動：市場/用戶研究、產品策略、需求優先級、MVP 驗證&lt;/li&gt;
+&lt;li&gt;成功指標：ARR／MAU 成長、留存率、客戶滿意度、商業化毛利&lt;/li&gt;
 &lt;/ul&gt;</description></item><item><title>科技業台商與外商公司暱稱</title><link>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</link><pubDate>Sat, 06 May 2023 14:52:00 +0800</pubDate><guid>https://www.hugoshih.com/p/%E7%A7%91%E6%8A%80%E6%A5%AD%E5%8F%B0%E5%95%86%E8%88%87%E5%A4%96%E5%95%86%E5%85%AC%E5%8F%B8%E6%9A%B1%E7%A8%B1/</guid><description>&lt;img src="https://i.imgur.com/1gEXPk2.jpg" alt="Featured image of post 科技業台商與外商公司暱稱" /&gt;&lt;h1 id="科技業台商與外商公司暱稱"&gt;科技業台商與外商公司暱稱
 &lt;/h1&gt;&lt;h2 id="台商"&gt;台商
 &lt;/h2&gt;&lt;h3 id="ic設計-豬屎屋"&gt;IC設計 (豬屎屋)

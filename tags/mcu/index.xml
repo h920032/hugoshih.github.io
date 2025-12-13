@@ -1,24 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MCU on Hsing-Yu Shih</title><link>https://www.hugoshih.com/tags/mcu/</link><description>Recent content in MCU on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 06 Jan 2025 15:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/mcu/index.xml" rel="self" type="application/rss+xml"/><item><title>Introduction and Comparison of Common Real-Time OS</title><link>https://www.hugoshih.com/p/introduction-and-comparison-of-common-real-time-os/</link><pubDate>Mon, 06 Jan 2025 15:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/introduction-and-comparison-of-common-real-time-os/</guid><description>&lt;img src="https://i.imgur.com/7SJYZ3b.jpg" alt="Featured image of post Introduction and Comparison of Common Real-Time OS" /&gt;&lt;h2 id="introduction"&gt;Introduction
-&lt;/h2&gt;&lt;p&gt;A Real-Time Operating System (RTOS) is an operating system designed specifically for real-time applications, emphasizing &amp;ldquo;responding to events within a specific time limit (deadline)&amp;rdquo;. Imagine a scenario in the industrial field where a part of a machine suddenly malfunctions and needs to stop all motor operations in a very short time. If a traditional operating system like Linux is used, depending on the OS kernel scheduling policy, the action of stopping the motor may be slightly delayed. In contrast, an RTOS can have more flexible thread preemption, allowing emergency situations to be handled faster.&lt;/p&gt;
-&lt;p&gt;Essentially, the kernel usage of RTOS is similar. Basically, they can achieve multiple thread creation, round-robin execution, priority preemption, mutex locks, kernel-level interrupts, etc. More advanced ones have dynamic memory management and multi-core support. The main differences between these RTOS lie in the support for peripheral modules and the surrounding development ecosystem. The following introduces several currently mainstream common RTOS:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MCU on 施星宇</title><link>https://www.hugoshih.com/tags/mcu/</link><description>Recent content in MCU on 施星宇</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 06 Jan 2025 15:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/tags/mcu/index.xml" rel="self" type="application/rss+xml"/><item><title>常見 Real-Time OS 介紹與比較</title><link>https://www.hugoshih.com/p/%E5%B8%B8%E8%A6%8B-real-time-os-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%AF%94%E8%BC%83/</link><pubDate>Mon, 06 Jan 2025 15:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B8%B8%E8%A6%8B-real-time-os-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%AF%94%E8%BC%83/</guid><description>&lt;img src="https://i.imgur.com/7SJYZ3b.jpg" alt="Featured image of post 常見 Real-Time OS 介紹與比較" /&gt;&lt;h2 id="介紹"&gt;介紹
+&lt;/h2&gt;&lt;p&gt;即時作業系統（Real-Time Operating System, RTOS）是一種專門為即時（real-time）應用而設計的作業系統，強調「在特定時間限制內（deadline）對事件進行回應」，試想一個情境在工業的領域若機器某部分突然產生故障，需要在極短的時間內停止所有馬達的運作，若此時使用的是傳統的作業系統如Linux，依OS內核的調度策略，最終馬達停止的動作會有些許延遲，相較之下RTOS則可以有較彈性的執行緒搶佔，讓緊急情況的處理可以更快被執行&lt;/p&gt;
+&lt;p&gt;本質上來說RTOS的內核使用起來的效果是大同小異的，基本上能做到多個執行緒的建立、輪詢執行、優先序搶佔、互斥鎖、內核級的中斷等功能，進階一點的則有可以動態記憶體管理、多核心的支援，這些RTOS主要的差異大多是在外圍模組的支援、周邊的開發生態系等，以下就分別介紹目前主流常見的幾種RTOS:&lt;/p&gt;
 &lt;h3 id="freertos"&gt;&lt;a class="link" href="https://github.com/FreeRTOS/FreeRTOS" target="_blank" rel="noopener"
 &gt;FreeRTOS&lt;/a&gt;
-&lt;/h3&gt;&lt;p&gt;FreeRTOS is maintained by Real Time Engineers Ltd. and Amazon. It is completely open source and widely used globally. FreeRTOS can be said to be the most common RTOS. Its success lies in being open source early, integrated by various IDEs early, and its shadow can be seen in the SDKs of various chips. I first contacted it in the Arduino IDE. FreeRTOS appeared in the Arduino library list very early. It is simple enough to use, without complex settings, and multi-threading can be implemented with a line or two of code, making it easy for beginners to enter the world of RTOS. Its backer is Amazon, and later it also integrated a lot of AWS IoT-related functions. Since it was open sourced early, there are many surrounding modules.&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;FreeRTOS 是由 Real Time Engineers Ltd. 及 Amazon 維護，完全開源並且在全球廣受使用，FreeRTOS 可以說是最最最常見的一種RTOS，成功之道大概在於早早就開源，早早就被各家IDE整合，各家晶片的SDK也都可以看到他的影子，我最早接觸他是在Arduino IDE，FreeRTOS早早就出現在Arduino library list中，使用起來也夠簡單，沒有什麼複雜的設定，加一兩行code就可以實現多執行緒，讓初學者很容易就可以踏入RTOS的世界。他背後的金主爸爸是 Amazon，後來也整合了不少 AWS 上IoT相關的功能，由於早早就開源，周圍的模組也不少。&lt;/p&gt;
 &lt;h3 id="azurertos-threadx"&gt;&lt;a class="link" href="https://github.com/eclipse-threadx/threadx" target="_blank" rel="noopener"
 &gt;AzureRTOS (Threadx)&lt;/a&gt;
-&lt;/h3&gt;&lt;p&gt;ThreadX is a real-time operating system (RTOS) developed by Express Logic. It was subsequently acquired by Microsoft and released as a renamed version AzureRTOS and open sourced. From the name, it can be seen that formerly it should be paired with Microsoft&amp;rsquo;s Azure to do some IoT functions, but currently, no killer application seems to have been seen. Because it was open sourced relatively late, there are fewer surrounding packages, such as BLE and Wifi stacks, but I believe with native support from Microsoft, it should grow quickly. I encountered AzureRTOS because STM32 officially supports AzureRTOS natively. Interestingly, the STM32 development environment also supports FreeRTOS, but the support is far inferior to AzureRTOS.&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;ThreadX 是由 Express Logic 開發的即時作業系統（RTOS），後續被 Microsoft 收購並推出更名版本 AzureRTOS 並開源，從名字就可以看出來未來應該是要跟微軟的 Azure 搭配做一些IoT的功能，但目前好像還沒看到什麼殺手級的應用。由於開源的時間比較晚，周圍的套件比較少，像BLE、Wifi這類的Stack能用的東西好像比較少，但相信有微軟原生的支援應該可以成長的很快，我會碰到 AzureRTOS 是因為 STM32 官方原生支援 AzureRTOS，很有趣的是 STM32 的開發環境也有支援 FreeRTOS，但支援度是遠遜於 AzureRTOS 的。&lt;/p&gt;
 &lt;h3 id="zephyr"&gt;&lt;a class="link" href="https://github.com/zephyrproject-rtos/zephyr" target="_blank" rel="noopener"
 &gt;Zephyr&lt;/a&gt;
-&lt;/h3&gt;&lt;p&gt;Zephyr is an open-source real-time operating system (RTOS) led by the Linux Foundation. Although Zephyr has been around for a long time, it has only suddenly become popular in recent years. It features cross-platform compatibility and a complete development toolchain, with useful tools like West and architectures designed for cross-platform like DeviceTree. It can be said that to use Zephyr, you have to use this entire toolchain together to make it useful. However, it seems that due to the toolchain and compatibility reasons, although various chip manufacturers claim support, the support doesn&amp;rsquo;t seem to be that good, especially when it comes to very low-level hardware settings (like clock tree settings), it becomes particularly troublesome. if there is no such requirement, it is quite easy to use, and many settings and initializations are omitted for you. I encountered Zephyr because I used Nordic&amp;rsquo;s Bluetooth SoC. The latest nrf connect SDK is basically built on Zephyr, and Zephyr&amp;rsquo;s communication-related packages are also very complete, making it very suitable for Nordic chips.&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;Zephyr 是由 Linux 基金會（Linux Foundation）主導的開源即時作業系統（RTOS），Zephyr雖然出現很久了，但算是這幾年才突然紅起來，主打一個跨平台的相容性和完整的開發工具鏈，有像是West這種很好用的工具、也有像是DeviceTree者種為跨平台設計的架構，可以說要用Zephyr就要連著這一整串工具鏈一起用才會好用，不過好像也是因為綁著工具鏈跟相容性的原因，好像各家晶片雖然說有支援，但好像又支援的沒那麼好，特別是牽涉到很底層的硬體設定(像時鐘樹設定)就會變的特別麻煩，如果沒有這種需求就蠻好用的，很多設定、初始化都幫你省略了。會碰到Zephyr是因為使用 Nordic 的藍牙 SoC，最新的的 nrf connect SDK 基本上是建立在 Zephyr 上的，而 Zephyr 通訊相關的套件也很完整，很適合給 Nordic 的晶片用。&lt;/p&gt;
 &lt;h3 id="rt-thread"&gt;&lt;a class="link" href="https://github.com/RT-Thread/rt-thread" target="_blank" rel="noopener"
 &gt;RT-Thread&lt;/a&gt;
-&lt;/h3&gt;&lt;p&gt;RT-Thread is an open-source real-time operating system (RTOS) led by a Chinese team. It is quite popular in China&amp;rsquo;s embedded system open source community and has good support for Chinese-made MCUs (especially some RISC-V chips), but it is rarely seen used elsewhere. Like Zephyr, there are many tools available. I haven&amp;rsquo;t used it myself yet, but what impressed me was that the RT-Thread community has a tool that can generate STM32 bootloader with one click. However, to use it, you need to register an account, and it is limited to registration with a Chinese phone number&amp;hellip;, which is not very friendly to developers outside of China.&lt;/p&gt;
-&lt;h2 id="comparison"&gt;Comparison
-&lt;/h2&gt;&lt;h3 id="differences-between-several-rtos"&gt;Differences between several RTOS
+&lt;/h3&gt;&lt;p&gt;RT-Thread 是一款由中國團隊主導開發的開源即時作業系統（RTOS），在中國的嵌入式系統開源社群算蠻熱門的，對中國製MCU(特別是一些RISC-V的晶片)支援度很好，但其他地方就比較少看到有人在用，跟Zephyr一樣也有蠻多工具可以使用，我自己還沒有用過，但讓我印象深刻的是RT-Thread社群有一個可以一鍵生成 STM32 bootloader 的工具，不過要使用要註冊帳號，而且還限定用中國的電話才能註冊&amp;hellip;，就對中國以外的開發者不是很友好。&lt;/p&gt;
+&lt;h2 id="比較"&gt;比較
+&lt;/h2&gt;&lt;h3 id="幾種rtos的差別"&gt;幾種RTOS的差別
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;&lt;strong&gt;Name&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;名稱&lt;/strong&gt;&lt;/th&gt;
 &lt;th&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;&lt;/th&gt;
 &lt;th&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;&lt;/th&gt;
 &lt;th&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;&lt;/th&gt;
@@ -27,61 +27,61 @@
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Maintainer&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Originally developed by Express Logic, now managed by Azure (Microsoft) &lt;br/&gt; - Open sourced after being bought by Microsoft&lt;/td&gt;
-&lt;td&gt;- Maintained by AWS (Amazon) and large community &lt;br/&gt; - Open source project with broad community support&lt;/td&gt;
-&lt;td&gt;- Hosted by Linux Foundation &lt;br/&gt; - Numerous major industry sponsors and contributors (e.g., Intel, Nordic, etc.)&lt;/td&gt;
-&lt;td&gt;- Chinese embedded manufacturers and RT-Thread community&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;維護者&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 原為 Express Logic 開發，現由 Azure (Microsoft) 管理 &lt;br/&gt; - 被微軟購買後開源&lt;/td&gt;
+&lt;td&gt;- AWS（Amazon）及大社群共同維護 &lt;br/&gt; - 開源專案，有廣大社群支援&lt;/td&gt;
+&lt;td&gt;- 由 Linux Foundation 托管 &lt;br/&gt; - 眾多主要產業贊助商與貢獻者（如 Intel、Nordic 等）&lt;/td&gt;
+&lt;td&gt;- 中國嵌入式廠商與RT-Thread 社群&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;License&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- MIT License (Open Source Version)&lt;/td&gt;
-&lt;td&gt;- MIT License &lt;br/&gt; - Completely open source, commercially usable&lt;/td&gt;
-&lt;td&gt;- Apache 2.0 License &lt;br/&gt; - Completely open source&lt;/td&gt;
-&lt;td&gt;- LGPL License &lt;br/&gt; - Commercially usable, but must comply with LGPL terms&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;授權&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- MIT 授權 (開源版本)&lt;/td&gt;
+&lt;td&gt;- MIT 授權 &lt;br/&gt; - 完全開源、商業可使用&lt;/td&gt;
+&lt;td&gt;- Apache 2.0 授權 &lt;br/&gt; - 完全開源&lt;/td&gt;
+&lt;td&gt;- LGPL 授權 &lt;br/&gt; - 可商業使用，但需遵守 LGPL 條款&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Key Features&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Small memory footprint &lt;br/&gt; - High performance preemptive multitasking &lt;br/&gt; - Integrated debugging functions, other peripheral control modules&lt;/td&gt;
-&lt;td&gt;- Modular design, highly customizable kernel &lt;br/&gt; - Cooperative and preemptive multitasking &lt;br/&gt; - Detailed documentation and huge community, high support&lt;/td&gt;
-&lt;td&gt;- Good cross-platform compatibility &lt;br/&gt; - Complete tracking and analysis tools &lt;br/&gt; - Integration with Percepio Tracealyzer&lt;/td&gt;
-&lt;td&gt;- Lightweight design and microkernel architecture &lt;br/&gt; - High efficiency, fast boot speed &lt;br/&gt; - Focus on modularity and ease of use&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;主要特色&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 小巧的記憶體佔用 &lt;br/&gt; - 高效能可搶先式多工 &lt;br/&gt; - 整合除錯功能、其他外設控制模組&lt;/td&gt;
+&lt;td&gt;- 模組化設計，可高度客製化內核 &lt;br/&gt; - 協同式及可搶先式多工 &lt;br/&gt; - 詳細文件與巨大社群，支援度高&lt;/td&gt;
+&lt;td&gt;- 跨平台相容性好 &lt;br/&gt; - 追蹤與分析工具完善 &lt;br/&gt; - 與 Percepio Tracealyzer 整合&lt;/td&gt;
+&lt;td&gt;- 輕量化設計與微核心架構 &lt;br/&gt; - 效率高，啟動速度快 &lt;br/&gt; - 著重模組化與易用性&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Barrier to Entry&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Medium barrier &lt;br/&gt; - Provides specialized APIs and toolchains &lt;br/&gt; - Native support for STM32, less support for other chips&lt;/td&gt;
-&lt;td&gt;- Low barrier &lt;br/&gt; - Comprehensive documentation and huge community &lt;br/&gt; - Relatively easy for beginners, low maintenance cost&lt;/td&gt;
-&lt;td&gt;- High barrier &lt;br/&gt; - Must be familiar with a complete set of development toolchains &lt;br/&gt; - Rich community and corporate resources, difficulty depends on application depth&lt;/td&gt;
-&lt;td&gt;- Medium barrier &lt;br/&gt; - Design is relatively simple and easy to understand &lt;br/&gt; - Modularity allows flexible expansion, but requires basic understanding of RTOS principles&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;使用門檻&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 門檻中 &lt;br/&gt; - 提供專門的 API 與工具鏈 &lt;br/&gt; - 原生支援STM32，其他晶片支援則較少&lt;/td&gt;
+&lt;td&gt;- 門檻低 &lt;br/&gt; - 文件全面且社群龐大 &lt;br/&gt; - 新手上手相對容易，維護成本低&lt;/td&gt;
+&lt;td&gt;- 門檻高 &lt;br/&gt; - 須熟悉成套的開發工具鏈 &lt;br/&gt; - 社群與企業資源豐富，難度取決於應用深度&lt;/td&gt;
+&lt;td&gt;- 門檻中 &lt;br/&gt; - 設計較為精簡易懂 &lt;br/&gt; - 模組化讓功能可彈性擴充，但仍需對 RTOS 原理有基礎理解&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Community &amp;amp; Ecosystem&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- High industry support due to Microsoft Azure &lt;br/&gt; - Open sourced later, relatively less community support&lt;/td&gt;
-&lt;td&gt;- Has an extremely wide user community &lt;br/&gt; - Rich third-party packages and forum resources&lt;/td&gt;
-&lt;td&gt;- Company and open source community work together &lt;br/&gt; - Large manufacturers invest resources in development and provide hardware support &lt;br/&gt; - Documentation and package tools are maturing&lt;/td&gt;
-&lt;td&gt;- Huge user base in Asian market &lt;br/&gt; - Community is growing, third-party resources are increasing year by year&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;社群與生態&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 因 Microsoft Azure 加持，工業界支持度高 &lt;br/&gt; - 開源時間較晚，社群支援相較少&lt;/td&gt;
+&lt;td&gt;- 擁有極為廣泛的使用者社群 &lt;br/&gt; - 豐富的第三方套件與論壇資源&lt;/td&gt;
+&lt;td&gt;- 企業和開源社群雙管齊下 &lt;br/&gt; - 大型廠商投入資源開發並提供硬體支援 &lt;br/&gt; - 文件與套件工具逐漸成熟&lt;/td&gt;
+&lt;td&gt;- 亞洲市場擁有極大用戶基礎 &lt;br/&gt; - 社群不斷壯大，第三方資源也逐年提升&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Scope of Application&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Consumer electronics, industrial equipment &lt;br/&gt; - Highly resource-constrained or high-performance applications&lt;/td&gt;
-&lt;td&gt;- Widely used in various microcontrollers and embedded devices &lt;br/&gt; - Suitable for small and medium projects or prototype development&lt;/td&gt;
-&lt;td&gt;- Products with high cross-platform compatibility &lt;br/&gt; - Devices requiring integration of multiple communication protocols&lt;/td&gt;
-&lt;td&gt;- Small IoT devices, home appliances, industrial control, etc. &lt;br/&gt; - Suitable for scenarios with limited resources and high real-time requirements&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;適用範圍&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 消費電子、工業設備 &lt;br/&gt; - 高度資源受限或需要高效能的應用&lt;/td&gt;
+&lt;td&gt;- 廣泛用於各類微控制器與嵌入式裝置 &lt;br/&gt; - 適合中小型專案或原型開發&lt;/td&gt;
+&lt;td&gt;- 高度跨平台相容性的產品 &lt;br/&gt; - 需要整合多種通訊協定的裝置&lt;/td&gt;
+&lt;td&gt;- 小型物聯網裝置、家電產品、工業控制等 &lt;br/&gt; - 適合資源有限且需高即時性的情境&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Examples&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Highly integrated SoC platforms &lt;br/&gt; - Network devices, medical instruments, consumer electronics &lt;br/&gt; - Systems with limited resources but requiring stability&lt;/td&gt;
-&lt;td&gt;- IoT edge devices &lt;br/&gt; - Small sensors, portable products &lt;br/&gt; - Industrial automation control&lt;/td&gt;
-&lt;td&gt;- High-speed communication equipment &lt;br/&gt; - Industrial equipment requiring complete tracking and debugging capabilities &lt;br/&gt; - Precision instruments and high reliability applications&lt;/td&gt;
-&lt;td&gt;- Embedded microcontrollers &lt;br/&gt; - Smart home and wearable devices &lt;br/&gt; - Scenarios requiring fast boot and efficient scheduling&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;範例&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 高度整合 SoC 平台 &lt;br/&gt; - 網路裝置、醫療器械、消費性電子設備 &lt;br/&gt; - 資源特別有限但需穩定度的系統&lt;/td&gt;
+&lt;td&gt;- 物聯網邊緣設備 &lt;br/&gt; - 小型感測器、可攜式產品 &lt;br/&gt; - 工業自動化控制&lt;/td&gt;
+&lt;td&gt;- 高速通訊設備 &lt;br/&gt; - 需要完整追蹤與調試能力的工業設備 &lt;br/&gt; - 精密儀器及高可靠度應用&lt;/td&gt;
+&lt;td&gt;- 嵌入式微控制器 &lt;br/&gt; - 智能家居與可穿戴式裝置 &lt;br/&gt; - 需要快速啟動、高效率排程的場景&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="differences-in-kernel-features"&gt;Differences in Kernel Features
+&lt;h3 id="內核功能層面的差異"&gt;內核功能層面的差異
 &lt;/h3&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;&lt;strong&gt;Name&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;名稱&lt;/strong&gt;&lt;/th&gt;
 &lt;th&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;&lt;/th&gt;
 &lt;th&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;&lt;/th&gt;
 &lt;th&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;&lt;/th&gt;
@@ -90,97 +90,97 @@
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Kernel Architecture&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Lightweight, modular design &lt;br/&gt; - Single-core real-time system &lt;br/&gt; - Provides preemption-threshold&lt;/td&gt;
-&lt;td&gt;- Single-core design &lt;br/&gt; - Enable/disable functions freely via config file &lt;br/&gt; - Easy porting for MCU&lt;/td&gt;
-&lt;td&gt;- Microkernel-like concept &lt;br/&gt; - Kconfig customizable/expandable at compile time &lt;br/&gt; - Supports multi-core (SMP)&lt;/td&gt;
-&lt;td&gt;- Microkernel + Modular &lt;br/&gt; - Expand via Packages &lt;br/&gt; - Default kernel is lightweight, fast boot speed&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;內核架構&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 輕量級、模組化設計 &lt;br/&gt; - 單核心即時系統 &lt;br/&gt; - 提供 preemption-threshold&lt;/td&gt;
+&lt;td&gt;- 單核心設計 &lt;br/&gt; - 透過設定檔自由啟用/停用功能 &lt;br/&gt; - 針對 MCU 移植方便&lt;/td&gt;
+&lt;td&gt;- 類微核心（microkernel）概念 &lt;br/&gt; - Kconfig 編譯時可裁剪/擴充 &lt;br/&gt; - 可支援多核心 (SMP)&lt;/td&gt;
+&lt;td&gt;- 微核心 + 模組化 &lt;br/&gt; - 通過 Packages 擴充 &lt;br/&gt; - 預設核心輕量、啟動速度快&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Scheduling Mechanism&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Preemptive multitasking &lt;br/&gt; - Priority scheduling &lt;br/&gt; - preemption-threshold reduces unnecessary preemption&lt;/td&gt;
-&lt;td&gt;- Preemptive or cooperative multitasking &lt;br/&gt; - Time slicing optional &lt;br/&gt; - Task notification improves performance&lt;/td&gt;
-&lt;td&gt;- Hybrid preemptive/cooperative &lt;br/&gt; - Supports task migration under multi-core &lt;br/&gt; - Flexible setting of time slice and preemption policy&lt;/td&gt;
-&lt;td&gt;- Preemptive based on priority &lt;br/&gt; - Low switching overhead &lt;br/&gt; - Suitable for time-critical applications&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;排程機制&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 可搶先式多工 &lt;br/&gt; - 優先順序排程 &lt;br/&gt; - preemption-threshold 降低不必要的搶先&lt;/td&gt;
+&lt;td&gt;- 可搶先式或協同式多工 &lt;br/&gt; - 時間片 (time slicing) 可選 &lt;br/&gt; - 任務通知提高效能&lt;/td&gt;
+&lt;td&gt;- 可搶先式/協同式混合 &lt;br/&gt; - 支援多核心下的任務搬移 &lt;br/&gt; - 彈性設定時間片與搶先策略&lt;/td&gt;
+&lt;td&gt;- 以優先順序為基礎的可搶先式 &lt;br/&gt; - 切換開銷低 &lt;br/&gt; - 適合時限嚴苛的應用&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Interrupt Management&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Provides fast interrupt response &lt;br/&gt; - Can use IPC primitives in ISR &lt;br/&gt; - Suggests complex logic be placed in Thread&lt;/td&gt;
-&lt;td&gt;- Complete interrupt priority setting specifications &lt;br/&gt; - Provides &amp;ldquo;FromISR&amp;rdquo; API to interact with kernel &lt;br/&gt; - Avoid high priority interrupts blocking RTOS services&lt;/td&gt;
-&lt;td&gt;- Methods correspond to different architectures &lt;br/&gt; - Allows complex processing in the latter half of ISR &lt;br/&gt; - Supports &lt;code&gt;irq_offload&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;- Concise interrupt entry/exit &lt;br/&gt; - Can wake up tasks or IPC in ISR &lt;br/&gt; - Suggests handling heavy tasks after interrupt or in Task&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;中斷管理&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 提供快速中斷響應 &lt;br/&gt; - ISR 中可使用 IPC 原語 &lt;br/&gt; - 建議複雜邏輯放在 Thread&lt;/td&gt;
+&lt;td&gt;- 有完整的中斷優先級設定規範 &lt;br/&gt; - 提供「FromISR」API 與核心互動 &lt;br/&gt; - 避免高優先級中斷封鎖 RTOS 服務&lt;/td&gt;
+&lt;td&gt;- 針對不同架構有對應方法 &lt;br/&gt; - 允許在 ISR 後半段做較複雜處理 &lt;br/&gt; - 支援 &lt;code&gt;irq_offload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;- 中斷入口/出口簡潔 &lt;br/&gt; - 可在 ISR 裡做任務喚醒或 IPC &lt;br/&gt; - 建議將重任務放在中斷後處理或 Task&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Task Communication &amp;amp; Sync&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Provides Semaphore, Mutex, Event Flags, Message Queue &lt;br/&gt; - Block Pool / Byte Pool as underlying resources&lt;/td&gt;
-&lt;td&gt;- Has Queue, Semaphore, Mutex, Event Group, Task Notification &lt;br/&gt; - Queue is the core communication channel&lt;/td&gt;
-&lt;td&gt;- Provides diverse mechanisms like Queue, FIFO, LIFO, Pipe, Mailbox, Semaphore, Mutex &lt;br/&gt; - High-level communication like Signals/Events&lt;/td&gt;
-&lt;td&gt;- Provides Semaphore, Mutex, Event, Mailbox, Message Queue &lt;br/&gt; - Modular API, easy to expand&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;任務通訊與同步&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 提供 Semaphore、Mutex、Event Flags、Message Queue &lt;br/&gt; - Block Pool / Byte Pool 作為底層資源&lt;/td&gt;
+&lt;td&gt;- 有 Queue、Semaphore、Mutex、Event Group、Task Notification &lt;br/&gt; - Queue 是核心溝通管道&lt;/td&gt;
+&lt;td&gt;- 提供 Queue、FIFO、LIFO、Pipe、Mailbox、Semaphore、Mutex 等多樣化機制 &lt;br/&gt; - 信號（Signals）/事件等高階通訊&lt;/td&gt;
+&lt;td&gt;- 提供 Semaphore、Mutex、Event、Mailbox、Message Queue &lt;br/&gt; - 模組化 API，易於擴充&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Memory Management&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Block Pool (fixed size) &lt;br/&gt; - Byte Pool (flexible allocation) &lt;br/&gt; - Suitable for small systems&lt;/td&gt;
-&lt;td&gt;- Multiple heap implementations (heap1~heap5) &lt;br/&gt; - Choose static or dynamic allocation based on needs &lt;br/&gt; - Must pay attention to allocating Semaphore / Mutex to ensure multi-task safety&lt;/td&gt;
-&lt;td&gt;- Multiple allocation strategies like slab, mempool, heap &lt;br/&gt; - Fine-tuning via Kconfig &lt;br/&gt; - Requires good configuration at compile stage&lt;/td&gt;
-&lt;td&gt;- Mempool, heap dichotomy &lt;br/&gt; - Default lightweight dynamic allocation algorithm &lt;br/&gt; - Can be paired with custom or high-level alloc algorithms&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;記憶體管理&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Block Pool（固定大小） &lt;br/&gt; - Byte Pool（彈性分配） &lt;br/&gt; - 適合小型系統&lt;/td&gt;
+&lt;td&gt;- 多種 heap 實作 (heap1~heap5) &lt;br/&gt; - 依需求選擇靜態或動態配置 &lt;br/&gt; - 須注意配置 Semaphore / Mutex 以確保多任務安全&lt;/td&gt;
+&lt;td&gt;- slab、mempool、heap 等多種分配策略 &lt;br/&gt; - Kconfig 可細調 &lt;br/&gt; - 需在編譯階段做良好配置&lt;/td&gt;
+&lt;td&gt;- mempool、heap 二分法 &lt;br/&gt; - 預設輕量動態分配算法 &lt;br/&gt; - 可搭配自訂或高階 alloc 演算法&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Debug &amp;amp; Trace&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Can use tools like TraceX &lt;br/&gt; - High integration, visualizing Thread, Event, IPC&lt;/td&gt;
-&lt;td&gt;- FreeRTOS+Trace, many third-party IDE tracking tools &lt;br/&gt; - Deep integration with Percepio Tracealyzer&lt;/td&gt;
-&lt;td&gt;- Unified Tracing subsystem &lt;br/&gt; - Can connect to Tracealyzer, LTTng, SystemView, etc. &lt;br/&gt; - Rich tracing support&lt;/td&gt;
-&lt;td&gt;- RT-Thread Studio or other plugins &lt;br/&gt; - Provides simple log system and online debug mechanism &lt;br/&gt; - Community also has tracing solutions similar to FreeRTOS Trace&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;除錯與追蹤&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 可使用 TraceX 等工具 &lt;br/&gt; - 整合度高，針對 Thread、Event、IPC 做可視化&lt;/td&gt;
+&lt;td&gt;- FreeRTOS+Trace、第三方 IDE 追蹤工具多 &lt;br/&gt; - 與 Percepio Tracealyzer 深度整合&lt;/td&gt;
+&lt;td&gt;- 統一的 Tracing 子系統 &lt;br/&gt; - 可連接 Tracealyzer、LTTng、SystemView 等 &lt;br/&gt; - 追蹤支援度豐富&lt;/td&gt;
+&lt;td&gt;- RT-Thread Studio 或其他插件 &lt;br/&gt; - 提供簡單 log 系統與線上除錯機制 &lt;br/&gt; - 社群亦有類似 FreeRTOS Trace 的追蹤方案&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Portability &amp;amp; Scalability&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;- Officially supports most ARM, RISC-V, MIPS &lt;br/&gt; - Community gradually expanding after Microsoft acquisition&lt;/td&gt;
-&lt;td&gt;- Ported to almost all MCUs &lt;br/&gt; - Large number of third-party packages and drivers &lt;br/&gt; - Can extend cloud functions via AWS FreeRTOS&lt;/td&gt;
-&lt;td&gt;- Native support for many major hardware manufacturers (Intel, NXP, Nordic&amp;hellip;) &lt;br/&gt; - Kconfig + Devicetree similar to Linux &lt;br/&gt; - Corporate support and community equal weight&lt;/td&gt;
-&lt;td&gt;- Widely used in Asia (especially China) &lt;br/&gt; - High integration with domestic MCUs, RISC-V platforms &lt;br/&gt; - Packages allow flexible function expansion&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;可移植性與擴充性&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- 官方主要支援多數 ARM、RISC-V、MIPS &lt;br/&gt; - Microsoft 收購後社群逐漸擴大&lt;/td&gt;
+&lt;td&gt;- 幾乎所有 MCU 都有移植 &lt;br/&gt; - 大量第三方套件與驅動 &lt;br/&gt; - 可透過 AWS FreeRTOS 延伸雲端功能&lt;/td&gt;
+&lt;td&gt;- 原生支援多家大廠硬體 (Intel、NXP、Nordic&amp;hellip;) &lt;br/&gt; - Kconfig + Devicetree 與 Linux 類似 &lt;br/&gt; - 企業支援與社群並重&lt;/td&gt;
+&lt;td&gt;- 在亞洲（特別是中國）用得廣泛 &lt;br/&gt; - 與國產 MCU、RISC-V 平台整合度高 &lt;br/&gt; - Packages 方式讓功能彈性擴充&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id="summary"&gt;Summary
-&lt;/h2&gt;&lt;p&gt;Summarizing the four RTOS mentioned above:&lt;/p&gt;
+&lt;h2 id="總結"&gt;總結
+&lt;/h2&gt;&lt;p&gt;總結一下前面提到的四種RTOS：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;: Known for high efficiency and small footprint, excels in executing in harsh resource-constrained environments, also has good debugging tools and business cases, good support for STM32.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;: Has a huge open source community and flexible scalability, suitable for a wide range of microcontrollers and embedded applications, common in academic or commercial projects, suitable for beginners.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;: Strongly promoted by the Linux Foundation and multiple companies, extensive hardware support, and powerful tracking and analysis tools, suitable for medium to large embedded applications requiring high reliability and detailed monitoring.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;RT-Thread&lt;/strong&gt;: Lightweight architecture, clear modularity, fast boot speed, suitable for IoT and other scenarios requiring high real-time performance and resource efficiency.&lt;/li&gt;
-&lt;/ol&gt;</description></item><item><title>Common MCUs in Embedded Systems</title><link>https://www.hugoshih.com/p/common-mcus-in-embedded-systems/</link><pubDate>Mon, 21 Aug 2023 19:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/common-mcus-in-embedded-systems/</guid><description>&lt;img src="https://i.imgur.com/xEqWwbo.jpg" alt="Featured image of post Common MCUs in Embedded Systems" /&gt;&lt;h1 id="common-mcus-in-embedded-systems"&gt;Common MCUs in Embedded Systems
-&lt;/h1&gt;&lt;p&gt;Recently, while implementing an embedded system, I needed more powerful computing capabilities, so I decided to move away from the commonly used Atmega328p and look for other 32-bit MCU development platforms. Choosing a platform is a big decision, as each platform has different use cases and development environments. I&amp;rsquo;ll take this opportunity to analyze them.&lt;/p&gt;
-&lt;h2 id="atmel-series-eg-atmega328p"&gt;ATMEL Series (e.g., ATMEGA328P)
+&lt;li&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;：以高效能與小巧佔用聞名，擅長在嚴苛的資源受限環境中執行，另有良好的除錯工具與商業案例，對STM32的支援度好。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;：擁有巨大開源社群與靈活的擴充性，適用於廣泛的微控制器與嵌入式應用，在學術或商業專案皆常見，初學者適合。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;：受到 Linux 基金會與多家企業的大力推動，硬體支援廣泛，並有強大的追蹤與分析工具，適合需要高可靠度及詳細監控的中大型嵌入式應用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RT-Thread&lt;/strong&gt;：架構輕量化、模組化明確，啟動速度快，適合物聯網及其他對即時性與資源效率要求高的場景。&lt;/li&gt;
+&lt;/ol&gt;</description></item><item><title>嵌入式系統常用的幾種MCU</title><link>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</link><pubDate>Mon, 21 Aug 2023 19:32:31 +0800</pubDate><guid>https://www.hugoshih.com/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/</guid><description>&lt;img src="https://i.imgur.com/xEqWwbo.jpg" alt="Featured image of post 嵌入式系統常用的幾種MCU" /&gt;&lt;h1 id="嵌入式系統常用的幾種mcu"&gt;嵌入式系統常用的幾種MCU
+&lt;/h1&gt;&lt;p&gt;最近在實作嵌入式系統時因為系統需要更強的運算功能，決定捨棄原本常用的Atmega328p，尋找其他32位元MCU開發平台，選擇平台是件大事，每個平台的適用場景跟開發環境都不同，藉此機會來分析一下。&lt;/p&gt;
+&lt;h2 id="atmel系列-如atmega328p"&gt;ATMEL系列 (如ATMEGA328P)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;Atmega328p is an 8-bit AVR architecture MCU produced by ATMEL (USA), commonly found on Arduino UNO boards.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Easy to get started, complete documentation, complete community support (excellent Arduino ecosystem), good power efficiency (haven&amp;rsquo;t tested this personally but heard it&amp;rsquo;s good).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Limited processing power compared to other 32-bit MCUs, less internal memory and RAM, slightly expensive for its performance (around 35 NTD).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Beginner projects (e.g., Arduino tutorials, simple embedded projects), low-power and low-cost home electronic devices.&lt;/li&gt;
+&lt;li&gt;Atmega328p是ATMEL公司(美國)生產的8位元AVR架構MCU，常用於Arduino UNO板上&lt;/li&gt;
+&lt;li&gt;優點:容易入門且文檔完整、社群支援完整(Arduino生態系建立的很好)、良好的功耗效率(這點沒實測過但聽說很不錯)&lt;/li&gt;
+&lt;li&gt;缺點:與其他32位元MCU相比，處理能力有限、較少的內置記憶體和RAM、以他的性能來說小貴(35元上下)&lt;/li&gt;
+&lt;li&gt;適用場景: 初學者入門的專案(例如Arduino教學、簡單的嵌入式專案)、低功耗低成本的家用電子裝置&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="esp-series-eg-esp32-c3"&gt;ESP Series (e.g., ESP32-C3)
+&lt;h2 id="esp系列-如esp32-c3"&gt;ESP系列 (如ESP32-C3)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;ESP32-C3 is a product of Espressif Systems (China), based on 32-bit RISC-V or Xtensa architecture, with built-in WiFi and Bluetooth capabilities.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Includes WiFi and Bluetooth without external modules, so high CP value (one chip 35-50 NTD), widely used with decent community support, versions with internal SPI flash are very convenient.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Higher power consumption (although it has deep sleep capability), system stability is rumored to be less than ideal.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: IoT (Internet of Things) devices requiring WiFi or Bluetooth connection, smart home appliances, smart wearable devices, non-critical applications.&lt;/li&gt;
+&lt;li&gt;ESP32-C3是Espressif Systems公司(中國)的產品，基於32位元RICS-V或Xtensa架構，自帶WiFi和藍牙功能&lt;/li&gt;
+&lt;li&gt;優點:直接包含WiFi和藍牙不用外接模組所以CP很高(一顆35-50元)、也是很多人在使用社群支援算完整、有內涵SPI flash的版本很方便&lt;/li&gt;
+&lt;li&gt;缺點:較高的功耗(雖然有深度睡眠功能)、系統穩定性聽說不佳&lt;/li&gt;
+&lt;li&gt;適用場景: IoT (物聯網) 需要WiFi或藍牙連接的設備、智慧家電、智慧穿戴裝置、不是很關鍵的東西。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="stm-series-eg-stm32f103c8t6"&gt;STM Series (e.g., STM32F103C8T6)
+&lt;h2 id="stm系列-如stmf103c8t6"&gt;STM系列 (如STMF103C8T6)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;STM32F103C8T6 is a 32-bit ARM Cortex-M3 microcontroller from STMicroelectronics (Switzerland).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Strong computing power, multiple interfaces, low-power versions available, high cost-performance ratio (wide range from 20-60 NTD), complete development and debugging tools, commonly used in industrial products.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Development environment is more complex, less RAM and Flash in some models.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Complex embedded projects, applications requiring strong processing power, industrial automation, drones, high-end sensor systems.&lt;/li&gt;
+&lt;li&gt;STMF103C8T6是STMicroelectronics公司(瑞士)的32位元ARM Cortex-M3微控制器&lt;/li&gt;
+&lt;li&gt;優點:運算功能強、具有多種接口、有低功耗模式的版本，具有較高的性價比(範圍大20-60元都有)、有很完整的開發除錯工具、在工業產品中比較常用&lt;/li&gt;
+&lt;li&gt;缺點:開發環境較為複雜、較少的RAM和Flash&lt;/li&gt;
+&lt;li&gt;適用場景: 複雜的嵌入式專案、需要強大的處理能力、工業自動化、無人機、高階的感測器系統&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="stc-series-eg-stc89c52"&gt;STC Series (e.g., STC89C52)
+&lt;h2 id="stc系列-如stc89c52"&gt;STC系列 (如STC89C52)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;STC89C52 is an 8-bit 8051 microcontroller produced by STC Micro (China).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: 8051 architecture is very old, has extensive applications and massive data support, ultra-cheap (10-50 NTD), development environment is relatively simple.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Very old architecture, limited processing power, less memory and RAM, can be seen as a weakened version of Atmel series, but because functions are simple, it&amp;rsquo;s commonly used in home appliances.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Traditional embedded systems, such as home appliance control, educational purposes, learning 8051 microcontroller principles and programming, simple LED display, keyboard input, and other basic IO operations.&lt;/li&gt;
+&lt;li&gt;STC89C52是STC Micro公司(中國)生產的8位元8051微控制器。&lt;/li&gt;
+&lt;li&gt;優點: 8051架構非常的古老、具有廣泛的應用和大量的資料支援、價格超便宜(10-50元)、開發環境算簡單。&lt;/li&gt;
+&lt;li&gt;缺點:超舊的架構，處理能力有限、較少的內存和RAM、可以看作是人弱化版的Atmel系列、但因為功能單純，家電之類的很常用到&lt;/li&gt;
+&lt;li&gt;適用場景: 傳統的嵌入式系統，如家用電器控制、教育用途，學習8051微控制器的原理和程式設計、簡單的LED顯示、鍵盤輸入等基本IO操作&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="raspberry-series-eg-rp2040"&gt;RASPBERRY Series (e.g., RP2040)
+&lt;h2 id="raspberry系列-如rp2040"&gt;RASPBERRY系列 (如RP2040)
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;RP2040 is a 32-bit ARM Cortex-M0+ microcontroller developed by the Raspberry Pi Foundation (UK).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Efficient processing performance, relatively large RAM, open-source resources and community support, simple development environment (Micropython), high CP value (35 NTD).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Newer product, may have hardware instability issues or bugs without solutions yet.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Embedded projects requiring high-performance processing, audio/video computing, image processing, complex algorithm computing, big data processing, running TinyML models, etc.&lt;/li&gt;
+&lt;li&gt;RP2040是Raspberry Pi基金會(英國)開發的32位元ARM Cortex-M0+微控制器&lt;/li&gt;
+&lt;li&gt;優點:高效的處理性能、RAM算大、開源資源和社群支援、簡單的開發環境(Micropython)、CP值也很高(35元)&lt;/li&gt;
+&lt;li&gt;缺點: 較新的產品，可能存在與硬體不穩定的問題有些Bug可能還沒有解法&lt;/li&gt;
+&lt;li&gt;適用場景: 要求高性能處理的嵌入式專案、影音運算、影像處理、複雜的演算法運算、大數據處理、跑TinyML模型等等&lt;/li&gt;
 &lt;/ul&gt;</description></item></channel></rss>
