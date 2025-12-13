@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview on Hsing-Yu Shih</title><link>https://www.hugoshih.com/en/categories/interview/</link><description>Recent content in Interview on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 07 Jul 2023 12:00:18 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/en/categories/interview/index.xml" rel="self" type="application/rss+xml"/><item><title>2023 Google Technical Program Manager Interview Experience</title><link>https://www.hugoshih.com/en/p/2023-google-technical-program-manager-interview-experience/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/en/p/2023-google-technical-program-manager-interview-experience/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager Interview Experience" /&gt;&lt;h1 id="google-technical-program-manager-interview-experience"&gt;Google Technical Program Manager Interview Experience
+&lt;/h1&gt;&lt;h2 id="preface"&gt;Preface
+&lt;/h2&gt;&lt;p&gt;There have always been many Google SWE interview experiences shared, however, Technical Program Manager (TPM) interview experiences are almost non-existent. In fact, not only on Dcard but also on major foreign websites, there are very few TPM interview experience shares. Therefore, I am sharing this. Although I did not get the offer, I interviewed until the end, and the experience should be referable.&lt;/p&gt;
+&lt;p&gt;My past education and experience include a Bachelor&amp;rsquo;s and Master&amp;rsquo;s in EE/CS from NTU. After finishing military service this year, I worked as a TPM in a company slightly larger than Google. I had always wanted to enter Google. Last year, I also applied for a Google SWE interview. After finishing the interview and passing HC, waiting for Team match, I encountered a Hiring Freeze. For detailed experience, please refer to: &lt;a class="link" href="https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/" target="_blank" rel="noopener"
+&gt;Google SWE Interview Journey&lt;/a&gt;. It wasn&amp;rsquo;t until the economy improved this year that I started Fit talk again. However, I matched with three teams and didn&amp;rsquo;t get any. Just as I was disheartened, I received a TPM interview invitation from another HR. With the mentality of gathering intelligence, I scheduled a 1:1 with HR. Actually, I wasn&amp;rsquo;t very interested in the Google TPM vacancy initially, but after being persuaded by HR in the meeting, I accepted the interview invitation with a &amp;ldquo;why not try it&amp;rdquo; attitude.&lt;/p&gt;
+&lt;h2 id="timeline"&gt;Timeline
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;5/12 - Received TPM interview invitation from HR&lt;/li&gt;
+&lt;li&gt;5/23 - 1:1 with HR to understand the vacancy&lt;/li&gt;
+&lt;li&gt;6/13 - VO: Technical Judgement * 2&lt;/li&gt;
+&lt;li&gt;6/20 - VO: PgM + GCA&lt;/li&gt;
+&lt;li&gt;6/30 - 1:1 with HR to notify interview result: not move forward&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="interview"&gt;Interview
+&lt;/h2&gt;&lt;p&gt;The Google TPM VO interview has a total of five rounds, each 45 minutes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Two rounds of Technical Judgement interview&lt;/li&gt;
+&lt;li&gt;One round of Program Management related (PgM) interview&lt;/li&gt;
+&lt;li&gt;One round of General Cognitive Ability (GCA) interview&lt;/li&gt;
+&lt;li&gt;One round of Googleyness interview&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Maybe because I had interviewed for Googleyness before, this round was skipped directly. In fact, I only interviewed for four rounds. Considering my technical ability might be slightly better than my PM ability, HR first scheduled two Technical Judgement interviews for me. If the results were good, then PgM and GCA would be scheduled. Later it proved to be the correct strategy.&lt;/p&gt;
+&lt;p&gt;According to online intelligence and documents provided by HR, I thought the Technical Judgement interview might be like a technical interview, possibly asking for Coding, or maybe System design. For this, I even dug out leetcode and brushed up a few questions to warm up; PgM might ask experience-related questions; GCA might ask about problem-solving logic, but at that time I couldn&amp;rsquo;t think of any preparation direction, so I only finished reading the reference materials given by HR, and recalled a few more small stories. Since I really couldn&amp;rsquo;t think of how to prepare, I also tried to ask HR for some Hints, but HR seemed to have given me everything they could give, so I just bit the bullet. Learning, right&amp;hellip;&lt;/p&gt;
+&lt;p&gt;By the way, the TPM interview is entirely in English. I spoke English non-stop for about two hours in four rounds. This requirement is understandable. In a company like Google, Cross-function communication relies heavily on English. This point is also very different from the SWE interview. SWE only has two rounds of English, and you don&amp;rsquo;t talk all the time.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Technical Judgement
+To be honest, I started doubting life when I heard the first question. I was already in the posture to write Code, but the first question was: &amp;ldquo;What is your most successful project?&amp;rdquo; (I can&amp;rsquo;t remember the detailed question, anyway, it was similar to this). It was the kind of question I thought would be asked in PgM or GCA interviews. Fortunately, I had prepared quite a few small stories before. I changed my posture and brought out projects with some technical depth from university, graduate school to work, explaining the problems to be solved, my role in the team, technical choices, problems overcome, etc. The process was interactive, and the interviewer seemed satisfied. However, several consecutive questions were also of this type, giving me the illusion that I was in the wrong room. At the end, I asked: &amp;ldquo;Is this a Technical Judgement Interview?&amp;rdquo; The interviewer was stunned and replied: &amp;ldquo;Yes&amp;rdquo;, &amp;ldquo;Ok&amp;hellip;&amp;rdquo; In an instant, I seemed to understand something but also felt I understood nothing. The second Technical Judgement was also a similar situation. Anyway, I thought my performance was okay, and HR&amp;rsquo;s feedback later was also Positive.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Program Management Related Knowledge (PgM)
+Given that the Technical Judgement interview questions were really unexpected, I asked HR again about the details of the PgM interview. HR still replied that the document he gave already had information, so I could only brainstorm by myself. Since the name is Program Management, it should be asking PM-related capabilities, so I should answer more towards the PM role. Sure enough, the interview questions were almost the same as Technical Judgement, and I brought out how I defined Scope, wrote Spec, drove project, and communicated and coordinated during previous projects. The interviewer seemed quite satisfied with my answer. Before ending the interview, we chatted a bit about the intelligence of this position. The interviewer felt that there was a gap with my current experience, but still wished me Good luck.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;General Cognitive Ability (GCA)
+When it came to GCA, I really couldn&amp;rsquo;t think of how to prepare. If it asks about problem-solving logic, it seems hard to prepare too. Sure enough, this round asked questions similar to the first three rounds. Then I first answered from the execution aspect, but felt the interviewer wasn&amp;rsquo;t very satisfied, so I changed tack and answered from the technical aspect. The interviewer was still not very satisfied and suggested I should answer from a higher-level architecture first. So I gave an answer in this direction, but I didn&amp;rsquo;t think it through thoroughly, and it should be full of bugs. I felt I answered terribly locally. Feeling that I answered poorly, I thick-skinned asked the interviewer for advice at the end. He was also very nice and explained the key points of answering each question to me. The general concept is to first come up with a problem-solving framework, and then fit this framework into the answer framework to answer in order, only then can you hit the scoring points.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="result"&gt;Result
+&lt;/h2&gt;&lt;p&gt;Later I scheduled another 1:1 with HR. The result was similar to what I imagined. The previous performance was quite good, mainly failed at GCA. Unable to move forward, I could only go back and wait to see if there are any team match opportunities.&lt;/p&gt;
+&lt;p&gt;Later I thought about it, there were indeed many points for improvement in this interview. Besides being really junior now and having too few experiences to talk about, I was not familiar enough with the framework for answering TPM interviews. The framework here refers to:&lt;/p&gt;
+&lt;p&gt;When facing PgM questions, you can start from the following points in order:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Project Scope and Organization&lt;/li&gt;
+&lt;li&gt;Project Execution&lt;/li&gt;
+&lt;li&gt;Communication and Influence&lt;/li&gt;
+&lt;li&gt;Clarifying Ambiguous Situations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When facing GCA questions, you can start from the following points in order:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Understand the Problem&lt;/li&gt;
+&lt;li&gt;Gather Information&lt;/li&gt;
+&lt;li&gt;Find Solutions&lt;/li&gt;
+&lt;li&gt;Evidence Supporting Solutions&lt;/li&gt;
+&lt;li&gt;Good Communication&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Next time when attempting Google TPM interview again, I should spend more time polishing the cases on hand, trying to fit them into these frameworks, and then skillfully use these frameworks to answer questions. To some extent, this is also &amp;ldquo;grinding questions&amp;rdquo;.&lt;/p&gt;
+&lt;h2 id="conclusion"&gt;Conclusion
+&lt;/h2&gt;&lt;p&gt;Personally, I feel that the TPM interview is harder and more complex than the SWE interview. Even so, Google seems to want to find people with EECS background and PM capabilities to be TPMs. It&amp;rsquo;s just that there are not many such people or they are not interested, so they can&amp;rsquo;t find anyone. If people with relevant backgrounds are interested, they can try it out.&lt;/p&gt;
+&lt;p&gt;If reading this article helps you, please wish me to get a Google Offer soon passing by.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/C8prC95.jpg"
+loading="lazy"
+alt="image alt"
+&gt;
+Attached is a photo of me freeloading a meal at 101 this year. I really want to enter Google.&lt;/p&gt;</description></item><item><title>Google Taiwan Hiring Event Recording</title><link>https://www.hugoshih.com/en/p/google-taiwan-hiring-event-recording/</link><pubDate>Wed, 26 Apr 2023 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/en/p/google-taiwan-hiring-event-recording/</guid><description>&lt;img src="https://i.imgur.com/1QtpCke.jpg" alt="Featured image of post Google Taiwan Hiring Event Recording" /&gt;&lt;h2 id="google-taiwan-campus-talk-2023-hiring-event-livestream"&gt;Google Taiwan Campus Talk, 2023 Hiring Event Livestream
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/11/11&lt;/li&gt;
+&lt;li&gt;Title: Google Taiwan Campus Talk, 2023 Hiring Event&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Topic&lt;/th&gt;
+&lt;th&gt;Speaker&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Welcome &amp;amp; Google Culture&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Hear more from the Googlers&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fireside Chat with all the&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/1USuLq2RKLE"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="made-by-google-behind-the-scenes-livestream"&gt;Made by Google: Behind the Scenes Livestream
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/11/5&lt;/li&gt;
+&lt;li&gt;Title: Taiwan Made by Google: Behind the Scenes 2022&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Topic&lt;/th&gt;
+&lt;th&gt;Speaker&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Next-gen Google Tensor processor&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fireside Chat : Pixel Camera&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Live Q&amp;amp;A and Latest Opportunities @Google Taiwan&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/w--KJFHJMq8"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="google-taiwan-platforms-team-introduction--hiring-event"&gt;Google Taiwan Platforms Team Introduction &amp;amp; Hiring Event
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/07/08&lt;/li&gt;
+&lt;li&gt;Title: 2022 Google Taiwan Platforms Team Face to Face&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Topic&lt;/th&gt;
+&lt;th&gt;Speaker&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Google Taiwan Platforms Team at a glance&lt;/td&gt;
+&lt;td&gt;Director Platforms HW Test/Quality &amp;amp; Eng Labs&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Software &amp;amp; Hardware Engineers in Google Taiwan Platforms Team&lt;/td&gt;
+&lt;td&gt;Hardware &amp;amp; Software Managers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Google Hiring Process &amp;amp; Tips&lt;/td&gt;
+&lt;td&gt;Recruiter&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;All You Want to Know - Q&amp;amp;A &amp;amp; See You at Google!&lt;/td&gt;
+&lt;td&gt;All Speakers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/OvL1daxDcE0"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="google-taiwan-software-development--test-team-sharing--hiring-event"&gt;Google Taiwan Software Development &amp;amp; Test Team Sharing &amp;amp; Hiring Event
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/05/18&lt;/li&gt;
+&lt;li&gt;Title: Google Taiwan Software Development &amp;amp; Test Team Sharing &amp;amp; Hiring Event&lt;/li&gt;
+&lt;li&gt;Agenda:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Topic&lt;/th&gt;
+&lt;th&gt;Speaker&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Decrypting Google Taiwan Software Development Team&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Googler Sharing - Engineering Manager\Test Engineer\Tech Lead and Software Engineer&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Google Hiring Process&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Q&amp;amp;A Time&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/vE_ynVP1hUw"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="google-taiwan-silicon--cpu-team-face-to-face"&gt;Google Taiwan Silicon &amp;amp; CPU Team Face to Face
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2022/04/29&lt;/li&gt;
+&lt;li&gt;Title: 2022 Google Taiwan Silicon &amp;amp; CPU Face to Face&lt;/li&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/tWEQ9NLJDI4"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="campus-talk-hiring-online-session"&gt;Campus Talk Hiring Online Session
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2021/11/18&lt;/li&gt;
+&lt;li&gt;Title: 2022 Google Taiwan Tech Campus Talk YouTube Livestream&lt;/li&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/_hD89kSALA0"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="lifegoogle-taiwan-hardware-engineer-edition"&gt;Life@Google Taiwan Hardware Engineer Edition
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Date: 2019/07/19&lt;/li&gt;
+&lt;li&gt;Title: Life@Google Taiwan Hardware Engineer Edition&lt;/li&gt;
+&lt;li&gt;Recording:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/JGx0XlEvuwk"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;</description></item><item><title>2022 Google Taiwan SWE Interview Journey</title><link>https://www.hugoshih.com/en/p/2022-google-taiwan-swe-interview-journey/</link><pubDate>Mon, 05 Dec 2022 09:00:18 +0800</pubDate><guid>https://www.hugoshih.com/en/p/2022-google-taiwan-swe-interview-journey/</guid><description>&lt;img src="https://i.imgur.com/N6UT0BQ.jpg" alt="Featured image of post 2022 Google Taiwan SWE Interview Journey" /&gt;&lt;h1 id="a-google-interview-experience-of-an-ordinary-person"&gt;A Google Interview Experience of an Ordinary Person
+&lt;/h1&gt;&lt;h2 id="preface"&gt;Preface
+&lt;/h2&gt;&lt;p&gt;During my university years, AI technology was developing hotly. Therefore, there were frequent media reports about Google&amp;rsquo;s working environment, the leader of AI technology. Playground-like offices, endless snacks and drinks, five-star free meals, earning a million-dollar annual salary and sleeping whenever you want. Its internal fantasy refreshed my worldview of a job. Since then, I gradually became curious about this company. Although curious, I always held a wait-and-see attitude. The standard for admitting people to such a dream enterprise is naturally abnormally high. Ideally, they only accept bookworm gods or competition players from NTU EE/CS. Looking at my miserable school grades, I couldn&amp;rsquo;t imagine how to get a ticket to Google.&lt;/p&gt;
+&lt;p&gt;In my senior year, the department opened a corporate visit. The location was the Google I dreamed of. I signed up without hesitation, thus opening the fate of my first encounter with Google. At that time, the headquarters in Banqiao had not yet been established. We visited the headquarters located in 101. As the elevator to the 76th floor rose rapidly, the excitement was hard to suppress. The moment the elevator doors opened, I was greeted by the dream kingdom I dreamed of. It turned out that what the news said was true: free ice cream, free drinks, free five-star meals, coupled with the high-altitude view from the 76th floor, it really felt like a vacation. The amusement equipment and nap rooms were also real, fully reflecting Google&amp;rsquo;s trust in employees. After communicating with the employees leading us, I learned about the freedom of Google&amp;rsquo;s employee management. It is not only freedom in working hours, but employees also have considerable dominance over work items. Employees can even form small groups to initiate projects. Thus ended the first encounter with Google in shock. Since then, entering Google became my dream. I knew my shortcomings deeply and could only move towards there step by step.
+&lt;img src="https://i.imgur.com/me7lhlC.jpg"
+loading="lazy"
+&gt;
+&lt;img src="https://i.imgur.com/N6UT0BQ.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;During the summer vacation of my senior year, I had an opportunity to go to San Francisco, USA. Taking this opportunity, I visited the dream place in my heart again, Google headquarters in Mountain View. However, this time it was a pity that I didn&amp;rsquo;t have connections to take me inside for a visit. I could only wander around the campus as a tourist. Although I could only look from the outside, I could feel the atmosphere of the entire company centered on Have Fun. Bicycles, beach volleyball courts, and various picnic areas everywhere were simply a large resort. Later I also went to the souvenir center near the campus to buy a lot of souvenirs. The pilgrimage trip made me feel the charming vitality of this company and the charm of Silicon Valley, the legendary place of the technology industry. With the creativity here and the changes brought to the world, I thought to myself that one day in the future, I also hope to come here to work.
+&lt;img src="https://i.imgur.com/d6fIhVp.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;After returning to Taiwan, I entered graduate school. Originally, I didn&amp;rsquo;t have much confidence in my technical ability. After entering graduate school, I was surrounded by powerful people from all walks of life, which made me feel deeply that there is still a long way to go to enter Google. I must have a higher level of accumulation in technical ability and research ability. Holding this mentality, while being chased by research progress, I also participated in various side projects and hackathons as much as possible. I also participated in several startup projects and accumulated some experience in participating in startups. Amidst stumbling mixed with extraordinary luck, in the last year of graduate school, I was extremely lucky to get an internship opportunity at Microsoft, starting a year of life running between internship and graduate school. Although this old software company is slightly inferior to popular internet companies like Google and Facebook, as an old but evergreen tech giant, it still provided me with a lot of growth nutrients. The improvement of development technical ability and the cultivation of project management ability also allowed me to glimpse the life mode in technology companies.&lt;/p&gt;
+&lt;p&gt;In 2021, Google in Banqiao was established, which will be the largest hardware R&amp;amp;D center in Asia. What can be expected is that Google will have large-scale talent recruitment activities in Taiwan, and the difficulty of entering Google will be slightly easier than before. I deeply knew that this was a very good opportunity to enter Google. At the end of 2021, I received an interview invitation from Google HR on Linkedin for the first time. After interviewing with HR, I learned that this was a Hardware Engineer vacancy under Google Silicon, recruiting engineers with EE background or hardware development experience in Taiwan. It&amp;rsquo;s a pity that I had never learned hardware design and knew nothing about verilog. There was no follow-up news after the interview&amp;hellip;&lt;/p&gt;
+&lt;p&gt;In early 2022, heard that a junior schoolmate entered Google. I cheekily asked him to help refer me and applied for the 2022 Software Engineer Campus Recruitment. This time I was finally not shut out and successfully got the opportunity for the first interview. Thus began the devil-level interview challenge journey.&lt;/p&gt;
+&lt;h2 id="background"&gt;Background
+&lt;/h2&gt;&lt;p&gt;Bachelor&amp;rsquo;s in Information Management double major in Forestry from NTU + Master&amp;rsquo;s from NTU Telecommunication Engineering. Never participated in programming competitions, nor contributed to open source projects. Only did Side Projects and Hackathons with a few friends. Failed Programming Design in sophomore year because spent too much time in clubs, retook it in junior year and passed with A+. Data Structures and Algorithms were only at an ordinary level.&lt;/p&gt;
+&lt;h2 id="preparation"&gt;Preparation
+&lt;/h2&gt;&lt;p&gt;Started grinding questions around December 2021. There was a period in between rushing research progress and wasting some time during Chinese New Year. After the New Year, to force myself to grind questions, I bought a one-year Leetcode Premium. It seems to be a very good investment now. In addition, I also bought the widely recommended &lt;a class="link" href="https://www.books.com.tw/products/0010881287?gclid=CjwKCAjws8yUBhA1EiwAi_tpEc7PyWvICvGCthzmnsrYVvP4OFhBHxPSQ-XjgJoZy5Ampx9c_pKHlxoC-NUQAvD_BwE" target="_blank" rel="noopener"
+&gt;Cracking the coding interview&lt;/a&gt;, but only read one or two chapters I wasn&amp;rsquo;t familiar with. My strategy for grinding questions in the early stage was starting from Dynamic Programming. At that time, I watched Huahua Jiang&amp;rsquo;s &lt;a class="link" href="https://www.youtube.com/watch?v=LG0adDNnnYg&amp;amp;list=PLLuMmzMTgVK6krji67w8tEAAud71nQQFe" target="_blank" rel="noopener"
+&gt;Dynamic Programming Ultimate Learning Strategy&lt;/a&gt; series videos to accumulate skills in thinking about DP problems. Around February, I started aiming to finish the first 100 Leetcode questions, starting from Easy, then Medium. In March, I started aiming to finish &lt;a class="link" href="https://leetcode.com/discuss/general-discussion/460599/blind-75-leetcode-questions" target="_blank" rel="noopener"
+&gt;Blind 75&lt;/a&gt;. After finishing Blind 75 once, I went to look at the Hard questions in the first 100 questions. Finally, in the week before Onsite, I worked hard to grind Google interview high-frequency questions. I have to say Leetcode Premium organizing high-frequency questions is really convenient (and really quite useful XD). During this period, I would go up and write Daily every day, counting as forcing myself to maintain the feeling of solving problem every day. The number of questions ground was about 150 before Phone Interview, and about 230 before Onsite. Compared to various gods, it shouldn&amp;rsquo;t be considered much, but for myself it was enough. All types of questions were covered. My feeling was that I could stably solve Medium, and could come up with feasible solutions for Hard. It&amp;rsquo;s a pity that I didn&amp;rsquo;t find friends to help Mock interview during this time. The accumulation of interview experience relied on actual combat accumulation. Before this, I also interviewed with Amazon and Nvidia.
+Because Google&amp;rsquo;s Technical Interview will have at least two rounds of all-English interviews, English is also a very important part. Although it doesn&amp;rsquo;t need to be as fluent as a Native speaker, at least the logic must be conveyed correctly. My English part mainly relied on what I accumulated during the internship, including daily chat terms and ability to explain technology. I am very grateful to people who were willing to communicate with me and practice English with me during this time.
+&lt;img src="https://i.imgur.com/9Pq3Dv9.png"
+loading="lazy"
+&gt;
+Record of grinding questions during this period&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/svYL759.png"
+loading="lazy"
+&gt;
+Stats of grinding questions&lt;/p&gt;
+&lt;h2 id="timeline"&gt;Timeline
+&lt;/h2&gt;&lt;p&gt;2022/01/20 -&amp;gt; Received friend&amp;rsquo;s referral notification email, submitted resume on official website, applied for Software Engineer, University Graduate, 2022
+2022/03/07 -&amp;gt; Received email from HR notifying interview arrangement
+2022/03/28 -&amp;gt; Phone Interview
+2022/04/07 -&amp;gt; Notified passing Phone Interview, preparing to arrange Virtual Onsite Interview
+2022/04/25 -&amp;gt; First day Virtual Onsite Interview, two rounds Technical Interview + one round Behavior Interview
+2022/04/26 -&amp;gt; Second day Virtual Onsite Interview, two rounds Technical Interview
+2022/05/07 -&amp;gt; Notified interview result most on positive
+2022/05/26 -&amp;gt; Learned that Hiring policy might change&lt;/p&gt;
+&lt;h2 id="process"&gt;Process
+&lt;/h2&gt;&lt;p&gt;To say what needs most attention in the interview, I would feel it is to maintain a normal heart. This is also what I think is the most difficult part of the interview. After all, interviewing with your dream company, mixed emotions of excitement, expectation, nervousness etc., it is difficult to maintain a normal heart. During the first Phone Interview, I was even too nervous to sleep for the two nights before. What I could do was go to Youtube to find various videos of foreigners talking about software engineer interviews to watch, reminding myself of points to pay attention to in the interview. English ones could also practice English listening by the way. Here are a few recommended videos:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=4tbQhdrpB9s" target="_blank" rel="noopener"
+&gt;Interview Process Analysis&lt;/a&gt;, explaining software engineer interview in SOP way, simple &amp;amp; easy to understand&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=4yznKC5ZE5I&amp;amp;t=129s" target="_blank" rel="noopener"
+&gt;Google Technical Interview Experience Sharing&lt;/a&gt;, this one explains the interview process and precautions very carefully, very valuable for reference&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=ASXM4-CQG8o" target="_blank" rel="noopener"
+&gt;How to tech interview Like a Pro&lt;/a&gt;, this presents the process of coding interview in a funny way, quite interesting&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="phone-interview"&gt;Phone Interview
+&lt;/h3&gt;&lt;p&gt;I sat in front of the computer waiting about ten minutes before the scheduled time. However, the interviewer hadn&amp;rsquo;t come online when I clicked in at the scheduled time, which made me nervous thinking if I remembered the time wrong. After waiting for about ten minutes, the interviewer finally came, apologizing that a previous meeting delayed a bit. The interviewer was actually a kind Chinese young lady. Initially she asked a problem similar to string comparison, about Easy level. Basically I thought of the solution as soon as I saw the question. After stating the solution, the interviewer also agreed with this solution, so I spent about 10 minutes finishing coding this question. Then she indicated there was a Follow up, more like using the concept of the first question repeatedly, belonging to Medium level. When thinking about this question, I originally thought I just needed to reuse the solution of the first question, but found that my solution used in the first question was not the optimal solution. I panicked a bit here. Fortunately, the young lady was very nice, constantly guiding me to think of a better solution. Finally I came up with a better solution and spent a few minutes implementing it. Before the interview ended, the young lady indicated there was actually a better solution, so used another few minutes to ask for advice, but she indicated she hadn&amp;rsquo;t thought of this solution herself either.
+Personal evaluation: overall interview performance was okay, problem solving wasn&amp;rsquo;t very fluent, got stuck in the middle, but solved it, so not bad.
+Later passed this round of interview.&lt;/p&gt;
+&lt;h3 id="onsite-interview"&gt;Onsite Interview
+&lt;/h3&gt;&lt;h4 id="technical-interview-1"&gt;Technical Interview #1
+&lt;/h4&gt;&lt;p&gt;This round was a very nice Chinese uncle, didn&amp;rsquo;t arrive late either. Asked a variation of sorting problem. Initially thought it was Easy, but after actually solving it found it had Medium difficulty. Completely underestimated the depth of this question. Proposed a feasible solution at the very beginning, but the interviewer hoped I propose the optimal solution. Just like this, in the 30min of discussing solution, I proposed at least five or six solutions, and analyzed the difference in complexity under different input ranges, but I didn&amp;rsquo;t propose the optimal solution. Later with the interviewer&amp;rsquo;s hint I came up with the optimal solution, but time was basically used up. I could only quickly implement the idea. Later thinking back, the algorithm I implemented had Bugs. Fortunately the interviewer was very nice, didn&amp;rsquo;t rush to end the interview, instead tried to leave as much time as possible for me to finish the interview. Finally the interviewer responded that he thought this was a very interesting discussion, and thought I proposed many interesting ideas.
+With the experience of Phone Interview, I didn&amp;rsquo;t feel less nervous, instead was constantly worried the interviewer would come with a Hard question right away. In terms of the interview situation, I felt my performance was relatively terrible.&lt;/p&gt;
+&lt;h4 id="technical-interview-2"&gt;Technical Interview #2
+&lt;/h4&gt;&lt;p&gt;This round was a young guy too lazy to talk. Asked a question similar to finding substring. He first asked me to think of a brute force solution. I basically had an idea and gave the solution right after reading the question. After he listened, he felt okay so asked me to implement. I spent about ten minutes implementing and explained the time complexity. Then he hoped I propose the optimal solution. I actually wasn&amp;rsquo;t confident about the optimal solution, only felt strings should be handled with prefix tree. So I proposed my idea. Unexpectedly he responded this was the correct line of thought. So continuing thinking I gave the optimal solution. Finished this round quite smoothly. Difficulty was about Medium.
+After bombing the first round, the mood in this round was much more relaxed. A bit of a &amp;ldquo;whatever&amp;rdquo; feeling. Probably because the mood was relaxed a lot, thoughts were clearer. Sure enough, nervousness is the big devil.&lt;/p&gt;
+&lt;h4 id="behavior-interview"&gt;Behavior Interview
+&lt;/h4&gt;&lt;p&gt;This round was a Chinese sister interviewing. First asked some quite common Behavior questions like team cooperation and how to communicate. Detailed questions have detailed info online. More surprisingly, the interviewer asked a question somewhat similar to product design. Because I completely didn&amp;rsquo;t anticipate this beforehand, I could only answer by imagination. But felt the interviewer didn&amp;rsquo;t seem very satisfied. At the end of the interview, gave a feedback thinking my answer wasn&amp;rsquo;t very deep, but she thought I might lack work experience, so not answering deeply was also within expectation.
+Overall answering was acceptable, at least gave steady and moderate answers.&lt;/p&gt;
+&lt;h4 id="technical-interview-3"&gt;Technical Interview #3
+&lt;/h4&gt;&lt;p&gt;Starting from the third round it became English interview. The interviewer was still a Chinese guy. Have to say communicating in English with someone whose mother tongue is also Chinese is really much lower difficulty. Maybe because the thinking behind is still stuck in Chinese framework.
+The interviewer asked a tree traverse and output path question, highly similar to a Google high-frequency question on leetcode. Just happened to write it when grinding questions a few days ago. Almost instantly thought of optimal solution. Of course seeing original question was very exciting. Spent about 15 minutes explaining and finishing coding. Then the interviewer gave me a follow up. Superficially it was an extension of the above question, but actually already transformed into BFS finding shortest path between two points question. Quite an interesting Follow up. This variation couldn&amp;rsquo;t be found on leetcode. This question was also medium difficulty.&lt;/p&gt;
+&lt;h4 id="technical-interview-4"&gt;Technical Interview #4
+&lt;/h4&gt;&lt;p&gt;The fourth round was a Chinese guy without much expression. Asked a question similar to blind 75 pacific atlantic water flow. First reaction after reading question linked to this blind 75 question. Afterwards also proved using same method could solve this question. Spent about 20 minutes explaining and finishing code. Then interviewer also gave a follow-up. But this follow-up wasn&amp;rsquo;t as interesting as previous round, just simple increase in quantity. Solved by modifying code slightly using same method. This question difficulty about Medium. Result was instead this interviewer thought the code I wrote had slight flaws. Sure enough, seeing familiar questions still cannot be too careless.&lt;/p&gt;
+&lt;h2 id="follow-up"&gt;Follow-up
+&lt;/h2&gt;&lt;p&gt;My interview time was valid as the tail end of Google 2022 Campus Hire. Most vacancies were already filled. So later it became directly no Headcount to proceed with Team match. So at that time I was mentally prepared to wait until next year&amp;rsquo;s campus hire to continue.&lt;/p&gt;
+&lt;p&gt;Later as everyone saw, under the pressure of US interest rate hikes, major companies began to be forced to streamline manpower. The campus hire in Taiwan was also delayed until November to start, and headcount would have to wait until early next year after manpower policy is confirmed to be more certain. Fortunately interview results can be kept for one year. Just pray next year there are still opportunities to continue the interview process.&lt;/p&gt;
+&lt;p&gt;Although I haven&amp;rsquo;t successfully entered my Dream company, I am still very grateful for opportunities and help provided by many people along the way. Also thanks to the Google HR assisting me for tirelessly providing various info on recruitment process.&lt;/p&gt;</description></item><item><title>Google Interview Leetcode Question Challenge</title><link>https://www.hugoshih.com/en/p/google-interview-leetcode-question-challenge/</link><pubDate>Mon, 30 May 2022 11:41:18 +0800</pubDate><guid>https://www.hugoshih.com/en/p/google-interview-leetcode-question-challenge/</guid><description>&lt;img src="https://www.hugoshih.com/p/google-interview-leetcode-question-challenge/IMG_4879.jpg" alt="Featured image of post Google Interview Leetcode Question Challenge" /&gt;&lt;h1 id="google-interview-challenge"&gt;Google Interview Challenge
+&lt;/h1&gt;&lt;p&gt;&lt;a class="link" href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;amp;id=301667" target="_blank" rel="noopener"
+&gt;https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&amp;id=301667&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://www.gushiciku.cn/pl/gyQP/zh-tw" target="_blank" rel="noopener"
+&gt;https://www.gushiciku.cn/pl/gyQP/zh-tw&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed" target="_blank" rel="noopener"
+&gt;https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158" target="_blank" rel="noopener"
+&gt;https://docs.google.com/spreadsheets/d/1yRCOJ8KysRVkq0O9IlDriT01tC6lzPapmFO4PCmDJQA/edit#gid=126913158&lt;/a&gt;
+Google Interview Preparation
+Problem Types&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Arrays&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Binary Search Tree&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Binary Tree&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Dynamic Programming&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Greedy&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Graph – BFS、DFS&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Heap&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; LinkedList&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Recursion&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Searching – Binary Search、Quick Select&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Stack&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; String&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Sorting&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Topological sorting&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Trie&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Google Interview Classic Questions&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; coin change&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; coin change 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Unique path&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Unique path 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Permutation&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; Permutation 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; subset&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; subset 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; search in rotated sorted array&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; search in rotated sorted array 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word break&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word break 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; jump game&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; jump game 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word search&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; word search 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; combination&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; combination 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; meeting room&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; meeting room 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of islands&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of islands 2&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; number of distinct island&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; number of distinct island 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;BQ Preparation&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Imagine you worked in a project or a team that had a problematic culture&lt;/li&gt;
+&lt;li&gt;Tell about the leading experience of a group project&lt;/li&gt;
+&lt;li&gt;Thinking about a time you were given a large amount of work to complete under the tight deadline&lt;/li&gt;
+&lt;li&gt;Tell about a time you face a problem without having clear solution&lt;/li&gt;
+&lt;li&gt;How do you solve the conflict that happen in the team&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="blind-75"&gt;Blind 75
+&lt;/h2&gt;&lt;h3 id="array"&gt;Array
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener"
+&gt;Two Sum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener"
+&gt;Best Time to Buy and Sell Stock&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/contains-duplicate/" target="_blank" rel="noopener"
+&gt;Contains Duplicate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank" rel="noopener"
+&gt;Product of Array Except Self&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/maximum-subarray/" target="_blank" rel="noopener"
+&gt;Maximum Subarray&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank" rel="noopener"
+&gt;Maximum Product Subarray&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener"
+&gt;Find Minimum in Rotated Sorted Array&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" rel="noopener"
+&gt;Search in Rotated Sorted Array&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/3sum/" target="_blank" rel="noopener"
+&gt;3 Sum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/container-with-most-water/" target="_blank" rel="noopener"
+&gt;Container With Most Water&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="binary"&gt;Binary
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/sum-of-two-integers/" target="_blank" rel="noopener"
+&gt;Sum of Two Integers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/number-of-1-bits/" target="_blank" rel="noopener"
+&gt;Number of 1 Bits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/counting-bits/" target="_blank" rel="noopener"
+&gt;Counting Bits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/missing-number/" target="_blank" rel="noopener"
+&gt;Missing Number&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/reverse-bits/" target="_blank" rel="noopener"
+&gt;Reverse Bits&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dynamic-programming"&gt;Dynamic Programming
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/climbing-stairs/" target="_blank" rel="noopener"
+&gt;Climbing Stairs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/coin-change/" target="_blank" rel="noopener"
+&gt;Coin Change&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener"
+&gt;Longest Increasing Subsequence&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-common-subsequence/" target="_blank" rel="noopener"
+&gt;Longest Common Subsequence&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/word-break/" target="_blank" rel="noopener"
+&gt;Word Break Problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/combination-sum-iv/" target="_blank" rel="noopener"
+&gt;Combination Sum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/house-robber/" target="_blank" rel="noopener"
+&gt;House Robber&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/house-robber-ii/" target="_blank" rel="noopener"
+&gt;House Robber II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/decode-ways/" target="_blank" rel="noopener"
+&gt;Decode Ways&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/unique-paths/" target="_blank" rel="noopener"
+&gt;Unique Paths&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/jump-game/" target="_blank" rel="noopener"
+&gt;Jump Game&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="graph"&gt;Graph
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/clone-graph/" target="_blank" rel="noopener"
+&gt;Clone Graph&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/course-schedule/" target="_blank" rel="noopener"
+&gt;Course Schedule&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank" rel="noopener"
+&gt;Pacific Atlantic Water Flow&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/number-of-islands/" target="_blank" rel="noopener"
+&gt;Number of Islands&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank" rel="noopener"
+&gt;Longest Consecutive Sequence&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/alien-dictionary/" target="_blank" rel="noopener"
+&gt;Alien Dictionary (Leetcode Premium)&lt;/a&gt; (H) Key: directed graph + DFS or BFS&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/graph-valid-tree/" target="_blank" rel="noopener"
+&gt;Graph Valid Tree (Leetcode Premium)&lt;/a&gt; (M) Key: Check edges number first and then check unconnected component (Graph theory), Union Find!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/" target="_blank" rel="noopener"
+&gt;Number of Connected Components in an Undirected Graph (Leetcode Premium)&lt;/a&gt; (M)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="interval"&gt;Interval
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/insert-interval/" target="_blank" rel="noopener"
+&gt;Insert Interval&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-intervals/" target="_blank" rel="noopener"
+&gt;Merge Intervals&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/non-overlapping-intervals/" target="_blank" rel="noopener"
+&gt;Non-overlapping Intervals&lt;/a&gt; (M) Key: greedy&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/meeting-rooms/" target="_blank" rel="noopener"
+&gt;Meeting Rooms (Leetcode Premium)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/meeting-rooms-ii/" target="_blank" rel="noopener"
+&gt;Meeting Rooms II (Leetcode Premium)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="linked-list"&gt;Linked List
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener"
+&gt;Reverse a Linked List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener"
+&gt;Detect Cycle in a Linked List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener"
+&gt;Merge Two Sorted Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener"
+&gt;Merge K Sorted Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener"
+&gt;Remove Nth Node From End Of List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/reorder-list/" target="_blank" rel="noopener"
+&gt;Reorder List&lt;/a&gt; (M)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="matrix"&gt;Matrix
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/set-matrix-zeroes/" target="_blank" rel="noopener"
+&gt;Set Matrix Zeroes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/spiral-matrix/" target="_blank" rel="noopener"
+&gt;Spiral Matrix&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/rotate-image/" target="_blank" rel="noopener"
+&gt;Rotate Image&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/word-search/" target="_blank" rel="noopener"
+&gt;Word Search&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="string"&gt;String
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener"
+&gt;Longest Substring Without Repeating Characters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener"
+&gt;Longest Repeating Character Replacement&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener"
+&gt;Minimum Window Substring&lt;/a&gt; (H) Key: Optimized Sliding Windows!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener"
+&gt;Valid Anagram&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener"
+&gt;Group Anagrams&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener"
+&gt;Valid Parentheses&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener"
+&gt;Valid Palindrome&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener"
+&gt;Longest Palindromic Substring&lt;/a&gt; Key: Manacher&amp;rsquo;s Algorithm&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/palindromic-substrings/" target="_blank" rel="noopener"
+&gt;Palindromic Substrings&lt;/a&gt; (M) Key: Manacher&amp;rsquo;s Algorithm&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/encode-and-decode-strings/" target="_blank" rel="noopener"
+&gt;Encode and Decode Strings (Leetcode Premium)&lt;/a&gt; (M)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tree"&gt;Tree
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener"
+&gt;Maximum Depth of Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/same-tree/" target="_blank" rel="noopener"
+&gt;Same Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/invert-binary-tree/" target="_blank" rel="noopener"
+&gt;Invert/Flip Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener"
+&gt;Binary Tree Maximum Path Sum&lt;/a&gt; (H)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" rel="noopener"
+&gt;Binary Tree Level Order Traversal&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank" rel="noopener"
+&gt;Serialize and Deserialize Binary Tree&lt;/a&gt; (H)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank" rel="noopener"
+&gt;Subtree of Another Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/" target="_blank" rel="noopener"
+&gt;Construct Binary Tree from Preorder and Inorder Traversal&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" rel="noopener"
+&gt;Validate Binary Search Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank" rel="noopener"
+&gt;Kth Smallest Element in a BST&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank" rel="noopener"
+&gt;Lowest Common Ancestor of BST&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/implement-trie-prefix-tree/" target="_blank" rel="noopener"
+&gt;Implement Trie (Prefix Tree)&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/add-and-search-word-data-structure-design/" target="_blank" rel="noopener"
+&gt;Add and Search Word&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/word-search-ii/" target="_blank" rel="noopener"
+&gt;Word Search II&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="heap"&gt;Heap
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener"
+&gt;Merge K Sorted Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener"
+&gt;Top K Frequent Elements&lt;/a&gt; (M)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank" rel="noopener"
+&gt;Find Median from Data Stream&lt;/a&gt; (H)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tips"&gt;Tips
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed" target="_blank" rel="noopener"
+&gt;https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="funny-one"&gt;Funny One
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/count-unique-characters-of-all-substrings-of-a-given-string" target="_blank" rel="noopener"
+&gt;Count Unique Characters of All Substrings of a Given String&lt;/a&gt; Key: really special solution&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank" rel="noopener"
+&gt;Find the Duplicate Number&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/find-leaves-of-binary-tree/" target="_blank" rel="noopener"
+&gt;Find Leaves of Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/split-array-largest-sum/" target="_blank" rel="noopener"
+&gt;Split Array Largest Sum&lt;/a&gt; Key: Binary Search!!!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/trapping-rain-water/" target="_blank" rel="noopener"
+&gt;Trapping Rain Water&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/the-skyline-problem/" target="_blank" rel="noopener"
+&gt;The Skyline Problem&lt;/a&gt; Key: Select the building with heapqueue&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/largest-rectangle-in-histogram/solution/" target="_blank" rel="noopener"
+&gt;Largest Rectangle in Histogram&lt;/a&gt; Key: tricky Apply with stack!!!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank" rel="noopener"
+&gt;Subtree of Another Tree&lt;/a&gt; Key: Markle Hash&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/substring-with-concatenation-of-all-words/" target="_blank" rel="noopener"
+&gt;Substring with Concatenation of All Words&lt;/a&gt; Key: Sliding Window&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/longest-valid-parentheses/" target="_blank" rel="noopener"
+&gt;Longest Valid Parentheses&lt;/a&gt; key: Two pointer or DP or Stack&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener"
+&gt;Best Time to Buy and Sell Stock IV&lt;/a&gt; Key: Tricky One pass solution (DP or O(k) space)&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/design-hashset/discuss/?currentPage=1&amp;amp;orderBy=most_votes&amp;amp;query=&amp;amp;tag=python" target="_blank" rel="noopener"
+&gt;Design HashSet&lt;/a&gt; Key: Multiplicative hashing&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/unique-binary-search-trees/solution/" target="_blank" rel="noopener"
+&gt;Unique Binary Search Trees&lt;/a&gt; Key: Catalan number!&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/shortest-path-in-a-grid-with-obstacles-elimination/" target="_blank" rel="noopener"
+&gt;Shortest Path in a Grid with Obstacles Elimination&lt;/a&gt; Key: BFS + A*&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/student-attendance-record-ii/" target="_blank" rel="noopener"
+&gt;Student Attendance Record II&lt;/a&gt; Key: hardhard DP&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/guess-the-word/" target="_blank" rel="noopener"
+&gt;Guess the Word&lt;/a&gt; Key: Game theroy, compare with previous&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/min-cost-to-connect-all-points/" target="_blank" rel="noopener"
+&gt;Min Cost to Connect All Points&lt;/a&gt; Key: minmun spanning tree!! (Prim&amp;rsquo;s or )&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/path-with-minimum-effort/" target="_blank" rel="noopener"
+&gt;Path With Minimum Effort&lt;/a&gt; Key: Binary search space&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; &lt;a class="link" href="https://leetcode.com/problems/132-pattern/" target="_blank" rel="noopener"
+&gt;132 Pattern&lt;/a&gt; Key: stack+min array&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

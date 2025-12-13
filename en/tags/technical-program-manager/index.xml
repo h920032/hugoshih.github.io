@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Technical Program Manager on Hsing-Yu Shih</title><link>https://www.hugoshih.com/en/tags/technical-program-manager/</link><description>Recent content in Technical Program Manager on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 07 Jul 2023 12:00:18 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/en/tags/technical-program-manager/index.xml" rel="self" type="application/rss+xml"/><item><title>2023 Google Technical Program Manager Interview Experience</title><link>https://www.hugoshih.com/en/p/2023-google-technical-program-manager-interview-experience/</link><pubDate>Fri, 07 Jul 2023 12:00:18 +0800</pubDate><guid>https://www.hugoshih.com/en/p/2023-google-technical-program-manager-interview-experience/</guid><description>&lt;img src="https://i.imgur.com/LH1BGx6.jpg" alt="Featured image of post 2023 Google Technical Program Manager Interview Experience" /&gt;&lt;h1 id="google-technical-program-manager-interview-experience"&gt;Google Technical Program Manager Interview Experience
+&lt;/h1&gt;&lt;h2 id="preface"&gt;Preface
+&lt;/h2&gt;&lt;p&gt;There have always been many Google SWE interview experiences shared, however, Technical Program Manager (TPM) interview experiences are almost non-existent. In fact, not only on Dcard but also on major foreign websites, there are very few TPM interview experience shares. Therefore, I am sharing this. Although I did not get the offer, I interviewed until the end, and the experience should be referable.&lt;/p&gt;
+&lt;p&gt;My past education and experience include a Bachelor&amp;rsquo;s and Master&amp;rsquo;s in EE/CS from NTU. After finishing military service this year, I worked as a TPM in a company slightly larger than Google. I had always wanted to enter Google. Last year, I also applied for a Google SWE interview. After finishing the interview and passing HC, waiting for Team match, I encountered a Hiring Freeze. For detailed experience, please refer to: &lt;a class="link" href="https://www.hugoshih.com/p/2022-google-taiwan-swe-%E9%9D%A2%E8%A9%A6%E5%BF%83%E8%B7%AF%E6%AD%B7%E7%A8%8B/" target="_blank" rel="noopener"
+&gt;Google SWE Interview Journey&lt;/a&gt;. It wasn&amp;rsquo;t until the economy improved this year that I started Fit talk again. However, I matched with three teams and didn&amp;rsquo;t get any. Just as I was disheartened, I received a TPM interview invitation from another HR. With the mentality of gathering intelligence, I scheduled a 1:1 with HR. Actually, I wasn&amp;rsquo;t very interested in the Google TPM vacancy initially, but after being persuaded by HR in the meeting, I accepted the interview invitation with a &amp;ldquo;why not try it&amp;rdquo; attitude.&lt;/p&gt;
+&lt;h2 id="timeline"&gt;Timeline
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;5/12 - Received TPM interview invitation from HR&lt;/li&gt;
+&lt;li&gt;5/23 - 1:1 with HR to understand the vacancy&lt;/li&gt;
+&lt;li&gt;6/13 - VO: Technical Judgement * 2&lt;/li&gt;
+&lt;li&gt;6/20 - VO: PgM + GCA&lt;/li&gt;
+&lt;li&gt;6/30 - 1:1 with HR to notify interview result: not move forward&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="interview"&gt;Interview
+&lt;/h2&gt;&lt;p&gt;The Google TPM VO interview has a total of five rounds, each 45 minutes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Two rounds of Technical Judgement interview&lt;/li&gt;
+&lt;li&gt;One round of Program Management related (PgM) interview&lt;/li&gt;
+&lt;li&gt;One round of General Cognitive Ability (GCA) interview&lt;/li&gt;
+&lt;li&gt;One round of Googleyness interview&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Maybe because I had interviewed for Googleyness before, this round was skipped directly. In fact, I only interviewed for four rounds. Considering my technical ability might be slightly better than my PM ability, HR first scheduled two Technical Judgement interviews for me. If the results were good, then PgM and GCA would be scheduled. Later it proved to be the correct strategy.&lt;/p&gt;
+&lt;p&gt;According to online intelligence and documents provided by HR, I thought the Technical Judgement interview might be like a technical interview, possibly asking for Coding, or maybe System design. For this, I even dug out leetcode and brushed up a few questions to warm up; PgM might ask experience-related questions; GCA might ask about problem-solving logic, but at that time I couldn&amp;rsquo;t think of any preparation direction, so I only finished reading the reference materials given by HR, and recalled a few more small stories. Since I really couldn&amp;rsquo;t think of how to prepare, I also tried to ask HR for some Hints, but HR seemed to have given me everything they could give, so I just bit the bullet. Learning, right&amp;hellip;&lt;/p&gt;
+&lt;p&gt;By the way, the TPM interview is entirely in English. I spoke English non-stop for about two hours in four rounds. This requirement is understandable. In a company like Google, Cross-function communication relies heavily on English. This point is also very different from the SWE interview. SWE only has two rounds of English, and you don&amp;rsquo;t talk all the time.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Technical Judgement
+To be honest, I started doubting life when I heard the first question. I was already in the posture to write Code, but the first question was: &amp;ldquo;What is your most successful project?&amp;rdquo; (I can&amp;rsquo;t remember the detailed question, anyway, it was similar to this). It was the kind of question I thought would be asked in PgM or GCA interviews. Fortunately, I had prepared quite a few small stories before. I changed my posture and brought out projects with some technical depth from university, graduate school to work, explaining the problems to be solved, my role in the team, technical choices, problems overcome, etc. The process was interactive, and the interviewer seemed satisfied. However, several consecutive questions were also of this type, giving me the illusion that I was in the wrong room. At the end, I asked: &amp;ldquo;Is this a Technical Judgement Interview?&amp;rdquo; The interviewer was stunned and replied: &amp;ldquo;Yes&amp;rdquo;, &amp;ldquo;Ok&amp;hellip;&amp;rdquo; In an instant, I seemed to understand something but also felt I understood nothing. The second Technical Judgement was also a similar situation. Anyway, I thought my performance was okay, and HR&amp;rsquo;s feedback later was also Positive.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Program Management Related Knowledge (PgM)
+Given that the Technical Judgement interview questions were really unexpected, I asked HR again about the details of the PgM interview. HR still replied that the document he gave already had information, so I could only brainstorm by myself. Since the name is Program Management, it should be asking PM-related capabilities, so I should answer more towards the PM role. Sure enough, the interview questions were almost the same as Technical Judgement, and I brought out how I defined Scope, wrote Spec, drove project, and communicated and coordinated during previous projects. The interviewer seemed quite satisfied with my answer. Before ending the interview, we chatted a bit about the intelligence of this position. The interviewer felt that there was a gap with my current experience, but still wished me Good luck.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;General Cognitive Ability (GCA)
+When it came to GCA, I really couldn&amp;rsquo;t think of how to prepare. If it asks about problem-solving logic, it seems hard to prepare too. Sure enough, this round asked questions similar to the first three rounds. Then I first answered from the execution aspect, but felt the interviewer wasn&amp;rsquo;t very satisfied, so I changed tack and answered from the technical aspect. The interviewer was still not very satisfied and suggested I should answer from a higher-level architecture first. So I gave an answer in this direction, but I didn&amp;rsquo;t think it through thoroughly, and it should be full of bugs. I felt I answered terribly locally. Feeling that I answered poorly, I thick-skinned asked the interviewer for advice at the end. He was also very nice and explained the key points of answering each question to me. The general concept is to first come up with a problem-solving framework, and then fit this framework into the answer framework to answer in order, only then can you hit the scoring points.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="result"&gt;Result
+&lt;/h2&gt;&lt;p&gt;Later I scheduled another 1:1 with HR. The result was similar to what I imagined. The previous performance was quite good, mainly failed at GCA. Unable to move forward, I could only go back and wait to see if there are any team match opportunities.&lt;/p&gt;
+&lt;p&gt;Later I thought about it, there were indeed many points for improvement in this interview. Besides being really junior now and having too few experiences to talk about, I was not familiar enough with the framework for answering TPM interviews. The framework here refers to:&lt;/p&gt;
+&lt;p&gt;When facing PgM questions, you can start from the following points in order:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Project Scope and Organization&lt;/li&gt;
+&lt;li&gt;Project Execution&lt;/li&gt;
+&lt;li&gt;Communication and Influence&lt;/li&gt;
+&lt;li&gt;Clarifying Ambiguous Situations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When facing GCA questions, you can start from the following points in order:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Understand the Problem&lt;/li&gt;
+&lt;li&gt;Gather Information&lt;/li&gt;
+&lt;li&gt;Find Solutions&lt;/li&gt;
+&lt;li&gt;Evidence Supporting Solutions&lt;/li&gt;
+&lt;li&gt;Good Communication&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Next time when attempting Google TPM interview again, I should spend more time polishing the cases on hand, trying to fit them into these frameworks, and then skillfully use these frameworks to answer questions. To some extent, this is also &amp;ldquo;grinding questions&amp;rdquo;.&lt;/p&gt;
+&lt;h2 id="conclusion"&gt;Conclusion
+&lt;/h2&gt;&lt;p&gt;Personally, I feel that the TPM interview is harder and more complex than the SWE interview. Even so, Google seems to want to find people with EECS background and PM capabilities to be TPMs. It&amp;rsquo;s just that there are not many such people or they are not interested, so they can&amp;rsquo;t find anyone. If people with relevant backgrounds are interested, they can try it out.&lt;/p&gt;
+&lt;p&gt;If reading this article helps you, please wish me to get a Google Offer soon passing by.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/C8prC95.jpg"
+loading="lazy"
+alt="image alt"
+&gt;
+Attached is a photo of me freeloading a meal at 101 this year. I really want to enter Google.&lt;/p&gt;</description></item></channel></rss>

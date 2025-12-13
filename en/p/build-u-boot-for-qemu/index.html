@@ -1,0 +1,139 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Note for Build U-boot and Run with QEMU"><title>Build U-boot for QEMU</title><link rel=canonical href=https://www.hugoshih.com/en/p/build-u-boot-for-qemu/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="Build U-boot for QEMU"><meta property='og:description' content="Note for Build U-boot and Run with QEMU"><meta property='og:url' content='https://www.hugoshih.com/en/p/build-u-boot-for-qemu/'><meta property='og:site_name' content='Hsing-Yu Shih'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Linux'><meta property='article:tag' content='U-Boot'><meta property='article:published_time' content='2025-01-30T20:56:58+08:00'><meta property='article:modified_time' content='2025-01-30T20:56:58+08:00'><meta property='og:image' content='https://i.imgur.com/mzEAvua.jpg'><meta name=twitter:title content="Build U-boot for QEMU"><meta name=twitter:description content="Note for Build U-boot and Run with QEMU"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content='https://i.imgur.com/mzEAvua.jpg'><link rel="shortcut icon" href=/img/favicon.png><script async src="https://www.googletagmanager.com/gtag/js?id=G-6PQF6N4WXG"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6PQF6N4WXG")}</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.setItem(e,"dark")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/en/><img src=/img/avatar_hu_819cc45341d19fd1.jpg width=300 height=300 class=site-logo loading=lazy alt=Avatar></a></figure><div class=site-meta><h1 class=site-name><a href=/en>Hsing-Yu Shih</a></h1><h2 class=site-description>Embedded System Developer
+| Chase excellence, success will follow you.</h2></div></header><ol class=menu-social><li><a href=https://github.com/h920032 target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://www.linkedin.com/in/hugoshih/ target=_blank title=Linkedin rel=me><svg class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/brand-linkedin</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="8" y1="11" x2="8" y2="16"/><line x1="8" y1="8" x2="8" y2="8.01"/><line x1="12" y1="16" x2="12" y2="11"/><path d="M16 16v-3a2 2 0 00-4 0"/></svg></a></li><li><a href=https://orcid.org/0000-0003-4111-3768 target=_blank title=Research rel=me><svg class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/school</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 9 12 5 2 9l10 4 10-4v6"/><path d="M6 10.6V16a6 3 0 0012 0v-5.4"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/en/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/en/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/en/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/en/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li class=menu-bottom-section><ol class=menu><li id=i18n-switch><svg class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg>
+<select name=language title=language onchange="window.location.href=this.selectedOptions[0].value"><option value=https://www.hugoshih.com/en/ selected>English</option><option value=https://www.hugoshih.com/>中文</option></select></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><ol><li><ol><li><a href=#install-dependencies>Install Dependencies</a></li><li><a href=#clone-u-boot-source>Clone U-boot Source</a></li><li><a href=#run-u-boot-with-qemu>Run U-boot with QEMU</a></li><li><a href=#output>Output</a></li></ol></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/en/p/build-u-boot-for-qemu/><img src=https://i.imgur.com/mzEAvua.jpg loading=lazy alt="Featured image of post Build U-boot for QEMU"></a></div><div class=article-details><header class=article-category><a href=/en/categories/linux/>Linux</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/en/p/build-u-boot-for-qemu/>Build U-boot for QEMU</a></h2><h3 class=article-subtitle>Note for Build U-boot and Run with QEMU</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2025-01-30T20:56:58+08:00>Jan 30, 2025</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>3 minute read</time></div></footer><footer class=article-translations><svg class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg><div><a href=https://www.hugoshih.com/p/build-u-boot-for-qemu/ class=link>中文</a></div></footer></div></header><section class=article-content><h4 id=install-dependencies>Install Dependencies</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo apt install <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>bc build-essential git libncurses5-dev <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>lzop perl libssl-dev bison flex <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>swig libyaml-dev pkg-config python3-dev
+</span></span></code></pre></td></tr></table></div></div><h4 id=clone-u-boot-source>Clone U-boot Source</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git clone https://github.com/u-boot/u-boot.git
+</span></span><span class=line><span class=cl><span class=nb>cd</span> u-boot
+</span></span><span class=line><span class=cl>make distclean
+</span></span><span class=line><span class=cl>make qemu_arm64_defconfig <span class=o>&amp;&amp;</span> make -j8
+</span></span></code></pre></td></tr></table></div></div><ul><li><code>make distclean</code>
+This cleans the repository by removing any previous build artifacts, generated configuration files, or object files. It ensures you have a completely fresh start, especially useful if you built U-Boot for a different target earlier.</li><li><code>make qemu_arm64_defconfig</code>
+This sets the default configuration for building U-Boot specifically for a QEMU ARM64 (AArch64) virtual environment. Defconfigs are baseline config files that initialize a bunch of standard options for a given architecture or board in U-Boot.</li><li><code>make -j8</code>
+Builds U-Boot with 8 parallel jobs, leveraging multiple cores to speed up compilation. The output of this step will typically produce u-boot.bin and other binaries needed to run U-Boot (like u-boot.elf or u-boot.map).</li></ul><h4 id=run-u-boot-with-qemu>Run U-boot with QEMU</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>qemu-system-aarch64 <span class=se>\ </span>                                  
+</span></span><span class=line><span class=cl>-M virt <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>-cpu cortex-a57 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>-m <span class=m>1024</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>-nographic <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>-bios u-boot.bin
+</span></span></code></pre></td></tr></table></div></div><ul><li><code>-M virt:</code>
+Specifies the QEMU “virt” machine model, a generic machine typically used for virtualizing ARM systems.</li><li><code>-cpu cortex-a57:</code>
+Defines the virtual CPU core type. Cortex-A57 is a common 64-bit ARM core.</li><li><code>-m 1024:</code>
+Allocates 1024 MB of memory (i.e., 1 GB) to the virtual machine.</li><li><code>-nographic:</code>
+Disables graphical output and directs all console I/O to the terminal.</li><li><code>-bios u-boot.bin:</code>
+Instructs QEMU to use the u-boot.bin file as the “BIOS” or firmware image. Essentially, QEMU treats this binary as the initial code that runs at system reset, simulating the environment where U-Boot is the first piece of software to execute.</li></ul><h4 id=output>Output</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>U-Boot 2025.04-rc1-00020-g021baf7b08cc (Jan 30 2025 - 14:41:56 +0000)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>DRAM:  1 GiB
+</span></span><span class=line><span class=cl>Core:  51 devices, 14 uclasses, devicetree: board
+</span></span><span class=line><span class=cl>Flash: 64 MiB
+</span></span><span class=line><span class=cl>Loading Environment from Flash... *** Warning - bad CRC, using default environment
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>In:    serial,usbkbd
+</span></span><span class=line><span class=cl>Out:   serial,vidconsole
+</span></span><span class=line><span class=cl>Err:   serial,vidconsole
+</span></span><span class=line><span class=cl>No USB controllers found
+</span></span><span class=line><span class=cl>Net:   eth0: virtio-net#32
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>starting USB...
+</span></span><span class=line><span class=cl>No USB controllers found
+</span></span><span class=line><span class=cl>Hit any key to stop autoboot:  0
+</span></span><span class=line><span class=cl>Scanning for bootflows in all bootdevs
+</span></span><span class=line><span class=cl>Seq  Method       State   Uclass    Part  Name                      Filename
+</span></span><span class=line><span class=cl>---  -----------  ------  --------  ----  ------------------------  ----------------
+</span></span><span class=line><span class=cl>Scanning global bootmeth &#39;efi_mgr&#39;:
+</span></span><span class=line><span class=cl>Cannot persist EFI variables without system partition
+</span></span><span class=line><span class=cl>Missing TPMv2 device for EFI_TCG_PROTOCOL
+</span></span><span class=line><span class=cl>Missing RNG device for EFI_RNG_PROTOCOL
+</span></span><span class=line><span class=cl>Scanning bootdev &#39;fw-cfg@9020000.bootdev&#39;:
+</span></span><span class=line><span class=cl>fatal: no kernel available
+</span></span><span class=line><span class=cl>No USB controllers found
+</span></span><span class=line><span class=cl>scanning bus for devices...
+</span></span><span class=line><span class=cl>Scanning bootdev &#39;virtio-net#32.bootdev&#39;:
+</span></span><span class=line><span class=cl>BOOTP broadcast 1
+</span></span><span class=line><span class=cl>DHCP client bound to address 10.0.2.15 (13 ms)
+</span></span><span class=line><span class=cl>*** Warning: no boot file name; using &#39;0A00020F.img&#39;
+</span></span><span class=line><span class=cl>Using virtio-net#32 device
+</span></span><span class=line><span class=cl>TFTP from server 10.0.2.2; our IP address is 10.0.2.15
+</span></span><span class=line><span class=cl>Filename &#39;0A00020F.img&#39;.
+</span></span><span class=line><span class=cl>Load address: 0x40400000
+</span></span><span class=line><span class=cl>Loading: *
+</span></span><span class=line><span class=cl>TFTP error: &#39;Access violation&#39; (2)
+</span></span><span class=line><span class=cl>Not retrying...
+</span></span><span class=line><span class=cl>No more bootdevs
+</span></span><span class=line><span class=cl>---  -----------  ------  --------  ----  ------------------------  ----------------
+</span></span><span class=line><span class=cl>(0 bootflows, 0 valid)
+</span></span><span class=line><span class=cl>=&gt;
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/en/tags/linux/>Linux</a>
+<a href=/en/tags/u-boot/>U-Boot</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article class=has-image><a href=/en/p/docker-usage-notes/><div class=article-image><img src=https://i.imgur.com/5vmDYCZ.jpg loading=lazy data-key data-hash=https://i.imgur.com/5vmDYCZ.jpg></div><div class=article-details><h2 class=article-title>Docker Usage Notes</h2></div></a></article><article class=has-image><a href=/en/p/linux-terminal-window-management-tool-tmux-note/><div class=article-image><img src=https://i.imgur.com/s6DO9W0.jpg loading=lazy data-key data-hash=https://i.imgur.com/s6DO9W0.jpg></div><div class=article-details><h2 class=article-title>Linux Terminal Window Management Tool tmux Note</h2></div></a></article></div></div></aside><footer class=site-footer><section class=copyright>&copy;
+2019 -
+2025 Hsing-Yu Shih</section><section class=powerby></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

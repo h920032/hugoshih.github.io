@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Zephyr on Hsing-Yu Shih</title><link>https://www.hugoshih.com/en/tags/zephyr/</link><description>Recent content in Zephyr on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 06 Jan 2025 15:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/en/tags/zephyr/index.xml" rel="self" type="application/rss+xml"/><item><title>Introduction and Comparison of Common Real-Time OS</title><link>https://www.hugoshih.com/en/p/introduction-and-comparison-of-common-real-time-os/</link><pubDate>Mon, 06 Jan 2025 15:32:31 +0800</pubDate><guid>https://www.hugoshih.com/en/p/introduction-and-comparison-of-common-real-time-os/</guid><description>&lt;img src="https://i.imgur.com/7SJYZ3b.jpg" alt="Featured image of post Introduction and Comparison of Common Real-Time OS" /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;A Real-Time Operating System (RTOS) is an operating system designed specifically for real-time applications, emphasizing &amp;ldquo;responding to events within a specific time limit (deadline)&amp;rdquo;. Imagine a scenario in the industrial field where a part of a machine suddenly malfunctions and needs to stop all motor operations in a very short time. If a traditional operating system like Linux is used, depending on the OS kernel scheduling policy, the action of stopping the motor may be slightly delayed. In contrast, an RTOS can have more flexible thread preemption, allowing emergency situations to be handled faster.&lt;/p&gt;
+&lt;p&gt;Essentially, the kernel usage of RTOS is similar. Basically, they can achieve multiple thread creation, round-robin execution, priority preemption, mutex locks, kernel-level interrupts, etc. More advanced ones have dynamic memory management and multi-core support. The main differences between these RTOS lie in the support for peripheral modules and the surrounding development ecosystem. The following introduces several currently mainstream common RTOS:&lt;/p&gt;
+&lt;h3 id="freertos"&gt;&lt;a class="link" href="https://github.com/FreeRTOS/FreeRTOS" target="_blank" rel="noopener"
+&gt;FreeRTOS&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;FreeRTOS is maintained by Real Time Engineers Ltd. and Amazon. It is completely open source and widely used globally. FreeRTOS can be said to be the most common RTOS. Its success lies in being open source early, integrated by various IDEs early, and its shadow can be seen in the SDKs of various chips. I first contacted it in the Arduino IDE. FreeRTOS appeared in the Arduino library list very early. It is simple enough to use, without complex settings, and multi-threading can be implemented with a line or two of code, making it easy for beginners to enter the world of RTOS. Its backer is Amazon, and later it also integrated a lot of AWS IoT-related functions. Since it was open sourced early, there are many surrounding modules.&lt;/p&gt;
+&lt;h3 id="azurertos-threadx"&gt;&lt;a class="link" href="https://github.com/eclipse-threadx/threadx" target="_blank" rel="noopener"
+&gt;AzureRTOS (Threadx)&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;ThreadX is a real-time operating system (RTOS) developed by Express Logic. It was subsequently acquired by Microsoft and released as a renamed version AzureRTOS and open sourced. From the name, it can be seen that formerly it should be paired with Microsoft&amp;rsquo;s Azure to do some IoT functions, but currently, no killer application seems to have been seen. Because it was open sourced relatively late, there are fewer surrounding packages, such as BLE and Wifi stacks, but I believe with native support from Microsoft, it should grow quickly. I encountered AzureRTOS because STM32 officially supports AzureRTOS natively. Interestingly, the STM32 development environment also supports FreeRTOS, but the support is far inferior to AzureRTOS.&lt;/p&gt;
+&lt;h3 id="zephyr"&gt;&lt;a class="link" href="https://github.com/zephyrproject-rtos/zephyr" target="_blank" rel="noopener"
+&gt;Zephyr&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;Zephyr is an open-source real-time operating system (RTOS) led by the Linux Foundation. Although Zephyr has been around for a long time, it has only suddenly become popular in recent years. It features cross-platform compatibility and a complete development toolchain, with useful tools like West and architectures designed for cross-platform like DeviceTree. It can be said that to use Zephyr, you have to use this entire toolchain together to make it useful. However, it seems that due to the toolchain and compatibility reasons, although various chip manufacturers claim support, the support doesn&amp;rsquo;t seem to be that good, especially when it comes to very low-level hardware settings (like clock tree settings), it becomes particularly troublesome. if there is no such requirement, it is quite easy to use, and many settings and initializations are omitted for you. I encountered Zephyr because I used Nordic&amp;rsquo;s Bluetooth SoC. The latest nrf connect SDK is basically built on Zephyr, and Zephyr&amp;rsquo;s communication-related packages are also very complete, making it very suitable for Nordic chips.&lt;/p&gt;
+&lt;h3 id="rt-thread"&gt;&lt;a class="link" href="https://github.com/RT-Thread/rt-thread" target="_blank" rel="noopener"
+&gt;RT-Thread&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;RT-Thread is an open-source real-time operating system (RTOS) led by a Chinese team. It is quite popular in China&amp;rsquo;s embedded system open source community and has good support for Chinese-made MCUs (especially some RISC-V chips), but it is rarely seen used elsewhere. Like Zephyr, there are many tools available. I haven&amp;rsquo;t used it myself yet, but what impressed me was that the RT-Thread community has a tool that can generate STM32 bootloader with one click. However, to use it, you need to register an account, and it is limited to registration with a Chinese phone number&amp;hellip;, which is not very friendly to developers outside of China.&lt;/p&gt;
+&lt;h2 id="comparison"&gt;Comparison
+&lt;/h2&gt;&lt;h3 id="differences-between-several-rtos"&gt;Differences between several RTOS
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Name&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;RT-Thread&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Maintainer&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Originally developed by Express Logic, now managed by Azure (Microsoft) &lt;br/&gt; - Open sourced after being bought by Microsoft&lt;/td&gt;
+&lt;td&gt;- Maintained by AWS (Amazon) and large community &lt;br/&gt; - Open source project with broad community support&lt;/td&gt;
+&lt;td&gt;- Hosted by Linux Foundation &lt;br/&gt; - Numerous major industry sponsors and contributors (e.g., Intel, Nordic, etc.)&lt;/td&gt;
+&lt;td&gt;- Chinese embedded manufacturers and RT-Thread community&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;License&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- MIT License (Open Source Version)&lt;/td&gt;
+&lt;td&gt;- MIT License &lt;br/&gt; - Completely open source, commercially usable&lt;/td&gt;
+&lt;td&gt;- Apache 2.0 License &lt;br/&gt; - Completely open source&lt;/td&gt;
+&lt;td&gt;- LGPL License &lt;br/&gt; - Commercially usable, but must comply with LGPL terms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Key Features&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Small memory footprint &lt;br/&gt; - High performance preemptive multitasking &lt;br/&gt; - Integrated debugging functions, other peripheral control modules&lt;/td&gt;
+&lt;td&gt;- Modular design, highly customizable kernel &lt;br/&gt; - Cooperative and preemptive multitasking &lt;br/&gt; - Detailed documentation and huge community, high support&lt;/td&gt;
+&lt;td&gt;- Good cross-platform compatibility &lt;br/&gt; - Complete tracking and analysis tools &lt;br/&gt; - Integration with Percepio Tracealyzer&lt;/td&gt;
+&lt;td&gt;- Lightweight design and microkernel architecture &lt;br/&gt; - High efficiency, fast boot speed &lt;br/&gt; - Focus on modularity and ease of use&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Barrier to Entry&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Medium barrier &lt;br/&gt; - Provides specialized APIs and toolchains &lt;br/&gt; - Native support for STM32, less support for other chips&lt;/td&gt;
+&lt;td&gt;- Low barrier &lt;br/&gt; - Comprehensive documentation and huge community &lt;br/&gt; - Relatively easy for beginners, low maintenance cost&lt;/td&gt;
+&lt;td&gt;- High barrier &lt;br/&gt; - Must be familiar with a complete set of development toolchains &lt;br/&gt; - Rich community and corporate resources, difficulty depends on application depth&lt;/td&gt;
+&lt;td&gt;- Medium barrier &lt;br/&gt; - Design is relatively simple and easy to understand &lt;br/&gt; - Modularity allows flexible expansion, but requires basic understanding of RTOS principles&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Community &amp;amp; Ecosystem&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- High industry support due to Microsoft Azure &lt;br/&gt; - Open sourced later, relatively less community support&lt;/td&gt;
+&lt;td&gt;- Has an extremely wide user community &lt;br/&gt; - Rich third-party packages and forum resources&lt;/td&gt;
+&lt;td&gt;- Company and open source community work together &lt;br/&gt; - Large manufacturers invest resources in development and provide hardware support &lt;br/&gt; - Documentation and package tools are maturing&lt;/td&gt;
+&lt;td&gt;- Huge user base in Asian market &lt;br/&gt; - Community is growing, third-party resources are increasing year by year&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Scope of Application&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Consumer electronics, industrial equipment &lt;br/&gt; - Highly resource-constrained or high-performance applications&lt;/td&gt;
+&lt;td&gt;- Widely used in various microcontrollers and embedded devices &lt;br/&gt; - Suitable for small and medium projects or prototype development&lt;/td&gt;
+&lt;td&gt;- Products with high cross-platform compatibility &lt;br/&gt; - Devices requiring integration of multiple communication protocols&lt;/td&gt;
+&lt;td&gt;- Small IoT devices, home appliances, industrial control, etc. &lt;br/&gt; - Suitable for scenarios with limited resources and high real-time requirements&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Examples&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Highly integrated SoC platforms &lt;br/&gt; - Network devices, medical instruments, consumer electronics &lt;br/&gt; - Systems with limited resources but requiring stability&lt;/td&gt;
+&lt;td&gt;- IoT edge devices &lt;br/&gt; - Small sensors, portable products &lt;br/&gt; - Industrial automation control&lt;/td&gt;
+&lt;td&gt;- High-speed communication equipment &lt;br/&gt; - Industrial equipment requiring complete tracking and debugging capabilities &lt;br/&gt; - Precision instruments and high reliability applications&lt;/td&gt;
+&lt;td&gt;- Embedded microcontrollers &lt;br/&gt; - Smart home and wearable devices &lt;br/&gt; - Scenarios requiring fast boot and efficient scheduling&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="differences-in-kernel-features"&gt;Differences in Kernel Features
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Name&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;RT-Thread&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Kernel Architecture&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Lightweight, modular design &lt;br/&gt; - Single-core real-time system &lt;br/&gt; - Provides preemption-threshold&lt;/td&gt;
+&lt;td&gt;- Single-core design &lt;br/&gt; - Enable/disable functions freely via config file &lt;br/&gt; - Easy porting for MCU&lt;/td&gt;
+&lt;td&gt;- Microkernel-like concept &lt;br/&gt; - Kconfig customizable/expandable at compile time &lt;br/&gt; - Supports multi-core (SMP)&lt;/td&gt;
+&lt;td&gt;- Microkernel + Modular &lt;br/&gt; - Expand via Packages &lt;br/&gt; - Default kernel is lightweight, fast boot speed&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Scheduling Mechanism&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Preemptive multitasking &lt;br/&gt; - Priority scheduling &lt;br/&gt; - preemption-threshold reduces unnecessary preemption&lt;/td&gt;
+&lt;td&gt;- Preemptive or cooperative multitasking &lt;br/&gt; - Time slicing optional &lt;br/&gt; - Task notification improves performance&lt;/td&gt;
+&lt;td&gt;- Hybrid preemptive/cooperative &lt;br/&gt; - Supports task migration under multi-core &lt;br/&gt; - Flexible setting of time slice and preemption policy&lt;/td&gt;
+&lt;td&gt;- Preemptive based on priority &lt;br/&gt; - Low switching overhead &lt;br/&gt; - Suitable for time-critical applications&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Interrupt Management&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Provides fast interrupt response &lt;br/&gt; - Can use IPC primitives in ISR &lt;br/&gt; - Suggests complex logic be placed in Thread&lt;/td&gt;
+&lt;td&gt;- Complete interrupt priority setting specifications &lt;br/&gt; - Provides &amp;ldquo;FromISR&amp;rdquo; API to interact with kernel &lt;br/&gt; - Avoid high priority interrupts blocking RTOS services&lt;/td&gt;
+&lt;td&gt;- Methods correspond to different architectures &lt;br/&gt; - Allows complex processing in the latter half of ISR &lt;br/&gt; - Supports &lt;code&gt;irq_offload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;- Concise interrupt entry/exit &lt;br/&gt; - Can wake up tasks or IPC in ISR &lt;br/&gt; - Suggests handling heavy tasks after interrupt or in Task&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Task Communication &amp;amp; Sync&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Provides Semaphore, Mutex, Event Flags, Message Queue &lt;br/&gt; - Block Pool / Byte Pool as underlying resources&lt;/td&gt;
+&lt;td&gt;- Has Queue, Semaphore, Mutex, Event Group, Task Notification &lt;br/&gt; - Queue is the core communication channel&lt;/td&gt;
+&lt;td&gt;- Provides diverse mechanisms like Queue, FIFO, LIFO, Pipe, Mailbox, Semaphore, Mutex &lt;br/&gt; - High-level communication like Signals/Events&lt;/td&gt;
+&lt;td&gt;- Provides Semaphore, Mutex, Event, Mailbox, Message Queue &lt;br/&gt; - Modular API, easy to expand&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Memory Management&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Block Pool (fixed size) &lt;br/&gt; - Byte Pool (flexible allocation) &lt;br/&gt; - Suitable for small systems&lt;/td&gt;
+&lt;td&gt;- Multiple heap implementations (heap1~heap5) &lt;br/&gt; - Choose static or dynamic allocation based on needs &lt;br/&gt; - Must pay attention to allocating Semaphore / Mutex to ensure multi-task safety&lt;/td&gt;
+&lt;td&gt;- Multiple allocation strategies like slab, mempool, heap &lt;br/&gt; - Fine-tuning via Kconfig &lt;br/&gt; - Requires good configuration at compile stage&lt;/td&gt;
+&lt;td&gt;- Mempool, heap dichotomy &lt;br/&gt; - Default lightweight dynamic allocation algorithm &lt;br/&gt; - Can be paired with custom or high-level alloc algorithms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Debug &amp;amp; Trace&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Can use tools like TraceX &lt;br/&gt; - High integration, visualizing Thread, Event, IPC&lt;/td&gt;
+&lt;td&gt;- FreeRTOS+Trace, many third-party IDE tracking tools &lt;br/&gt; - Deep integration with Percepio Tracealyzer&lt;/td&gt;
+&lt;td&gt;- Unified Tracing subsystem &lt;br/&gt; - Can connect to Tracealyzer, LTTng, SystemView, etc. &lt;br/&gt; - Rich tracing support&lt;/td&gt;
+&lt;td&gt;- RT-Thread Studio or other plugins &lt;br/&gt; - Provides simple log system and online debug mechanism &lt;br/&gt; - Community also has tracing solutions similar to FreeRTOS Trace&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Portability &amp;amp; Scalability&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- Officially supports most ARM, RISC-V, MIPS &lt;br/&gt; - Community gradually expanding after Microsoft acquisition&lt;/td&gt;
+&lt;td&gt;- Ported to almost all MCUs &lt;br/&gt; - Large number of third-party packages and drivers &lt;br/&gt; - Can extend cloud functions via AWS FreeRTOS&lt;/td&gt;
+&lt;td&gt;- Native support for many major hardware manufacturers (Intel, NXP, Nordic&amp;hellip;) &lt;br/&gt; - Kconfig + Devicetree similar to Linux &lt;br/&gt; - Corporate support and community equal weight&lt;/td&gt;
+&lt;td&gt;- Widely used in Asia (especially China) &lt;br/&gt; - High integration with domestic MCUs, RISC-V platforms &lt;br/&gt; - Packages allow flexible function expansion&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="summary"&gt;Summary
+&lt;/h2&gt;&lt;p&gt;Summarizing the four RTOS mentioned above:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;AzureRTOS (ThreadX)&lt;/strong&gt;: Known for high efficiency and small footprint, excels in executing in harsh resource-constrained environments, also has good debugging tools and business cases, good support for STM32.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;FreeRTOS&lt;/strong&gt;: Has a huge open source community and flexible scalability, suitable for a wide range of microcontrollers and embedded applications, common in academic or commercial projects, suitable for beginners.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zephyr&lt;/strong&gt;: Strongly promoted by the Linux Foundation and multiple companies, extensive hardware support, and powerful tracking and analysis tools, suitable for medium to large embedded applications requiring high reliability and detailed monitoring.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RT-Thread&lt;/strong&gt;: Lightweight architecture, clear modularity, fast boot speed, suitable for IoT and other scenarios requiring high real-time performance and resource efficiency.&lt;/li&gt;
+&lt;/ol&gt;</description></item><item><title>Two Ways to Create Threads in Zephyr RTOS</title><link>https://www.hugoshih.com/en/p/two-ways-to-create-threads-in-zephyr-rtos/</link><pubDate>Sun, 05 Jan 2025 22:20:31 +0800</pubDate><guid>https://www.hugoshih.com/en/p/two-ways-to-create-threads-in-zephyr-rtos/</guid><description>&lt;img src="https://i.imgur.com/V5OSNcL.jpg" alt="Featured image of post Two Ways to Create Threads in Zephyr RTOS" /&gt;&lt;h1 id="two-ways-to-create-threads-in-zephyr-rtos"&gt;Two Ways to Create Threads in Zephyr RTOS
+&lt;/h1&gt;&lt;h2 id="thread"&gt;Thread
+&lt;/h2&gt;&lt;p&gt;In Zephyr OS, each independent function or task can be placed in a different thread for execution. A lightweight scheduler is used internally to decide which thread can be executed by the CPU first, based on the priority of different threads and the state of the thread itself (ready, running, pending, etc.). Threads can have the following properties:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Thread Priority: The smaller the value, the higher the priority (in the case of Preemptive scheduling).&lt;/li&gt;
+&lt;li&gt;Stack Size: Each thread must configure its own stack space. Zephyr saves or restores the thread context when switching threads.&lt;/li&gt;
+&lt;li&gt;Thread Lifecycle: Can be pre-configured at compile time, or dynamically configured and created at run time.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="two-common-methods-to-create-threads-in-zephyr"&gt;Two Common Methods to Create Threads in Zephyr
+&lt;/h2&gt;&lt;h3 id="create-thread-at-compile-time"&gt;Create Thread at Compile Time
+&lt;/h3&gt;&lt;p&gt;Zephyr provides a macro &lt;code&gt;K_THREAD_DEFINE()&lt;/code&gt; to declare and create threads at compile time. As long as the program starts and initializes RTOS, these threads will be automatically created and managed by the scheduler.&lt;/p&gt;
+&lt;h4 id="k_thread_define"&gt;K_THREAD_DEFINE()
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#define K_THREAD_DEFINE(name, stack_size, entry_fn, p1, p2, p3, \
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt; prio, options, delay)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;name: Identifier name of this thread, which will also generate a variable of type k_tid_t.&lt;/li&gt;
+&lt;li&gt;stack_size: Stack size of this thread (in bytes).&lt;/li&gt;
+&lt;li&gt;entry_fn: Entry point function of this thread (thread function), which function to run when execution starts.&lt;/li&gt;
+&lt;li&gt;p1, p2, p3: Up to three parameters can be passed to the entry point function (all void* type).&lt;/li&gt;
+&lt;li&gt;prio: Priority (smaller value means higher priority).&lt;/li&gt;
+&lt;li&gt;options: Thread options, usually 0 implies no special settings.&lt;/li&gt;
+&lt;li&gt;delay: Delay time before the thread starts (ticks or milliseconds). If 0, it means no delay and ready immediately.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="create-thread-at-run-time"&gt;Create Thread at Run Time
+&lt;/h3&gt;&lt;p&gt;Another way is to create threads during program execution, using the API function &lt;code&gt;k_thread_create()&lt;/code&gt;. This method is more flexible in some cases, for example, dynamically starting or terminating threads based on states or conditions, to avoid wasting resources by statically creating too many.&lt;/p&gt;
+&lt;h4 id="k_thread_create"&gt;k_thread_create()
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;k_tid_t&lt;/span&gt; &lt;span class="nf"&gt;k_thread_create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;k_thread&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;new_thread&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;k_thread_stack_t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;stack_size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;k_thread_entry_t&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;prio&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;k_timeout_t&lt;/span&gt; &lt;span class="n"&gt;delay&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;new_thread: Points to a struct k_thread object declared by the user, used to store the Thread Control Block (TCB) of this thread.&lt;/li&gt;
+&lt;li&gt;stack: Points to the stack space corresponding to this thread (needs to be statically or dynamically allocated with &lt;code&gt;K_THREAD_STACK_DEFINE()&lt;/code&gt; first).&lt;/li&gt;
+&lt;li&gt;stack_size: Size of this stack.&lt;/li&gt;
+&lt;li&gt;entry: Entry point function executed by the thread.&lt;/li&gt;
+&lt;li&gt;p1, p2, p3: Up to three parameters to pass to the thread function.&lt;/li&gt;
+&lt;li&gt;prio: Priority.&lt;/li&gt;
+&lt;li&gt;options: Thread options, commonly 0.&lt;/li&gt;
+&lt;li&gt;delay: Whether to delay before the thread starts.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="example"&gt;Example
+&lt;/h2&gt;&lt;p&gt;The following two code snippets demonstrate creating two threads using &lt;code&gt;K_THREAD_DEFINE()&lt;/code&gt; (at compile time) or &lt;code&gt;k_thread_create()&lt;/code&gt; (at run time) respectively, executing LED fading (fade_led) and LED blinking (toggle_led) functions.
+&lt;a class="link" href="https://github.com/h920032/Zephyr-blinky-toggle-demo" target="_blank" rel="noopener"
+&gt;github repo&lt;/a&gt;
+The following is the execution result on Nucleo-F303K8, the left LED executes toggle, the right one executes fading.
+&lt;img src="https://imgur.com/V0jJ9bs.gif"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h3 id="example-of-dynamic-thread-creation-at-compile-time"&gt;Example of Dynamic Thread Creation at Compile Time
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;K_THREAD_DEFINE(fade_tid, 512, fade_led, NULL, NULL, NULL, 5, 0, 0);&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a thread named fade_tid, stack size 512 bytes, executing function fade_led, priority 5.&lt;/li&gt;
+&lt;li&gt;p1, p2, p3 are all NULL, indicating no parameters need to be passed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;K_THREAD_DEFINE(toggle_tid, 512, toggle_led, NULL, NULL, NULL, 5, 0, 0);&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a thread named toggle_tid similarly, stack size and priority parameters consistent with above, executing function toggle_led.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These threads are already &amp;ldquo;statically allocated&amp;rdquo; during compilation, so when the system starts and executes to main(), they will be automatically started and continuously executed by the scheduler.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;span class="lnt"&gt;43
+&lt;/span&gt;&lt;span class="lnt"&gt;44
+&lt;/span&gt;&lt;span class="lnt"&gt;45
+&lt;/span&gt;&lt;span class="lnt"&gt;46
+&lt;/span&gt;&lt;span class="lnt"&gt;47
+&lt;/span&gt;&lt;span class="lnt"&gt;48
+&lt;/span&gt;&lt;span class="lnt"&gt;49
+&lt;/span&gt;&lt;span class="lnt"&gt;50
+&lt;/span&gt;&lt;span class="lnt"&gt;51
+&lt;/span&gt;&lt;span class="lnt"&gt;52
+&lt;/span&gt;&lt;span class="lnt"&gt;53
+&lt;/span&gt;&lt;span class="lnt"&gt;54
+&lt;/span&gt;&lt;span class="lnt"&gt;55
+&lt;/span&gt;&lt;span class="lnt"&gt;56
+&lt;/span&gt;&lt;span class="lnt"&gt;57
+&lt;/span&gt;&lt;span class="lnt"&gt;58
+&lt;/span&gt;&lt;span class="lnt"&gt;59
+&lt;/span&gt;&lt;span class="lnt"&gt;60
+&lt;/span&gt;&lt;span class="lnt"&gt;61
+&lt;/span&gt;&lt;span class="lnt"&gt;62
+&lt;/span&gt;&lt;span class="lnt"&gt;63
+&lt;/span&gt;&lt;span class="lnt"&gt;64
+&lt;/span&gt;&lt;span class="lnt"&gt;65
+&lt;/span&gt;&lt;span class="lnt"&gt;66
+&lt;/span&gt;&lt;span class="lnt"&gt;67
+&lt;/span&gt;&lt;span class="lnt"&gt;68
+&lt;/span&gt;&lt;span class="lnt"&gt;69
+&lt;/span&gt;&lt;span class="lnt"&gt;70
+&lt;/span&gt;&lt;span class="lnt"&gt;71
+&lt;/span&gt;&lt;span class="lnt"&gt;72
+&lt;/span&gt;&lt;span class="lnt"&gt;73
+&lt;/span&gt;&lt;span class="lnt"&gt;74
+&lt;/span&gt;&lt;span class="lnt"&gt;75
+&lt;/span&gt;&lt;span class="lnt"&gt;76
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;zephyr/kernel.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;zephyr/sys/printk.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;zephyr/device.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;zephyr/drivers/pwm.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;zephyr/drivers/gpio.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;fade_led&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;toggle_led&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Use DT_ALIAS(pwm_led0) and DT_ALIAS(led1) to get device info from device tree
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;pwm_dt_spec&lt;/span&gt; &lt;span class="n"&gt;pwm_led0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;PWM_DT_SPEC_GET&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;DT_ALIAS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pwm_led0&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;gpio_dt_spec&lt;/span&gt; &lt;span class="n"&gt;led1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;GPIO_DT_SPEC_GET&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;DT_ALIAS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;led1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;gpios&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Define some constants for controlling fading speed or beat
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="cp"&gt;#define NUM_STEPS 256U
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#define SLEEP_MSEC 5U
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#define SLEEP_TIME_MS 500
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Statically create two threads at compile time
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="nf"&gt;K_THREAD_DEFINE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fade_tid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;512&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fade_led&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nf"&gt;K_THREAD_DEFINE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;toggle_tid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;512&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;toggle_led&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// fade_led will control LED brightness by setting pulse width via PWM, creating a &amp;#34;breathing light&amp;#34; effect
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;fade_led&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;pulse_width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0U&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pwm_led0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;period&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;NUM_STEPS&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;uint8_t&lt;/span&gt; &lt;span class="n"&gt;dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1U&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Set current pulse width
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="nf"&gt;pwm_set_pulse_dt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;pwm_led0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pulse_width&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Adjust pulse width, control LED to fade in or out
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;pulse_width&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pulse_width&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;pwm_led0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;period&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;pulse_width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pwm_led0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;period&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0U&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pulse_width&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;pulse_width&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;pulse_width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1U&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nf"&gt;k_sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;K_MSEC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SLEEP_MSEC&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// toggle_led will cause LED to blink by toggling GPIO pin
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;toggle_led&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nf"&gt;gpio_pin_toggle_dt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;led1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nf"&gt;k_sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;K_MSEC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SLEEP_TIME_MS&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Check if PWM device is ready
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nf"&gt;pwm_is_ready_dt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;pwm_led0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nf"&gt;printk&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;Error: PWM device %s is not ready&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pwm_led0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Configure GPIO pin as output
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="nf"&gt;gpio_pin_configure_dt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;led1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;GPIO_OUTPUT_ACTIVE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// After main function ends, the two threads created by K_THREAD_DEFINE will continue to execute
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="example-of-dynamic-thread-creation-at-run-time"&gt;Example of Dynamic Thread Creation at Run Time
+&lt;/h3&gt;&lt;p&gt;If you want to create threads during program execution (e.g., triggered by an event), you can use the following method:
+1. Use &lt;code&gt;K_THREAD_STACK_DEFINE(my_stack_area, STACK_SIZE)&lt;/code&gt;; to define stack.
+2. Define a struct k_thread my_thread_data; as Thread Control Block (TCB).
+3. Call k_thread_create(), passing the above stack, control block, entry point function and other parameters to complete creation.&lt;/p&gt;
+&lt;p&gt;The following is an example showing how to dynamically create threads in the main() function (this example only shows parts related to threads, omitting repetitive code like peripheral initialization):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;span class="lnt"&gt;43
+&lt;/span&gt;&lt;span class="lnt"&gt;44
+&lt;/span&gt;&lt;span class="lnt"&gt;45
+&lt;/span&gt;&lt;span class="lnt"&gt;46
+&lt;/span&gt;&lt;span class="lnt"&gt;47
+&lt;/span&gt;&lt;span class="lnt"&gt;48
+&lt;/span&gt;&lt;span class="lnt"&gt;49
+&lt;/span&gt;&lt;span class="lnt"&gt;50
+&lt;/span&gt;&lt;span class="lnt"&gt;51
+&lt;/span&gt;&lt;span class="lnt"&gt;52
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cm"&gt;/*
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cm"&gt;Previous code is same
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cm"&gt;*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Declare thread stack size
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="nf"&gt;K_THREAD_STACK_DEFINE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fade_stack&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;512&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="nf"&gt;K_THREAD_STACK_DEFINE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;toggle_stack&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;512&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Declare thread control block
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;k_thread&lt;/span&gt; &lt;span class="n"&gt;fade_thread_data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;k_thread&lt;/span&gt; &lt;span class="n"&gt;toggle_thread_data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// These two functions are similar to previous example
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;fade_led&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;toggle_led&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Dynamically create fade_led thread at run time
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;k_tid_t&lt;/span&gt; &lt;span class="n"&gt;fade_tid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;k_thread_create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;fade_thread_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;my_fade_stack&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nf"&gt;K_THREAD_STACK_SIZEOF&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;my_fade_stack&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;fade_led&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;K_NO_WAIT&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// Dynamically create toggle_led thread at run time
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="kt"&gt;k_tid_t&lt;/span&gt; &lt;span class="n"&gt;toggle_tid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;k_thread_create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;toggle_thread_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;my_toggle_stack&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nf"&gt;K_THREAD_STACK_SIZEOF&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;my_toggle_stack&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;toggle_led&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;K_NO_WAIT&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// k_thread_create returns k_tid_t, which can be used for subsequent thread management
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="c1"&gt;// e.g. k_thread_suspend(fade_tid), k_thread_resume(fade_tid), k_thread_abort(fade_tid)...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="comparison"&gt;Comparison
+&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Creation Method&lt;/th&gt;
+&lt;th&gt;Features&lt;/th&gt;
+&lt;th&gt;Typical Use Cases&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Compile Time Creation&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;K_THREAD_DEFINE()&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;When required threads are known from the start, and system resources are sufficient&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Run Time Dynamic Creation&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;k_thread_create()&lt;/code&gt;, allocate resources during program execution&lt;/td&gt;
+&lt;td&gt;When unsure how many threads are needed, or need flexible creation/release&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ol&gt;
+&lt;li&gt;If it is certain that the number of threads is fixed throughout the system lifecycle, or the system is relatively simple (such as a simple multi-tasking control), using compile-time method can reduce code complexity and allow the program to be ready quickly upon startup.&lt;/li&gt;
+&lt;li&gt;If tasks are dynamically generated/cancelled in the system (e.g., detecting a new device starts a new task), you can use the dynamic creation method to improve system flexibility.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="summary"&gt;Summary
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Static (Compile Time) Thread Creation:
+&lt;ul&gt;
+&lt;li&gt;Use &lt;code&gt;K_THREAD_DEFINE()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Simple, fast, clear program architecture&lt;/li&gt;
+&lt;li&gt;Suitable for fixed and few long-term threads&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Dynamic (Run Time) Thread Creation:
+&lt;ul&gt;
+&lt;li&gt;Use &lt;code&gt;k_thread_create()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Need to manage stack, control block etc. yourself&lt;/li&gt;
+&lt;li&gt;Suitable for application scenarios requiring flexible creation and destruction of large or indefinite number of threads&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

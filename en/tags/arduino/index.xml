@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Arduino on Hsing-Yu Shih</title><link>https://www.hugoshih.com/en/tags/arduino/</link><description>Recent content in Arduino on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 21 Aug 2023 19:32:31 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/en/tags/arduino/index.xml" rel="self" type="application/rss+xml"/><item><title>Common MCUs in Embedded Systems</title><link>https://www.hugoshih.com/en/p/common-mcus-in-embedded-systems/</link><pubDate>Mon, 21 Aug 2023 19:32:31 +0800</pubDate><guid>https://www.hugoshih.com/en/p/common-mcus-in-embedded-systems/</guid><description>&lt;img src="https://i.imgur.com/xEqWwbo.jpg" alt="Featured image of post Common MCUs in Embedded Systems" /&gt;&lt;h1 id="common-mcus-in-embedded-systems"&gt;Common MCUs in Embedded Systems
+&lt;/h1&gt;&lt;p&gt;Recently, while implementing an embedded system, I needed more powerful computing capabilities, so I decided to move away from the commonly used Atmega328p and look for other 32-bit MCU development platforms. Choosing a platform is a big decision, as each platform has different use cases and development environments. I&amp;rsquo;ll take this opportunity to analyze them.&lt;/p&gt;
+&lt;h2 id="atmel-series-eg-atmega328p"&gt;ATMEL Series (e.g., ATMEGA328P)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Atmega328p is an 8-bit AVR architecture MCU produced by ATMEL (USA), commonly found on Arduino UNO boards.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Easy to get started, complete documentation, complete community support (excellent Arduino ecosystem), good power efficiency (haven&amp;rsquo;t tested this personally but heard it&amp;rsquo;s good).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Limited processing power compared to other 32-bit MCUs, less internal memory and RAM, slightly expensive for its performance (around 35 NTD).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Beginner projects (e.g., Arduino tutorials, simple embedded projects), low-power and low-cost home electronic devices.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="esp-series-eg-esp32-c3"&gt;ESP Series (e.g., ESP32-C3)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;ESP32-C3 is a product of Espressif Systems (China), based on 32-bit RISC-V or Xtensa architecture, with built-in WiFi and Bluetooth capabilities.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Includes WiFi and Bluetooth without external modules, so high CP value (one chip 35-50 NTD), widely used with decent community support, versions with internal SPI flash are very convenient.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Higher power consumption (although it has deep sleep capability), system stability is rumored to be less than ideal.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: IoT (Internet of Things) devices requiring WiFi or Bluetooth connection, smart home appliances, smart wearable devices, non-critical applications.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="stm-series-eg-stm32f103c8t6"&gt;STM Series (e.g., STM32F103C8T6)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;STM32F103C8T6 is a 32-bit ARM Cortex-M3 microcontroller from STMicroelectronics (Switzerland).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Strong computing power, multiple interfaces, low-power versions available, high cost-performance ratio (wide range from 20-60 NTD), complete development and debugging tools, commonly used in industrial products.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Development environment is more complex, less RAM and Flash in some models.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Complex embedded projects, applications requiring strong processing power, industrial automation, drones, high-end sensor systems.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="stc-series-eg-stc89c52"&gt;STC Series (e.g., STC89C52)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;STC89C52 is an 8-bit 8051 microcontroller produced by STC Micro (China).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: 8051 architecture is very old, has extensive applications and massive data support, ultra-cheap (10-50 NTD), development environment is relatively simple.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Very old architecture, limited processing power, less memory and RAM, can be seen as a weakened version of Atmel series, but because functions are simple, it&amp;rsquo;s commonly used in home appliances.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Traditional embedded systems, such as home appliance control, educational purposes, learning 8051 microcontroller principles and programming, simple LED display, keyboard input, and other basic IO operations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="raspberry-series-eg-rp2040"&gt;RASPBERRY Series (e.g., RP2040)
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;RP2040 is a 32-bit ARM Cortex-M0+ microcontroller developed by the Raspberry Pi Foundation (UK).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: Efficient processing performance, relatively large RAM, open-source resources and community support, simple development environment (Micropython), high CP value (35 NTD).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: Newer product, may have hardware instability issues or bugs without solutions yet.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Use Cases&lt;/strong&gt;: Embedded projects requiring high-performance processing, audio/video computing, image processing, complex algorithm computing, big data processing, running TinyML models, etc.&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cloud on Hsing-Yu Shih</title><link>https://www.hugoshih.com/en/tags/cloud/</link><description>Recent content in Cloud on Hsing-Yu Shih</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 30 May 2022 14:56:58 +0800</lastBuildDate><atom:link href="https://www.hugoshih.com/en/tags/cloud/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker Usage Notes</title><link>https://www.hugoshih.com/en/p/docker-usage-notes/</link><pubDate>Mon, 30 May 2022 14:56:58 +0800</pubDate><guid>https://www.hugoshih.com/en/p/docker-usage-notes/</guid><description>&lt;img src="https://i.imgur.com/5vmDYCZ.jpg" alt="Featured image of post Docker Usage Notes" /&gt;&lt;h1 id="docker-usage-notes"&gt;Docker Usage Notes
+&lt;/h1&gt;&lt;h2 id="preface"&gt;Preface
+&lt;/h2&gt;&lt;p&gt;Docker can be said to be a very important project in cloud technology. This project implements Container technology, making software execution no longer limited by system environment, and accelerating the development of the Microservice concept in cloud technology. The following briefly introduces common Docker commands.&lt;/p&gt;
+&lt;h2 id="basic-operations"&gt;Basic Operations
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Leave but do not close container:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;crtl+p crtl+q
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Type closely&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;View container list&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo docker container ls
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Enter container&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo docker attach &amp;lt;ID&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Close container&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo container stop &amp;lt;ID&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="docker-image-operations"&gt;Docker Image Operations
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;View image list&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo docker image ls
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Download image&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo docker pull &amp;lt;hub path&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Run&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo docker run &amp;lt;--gpus all&amp;gt; &amp;lt;-it&amp;gt; &amp;lt;-p 80&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;:80&lt;span class="o"&gt;(&lt;/span&gt;docker&lt;span class="o"&gt;)&lt;/span&gt;&amp;gt; &amp;lt;-v /data&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;:/data&lt;span class="o"&gt;(&lt;/span&gt;docker&lt;span class="o"&gt;)&lt;/span&gt; &amp;lt;images&amp;gt; &amp;lt;command&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;image commit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo docker commit &amp;lt;ID&amp;gt; &amp;lt;images name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="reference"&gt;Reference
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://larrylu.blog/step-by-step-dockerize-your-app-ecd8940696f4" target="_blank" rel="noopener"
+&gt;https://larrylu.blog/step-by-step-dockerize-your-app-ecd8940696f4&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use docker without sudo privileges:
+&lt;a class="link" href="https://docs.docker.com/engine/security/rootless/" target="_blank" rel="noopener"
+&gt;https://docs.docker.com/engine/security/rootless/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;docker save:
+&lt;a class="link" href="https://peihsinsu.gitbooks.io/docker-note-book/content/docker-save-image.html" target="_blank" rel="noopener"
+&gt;https://peihsinsu.gitbooks.io/docker-note-book/content/docker-save-image.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;docker run operation:
+&lt;a class="link" href="https://noob.tw/docker-basic/" target="_blank" rel="noopener"
+&gt;https://noob.tw/docker-basic/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;docker port:
+&lt;a class="link" href="https://www.runoob.com/docker/docker-run-command.html" target="_blank" rel="noopener"
+&gt;https://www.runoob.com/docker/docker-run-command.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;nvidia docker:
+&lt;a class="link" href="https://gitlab.com/nvidia/container-images/cuda/blob/master/doc/supported-tags.md" target="_blank" rel="noopener"
+&gt;https://gitlab.com/nvidia/container-images/cuda/blob/master/doc/supported-tags.md&lt;/a&gt;
+&lt;a class="link" href="https://www.celantur.com/blog/run-cuda-in-docker-on-linux/" target="_blank" rel="noopener"
+&gt;https://www.celantur.com/blog/run-cuda-in-docker-on-linux/&lt;/a&gt;
+&lt;a class="link" href="https://docs.docker.com/engine/reference/commandline/run/#access-an-nvidia-gpu" target="_blank" rel="noopener"
+&gt;https://docs.docker.com/engine/reference/commandline/run/#access-an-nvidia-gpu&lt;/a&gt;
+error solution:
+&lt;a class="link" href="https://github.com/NVIDIA/nvidia-docker/issues/1243" target="_blank" rel="noopener"
+&gt;https://github.com/NVIDIA/nvidia-docker/issues/1243&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;x11 firefox docker:
+&lt;a class="link" href="https://stackoverflow.com/questions/16296753/can-you-run-gui-applications-in-a-docker-container" target="_blank" rel="noopener"
+&gt;https://stackoverflow.com/questions/16296753/can-you-run-gui-applications-in-a-docker-container&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Command cheatsheet:
+&lt;a class="link" href="https://github.com/docker-library/php/issues/359" target="_blank" rel="noopener"
+&gt;https://github.com/docker-library/php/issues/359&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Solution for no Chinese:
+&lt;a class="link" href="https://github.com/docker-library/php/issues/359" target="_blank" rel="noopener"
+&gt;https://github.com/docker-library/php/issues/359&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>
