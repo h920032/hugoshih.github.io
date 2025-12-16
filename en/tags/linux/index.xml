@@ -179,6 +179,8 @@ If so, how can we &lt;code&gt;free&lt;/code&gt; those spaces before the alignmen
 &gt;Designing aligned Memory Allocator&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://linux.die.net/man/3/aligned_alloc" target="_blank" rel="noopener"
 &gt;aligned_alloc(3) - Linux man page&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/theEmbeddedGeorge/theEmbeddedNewTestament.github.io/blob/master/Embedded_C/Aligned_Memory_Allocation.md" target="_blank" rel="noopener"
+&gt;Aligned Memory Allocation&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description></item><item><title>Build U-boot for QEMU</title><link>https://www.hugoshih.com/en/p/build-u-boot-for-qemu/</link><pubDate>Thu, 30 Jan 2025 20:56:58 +0800</pubDate><guid>https://www.hugoshih.com/en/p/build-u-boot-for-qemu/</guid><description>&lt;img src="https://i.imgur.com/mzEAvua.jpg" alt="Featured image of post Build U-boot for QEMU" /&gt;&lt;h4 id="install-dependencies"&gt;Install Dependencies
 &lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;

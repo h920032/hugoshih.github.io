@@ -179,4 +179,6 @@ If so, how can we &lt;code&gt;free&lt;/code&gt; those spaces before the alignmen
 &gt;Designing aligned Memory Allocator&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://linux.die.net/man/3/aligned_alloc" target="_blank" rel="noopener"
 &gt;aligned_alloc(3) - Linux man page&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/theEmbeddedGeorge/theEmbeddedNewTestament.github.io/blob/master/Embedded_C/Aligned_Memory_Allocation.md" target="_blank" rel="noopener"
+&gt;Aligned Memory Allocation&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description></item></channel></rss>
