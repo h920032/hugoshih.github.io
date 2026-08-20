@@ -1,0 +1,163 @@
+<!doctype html><html lang=zh-Hant-TW dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="用白話理解記憶體對齊：為什麼 malloc 不一定夠用、哪些情況需要對齊、以及如何自己實作"><title>關於 Aligned Memory Allocation</title><link rel=canonical href=https://www.hugoshih.com/zh-tw/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.b8e26dafdf149573dd39680e962bf86990573db94b7af32730ef7f3376a91684.css><meta property='og:title' content="關於 Aligned Memory Allocation"><meta property='og:description' content="用白話理解記憶體對齊：為什麼 malloc 不一定夠用、哪些情況需要對齊、以及如何自己實作"><meta property='og:url' content='https://www.hugoshih.com/zh-tw/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/'><meta property='og:site_name' content='施星宇'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Linux'><meta property='article:tag' content='Clang'><meta property='article:tag' content='Interview'><meta property='article:tag' content='Embedded'><meta property='article:published_time' content='2025-10-30T21:48:32+08:00'><meta property='article:modified_time' content='2025-10-30T21:48:32+08:00'><meta property='og:image' content='https://i.imgur.com/WVmjgMd.jpeg'><meta name=twitter:title content="關於 Aligned Memory Allocation"><meta name=twitter:description content="用白話理解記憶體對齊：為什麼 malloc 不一定夠用、哪些情況需要對齊、以及如何自己實作"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content='https://i.imgur.com/WVmjgMd.jpeg'><link rel="shortcut icon" href=/img/favicon.png><script async src="https://www.googletagmanager.com/gtag/js?id=G-6PQF6N4WXG"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6PQF6N4WXG")}</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"dark")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切換選單>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/zh-tw/><img src=/img/avatar.jpg width=2640 height=2640 class=site-logo loading=lazy alt=Avatar></a></figure><div class=site-meta><h1 class=site-name><a href=/zh-tw/>施星宇</a></h1><h2 class=site-description>Chase excellence, success will follow you.</h2></div></header><ol class=menu-social><li><a href=mailto:me@hugoshih.com title=Mail rel=me><svg class="icon icon-tabler icon-tabler-mail" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/mail</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></a></li><li><a href=https://github.com/h920032 title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://www.linkedin.com/in/hugoshih/ title=Linkedin rel=me><svg class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/brand-linkedin</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="8" y1="11" x2="8" y2="16"/><line x1="8" y1="8" x2="8" y2="8.01"/><line x1="12" y1="16" x2="12" y2="11"/><path d="M16 16v-3a2 2 0 00-4 0"/></svg></a></li><li><a href='https://scholar.google.com/citations?user=QHsiTowAAAAJ&amp;hl=en' title=Research rel=me><svg class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><desc>Download more icon variants from https://tabler-icons.io/i/school</desc><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 9 12 5 2 9l10 4 10-4v6"/><path d="M6 10.6V16a6 3 0 0012 0v-5.4"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/zh-tw/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>首頁</span></a></li><li><a href=/zh-tw/%E9%97%9C%E6%96%BC/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>關於</span></a></li><li><a href=/zh-tw/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>典藏</span></a></li><li><a href=/zh-tw/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜尋</span></a></li><li class=menu-bottom-section><ol class=menu><li id=i18n-switch><svg class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg>
+<select name=language title=language onchange="window.location.href=this.selectedOptions[0].value"><option value=/p/about-aligned-memory-allocation/>English</option><option value=/zh-tw/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/ selected>中文</option></select></li><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>夜晚模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目錄</h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#起源>起源</a></li><li><a href=#什麼是-aligned-memory-allocation>什麼是 Aligned Memory Allocation？</a></li><li><a href=#為什麼需要-alignment>為什麼需要 Alignment？</a></li><li><a href=#所以該怎麼做到-alignment>所以該怎麼做到 Alignment？</a></li><li><a href=#c-語言實作>C 語言實作</a></li><li><a href=#結語>結語</a></li><li><a href=#reference>Reference</a></li></ol></nav></div></section></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/zh-tw/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/><img alt="Featured image of post 關於 Aligned Memory Allocation" height=3293 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=https://i.imgur.com/WVmjgMd.jpeg srcset="/cached/WVmjgMd_15970027682519811829_hu_ee0592e937fa8db9.jpg 800w, /cached/WVmjgMd_15970027682519811829_hu_f144322b98f343a9.jpg 1600w, /cached/WVmjgMd_15970027682519811829_hu_5492d00c548b0e02.jpg 2400w, https://i.imgur.com/WVmjgMd.jpeg 4938w" width=4938></a></div><div class=article-details><header class=article-category><a href=/zh-tw/categories/embedded/ style=background-color:#bed2ef;color:#0f223d>Embedded</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/zh-tw/p/%E9%97%9C%E6%96%BC-aligned-memory-allocation/>關於 Aligned Memory Allocation</a></h2><h3 class=article-subtitle>用白話理解記憶體對齊：為什麼 malloc 不一定夠用、哪些情況需要對齊、以及如何自己實作</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2025-10-30T21:48:32+08:00>2025年10月30日 星期四</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>閱讀時間: 5 分鐘</time></div><div class=inline-meta><svg class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg>
+<a href=/p/about-aligned-memory-allocation/ class=link>English</a></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span>目錄</span></div></summary><nav class=toc-nav><ol><li><a href=#起源>起源</a></li><li><a href=#什麼是-aligned-memory-allocation>什麼是 Aligned Memory Allocation？</a></li><li><a href=#為什麼需要-alignment>為什麼需要 Alignment？</a></li><li><a href=#所以該怎麼做到-alignment>所以該怎麼做到 Alignment？</a></li><li><a href=#c-語言實作>C 語言實作</a></li><li><a href=#結語>結語</a></li><li><a href=#reference>Reference</a></li></ol></nav></details></aside><section class=article-content><h2 id=起源>起源</h2><p>由於在這個東西上吃了大悶虧，至於是什麼虧就不細究了，總之是我當初在看到這東西的時候沒有認真摸透，就趁著這個機會好好還債了
+我想要用一個超級白話的方式讓人快速可以理解，下次遇到這個議題再回來看就能快速回憶起來</p><h2 id=什麼是-aligned-memory-allocation>什麼是 Aligned Memory Allocation？</h2><p>設想一個情況，今天程式運行到一個地方，如果我需要一些額外的記憶體來儲存新的資料，在 C 語言中我們一定會用到 <code>malloc()</code> 來跟系統要額外的記憶體空間</p><p>舉個例子，我現在突然需要 32 bytes 的空間，所以我就使出 <code>malloc()</code>，然後系統就翻啊翻找啊找，最後在記憶體中找到了 32 bytes 的空間，並把起始的記憶體位置傳回來。這個起始的位置可能很隨機，像是 <code>0x08004321</code>，不過這也無傷大雅，總之我現在有了 32 bytes 空間，我現在想對他幹嘛就幹嘛。</p><p>然而然而，在某些情況（至於是哪些情況後面再講），我們會希望我們得到的記憶體的起始位置是「對齊」的。那什麼叫做對齊呢？</p><p>舉個例子，如果你用一些 Hex 檔案的預覽工具，你會看到左邊的起始位置很整齊以 32 bytes 間隔，像下面這樣：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>一般隨機分配 (未對齊):
+</span></span><span class=line><span class=cl>0x08004321  |  Data...
+</span></span><span class=line><span class=cl>            ^ 起始位置很隨意
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>32-byte Alignment (對齊):
+</span></span><span class=line><span class=cl>0x08000000  |  Data...
+</span></span><span class=line><span class=cl>0x08000020  |  Data...  &lt;-- 0x20 就是 32
+</span></span><span class=line><span class=cl>0x08000040  |  Data...  &lt;-- 0x40 就是 64
+</span></span><span class=line><span class=cl>            ^ 起始位置都可以被 32 整除
+</span></span></code></pre></td></tr></table></div></div><p><img alt=image class=gallery-image data-flex-basis=833px data-flex-grow=347 height=632 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=https://i.imgur.com/hr8QdrG.jpeg srcset="/cached/hr8QdrG_7110454563738595381_hu_a5c2d5ab0cb0c0df.jpg 800w, /cached/hr8QdrG_7110454563738595381_hu_a1571e98593b37a3.jpg 1600w, https://i.imgur.com/hr8QdrG.jpeg 2196w" width=2196></p><p>所謂的 <strong>Aligned Memory Allocation</strong>，就是我在要新的記憶體空間時，想要拿到一個<strong>起始位置可以被 32（或是其他數字）整除的記憶體空間</strong></p><p>OK，所以說到這邊應該對這個 Aligned Memory Allocation 是什麼應該有點概念了，這樣就成功了一半了。因為大多數人第一次聽到應該都比較難想到這是什麼，又或者知道這是什麼，但不知道有什麼用</p><p>所以，這個有什麼用呢？</p><h2 id=為什麼需要-alignment>為什麼需要 Alignment？</h2><p>會需要 Alignment 大多是受到硬體設計的限制，例如：</p><p>向量指令集 (如 AVX)，當執行這類指令集的時候，會要求目標的記憶體位置是對齊的，沒有對齊的話得要拆成兩步去處理，或是直接出現錯誤，那為什麼不設計成指令集可以讀取任意位置起始的記憶體呢？我覺得大多是成本考量，如果能從驅動程式端去解決，又何必浪費昂貴的硬體空間呢</p><p>其他像是 CUDA 中 GPU 透過 PCIe 抓取資料時，使用 DMA 也會要求記憶體要對齊，又或者 GPU 指令抓取他自己記憶體的資料也會要求對齊，另外在 STM32 這類單晶片上使用 DMA 時，buffer 的記憶體位置也會要求對齊，才能夠被 DMA 正確寫入或讀取</p><p>這時候一定有人跳出來說：「我平常用 CUDA 或是在 STM32 上用 DMA 都沒遇到這問題啊！」</p><p>那是因為 CUDA driver 或是 HAL library 之類的會幫你處理好，所以當然沒感覺，反過來說，如果你今天寫的是 driver 或是 bare metal 開發，那一定要小心記憶體對齊這東西，不然可能連動都動不起來</p><h2 id=所以該怎麼做到-alignment>所以該怎麼做到 Alignment？</h2><p>前面說了這麼多，那要怎麼才能做到記憶體分配時 Alignment 呢？</p><p>設想今天我們目標要一塊新的 64 bytes 記憶體，並且要求 32-byte 對齊。
+如果今天 <code>malloc</code> 給的起始位置剛剛好就是 <code>0x08000040</code>，是 alignment block 的起始位置，這樣就中大獎了，但實際上當然不會那麼幸運，他可能給你的起始位置是 <code>0x08000041</code>（偏移了 1 個 byte），也可能起始是 <code>0x0800005F</code>（偏移了 31 個 bytes）</p><p>但沒關係，這時候就會想到，只要<code>malloc</code>的記憶體夠長，從中找到一個 Alignment Block 的起點並從那邊開始存資料，這樣也算對齊吧</p><p>那麼問題就回到，我們該要多長的記憶體呢？
+觀察前面的例子，如果做 32 bytes 的 alignment，偏移的量最多就是 <code>0 ~ 31</code> bytes。所以我們要 <code>malloc()</code> 的空間至少要是 <code>size + alignment - 1</code></p><p>等等，好像少了什麼？
+這樣的話要怎麼才能 <code>free</code> 掉 alignment 起始位址前面的那些空間呢？我們需要紀錄<strong>真正原本 <code>malloc</code> 出來的起始位址</strong>，所以還需要再多一個位置去存這個指標，這個需要的空間是 <code>sizeof(void*)</code></p><p>總結來說，我們真正要 <code>malloc()</code> 的長度是：
+<code>size + alignment - 1 + sizeof(void*)</code></p><p><strong>記憶體結構示意圖：</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>實際 malloc 得到的區塊 (Original)
+</span></span><span class=line><span class=cl>|
+</span></span><span class=line><span class=cl>v
+</span></span><span class=line><span class=cl>+-------------+---------------------+-------------------------+
+</span></span><span class=line><span class=cl>| padding ... | 原始指標 (Stored)   | 使用者拿到的指標 (Aligned)|
+</span></span><span class=line><span class=cl>+-------------+---------------------+-------------------------+
+</span></span><span class=line><span class=cl>              ^                     ^
+</span></span><span class=line><span class=cl>              |                     |
+</span></span><span class=line><span class=cl>              這格存著 original     符合 32-byte 對齊
+</span></span><span class=line><span class=cl>              的地址                我們回傳這個地址
+</span></span></code></pre></td></tr></table></div></div><p>然後我們只要找到這裡面 alignment 的起始位址，並且把「原始的起始位址」存在 alignment 起始的前一格。這樣在 <code>free</code> memory 時，只要從 alignment 位址<strong>往前找一格</strong>，就可以找到我們應該要釋放的記憶體起點。</p><p>原理概念上就是這樣了，那麼就來看看要怎麼實作吧。</p><h2 id=c-語言實作>C 語言實作</h2><p>以下用 32-byte alignment 為例子，可以把 32 換成任意想要的正整數 alignment（通常是 2 的次方）。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdlib.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdint.h&gt; // 為了使用 uintptr_t</span><span class=cp>
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span><span class=o>*</span> <span class=nf>aligned_malloc</span><span class=p>(</span><span class=kt>size_t</span> <span class=n>size</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 1. 計算需要的總空間：
+</span></span></span><span class=line><span class=cl>    <span class=c1>//    size + (alignment - 1) 的調整空間 + 存放原始指標的空間
+</span></span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>original</span> <span class=o>=</span> <span class=nf>malloc</span><span class=p>(</span><span class=n>size</span> <span class=o>+</span> <span class=mi>32</span> <span class=o>-</span> <span class=mi>1</span> <span class=o>+</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>void</span><span class=o>*</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>original</span><span class=p>)</span> <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 2. 算出 alignment 的起始位置
+</span></span></span><span class=line><span class=cl>    <span class=c1>//    先預留一個 pointer 的空間給我們存地址
+</span></span></span><span class=line><span class=cl>    <span class=kt>uintptr_t</span> <span class=n>raw</span> <span class=o>=</span> <span class=p>(</span><span class=kt>uintptr_t</span><span class=p>)</span><span class=n>original</span> <span class=o>+</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>void</span><span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>//    利用 Bitwise 操作進行對齊
+</span></span></span><span class=line><span class=cl>    <span class=c1>//    原理：(address + mask) &amp; ~mask
+</span></span></span><span class=line><span class=cl>    <span class=c1>//    注意：這裡要用 ~(32 - 1) 也就是 ~31 才能遮掉後五位達到 32 對齊
+</span></span></span><span class=line><span class=cl>    <span class=kt>uintptr_t</span> <span class=n>aligned</span> <span class=o>=</span> <span class=p>(</span><span class=n>raw</span> <span class=o>+</span> <span class=p>(</span><span class=mi>32</span> <span class=o>-</span> <span class=mi>1</span><span class=p>))</span> <span class=o>&amp;</span> <span class=o>~</span><span class=p>(</span><span class=mi>32</span> <span class=o>-</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>//    其實也可以用(void*)(original - (original % 32));去算
+</span></span></span><span class=line><span class=cl>    <span class=c1>//    只是用bit manipulation感覺比較優雅
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 3. 把原本 malloc() 的起始位址存到 alignment 位址的前一格
+</span></span></span><span class=line><span class=cl>    <span class=p>((</span><span class=kt>void</span><span class=o>**</span><span class=p>)</span><span class=n>aligned</span><span class=p>)[</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=n>original</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 4. 最後回傳 alignment 的起始
+</span></span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(</span><span class=kt>void</span><span class=o>*</span><span class=p>)</span><span class=n>aligned</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>aligned_free</span><span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=n>ptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>ptr</span><span class=p>)</span> <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// free 的時候，去找到 alignment 位址前一格存的原來 malloc 的位址
+</span></span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>original</span> <span class=o>=</span> <span class=p>((</span><span class=kt>void</span><span class=o>**</span><span class=p>)</span><span class=n>ptr</span><span class=p>)[</span><span class=o>-</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 然後把它釋放就行了
+</span></span></span><span class=line><span class=cl>    <span class=nf>free</span><span class=p>(</span><span class=n>original</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=結語>結語</h2><p>總之就是這樣，Aligned Memory Allocation這個東西重要又有一些實作小細節，藉由這個機會算是有搞懂他了，以後忘了也可以快速回來複習一下</p><h2 id=reference>Reference</h2><ul><li><a class=link href=https://bclin.tw/2020/03/15/aligned-malloc/ target=_blank rel=noopener>如何實作一個 aligned_alloc () ？</a></li><li><a class=link href=https://medium.com/howsofcoding/memory-management-aligned-malloc-and-free-9273336bd4c6 target=_blank rel=noopener>Designing aligned Memory Allocator</a></li><li><a class=link href=https://linux.die.net/man/3/aligned_alloc target=_blank rel=noopener>aligned_alloc(3) - Linux man page</a></li><li><a class=link href=https://github.com/theEmbeddedGeorge/theEmbeddedNewTestament.github.io/blob/master/Embedded_C/Aligned_Memory_Allocation.md target=_blank rel=noopener>Aligned Memory Allocation</a></li></ul></section><footer class="article-meta article-footer"><section class=article-tags><a href=/zh-tw/tags/linux/>Linux</a>
+<a href=/zh-tw/tags/clang/>Clang</a>
+<a href=/zh-tw/tags/interview/>Interview</a>
+<a href=/zh-tw/tags/embedded/>Embedded</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside><h2 class=section-title>相關文章</h2><div class=subsection-list><div class=article-list--tile><article class=has-image><a href=/zh-tw/p/%E9%97%9C%E6%96%BC-mutexsemaphore-%E8%88%87-spinlock/><div class=article-image><img alt="Featured image of post 關於 Mutex、Semaphore 與 Spinlock" height=150 loading=lazy src=/cached/hnF8mC8_1022485339701503573_hu_f9b7ee2c27b2a3d6.jpg srcset="/cached/hnF8mC8_1022485339701503573_hu_f9b7ee2c27b2a3d6.jpg 1x, /cached/hnF8mC8_1022485339701503573_hu_f071454d9d710391.jpg 2x" width=250></div><div class=article-details style="background:linear-gradient(0deg,#c5d6d180 0%,#20221bC0 100%)"><h2 class=article-title>關於 Mutex、Semaphore 與 Spinlock</h2></div></a></article><article class=has-image><a href=/zh-tw/p/%E5%B8%B8%E8%A6%8B-real-time-os-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%AF%94%E8%BC%83/><div class=article-image><img alt="Featured image of post 常見 Real-Time OS 介紹與比較" height=150 loading=lazy src=/cached/7SJYZ3b_13443385305671939186_hu_1e540f5a1115e503.jpg srcset="/cached/7SJYZ3b_13443385305671939186_hu_1e540f5a1115e503.jpg 1x, /cached/7SJYZ3b_13443385305671939186_hu_7b439333acf787ff.jpg 2x" width=250></div><div class=article-details style="background:linear-gradient(0deg,#c3c9ca80 0%,#50483bC0 100%)"><h2 class=article-title>常見 Real-Time OS 介紹與比較</h2></div></a></article><article class=has-image><a href=/zh-tw/p/zephyr-rtos-%E5%85%A9%E7%A8%AE%E5%BB%BA%E7%AB%8Bthread%E7%9A%84%E6%96%B9%E5%BC%8F/><div class=article-image><img alt="Featured image of post Zephyr RTOS 兩種建立Thread的方式" height=150 loading=lazy src=/cached/V5OSNcL_13690529422737838303_hu_c3c67e6f15ee3d48.jpg srcset="/cached/V5OSNcL_13690529422737838303_hu_c3c67e6f15ee3d48.jpg 1x, /cached/V5OSNcL_13690529422737838303_hu_336692599c0abe7b.jpg 2x" width=250></div><div class=article-details style="background:linear-gradient(0deg,#aebecc80 0%,#3f3d3dC0 100%)"><h2 class=article-title>Zephyr RTOS 兩種建立Thread的方式</h2></div></a></article><article class=has-image><a href=/zh-tw/p/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%B5%B1%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B9%BE%E7%A8%AEmcu/><div class=article-image><img alt="Featured image of post 嵌入式系統常用的幾種MCU" height=150 loading=lazy src=/cached/xEqWwbo_2404216285320187452_hu_1ec7d1016c8c6f7e.jpg srcset="/cached/xEqWwbo_2404216285320187452_hu_1ec7d1016c8c6f7e.jpg 1x, /cached/xEqWwbo_2404216285320187452_hu_b4060a59e2cce693.jpg 2x" width=250></div><div class=article-details style="background:linear-gradient(0deg,#b8c2d680 0%,#1f1f23C0 100%)"><h2 class=article-title>嵌入式系統常用的幾種MCU</h2></div></a></article></div></div></aside><footer class=site-footer><section class=copyright>&copy;
+2019 -
+2026 施星宇</section><section class=powerby>Hugo Shih World<br>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 建立<br>主題 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=4.0.3>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 設計</section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.c9cd0fdae22289454c0e78b3c21f6b53761cd5474ad3cb782e5a8703bdc027f2.js defer></script></body></html>
